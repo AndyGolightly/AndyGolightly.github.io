@@ -3,6 +3,7 @@
 <img align="right" src="AG.jpg" width="15%" height="15%"/>
 
 ## Associate Professor (Statistics), Durham University
+
 ### Useful links
 - [Durham University staff profile](https://www.durham.ac.uk/staff/andrew-golightly/)
 - [Turing Fellow profile](https://www.turing.ac.uk/people/researchers/andrew-golightly)
