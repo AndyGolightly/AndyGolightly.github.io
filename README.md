@@ -16,7 +16,7 @@
 - Application to complex stohastic processes such as stochastic differential equations and Markov jump processes
 
 ### Currently funded research projects
-- _Modelling and inference of tree pandemics in Great Britain_ - funded by EPSRC New Horizons, with Dr Laura Wadkin, Dr Andrew Baggaley and Dr Nick parker
+- _Modelling and inference of tree pandemics in Great Britain_ - funded by EPSRC New Horizons (2021-23), with Dr Laura Wadkin, Dr Andrew Baggaley and Dr Nick parker
 - _Accelerating inference for stochastic kinetic models_ - Tom Lowe, EPSRC funded PhD student (2017-)
 - _Scalable sequential inference schemes for complex epidemic models_ - Sam Whitaker, EPSRC funded PhD student (2019-), jointly supervised with Dr Colin Gillespie
 
