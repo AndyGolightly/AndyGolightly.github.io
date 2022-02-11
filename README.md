@@ -1,22 +1,24 @@
-# Dr Andy Golightly
-
 <img align="right" src="AG.jpg" width="15%" height="15%"/>
 
+# Dr Andy Golightly
 ## Associate Professor (Statistics), Durham University
 
 ### Useful links
 - [Durham University staff profile](https://www.durham.ac.uk/staff/andrew-golightly/)
 - [Turing Fellow profile](https://www.turing.ac.uk/people/researchers/andrew-golightly)
 - Publications: [Google scholar](https://scholar.google.co.uk/citations?user=Pdt6-qMAAAAJ&hl=en)
+
 ### Research interests
 - Bayesian Statistics
 - Computationally intensive inference schemes e.g. MCMC, SMC
 - Emulation of computer models via Gaussian processes
 - Application to complex stohastic processes such as stochastic differential equations and Markov jump processes
+
 ### Currently funded research projects
 - _Modelling and inference of tree pandemics in Great Britain_ - funded by EPSRC New Horizons, with Dr Laura Wadkin, Dr Andrew Baggaley and Dr Nick parker
 - _Accelerating inference for stochastic kinetic models_ - Tom Lowe, EPSRC funded PhD student (2017-)
 - _Scalable sequential inference schemes for complex epidemic models_ - Sam Whitaker, EPSRC funded PhD student (2019-), jointly supervised with Dr Colin Gillespie
+
 ### Previous research projects
 - _Streaming data modelling for realtime monitoring and forecasting_, funded by The Alan Turing Institute (2019-21), with Prof. Darren Wilkinson and Dr Sarah Heaps
 - _Efficient parameter estimation for quantitative systems pharmacology_, EPSRC IAA and AstraZenica Ltd. funded (02/19-04/19), with Dr Colin Gillespie
