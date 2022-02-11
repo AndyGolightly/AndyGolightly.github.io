@@ -1,6 +1,7 @@
+# Dr Andy Golightly
+
 <img align="right" src="AG.jpg" width="15%" height="15%"/>
 
-# Dr Andy Golightly
 ## Associate Professor (Statistics), Durham University
 
 ### Useful links
