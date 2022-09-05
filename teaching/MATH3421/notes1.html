@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>notes1</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/x-mathjax-config">
+  	MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "ams"} } });
+  	// I need to wait until MathJax has finished before running the numbering script
+  	MathJax.Hub.Register.StartupHook("End",function(){doNumbering()});
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#preliminaries"><span class="toc-section-number">1</span> Preliminaries</a>
+<ul>
+<li><a href="#introduction-and-background"><span class="toc-section-number">1.1</span> Introduction and background</a></li>
+<li><a href="#bayes-theorem"><span class="toc-section-number">1.2</span> Bayes Theorem</a></li>
+<li><a href="#monte-carlo-methods"><span class="toc-section-number">1.3</span> Monte Carlo methods</a></li>
+<li><a href="#markov-chains"><span class="toc-section-number">1.4</span> Markov chains</a></li>
+<li><a href="#aim-of-mcmc"><span class="toc-section-number">1.5</span> Aim of MCMC</a></li>
+<li><a href="#continuous-state-space-markov-chains"><span class="toc-section-number">1.6</span> Continuous state-space Markov chains</a></li>
+</ul></li>
+</ul>
+</nav>
+<section id="preliminaries" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Preliminaries</h1>
+<section id="introduction-and-background" class="level2" data-number="1.1">
+<h2 data-number="1.1"><span class="header-section-number">1.1</span> Introduction and background</h2>
+<p>Markov chain Monte Carlo (MCMC) methods are a class of stochastic simulation algorithms that have been around since the 1940s, even though their impact on statistics was not truly felt until the very early 1990s, with the seminal paper Gelfand and Smith (1990) convincing the community that the methods are easy to understand and practical to implement. Since then, a considerable amount of research has been devoted to theory, methodological development and application of MCMC methods. MCMC utilises a Monte Carlo method based upon Markov chains (as the name suggests). MCMC is particularly powerful within the Bayesian paradigm, as a method to provide samples from a posterior distribution that might only be known up to a normalising constant.</p>
+<p>We will cover three preliminary topics before discussing MCMC. These are:-</p>
+<ol>
+<li><p>Bayesian Statistics (with a very brief overview – further details in MATH2711),</p></li>
+<li><p>Monte Carlo methods,</p></li>
+<li><p>Markov chains.</p></li>
+</ol>
+</section>
+<section id="bayes-theorem" class="level2" data-number="1.2">
+<h2 data-number="1.2"><span class="header-section-number">1.2</span> Bayes Theorem</h2>
+<p>For two events <span class="math inline">\(E\)</span> and <span class="math inline">\(F\)</span>, the <em>conditional probability</em> of <span class="math inline">\(E\)</span> given <span class="math inline">\(F\)</span> is: <span class="math display">\[\mathbb{P}(E | F) = \frac{\mathbb{P}(E\cap F)}{\mathbb{P}(F)}.\]</span> This gives us the simplest version of Bayes theorem: <span class="math display">\[\mathbb{P}(E | F) = \frac{\mathbb{P}(F|E)\mathbb{P}(E)}{\mathbb{P}(F)}.\]</span> If <span class="math inline">\(E_1, E_2, \ldots, E_n\)</span> is a partition i.e. the events <span class="math inline">\(E_i\)</span> are mutually exclusive with <span class="math inline">\(\mathbb{P}(E_1\cup\ldots E_n)=1\)</span>, then <span class="math display">\[\begin{aligned}
+    \mathbb{P}(F) &amp;= \mathbb{P}\left( (F\cap E_1)\cup(F\cap E_2)\cup\ldots\cup (F\cap E_n) \right) = \sum_{i=1}^n \mathbb{P}(F\cap E_i)\\ &amp;= \sum_{i=1}^n \mathbb{P}(F|E_i)\mathbb{P}(E_i).\end{aligned}\]</span> This gives us the more commonly used version of Bayes theorem: <span class="math display">\[\mathbb{P}(E_i | F) = \frac{\mathbb{P}(F|E_i)\mathbb{P}(E_i)}{\sum_{i=1}^n \mathbb{P}(F|E_i)\mathbb{P}(E_i)}.\]</span> Bayes theorem is useful because it tells us how to turn probabilities around. Often we are able to understand the probability of outcomes <span class="math inline">\(F\)</span> conditional on various hypotheses <span class="math inline">\(E_i\)</span>. We can then compute probabilities of the form <span class="math inline">\(\mathbb{P}(F|E_i)\)</span>. However, when we actually observe some outcome, we are interested in which hypothesis is most likely to be true, or in other words, we are interested in the probabilities of the hypotheses conditional on the outcome <span class="math inline">\(\mathbb{P}(E_i|F)\)</span>. Bayes theorem tells us how to compute these posterior probabilities for the hypotheses, but we need to use our prior belief <span class="math inline">\(\mathbb{P}(E_i)\)</span> for each hypothesis. In this way, Bayes theorem gives us a coherent way to update our prior beliefs into posterior probabilities for the hypotheses following an outcome <span class="math inline">\(F\)</span>.</p>
+<section id="discrete-parameters-and-data" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1"><span class="header-section-number">1.2.1</span> Discrete parameters and data</h3>
+<p>When our data and parameters have discrete distributions, the hypotheses <span class="math inline">\(E_i\)</span> are values for our parameter(s) <span class="math inline">\(\theta\)</span>, while the outcome <span class="math inline">\(F\)</span> is a set of data <span class="math inline">\(\boldsymbol{X}\)</span>. Bayes theorem is then <span class="math display">\[\mathbb{P}(\Theta = \theta | \boldsymbol{X}=\boldsymbol{x}) = \frac{\mathbb{P}(\boldsymbol{X}=\boldsymbol{x}|\Theta=\theta)\mathbb{P}(\Theta=\theta)}{\sum_{{t}} 
+\mathbb{P}(\boldsymbol{X}=\boldsymbol{x}|\Theta={t})\mathbb{P}(\Theta={t})}.\]</span></p>
+<p><strong>Example 1.2.1:</strong> <em>Due to inaccuracies in drug testing procedures (e.g., false positives and false negatives), in the medical field the results of a drug test represent only one factor in a physician’s diagnosis. Yet when Olympic athletes are tested for illegal drug use (i.e. doping), the results of a single test are used to ban the athlete from competition. In <em>Chance</em> (Spring 2004), University of Texas biostatisticians D. A. Berry and L. Chastain demonstrated the application of Bayes’s Rule for making inferences about testosterone abuse among Olympic athletes. They used the following example. In a population of 1000 athletes, suppose 100 are illegally using testosterone. Of the users, suppose 50 would test positive for testosterone. Of the nonusers, suppose 9 would test positive.</em></p>
+<p><em>If an athlete tests positive for testosterone, use Bayes theorem to find the probability that the athlete is really doping.</em></p>
+<p><em>Let <span class="math inline">\(\theta=1\)</span> be the event that the athlete is a user, and <span class="math inline">\(\theta=0\)</span> be a nonuser; and let <span class="math inline">\(x=1\)</span> be the event of a positive test result. We need to consider the following questions.</em></p>
+<ul>
+<li><p>What is the prior information for <span class="math inline">\(\theta\)</span>?</p></li>
+<li><p>What is the observation?</p></li>
+<li><p>What is the posterior distribution of <span class="math inline">\(\theta\)</span> after we get the data?</p></li>
+</ul>
+<div class="center">
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Prior dist.</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Posterior dist.</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\theta\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mathbb{P}(\theta)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mathbb{P}(x=1|\theta\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(\mathbb{P}(\theta |x=1)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="continuous-parameters-and-data" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2"><span class="header-section-number">1.2.2</span> Continuous parameters and data</h3>
+<p>We need to be slightly more careful when we work with continuous parameters and data, because strictly speaking, the probabilities in the equations above become zero. The basic rule is to replace probabilities with density functions and summation with integration.</p>
+<p>For continuous problems, the hypotheses are represented by a continuous parameter <span class="math inline">\(\Theta\)</span>, and the outcomes are observed data <span class="math inline">\(\boldsymbol{X}\)</span>. (Notice that both data and parameters are random variables.) Our prior beliefs about the parameters define the prior distribution for <span class="math inline">\(\Theta\)</span>, specified by a <em>density</em> <span class="math inline">\(\pi(\theta)\)</span>. We formulate a model that defines the distribution of <span class="math inline">\(\boldsymbol{X}\)</span> given the parameters, i.e. we specify a density <span class="math inline">\(f(\boldsymbol{x}|\theta)\)</span>. This can be regarded as a function of <span class="math inline">\(\theta\)</span> when we have got some fixed observed data <span class="math inline">\(\boldsymbol{x}\)</span>, called the <em>likelihood</em>: <span class="math display">\[\ell(\theta|\boldsymbol{x})= f(\boldsymbol{x}|\theta).\]</span></p>
+<p>The prior and likelihood determine the full <em>joint density</em> over data and parameters: <span class="math display">\[f(\theta,\boldsymbol{x})= \pi({\theta})\ell(\theta|\boldsymbol{x}).\]</span> (It is easy to check that this integrates to 1, so it really is a well-defined density). Given the joint density we are then able to compute its marginals and conditionals: <span class="math display">\[f_{\boldsymbol{X}}(\boldsymbol{x}) = \int_{\Theta} f(\theta,\boldsymbol{x})~d\theta = \int_{\Theta} \pi({\theta})\ell(\theta|\boldsymbol{x})~d\theta\]</span> and <span class="math display">\[f(\theta |\boldsymbol{x})= \frac{f(\theta,\boldsymbol{x})}{f_{\boldsymbol{X}}(\boldsymbol{x})} = \frac{\pi({\theta})\ell(\theta|\boldsymbol{x})}{\int_{\Theta} \pi({\theta})\ell(\theta|\boldsymbol{x})~d\theta}.\]</span> <span class="math inline">\(f(\theta |\boldsymbol{x})\)</span> is known as <em>the posterior density</em>, and is usually denoted <span class="math inline">\(\pi(\theta |\boldsymbol{x})\)</span>, leading to the continuous version of Bayes theorem: <span class="math display">\[\boxed{
+\pi(\theta |\boldsymbol{x})= \frac{\pi({\theta})\ell(\theta|\boldsymbol{x})}{\int_{\Theta} \pi({\theta})\ell(\theta|\boldsymbol{x})~d\theta}
+}\]</span> Now, the denominator is not a function of <span class="math inline">\(\boldsymbol{\theta}\)</span>, so we can in fact write this as <span class="math display">\[\boxed{
+\pi(\theta |\boldsymbol{x})\propto \pi({\theta})\ell(\theta|\boldsymbol{x})
+}\]</span> where the constant of proportionality is chosen to ensure that the density integrates to one. Hence, <em>the posterior is proportional to the prior times the likelihood</em>.</p>
+</section>
+<section id="bayesian-computation" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3"><span class="header-section-number">1.2.3</span> Bayesian computation</h3>
+<p>In principal, the previous sections cover the basics about Bayesian inference, specifying the posterior distribution of the parameters given the data. However, the posterior distribution may be far from trivial to work with. Typically, we are able to write down in closed form the numerator of Bayes theorem: <span class="math display">\[\textrm{numerator} = \pi({\theta})\ell(\theta|\boldsymbol{x}).\]</span> The numerator is <em>not</em> itself a density function: it does not integrate to 1 with respect to <span class="math inline">\(\theta\)</span>. A function like this, i.e. one that is an unknown multiple of a true density function, is called a <em>kernel</em>. So while we can usually write down a kernel of the posterior distribution (i.e. we can write down the numerator in closed form), working out the denominator can be impossible analytically. The denominator has the form <span class="math display">\[\textrm{denominator} = \int_{\Theta} \pi({\theta})\ell(\theta|\boldsymbol{x})~d\theta\]</span> and so is an integral (or summation in the discrete case) over the space of parameters. We can try to evaluate this numerically, but even that may be very hard to do because</p>
+<ul>
+<li><p>the integral may be very high dimensional, i.e. there might be many parameters, and</p></li>
+<li><p>the support of <span class="math inline">\(\Theta\)</span> may be very complicated.</p></li>
+</ul>
+<p>The support of a random variable is the set of values on which its density is non-zero. Similar problems arise when we want to marginalize or work out an expectation: <span class="math display">\[\mathbb{E}(\Theta|\boldsymbol{x}) = \int_{\Theta}\theta\pi(\theta |\boldsymbol{x})~d\theta.\]</span> Both types of integral – the denominator in Bayes theorem, and the expectation – can effectively be evaluated via stochastic simulation, as we will see. First, however, let’s look at the kind of situation where these integrals do not have closed analytic forms.</p>
+<p><strong>Example 1.2.2:</strong> <em>Consider the case where we have a collection of observations, <span class="math inline">\(X_i\sim N(\mu,\tau^{-1})\)</span>, which we believe to be conditionally independent and identically distributed (iid). We write <span class="math display">\[X_i|\mu,\tau \sim N(\mu,1/\tau).\]</span> The likelihood for a single observation is <span class="math display">\[\ell(\mu,\tau|x_i) = f(x_i|\mu,\tau) = \sqrt{\frac{\tau}{2\pi}}\operatorname{exp}\left\{-\frac{\tau}{2}(x_i-\mu)^2 \right\}\]</span> and so for <span class="math inline">\(n\)</span> independent observations, <span class="math inline">\(\boldsymbol{x}=(x_1,\ldots,x_n)^{T}\)</span> is <span class="math display">\[\begin{aligned}
+\ell(\mu,\tau|\boldsymbol{x}) &amp;= f(\boldsymbol{x}|\mu,\tau) = \prod_{i=1}^n
+\sqrt{\frac{\tau}{2\pi}}\exp\left\{-\frac{\tau}{2}(x_i-\mu)^2
+\right\} \\
+&amp;=
+\left(\frac{\tau}{2\pi}\right)^{\dfrac{n}{2}}\exp\left\{-\frac{\tau}{2}\sum_{i=1}^{n}(x_i-\bar{x}+\bar{x}-\mu)^2\right\}\\
+&amp;\propto
+\tau^{\frac{n}{2}}\exp\left\{-\frac{\tau}{2}\left[\sum_{i=1}^{n}(x_i-\bar{x})^2+n(\bar{x}-\mu)^2\right]\right\}\\
+&amp;\propto
+\tau^{\frac{n}{2}}\exp\left\{-\frac{n\tau}{2}\left[s^2+(\bar{x}-\mu)^2\right]\right\}\end{aligned}\]</span> where <span class="math display">\[\bar{x} = \frac{1}{n}\sum_{i=1}^n x_i\quad\text{and}\quad s^2 =
+\frac{1}{n}\sum_{i=1}^n (x_i-\bar{x})^2.\]</span> For a Bayesian analysis, we need also to specify prior distributions for the parameters, <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span>. There is a conjugate analysis for this problem based on the specifications: <span class="math display">\[\begin{aligned}
+\tau &amp;\sim Gamma(g,h) \\
+\mu|\tau &amp;\sim N\left(b,\frac{1}{c\tau}\right).\end{aligned}\]</span> However, this specification is rather unsatisfactory — <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> are not independent, and in many cases our prior beliefs for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> will separate into independent specifications. For example, we may prefer to specify independent priors for the parameters: <span class="math display">\[\begin{aligned}
+\tau &amp;\sim Gamma(g,h) \\
+\mu &amp;\sim N\left(b,\frac{1}{c}\right).\end{aligned}\]</span> However, this specification is no longer conjugate, making analytic analysis intractable. Let us see why: <span class="math display">\[\begin{aligned}
+\pi(\mu) &amp;=
+\sqrt{\frac{c}{2\pi}}\exp\left\{-\frac{c}{2}\left(\mu-b\right)^2\right\}\\
+&amp;\propto
+\exp\left\{-\frac{c}{2}\left(\mu-b\right)^2\right\}\\
+\pi(\tau) &amp;=
+\frac{h^g}{\Gamma(g)}\tau^{g-1}\exp\{-h\tau\} \\
+&amp;\propto
+\tau^{g-1}\exp\{-h\tau\}\\
+\Rightarrow \pi(\mu,\tau) &amp;\propto
+\tau^{g-1}\exp\left\{
+-\frac{c}{2}\left(\mu-b\right)^2 - h\tau
+\right\}\\
+\Rightarrow \pi(\mu,\tau|\boldsymbol{x}) &amp;\propto
+\tau^{g-1}\exp\left\{
+-\frac{c}{2}\left(\mu-b\right)^2 - h\tau
+\right\}\times 
+\tau^{\frac{n}{2}}\exp\left\{-\frac{n\tau}{2}\left[s^2+
+(\bar{x}-\mu)^2\right]\right\}\\
+&amp;= \tau^{g+\frac{n}{2}-1}\exp\left\{-\frac{n\tau}{2}\left[s^2+
+(\bar{x}-\mu)^2\right] -\frac{c}{2}\left(\mu-b\right)^2 - h\tau   \right\}.\end{aligned}\]</span> The posterior density for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> certainly won’t factorise (<span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span> are not independent <em>a posteriori</em>), and will not even separate into the form of the conditional Normal-Gamma conjugate form mentioned earlier.</em></p>
+<p><em>So, we have the kernel of the posterior for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\tau\)</span>, but it is not in a standard form. We can gain some idea of the likely values of <span class="math inline">\((\mu,\tau)\)</span> by plotting the bivariate surface (the integration constant isn’t necessary for that), but we cannot work out the posterior mean or variance, or the forms of the marginal posterior distributions for <span class="math inline">\(\mu\)</span> or <span class="math inline">\(\tau\)</span>, since we cannot integrate out the other variable. We need a way of understanding posterior densities which does not rely on being able to analytically integrate the posterior density.</em></p>
+<p><em>In fact, there is nothing particularly special about the fact that the density represents a Bayesian posterior. Given any complex non-standard probability distribution, we need ways to understand it, to calculate its moments, to compute its conditional and marginal distributions and their moments. Stochastic simulation is one possible solution.</em></p>
+</section>
+<section id="notation-recap" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4"><span class="header-section-number">1.2.4</span> Notation recap</h3>
+<p>The notation used above for the continuous parameters / data case can easily be used for the discrete (or mixed) case, leading to the notation:</p>
+<ul>
+<li><p><span> data,</span></p></li>
+<li><p><span> model parameters,</span></p></li>
+<li><p><span> probability model for the data,</span></p></li>
+<li><p><span> prior: pdf/pmf representing beliefs before examining the data,</span></p></li>
+<li><p><span> posterior: pdf/pmf of distribution after examining the data.</span></p></li>
+</ul>
+<p>Note that in other sources (e.g. textbooks) you will see different notations for the prior, posterior and model. For example, the prior might be <span class="math inline">\(f(\theta)\)</span> or <span class="math inline">\(p(\theta)\)</span>; the posterior might be <span class="math inline">\(f(\theta|\boldsymbol{x})\)</span> or <span class="math inline">\(p(\theta|\boldsymbol{x})\)</span> and the model might be <span class="math inline">\(p(\boldsymbol{x}|\theta)\)</span> or <span class="math inline">\(\pi(\boldsymbol{x}|\theta)\)</span>. Usually the easiest way to translate the notation is to examine the arguments.</p>
+</section>
+</section>
+<section id="monte-carlo-methods" class="level2" data-number="1.3">
+<h2 data-number="1.3"><span class="header-section-number">1.3</span> Monte Carlo methods</h2>
+<p>The rationale for stochastic simulation can be summarised very easily: to understand a statistical model simulate many realisations from it and study them. For example, consider a bivariate density <span class="math inline">\(f_{X,Y}(x,y)\)</span> and suppose that the marginals <span class="math inline">\(f_{X}(x)\)</span> and <span class="math inline">\(f_{Y}(y)\)</span> are difficult to compute. If we can simulate lots of realisations of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> then we can look at histograms of the <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> values, to get an idea of the marginals. We can also look at the sample mean and variance of the <span class="math inline">\(X\)</span> values (for example) to find out the mean and variance of the marginal for <span class="math inline">\(X\)</span>.</p>
+<p>In statistics, the term <em>Monte Carlo</em> means <em>simulation</em>.</p>
+<section id="monte-carlo-integration" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1"><span class="header-section-number">1.3.1</span> Monte Carlo integration</h3>
+<p>Suppose we want to evaluate an integral of the form <span class="math display">\[\mu_h = \int_{\mathcal{X}} h(x)f(x)dx\]</span> for some function <span class="math inline">\(h(\cdot)\)</span> and some pdf <span class="math inline">\(f(\cdot)\)</span> with support <span class="math inline">\(\mathcal{X}\)</span>. It should be clear that <span class="math inline">\(\mu_h=\mathbb{E}[h(X)]\)</span>. By the law of large numbers, we can estimate <span class="math inline">\(\mu_h\)</span> by taking a sample from the distribution of <span class="math inline">\(X\)</span> and using the sample mean as an estimate of the theoretical mean. In particular,</p>
+<ol>
+<li><p>Let <span class="math inline">\(X_1,X_2,\ldots,X_N\)</span> be iid draws from <span class="math inline">\(f\)</span>.</p></li>
+<li><p>Then, <span class="math inline">\(\hat{\mu}_h = \frac{1}{N}\sum_{i=1}^N h(X_i)\)</span> is an <em>unbiased Monte Carlo estimator</em> of <span class="math inline">\(\mu_h\)</span>.</p></li>
+</ol>
+<p>Note that the unbiasedness property follows directly by linearity. Moreover, provided <span class="math inline">\(\sigma^2_h= \mathrm{Var}[h(X)] &lt; \infty\)</span> exists, <span class="math display">\[\begin{aligned}
+\mathrm{Var}(\hat{\mu}_h) &amp;= \frac{1}{N^2} \mathrm{Var}\left[\sum_{i=1}^N h(X_i) \right] \\
+&amp;= \frac{\sigma^{2}_{h}}{N}.\end{aligned}\]</span> Hence, via the <em>Central Limit Theorem</em> <span class="math display">\[\frac{\sqrt{N}(\hat{\mu}_h-\mu_h)}{\sigma_h} \xrightarrow{\phantom{1}D\phantom{1}} N(0,1)\]</span> that is, <span class="math display">\[\hat{\mu}_h \approx N\left(\mu_h,\sigma^2_h/N\right).\]</span> The above properties hold provided the <span class="math inline">\(\{X_i\}\)</span> are independent. Note that the size of the error in <span class="math inline">\(\hat{\mu}_h\)</span> is proportional to the standard deviation of the estimator. Hence, this error (or equivalently, speed of convergence of the estimator) is <span class="math inline">\(\mathcal{O}(N^{-1/2})\)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, rather than <span class="math inline">\(\mathcal{O}(N^{-1/d})\)</span>, as would be obtained using simple numerical integration (and note that <span class="math inline">\(d\)</span> is the dimension of <span class="math inline">\(X\)</span>).</p>
+<section id="further-motivation" class="level4 unnumbered">
+<h4 class="unnumbered">Further motivation</h4>
+<p>Almost everything we may wish to calculate about the distribution of <span class="math inline">\(X\)</span> can be represented by an expectation, for example</p>
+<ul>
+<li><p>expectation <span class="math inline">\(\mathbb{E}(X)\)</span>,</p></li>
+<li><p>variance <span class="math inline">\(\mathrm{Var}(X)=\mathbb{E}(X^2)-\mathbb{E}(X)^2\)</span></p></li>
+<li><p>cdf <span class="math inline">\(F(X)=\mathbb{P}(X\leq x)=\mathbb{E}[I(X\leq x)]\)</span> where <span class="math inline">\(I(\cdot)\)</span> is the indicator function,</p></li>
+<li><p>...</p></li>
+</ul>
+</section>
+</section>
+<section id="importance-sampling" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2"><span class="header-section-number">1.3.2</span> Importance sampling</h3>
+<p>Consider <span class="math inline">\(\mu_h=\mathbb{E}[h(X)]\)</span> as above but suppose that <span class="math inline">\(f(x)\)</span> is difficult to sample from. Suppose we can find a <em>proposal density</em> <span class="math inline">\(g(x)\)</span> such that <span class="math inline">\(g(x)&gt;0\)</span> for all <span class="math inline">\(x\)</span> with <span class="math inline">\(f(x)\geq 0\)</span>, and that is easy to sample from. Then consider <span class="math display">\[\begin{aligned}
+\mu_h=\int_\mathcal{X} h(x)f(x)dx &amp;= \int_\mathcal{X} \frac{h(x)f(x)}{g(x)}g(x) dx \end{aligned}\]</span> which we recognise as <span class="math inline">\(\mathbb{E}_g[h(X)f(X)/g(X)]\)</span> where the subscript makes clear that the expectation is with respect to <span class="math inline">\(g(x)\)</span>. It is convenient to write this expectation as <span class="math inline">\(\mathbb{E}_g[h(X)w(X)]\)</span> where <span class="math inline">\(w(X)=f(X)/g(X)\)</span> is known as the <em>weight function</em>. Hence, given iid draws <span class="math inline">\(X_1,\ldots,X_N\)</span> from <span class="math inline">\(g\)</span>, an unbiased and consistent <em>importance sampling estimator</em> of <span class="math inline">\(\mu_h\)</span> can be constructed as <span class="math display">\[\hat{\mu}_h = \frac{1}{N}\sum_{i=1}^N h(X_i)w(X_i).\]</span> <strong>Example 1.3.1:</strong> <em>Suppose we wish to compute <span class="math inline">\(\mathbb{E}[X^2]\)</span> where <span class="math inline">\(X\sim N(0,1)\)</span>. We take <span class="math inline">\(g(x)\)</span> as the density associated with a Student’s <span class="math inline">\(t\)</span>-distribution.</em></p>
+<div class="sourceCode" id="cb1" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">## Example: f=N(0,1), g=Student-t_df, h(x)=x^2</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">3421</span>) <span class="co">## for reproducibility</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a> N=<span class="dv">100</span>; df=<span class="dv">5</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a> xs=<span class="kw">rt</span>(N,<span class="dt">df=</span>df)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a> fdens=<span class="kw">dnorm</span>(xs); gdens=<span class="kw">dt</span>(xs,<span class="dt">df=</span>df)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a> hs=xs<span class="op">^</span><span class="dv">2</span> <span class="co">## E[hs]=1</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a> <span class="kw">mean</span>(hs <span class="op">*</span><span class="st"> </span>fdens<span class="op">/</span>gdens) <span class="co">## true expectation is 1</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a><span class="co">## [1] 0.9191474</span></span></code></pre></div>
+<p>Note that in general, the <em>importance weights</em> <span class="math inline">\(w(X_1),\ldots,w(X_N)\)</span> do not add up to one. We may therefore wish to consider the <em>self-normalised estimator</em> <span class="math display">\[\tilde{\mu}_h = \frac{1}{\sum_{i=1}^{N}w(X_i)}\sum_{i=1}^N h(X_i)w(X_i).\]</span> <strong>Remarks:</strong></p>
+<ul>
+<li><p>The estimator is <em>biased</em> (proof omitted) but <em>consistent</em>. To see consistency, note that <span class="math display">\[\begin{aligned}
+\tilde{\mu}_h &amp; = \frac{\frac{1}{N}\sum_{i=1}^N h(X_i)w(X_i)}{\frac{1}{N}\sum_{i=1}^{N}w(X_i)}\\
+&amp;=\frac{\frac{1}{N}\sum_{i=1}^N h(X_i)\frac{f(X_i)}{g(X_i)}}{\frac{1}{N}\sum_{i=1}^{N}\frac{f(X_i)}{g(X_i)}}\\
+&amp;\to \frac{\mathbb{E}_g[h(X)f(X)/g(X)]}{\mathbb{E}_g[f(X)/g(X)]} \qquad\textrm{as $N\to \infty$, using the SLLN}\\
+&amp;= \frac{\int_{\mathcal{X}}h(x)f(x)dx}{\int_{\mathcal{X}} f(x)dx}\\
+&amp;= \mathbb{E}_f[h(X)]\end{aligned}\]</span> as required.</p></li>
+<li><p>An advantage of using the self-normalised estimator is that it can be applied when <span class="math inline">\(f(\cdot)\)</span> is only known up to a multiplicative constant (as is often the case for a Bayesian posterior). To see this, replace <span class="math inline">\(f(x)\)</span> with <span class="math inline">\(k\pi(x)\)</span> in the expression for <span class="math inline">\(\tilde{\mu}_h\)</span> and notes that the unknown normalising constant <span class="math inline">\(k\)</span> cancels.</p></li>
+</ul>
+<p><strong>Example 1.3.2:</strong> <em>Suppose we wish to compute <span class="math inline">\(\mathbb{E}[X^2]\)</span> where <span class="math inline">\(X\sim N(0,1)\)</span> but we can only evaluate the kernel <span class="math inline">\(\exp(-x^2/2)\)</span>. We take <span class="math inline">\(g(x)\)</span> as the density associated with a Student’s <span class="math inline">\(t\)</span>-distribution.</em></p>
+<div class="sourceCode" id="cb2" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co">## Example: f=unnormalised N(0,1), g=Student-t_df, h(x)=x^2</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">3421</span>) <span class="co">## for reproducibility</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a> N=<span class="dv">100</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a> xs=<span class="kw">rt</span>(N,<span class="dt">df=</span>df)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a> ws=<span class="kw">exp</span>(<span class="op">-</span>xs<span class="op">^</span><span class="dv">2</span><span class="op">/</span><span class="dv">2</span>)<span class="op">/</span><span class="kw">dt</span>(xs,<span class="dt">df=</span>df)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a> wsn=ws<span class="op">/</span><span class="kw">sum</span>(ws)  <span class="co">## normalise the weights</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a> hs=xs<span class="op">^</span><span class="dv">2</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a> <span class="kw">sum</span>(hs <span class="op">*</span><span class="st"> </span>wsn) <span class="co">## true expectation is 1</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a><span class="co">## [1] 0.9020084</span></span></code></pre></div>
+</section>
+<section id="weighted-resampling" class="level3" data-number="1.3.3">
+<h3 data-number="1.3.3"><span class="header-section-number">1.3.3</span> Weighted resampling</h3>
+<p>Since the choice of <span class="math inline">\(h(\cdot)\)</span> used above was arbitrary, we can use the sample and normalised weights to approximate any (suitable) expectation with respect to <span class="math inline">\(f(x)\)</span>. Let <span class="math inline">\(\tilde{w}(x_i)=w(x_i)/\sum_{j=1}^N w(x_j)\)</span> denote the normalised weight. We can then view <span class="math inline">\(\{x_i, \tilde{w}(x_i) \}_{i=1}^{N}\)</span> as an <em>empirical approximation</em> of <span class="math inline">\(f(x)\)</span> via <span class="math display">\[\hat{f}(x) = \sum_{i=1}^{N} \tilde{w}(x_i)\delta (x-x_i)\]</span> where <span class="math inline">\(\delta\)</span> denotes the Dirac mass function, and is a convenient way of representing a discrete distribution as a pdf. The important point to note here is that we have approximated a continuous distribution <span class="math inline">\(f(x)\)</span> via a discrete distribution taking values <span class="math inline">\(\{x_1,\ldots,x_N\}\)</span> with associated probabilities <span class="math inline">\(\{\tilde{w}(x_1),\ldots,\tilde{w}(x_N)\}\)</span>.</p>
+<p><strong>Remark:</strong> we may wish to use the weighted sample to construct summaries such as the mean, variance etc. This is most easily achieved by resampling (with replacement) from the discrete distribution on <span class="math inline">\(\{x_1,\ldots,x_N\}\)</span> with associated probabilities <span class="math inline">\(\{\tilde{w}(x_1),\ldots,\tilde{w}(x_N)\}\)</span>. The result is an <em>equally weighted sample, approximately distributed according to <span class="math inline">\(f\)</span></em>. This technique is known as <em>weighted resampling</em>.</p>
+<p><strong>Example 1.3.3:</strong> <em>Suppose that we wish to use weighted resampling to generate draws of a random variable <span class="math inline">\(X\)</span> that follows a <span class="math inline">\(N(0,1)\)</span> distribution, truncated between -2 and 2. Furthermore, suppose that we take a <span class="math inline">\(U(-2,2)\)</span> proposal distribution. Note that <span class="math inline">\(X\)</span> has pdf <span class="math display">\[f(x)\propto e^{-\frac{1}{2}x^2},\qquad -2&lt;x&lt;2.\]</span> The proposal pdf is <span class="math display">\[g(x)\propto 1,\qquad -2&lt;x&lt;2.\]</span> The normalised weights therefore take the form <span class="math display">\[\tilde{w}(x_i) = \frac{e^{-\frac{1}{2}x_i^{2}}}{\displaystyle \sum_{j=1}^{N}e^{-\frac{1}{2}x_j^{2}}} \, , \, i=1,\ldots N \, .\]</span> The following R code plots the target, proposal and implements the algorithm.</em></p>
+<div class="sourceCode" id="cb3" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="co">## Example: f=N(0,1) truncated between -2 and 2, g=U(-2,2)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a> <span class="co">## plot target and proposal</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a> x=<span class="kw">seq</span>(<span class="op">-</span><span class="dv">2</span>,<span class="dv">2</span>,<span class="fl">0.01</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a> <span class="kw">plot</span>(x,<span class="kw">dnorm</span>(x)<span class="op">/</span>(<span class="kw">pnorm</span>(<span class="dv">2</span>)<span class="op">-</span><span class="kw">pnorm</span>(<span class="op">-</span><span class="dv">2</span>)),<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a> <span class="kw">lines</span>(x,<span class="kw">dunif</span>(x,<span class="op">-</span><span class="dv">2</span>,<span class="dv">2</span>),<span class="dt">type=</span><span class="st">&quot;l&quot;</span>,<span class="dt">lty=</span><span class="dv">2</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a> <span class="co">##Weighted resampling function</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a> wr=<span class="cf">function</span>(N)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a> {</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a>  xs=<span class="kw">runif</span>(N,<span class="op">-</span><span class="dv">2</span>,<span class="dv">2</span>) </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a>  ws=<span class="kw">exp</span>(<span class="op">-</span>xs<span class="op">^</span><span class="dv">2</span><span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a>  x=<span class="kw">sample</span>(xs,N,<span class="ot">TRUE</span>,ws)  <span class="co">#R can handle the unnormalised weights</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a>  <span class="kw">return</span>(x)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true"></a> }</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true"></a> <span class="co">## Run</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true"></a> <span class="kw">hist</span>(<span class="kw">wr</span>(<span class="dv">50</span>),<span class="dt">freq=</span>F)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true"></a> <span class="kw">lines</span>(x,<span class="kw">dnorm</span>(x)<span class="op">/</span>(<span class="kw">pnorm</span>(<span class="dv">2</span>)<span class="op">-</span><span class="kw">pnorm</span>(<span class="op">-</span><span class="dv">2</span>)),<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<p> </p>
+<div class="center">
+<figure>
+<embed src="../graphics/wr.pdf" id="fig:figwr" style="width:9cm;height:8cm" /><figcaption aria-hidden="true">Truncated <span class="math inline">\(N(0,1)\)</span> target density (solid) and <span class="math inline">\(U(-2,2)\)</span> proposal density (dotted).</figcaption>
+</figure>
+</div>
+<p> </p>
+<table id="fig:figwr2d" class="imageTable">
+<caption>Target (solid) and histograms of samples using (a) <span class="math inline">\(N=50\)</span>, (b) <span class="math inline">\(N=100\)</span>, (c) <span class="math inline">\(N=500\)</span>, (d) <span class="math inline">\(N=1000\)</span> (e) <span class="math inline">\(N=10000\)</span> and (f) <span class="math inline">\(N=100000\)</span>.</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><embed src="../graphics/wr1.pdf" title="fig:" id="fig:figwr2d" style="width:16cm;height:7cm" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><embed src="../graphics/wr2.pdf" title="fig:" id="fig:figwr2d" style="width:16cm;height:7cm" /></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><embed src="../graphics/wr3.pdf" title="fig:" id="fig:figwr2d" style="width:16cm;height:7cm" /></td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p><em>It is clear from the plots above that provided <span class="math inline">\(N\)</span> is chosen to be sufficiently large, the sample of <span class="math inline">\(N\)</span> points generated after resampling are a good approximation to <span class="math inline">\(f\)</span>.</em></p>
+<section id="drawbacks-of-monte-carlo-integration" class="level4 unnumbered">
+<h4 class="unnumbered">Drawbacks of Monte Carlo integration</h4>
+<ol>
+<li><p>The variance, <span class="math inline">\(\sigma^2_h = \mathrm{Var}[h(X)]\)</span> is often large. This problem can be circumvented to some extent by careful choice of <span class="math inline">\(g(x)\)</span> in importance sampling.</p></li>
+<li><p>It can be difficult to simulate from <span class="math inline">\(X\)</span> (in an efficient manner). This is a harder problem to deal with and this is where MCMC will be use- ful. Simulating from univariate distributions (e.g., by rejection sampling or inversion of the cdf) is usually fairly straightforward. For multivariate distributions, however, the problem becomes a lot harder as methods such as rejection sampling perform much worse as the dimension of the problem grows. This means a lot of work is required to get even a small sample from the distribution <span class="math inline">\(X\)</span>.</p></li>
+</ol>
+</section>
+</section>
+</section>
+<section id="markov-chains" class="level2" data-number="1.4">
+<h2 data-number="1.4"><span class="header-section-number">1.4</span> Markov chains</h2>
+<p>Here, we will briefly look at the concepts that underpin Markov chains that are needed to understand MCMC. Note that we will barely scratch the surface of the vast theory underpinning Markov chains! For ease of notation, we will consider here univariate Markov chains but note that all results extend straightforwardly to the multivariate case.</p>
+<p><strong>Definition:</strong> <em>A (first order) <span>Markov chain</span> is a stochastic process <span class="math inline">\(X_{0}, X_{1},X_{2},\ldots\)</span> with the property that future states are independent of the past states given the present state. Formally, for any <span class="math inline">\(A\subset \mathcal{X}\)</span> <span class="math display">\[\begin{aligned}
+&amp; \mathbb{P}\left( X_{n+1}\in A | X_{n}=x,X_{n-1}=x_{n-1},\ldots, 
+X_{0}=x_{0}  \right) \\
+&amp; \quad\qquad = \mathbb{P}\left( X_{n+1}\in A | X_{n}=x \right), \quad
+\forall x,x_{n-1}, x_{n-2}, \ldots, x_{0}\in \mathcal{X}.\end{aligned}\]</span></em></p>
+<p>The state space <span class="math inline">\(\mathcal{X}\)</span> is just the set of possible values adopted by the random variables <span class="math inline">\(X_{0}, X_{1},X_{2},\ldots\)</span>. The behaviour of the chain is therefore determined by the probabilities <span class="math display">\[\mathbb{P}\left( X_{n+1}\in A | X_{n}=x \right).\]</span> In general, this depends on <span class="math inline">\(n\)</span>, <span class="math inline">\(A\)</span>, and <span class="math inline">\(x\)</span>. However, if there is no <span class="math inline">\(n\)</span> dependence so that <span class="math display">\[\mathbb{P}\left( X_{n+1}\in A | X_{n}=x \right) = p(A|x), \quad\forall n\]</span> for a function <span class="math inline">\(p\)</span>, then the Markov chain is said to be <em>homogeneous</em>, and the <em>transition kernel</em> <span class="math inline">\(p(A|x)\)</span> completely determines the behaviour of the chain. We will only consider homogeneous Markov chains.</p>
+<p>We will start by illustrating the basic ideas for discrete state spaces. That is, <span class="math inline">\(\mathcal{X}=\{\ldots,-2,-2,0,1,2,\ldots\}\)</span>. Now, for all <span class="math inline">\(i,j\)</span> let <span class="math display">\[p_{ij} = \mathbb{P}\left(X_{n+1}=j | X_{n}=i \right)\]</span> that is, the probability of moving from state <span class="math inline">\(i\)</span> to state <span class="math inline">\(j\)</span> in a single step, known as the <em>transition prbability</em>.</p>
+<section id="transition-matrices" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1"><span class="header-section-number">1.4.1</span> Transition matrices</h3>
+<p>If the state space is finite with <span class="math inline">\(\mathcal{X}=\{1, \ldots, r\}\)</span>, then we can construct the <em>transition matrix</em>: <span class="math display">\[P=\begin{pmatrix}
+p_{11} &amp; \cdots &amp; p_{1r} \\
+\vdots &amp; \ddots &amp; \vdots \\
+p_{r1} &amp; \cdots &amp; p_{rr}
+\end{pmatrix}.\]</span> For example, <span class="math inline">\(p_{1r}=\mathbb{P}(X_{n+1}=r|X_n = 1)\)</span> is the probability of moving from state <span class="math inline">\(1\)</span> to state <span class="math inline">\(r\)</span> in a single step. Note that the elements of <span class="math inline">\(P\)</span> must be non-negative and the rows must sum to one: <span class="math inline">\(\sum_{j}p_{ij}=1\)</span>. Such matrices are called <em>stochastic matrices</em>.</p>
+<p><strong>Example 1.4.1:</strong> <em><strong>(Running example.)</strong> Suppose that the state space is <span class="math inline">\(\{ \textrm{Rain}, \textrm{Sunny}, \textrm{Cloudy} \}\)</span> (ordered as the first, second and third states) and weather follows a homogeneous Markov process. Thus, the probability of tomorrow’s weather simply depends on today’s weather, and not any previous days. Suppose the transitions are given by <span class="math display">\[\begin{aligned}
+Pr(\textrm{Rain tomorrow}|\textrm{Rain today}) &amp;= 0.5\\
+Pr(\textrm{Sunny tomorrow}|\textrm{Rain today}) &amp;= 0.25\\
+Pr(\textrm{Cloudy tomorrow}|\textrm{Rain today}) &amp;= 0.25\\\end{aligned}\]</span> if it is raining today. Given today’s weather state is Rain, we have a distribution on the state space for tomorrow’s weather. The first row of the transition matrix becomes <span class="math inline">\((0.5, 0.25, 0.25)\)</span>. Suppose the full transition matrix is <span class="math display">\[P=
+\begin{pmatrix}
+0.5 &amp; 0.25 &amp; 0.25 \\
+0.5 &amp; 0 &amp; 0.5 \\
+0.25 &amp; 0.25 &amp; 0.5
+\end{pmatrix}.\]</span></em></p>
+</section>
+<section id="properties-of-markov-chains" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2"><span class="header-section-number">1.4.2</span> Properties of Markov chains</h3>
+<p><strong>Definition:</strong> <em>A Markov chain is irreducible if for all <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, there exists some <span class="math inline">\(n\)</span> such that <span class="math inline">\(\mathbb{P}(X_n = j|X_0 = i) &gt; 0\)</span>; i.e. every state is reachable (at some point) from every other state.</em></p>
+<p><strong>Definition:</strong> <em>An irreducible Markov chain is aperiodic if the greatest common divider (gcd) of <span class="math inline">\(\{n: \mathbb{P}(X_n = i|X_0 = i) &gt; 0\}\)</span> is 1. If the gcd is <span class="math inline">\(d &gt; 1\)</span> then the Markov chain is periodic with period d. (The choice of <span class="math inline">\(i\)</span> does not matter: for an irreducible chain the periodicity is the same whatever <span class="math inline">\(i\)</span> is chosen).</em></p>
+<p><em>Quick example matrix 1:</em> <span class="math display">\[P=\begin{pmatrix}
+0.5 &amp; 0.5 &amp; 0\\
+0.2 &amp; 0.8 &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{pmatrix}.\]</span> This is an example of a reducible Markov chain since we can’t get from state 1 to state 3, for example.</p>
+<p><em>Quick example matrix 2:</em> <span class="math display">\[P=\begin{pmatrix}
+0 &amp; 0.5 &amp; 0 &amp; 0.5\\
+0.2 &amp; 0 &amp; 0.8 &amp; 0\\
+0 &amp; 0.2 &amp; 0 &amp; 0.8\\
+0.1 &amp; 0 &amp; 0.9 &amp; 0 
+\end{pmatrix}.\]</span> This is periodic, it returns to a given state after an even number of steps. (It alternates between odd states, 1 and 3, and even states, 2 and 4.)</p>
+</section>
+<section id="stationary-distribution" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3"><span class="header-section-number">1.4.3</span> Stationary distribution</h3>
+<p><strong>Definition:</strong> <em>A stationary distribution is a set of probabilities <span class="math inline">\(\pi_i\)</span>, <span class="math inline">\(i=1,2,\ldots\)</span> such that: <span class="math display">\[\mathbb{P}(X_n=i)=\pi_i \quad \forall i \quad\Rightarrow \quad\mathbb{P}(X_{n+1}=i)=\pi_i \quad\forall i\]</span> i.e., a Markov chain which starts with a distribution of <span class="math inline">\(\pi\)</span> will have the same distribution at the next time point.</em></p>
+<p><strong>Remark:</strong> a reducible chain can have more than one stationary distribution; but our interest lies in irreducible chains and, as we’ll see, all irreducible chains have a unique stationary distribution.</p>
+<p>Now, let the row vector <span class="math inline">\(\boldsymbol{\pi}=(\pi_1,\pi_2,\ldots)\)</span>. If <span class="math inline">\(\mathbb{P}(X_n=i)=\pi_i\)</span> <span class="math inline">\(\forall i\)</span>, then we say that <span class="math inline">\(X_n\)</span> is distributed as <span class="math inline">\(\boldsymbol{\pi}\)</span> and write <span class="math inline">\(X_n \sim \boldsymbol{\pi}\)</span>. It should be clear that by induction, if <span class="math inline">\(X_n\sim\boldsymbol{\pi}\)</span> then <span class="math inline">\(X_{n+k}\sim\boldsymbol{\pi}\)</span> <span class="math inline">\(\forall k\geq 0\)</span>. Moreover, we have that <span class="math display">\[\begin{aligned}
+\mathbb{P}(X_{n+1}=j) &amp;= \sum_{i}\mathbb{P}(X_{n+1}=j,X_{n}=i)\\
+&amp;= \sum_{i} \mathbb{P}(X_{n+1}=j|X_n=i)\mathbb{P}(X_n=i)\\
+&amp;= \sum_{i} p_{ij} \mathbb{P}(X_n=i).\end{aligned}\]</span> Now, if <span class="math inline">\(X_n\sim\boldsymbol{\pi}\)</span>, then the above can be written as <span class="math inline">\(\pi_j=\sum_i \pi_i p_{ij}\)</span> <span class="math inline">\(\forall j\)</span>. Or, written more succinctly as <span class="math display">\[\boldsymbol{\pi}= \boldsymbol{\pi}P.\]</span></p>
+<p><strong>Example 1.4.2:</strong> <em><strong>(Example 1.4.1 revisited.)</strong> Consider again the three state weather example with <span class="math display">\[P=
+\begin{pmatrix}
+0.5 &amp; 0.25 &amp; 0.25 \\
+0.5 &amp; 0 &amp; 0.5 \\
+0.25 &amp; 0.25 &amp; 0.5
+\end{pmatrix}.\]</span> We can find the stationary distribution by first writing out <span class="math inline">\(\boldsymbol{\pi}= \boldsymbol{\pi}P\)</span> explicitly to give <span class="math display">\[\begin{aligned}
+\pi_1 &amp;= 0.5\pi_1+0.5\pi_2+0.25\pi_3\\
+\pi_2 &amp;= 0.25\pi_1 + 0.25 \pi_3 \\
+\pi_3 &amp;= 0.25\pi_1 +0.5\pi_2+0.5\pi_3 \end{aligned}\]</span> for which the first and third equations give <span class="math inline">\(\pi_1=\pi_3\)</span>. Hence set <span class="math inline">\(\pi_1=\pi_3=\pi^*\)</span> and sub into equation 2 to give <span class="math inline">\(\pi_2=0.5\pi^*\)</span>. Hence <span class="math inline">\(\boldsymbol{\pi}=(\pi^*,0.5\pi^*,\pi^*)\)</span>. Finally, we use the crucial property that the elements of <span class="math inline">\(\boldsymbol{\pi}\)</span> sum to <span class="math inline">\(1\)</span> to deduce <span class="math inline">\(\boldsymbol{\pi}=(2/5,1/5,2/5)\)</span>.</em></p>
+</section>
+<section id="limiting-distribution" class="level3" data-number="1.4.4">
+<h3 data-number="1.4.4"><span class="header-section-number">1.4.4</span> Limiting distribution</h3>
+<p><strong>Definition:</strong> <em>A Markov chain <span class="math inline">\(X_n\)</span> has a limiting distribution (also called its asymptotic distri- bution), <span class="math inline">\(\boldsymbol{\pi}\)</span>, if for all <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, <span class="math inline">\(\lim_{n\to\infty}\mathbb{P}(X_n=j|X_0=i)=\pi_j\)</span> where <span class="math inline">\(\boldsymbol{\pi}=(\pi_1,\pi_2,\ldots)\)</span>.</em></p>
+<p>Now, by the Markov property we have for all <span class="math inline">\(i,j\)</span> that <span class="math display">\[\begin{aligned}
+\mathbb{P}(X_{n+1}=j|X_0=i) &amp;= \sum_k \mathbb{P}(X_{n+1}=j|x_n=k,X_0=i)\mathbb{P}(X_n=k|X_0=i)\\
+&amp;=\sum_k \mathbb{P}(X_{n+1}=j|x_n=k)\mathbb{P}(X_n=k|X_0=i)\\
+&amp;=\sum_k p_{kj}\mathbb{P}(X_n=k|X_0=i).\end{aligned}\]</span> <strong>Remarks:</strong></p>
+<ul>
+<li><p>If a limiting distribution exists then letting <span class="math inline">\(n\to\infty\)</span> we obtain <span class="math inline">\(\pi_j=\sum_k p_{kj}\pi_k\)</span>. Equivalently, <span class="math inline">\(\boldsymbol{\pi}=\boldsymbol{\pi}P\)</span>: the asymptotic distribution of the chain, <span class="math inline">\(\boldsymbol{\pi}\)</span>, is also a stationary distribution of the chain.</p></li>
+<li><p>Substituting <span class="math inline">\(n=1\)</span> into the above expression for <span class="math inline">\(\mathbb{P}(X_{n+1}=j|X_0=i)\)</span> gives <span class="math display">\[\mathbb{P}(X_{2}=j|X_0=i)=\sum_k p_{kj}p_{ik}, \quad \forall i,j\]</span> which we recognise as <span class="math inline">\(P^2\)</span> (and recall that <span class="math inline">\(P\)</span> is the transition matrix). In general, we obtain the <span class="math inline">\(n\)</span>-step transition matrix as <span class="math inline">\(P^n\)</span>.</p></li>
+</ul>
+<p><strong>Example 1.4.3:</strong> <em><strong>(Example 1.4.1 revisited.)</strong> Compute <span class="math inline">\(\mathbb{P}(X_n=j|X_0=Rain)\)</span>, <span class="math inline">\(n=1,\ldots,5\)</span>, for <span class="math inline">\(j\in\{1,2,3\}\)</span> corresponding to each weather state Rain, Sunny, Cloudy.</em></p>
+<div class="sourceCode" id="cb4" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="co">## Example: weather, limiting distribution demo</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a> Xprob=<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>) <span class="co">## Rain at time 0</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a> <span class="co">## set up transition matrix</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a> P=<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="fl">0.5</span>,<span class="fl">0.25</span>,<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="dv">0</span>,<span class="fl">0.5</span>,<span class="fl">0.25</span>,<span class="fl">0.25</span>,<span class="fl">0.5</span>),<span class="dt">ncol=</span><span class="dv">3</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a> {</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a>  Xprob=Xprob<span class="op">%*%</span>P</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a>  <span class="kw">print</span>(Xprob)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a> }</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true"></a><span class="co">##      [,1] [,2] [,3]</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true"></a><span class="co">## [1,]  0.5 0.25 0.25</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true"></a><span class="co">##        [,1]   [,2]  [,3]</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true"></a><span class="co">## [1,] 0.4375 0.1875 0.375</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true"></a><span class="co">##         [,1]     [,2]     [,3]</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true"></a><span class="co">## [1,] 0.40625 0.203125 0.390625</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true"></a><span class="co">##           [,1]      [,2]      [,3]</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true"></a><span class="co">## [1,] 0.4023438 0.1992188 0.3984375</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true"></a><span class="co">##           [,1]      [,2]      [,3]</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true"></a><span class="co">## [1,] 0.4003906 0.2001953 0.3994141</span></span></code></pre></div>
+<p><strong>Theorem:</strong> <em>If <span class="math inline">\(\{X_n\}\)</span> is an aperiodic, irreducible Markov chain on a countable statespace with a proper stationary distribution of <span class="math inline">\(\boldsymbol{\pi}\)</span> then for all <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>,</em> <span class="math display">\[\lim_{n\to\infty}\mathbb{P}(X_n-j|X_0=i)=\pi_j.\]</span> <strong>Remark:</strong> A <em>proper</em> distribution <span class="math inline">\(\boldsymbol{\pi}\)</span> has <span class="math inline">\(\sum_{i}\pi_i=1\)</span>.</p>
+</section>
+<section id="detailed-balance" class="level3" data-number="1.4.5">
+<h3 data-number="1.4.5"><span class="header-section-number">1.4.5</span> Detailed balance</h3>
+<p><strong>Definition:</strong> <em>A discrete-valued Markov chain with transition matrix <span class="math inline">\(P\)</span> is said to satisfy detailed balance if there is a distribution <span class="math inline">\(\boldsymbol{\nu}\)</span> such that for all <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, <span class="math display">\[\nu_i p_{ij} = \nu_j p_{ji}.\]</span></em></p>
+<p>This is a powerful idea, since checking detailed balance is often an easy way of confirming a probability distribution <span class="math inline">\(\boldsymbol{\pi}\)</span> is the stationary distribution of a Markov chain, as the following Lemma shows.</p>
+<p><strong>Lemma:</strong> <em>If a Markov chain with transition matrix <span class="math inline">\(P\)</span> satisfies detailed balance with distribution <span class="math inline">\(\boldsymbol{\nu}\)</span> then <span class="math inline">\(\boldsymbol{\nu}= \boldsymbol{\pi}\)</span> is a stationary distribution of the chain.</em></p>
+<p><em>Proof: Take the detailed balance equation and sum both sides over <span class="math inline">\(j\)</span>. For any <span class="math inline">\(i\)</span> we obtain <span class="math display">\[\begin{aligned}
+\sum_{j} \nu_i p_{ij} &amp;= \sum_{j} \nu_j p_{ji}\\
+\Rightarrow \nu_i \sum_{j} p_{ij} &amp;= \sum_{j}\nu_j p_{ji}\\
+\Rightarrow \nu_i &amp;= \sum_{j}\nu_j p_{ji}\end{aligned}\]</span> that is, the <span class="math inline">\(i\)</span>th element of <span class="math inline">\(\boldsymbol{\nu}=\boldsymbol{\nu}P\)</span>.</em></p>
+</section>
+</section>
+<section id="aim-of-mcmc" class="level2" data-number="1.5">
+<h2 data-number="1.5"><span class="header-section-number">1.5</span> Aim of MCMC</h2>
+<p>The aim of MCMC is to construct a Markov chain whose stationary distribution is the posterior distribution we are interested in. Then, provided the Markov chain is started in stationarity, a sample from the Markov chain will form a sample from the posterior distribution of interest. It is important to check that the Markov chain we construct is <em>irreducible</em> and <em>aperiodic</em>.</p>
+<p>Since we will mainly be interested in posterior distributions with continuous support, we need a few key results for continuous-valued Markov chains.</p>
+</section>
+<section id="continuous-state-space-markov-chains" class="level2" data-number="1.6">
+<h2 data-number="1.6"><span class="header-section-number">1.6</span> Continuous state-space Markov chains</h2>
+<p>Next we consider what happens when the state space <span class="math inline">\(\mathcal{X}\)</span> is continuous eg. <span class="math inline">\(\mathcal{X}\subset\mathbb{R}\)</span>. Note that time is still taken to be discrete. Fortunately, most of the results we have already seen in the discrete state-space setting carry over to the continuous case, in particular: sums become integrals and the <em>transition matrix</em> becomes a <em>transition kernel</em>.</p>
+<section id="transition-kernels" class="level3" data-number="1.6.1">
+<h3 data-number="1.6.1"><span class="header-section-number">1.6.1</span> Transition kernels</h3>
+<p>In a similar way to the discrete case, for a homogeneous chain we can define <span class="math display">\[P(A|x) = \mathbb{P}\left( X_{n+1}\in A | X_{n}=x \right).\]</span> For continuous state-spaces we always have <span class="math inline">\(P(X_{n+1}=y|x)=0\)</span>, so instead we define <span class="math display">\[\begin{aligned}
+P(y|x) &amp;= \mathbb{P}\left(X_{n+1}\leq y | X_{n}=x \right)\\
+&amp;= \mathbb{P}\left( X_{1}\leq y | X_{0}=x \right)\end{aligned}\]</span> where the last equality follows from time homogeneity. This is called the <em>conditional cumulative distribution function</em>. It is the distributional form of the transition matrix for continuous state-space Markov chains, but we can also define the corresponding density <span class="math display">\[p(y|x) = \frac{\partial}{\partial y}P(y|x).\]</span> This defines the <em>density form</em> of the transition kernel of the chain. It is easier to use than the conditional cumulative distribution function, particularly when the state space is multidimensional, eg. <span class="math inline">\(\mathcal{X}\subset\mathbb{R}^d\)</span>.</p>
+<p><strong>Example 1.6.1:</strong> <strong>(Running example.)</strong> <em>Consider the AR(1) model: <span class="math display">\[X_{n+1} = \alpha X_{n}+\epsilon_{n+1}, \quad\epsilon_{n+1}\sim N(0,\sigma^2), \quad |\alpha|&lt;1.\]</span> It is clear that the conditional distribution of <span class="math inline">\(X_{n+1}\)</span> given <span class="math inline">\(X_n=x\)</span> is <span class="math display">\[X_{n+1} | (X_n = x) \sim N(\alpha x, \sigma^2),\]</span> and that it does not depend on any other previous values. Thus, the AR(1) model is a Markov chain and its state-space is the set of real numbers, so it is a continuous Markov chain.</em></p>
+<p><em>Also, the density form of the transition kernel is just <span class="math display">\[p(y|x) = \frac{1}{\sigma\sqrt{2\pi}}\exp\left[ -\frac{1}{2}
+\left( \frac{y-\alpha x}{\sigma} \right)^2 \right].\]</span></em></p>
+<section id="stationary-distribution-and-detailed-balance" class="level4" data-number="1.6.1.1">
+<h4 data-number="1.6.1.1"><span class="header-section-number">1.6.1.1</span> Stationary distribution and detailed balance</h4>
+<p>By analogy to the discrete state-space case, denote a stationary density by <span class="math inline">\(\pi\)</span>. Then, <span class="math inline">\(\pi\)</span> satisfies <span class="math display">\[\pi(y) = \int_\mathcal{X} p(y|x)\pi(x)dx\]</span> which is the continuous version of the discrete matrix equation <span class="math inline">\(\boldsymbol{\pi}= \boldsymbol{\pi}P\)</span>. Similary, the detailed balance equation becomes <span class="math display">\[\pi(x)p(y|x)=\pi(y)p(x|y)\quad\forall x, y\in \mathcal{X}.\]</span> Showing that stationarity can be deduced from this equation is left as an exercise.</p>
+<p><strong>Example 1.6.2:</strong> <strong>(Example 1.6.1 revisited.)</strong> <em>Consider again the AR(1) process and suppose that <span class="math inline">\(X_0=15\)</span>, <span class="math inline">\(\alpha=0.9\)</span> and <span class="math inline">\(\sigma^2=1-0.9^2=0.19\)</span>. The R code below can be used to simulate this process over 300 steps.</em></p>
+<div class="sourceCode" id="cb5" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="co">## Example: AR(1) simulation</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">3421</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a> x=<span class="dv">15</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a> nt=<span class="dv">300</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a> alpha=<span class="fl">0.9</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a> xs=<span class="kw">rep</span>(<span class="dv">0</span>,nt<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a> xs[<span class="dv">1</span>]=x</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nt) </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a> {</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a> x=alpha<span class="op">*</span>x<span class="op">+</span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">-</span>alpha<span class="op">^</span><span class="dv">2</span>)<span class="op">*</span><span class="kw">rnorm</span>(<span class="dv">1</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true"></a> xs[i<span class="op">+</span><span class="dv">1</span>]=x</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true"></a> }</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true"></a> <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="dv">0</span><span class="op">:</span>nt,xs,<span class="dt">xlab=</span><span class="st">&quot;t&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;x&quot;</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="dv">0</span><span class="op">:</span>nt,xs,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;t&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;x&quot;</span>)</span></code></pre></div>
+<p><em>Note that a simulation using a different seed (or without setting the seed) would produce a different realisation, but the certain features would be common. The chain starts at <span class="math inline">\(X_0 = 15\)</span> and heads towards <span class="math inline">\(0\)</span> initially, then meanders about, mostly staying between <span class="math inline">\(-2\)</span> and <span class="math inline">\(2\)</span>. After fewer than <span class="math inline">\(50\)</span> iterations it is very close to its asymptotic distribution. This chain has a proper stationary distribution which we may show is <span class="math inline">\(N(0,1)\)</span>. Suppose <span class="math inline">\(X_n\sim N(0, 1)\)</span>, then <span class="math display">\[X_{n+1}= \alpha X_{n}+\epsilon_{n+1}, \quad\epsilon_{n+1}\sim N(0,\sigma^2)\]</span> is the sum of two normal random variables giving <span class="math inline">\(X_{n+1}\sim N(0,\alpha^2+\sigma^2)\)</span>. Now, noting that in our example, <span class="math inline">\(\sigma^2=1-\alpha^2\)</span>, gives <span class="math inline">\(X_{n+1}\sim N(0,1)\)</span>. We will consider the general form of the stationary distribution for the AR(1) process in the tutorial questions at the end of this chapter.</em></p>
+<p> </p>
+<div class="center">
+<figure>
+<embed src="../graphics/arSim.pdf" id="fig:figAR1" style="width:16cm;height:8cm" /><figcaption aria-hidden="true">AR(1) simulation.</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="properties-of-continuous-state-space-markov-chains" class="level3" data-number="1.6.2">
+<h3 data-number="1.6.2"><span class="header-section-number">1.6.2</span> Properties of continuous state-space Markov chains</h3>
+<p>Recall that for a continuous state-space <span class="math inline">\(\mathcal{X}\)</span>, <span class="math inline">\(\mathbb{P}(X=x)=0\)</span> for all <span class="math inline">\(x\in\mathcal{X}\)</span>. Therefore, when considering definitions of aperiodicity and irreducibility in the context of continuous chains, we use subsets of <span class="math inline">\(\mathcal{X}\)</span>, rather than individual values.</p>
+<p><strong>Definition:</strong> <em>A Markov chain, <span class="math inline">\(\{X_n\}\)</span>, with a state-space of <span class="math inline">\(\mathcal{X}\)</span> and a stationary distribution <span class="math inline">\(\pi\)</span> is aperiodic if there does not exist <span class="math inline">\(d\geq 2\)</span> and disjoint subsets <span class="math inline">\(\mathcal{X}_1,\mathcal{X}_2,\ldots,\mathcal{X}_d\)</span> of the state-space <span class="math inline">\(\mathcal{X}\)</span> with <span class="math inline">\(\mathbb{P}(X_{n+1} \in \mathcal{X}_{i+1} |X_n \in \mathcal{X}_i) = 1\)</span> <span class="math inline">\((i=1,\ldots,d-1)\)</span> and <span class="math inline">\(\mathbb{P}(X_1 \in \mathcal{X}_{n+1} |X_n \in X_d) = 1\)</span>, and such that <span class="math inline">\(\mathbb{P}_{\pi}(X \in \mathcal{X}_1) &gt; 0\)</span>. Otherwise the chain is periodic, with period <span class="math inline">\(d\)</span>.</em></p>
+<p><strong>Definition:</strong> <em>A Markov chain,<span class="math inline">\(\{X_n\}\)</span>, with a state-space <span class="math inline">\(\mathcal{X}\)</span> is <span class="math inline">\(\mu\)</span>-irreducible if there exists distribution, <span class="math inline">\(\mu\)</span>, on <span class="math inline">\(\mathcal{X}\)</span> such that for all <span class="math inline">\(A \subseteq \mathcal{X}\)</span> with <span class="math inline">\(\mathbb{P}_{\mu}(X \in A) &gt; 0\)</span>, and for all <span class="math inline">\(x\in X\)</span> there exists a positive integer <span class="math inline">\(n = n(x, A)\)</span> such that <span class="math inline">\(\Pr(X_n \in A|X_0 = x) &gt; 0\)</span>. (NB: <span class="math inline">\(\mu\)</span> could simply be taken to be <span class="math inline">\(\pi\)</span>.)</em></p>
+<p><strong>Remark:</strong> The AR(1) process above is both aperiodic and <span class="math inline">\(\mu\)</span>-irreducible with <span class="math inline">\(\mu = \pi\)</span> because from any point <span class="math inline">\(x\)</span> there is a non-zero chance of moving to any set <span class="math inline">\(A\)</span> for which <span class="math inline">\(\mathbb{P}_{\pi}(X \in A) &gt; 0\)</span>.</p>
+<p>Under <span class="math inline">\(\mu\)</span>-irreducibility and aperiodicity we have an analogous convergence result to that for discrete statespace Markov chains.</p>
+<p><strong>Theorem: (See e.g. Roberts and Rosenthal 2004.)</strong> <em>If a Markov chain on <span class="math inline">\(\mathbb{R}^d\)</span> or an open or closed subset of <span class="math inline">\(\mathbb{R}^d\)</span> is <span class="math inline">\(\mu\)</span>-irreducible and aperiodic, and has a proper stationary distribution, <span class="math inline">\(\pi\)</span>, then for all <span class="math inline">\(x \in \mathcal{X}\)</span>, <span class="math display">\[\mathbb{P}(X_n \in A|X_0 \in x) \to \mathbb{P}_{\pi}(X \in A)\]</span> for all measurable <span class="math inline">\(A \subseteq \mathcal{X}\)</span>.</em></p>
+</section>
+</section>
+</section>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>A sequence <span class="math inline">\(x_n\)</span> is <span class="math inline">\(\mathcal{O}(g_n)\)</span> as <span class="math inline">\(n\to\infty\)</span> if for all sufficiently large <span class="math inline">\(n\)</span>, <span class="math inline">\(|x_n|\leq b g_n\)</span> for some <span class="math inline">\(b&lt;\infty\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+<script>
+function doNumbering() {
+	// The syntax to read the structured data from the yaml is horrible, template literals fix the problem but probably aren't widely supported enough. Escaping line breaks is browser dependant. I don't know if there's a better way?
+	// Note that the data from the yaml file is manipulated into an array, and then parsed back into strings later, but I didn't want to deal with the pandoc templating syntax longer than necessary.
+	var supportedEnvsArrayString = ' .definition;;; .theorem;;; .lemma;;; .example;;; .exampleqed;;; .proposition;;; .remark;;; .corollary;;; .exercise;;; .question';
+	var supportedEnvsArray = supportedEnvsArrayString.split("|||");
+	supportedEnvsArray = supportedEnvsArray.map(inner => inner.split(";;;"));
+	var numberWithin = '1';
+	var counterOffset = '';
+	var subcounterOffset = '';
+	var problemCounter = '';
+	const partLabels = 'abcdefghijklmnopqrstuvwxyz'.split('');
+	
+	// counterOffset may be negative, and by default if specified on the command line this gets string concatenated with the default given in the yaml config and this then causes a problem. Can be fixed by removing the default in the config file and converting to an int, but this causes a NaN error if no value is suplied on the command line, so if NaN set to 0.
+	counterOffset = parseInt(counterOffset);
+	if (isNaN(counterOffset)) {
+		counterOffset = 0;
+	}
+	
+	subcounterOffset = parseInt(subcounterOffset);
+	if (isNaN(subcounterOffset)) {
+		subcounterOffset = 0;
+	}
+	
+	problemCounter = parseInt(problemCounter);
+	if (isNaN(problemCounter)) {
+		problemCounter = 1;
+	}
+	
+	function sanitiseSelector(selector) {
+		// tex labels often have colons in which need escaping. There may be other escaping needed here. Unfortunately neither encodeURI nor encodeURIComponent do what I need, so use regex to do the escaping manually.
+		var sanitised = selector.replace(/\:/g,"\\\:");
+		sanitised = sanitised.replace(/(^[\d])/,"\\3$1 ");
+		sanitised = sanitised.replace(/\//g,"\\\/");
+		return sanitised
+	}
+	
+	function labelLinks() {
+		var refs = document.querySelectorAll("a[data-reference-type=ref]")
+		for (ref of refs) {
+			// Escape colons (or other) from the link title.
+			var ref_label = sanitiseSelector(ref.getAttribute("data-reference"));
+			// Hopefully ref is a reference to a div or a section, which should have the associated id. If so, we just need the data-number from the relevant DOM item.
+			var ref_to = document.querySelector("#"+ref_label);
+			if (ref_to !== null) {
+				var ref_number = ref_to.getAttribute("data-number");
+			} else {
+				// If ref is being used for an equation, then we need to try to parse the mathjax divs. This is fragile, but try to find the span which corresponds to the equation number we need.
+				try {
+					var mathjax_ref = "#mjx-eqn-"+ref_label;
+					ref_to = document.querySelector(mathjax_ref);
+					// Since this is a ref, we don't want the parens to be returned, so find the equation number and strip the parens.
+					var ref_number = ref_to.querySelector(".mjx-char").innerHTML.replace(/[()]/g,"");
+					ref.setAttribute("href",mathjax_ref);
+				}
+				// If we can't find a place to link to, just indicate a missing link.
+				catch (err){
+					var ref_number = "???"
+				}
+			}
+			ref.innerHTML = ref_number;
+		};
+	}
+	
+	function numberEnvs() {
+		for (var levelSpec = 0; levelSpec <= numberWithin; levelSpec++) {
+			var reqLevels = document.querySelectorAll(".level"+levelSpec);
+			for (var level of reqLevels) {
+				levelCount = level.getAttribute("data-number");
+				levelCount = String(parseFloat(levelCount)+(counterOffset));
+				levelCount = levelCount+(("."+subcounterOffset).repeat(numberWithin-levelSpec));
+				for (var counter of supportedEnvsArray) {
+					var envCount = 1;
+					var envs = level.querySelectorAll(counter.join(", "));
+					for (var env of envs) {
+						env.setAttribute("data-number",levelCount+"."+envCount);
+						envCount += 1;
+					}
+				}
+			}
+		}
+	}
+	
+	function numberFigs() {
+		// Figures should either be in a figure environment, or a table with image class imageTable thanks to the tableCaps filter.
+		figs = document.querySelectorAll("figure, .imageTable");
+		var fig_no = 1
+		for (var fig of figs) {
+			var cap
+			// For figures, we want to move the id to the figure, and set the data-number on both the figure and the figcaption
+			if (fig.nodeName == "FIGURE") {
+				cap = fig.querySelector("figcaption");
+				var img = fig.querySelector("img, embed")
+				if (img) {
+					var img_id = img.getAttribute("id");
+					fig.setAttribute("id",img_id);
+					img.removeAttribute("id");
+				}
+			// for tables (which must be .imageTable due to the querySelector above), we want to set the data-number on the table and the caption
+			} else if (fig.nodeName == "TABLE") {
+				cap = fig.querySelector("caption");
+			}
+			cap.setAttribute("data-number",fig_no);
+			fig.setAttribute("data-number",fig_no);
+			fig_no += 1;
+		}
+	}
+	
+	function numberGlobals() {
+		// This function numbers any environments that just use a global counter, such as a problem number on a problems sheet, where there are no sections to number with respect to.
+		probsols = document.querySelectorAll(".problem, .solution");
+		var prob_no = problemCounter;
+		var partNo = 0;
+		for (var probsol of probsols) {
+			if (probsol.className == "problem"){
+				prob_no +=1;
+				partNo = 0;
+				probsol.setAttribute("data-number",prob_no);
+			}
+			else {
+				if (probsol.parentNode.nodeName == "LI") {
+					var partLabel = partLabels[partNo];
+					probsol.setAttribute("data-number",prob_no.toString()+partLabel);
+					partNo +=1;
+				}
+				else{
+					probsol.setAttribute("data-number",prob_no);
+				}
+			}
+			
+		}
+		// sols = document.querySelectorAll(".solution");
+// 		var sol_no = problemCounter;
+// 		for (var sol of sols) {
+// 			sol.setAttribute("data-number",sol_no);
+// 			sol_no +=1
+// 		}
+	}
+	
+	// labelLinks() should occur last, so that the data-numbers have been correctly set first.
+	numberEnvs();
+	numberFigs();
+	numberGlobals();
+	labelLinks();
+}
+</script><script>
+	var imageDir = ''
+	imgs = document.querySelectorAll("img");
+	for (var img of imgs) {
+		imgsrc = img.getAttribute("src");
+		img.setAttribute("src",imageDir.concat(imgsrc));
+	}
+</script></body>
+</html>
