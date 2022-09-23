@@ -46,18 +46,25 @@
 <p>(a) Find the posterior distribution for <span class="math inline">\(\theta\)</span> using <span class="math inline">\(y_1,\ldots,y_n\)</span>.</p>
 <p>(b) Find the posterior distribution for <span class="math inline">\(\theta\)</span> using <span class="math inline">\(x_1,\ldots,x_m\)</span> where <span class="math inline">\(m\)</span> is the total number of particle emissions.</p>
 <p>(c) Explain why the two analyses give the same inferences on <span class="math inline">\(\theta\)</span>.</p>
-<p>(d) If <span class="math inline">\(a&gt;1\)</span>, express the posterior mode of <span class="math inline">\(\theta\)</span> as a weighted average of <span class="math inline">\(\boldsymbol{y}\)</span> and the prior mode (where the weight <span class="math inline">\(\rho\)</span> depends only on <span class="math inline">\(b/n\)</span>).</p></li>
-<li><p>Describe a Monte Carlo algorithm to calculate the normalising constant <span class="math inline">\(f(\boldsymbol{x})\)</span> in a Bayesian analysis. You should assume that the prior distribution is easy to directly simulate from.</p></li>
-<li><p>Describe a weighted resampling algorithm for generating draws from a posterior <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\)</span> (known up to proportionality) using a proposal with density <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>, i.e. the prior. What are the weights? How can the weights be used to estimate the unknown normalising constant?</p></li>
-<li><p>Recall the detailed balance equation for a continuous state-space Markov chain: <span class="math display">\[\pi(x)p(y|x)=\pi(y)p(x|y)\quad\forall x, y\in \mathcal{X}.\]</span> By integrating both sides with respect to <span class="math inline">\(x\)</span>, show that <span class="math inline">\(\pi(\cdot)\)</span> is a stationary distribution of the chain.</p></li>
+<p>(d) If <span class="math inline">\(a&gt;1\)</span>, express the posterior mode of <span class="math inline">\(\theta\)</span> as a weighted average of <span class="math inline">\(\boldsymbol{y}\)</span> and the prior mode (where the weight <span class="math inline">\(\rho\)</span> depends only on <span class="math inline">\(b/n\)</span>).</p>
+<p><strong>[15 marks]</strong></p></li>
+<li><p>Describe a Monte Carlo algorithm to calculate the normalising constant <span class="math inline">\(f(\boldsymbol{x})\)</span> in a Bayesian analysis. You should assume that the prior distribution is easy to directly simulate from.</p>
+<p><strong>[5 marks]</strong></p></li>
+<li><p>Describe a weighted resampling algorithm for generating draws from a posterior <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\)</span> (known up to proportionality) using a proposal with density <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>, i.e. the prior. What are the weights? How can the weights be used to estimate the unknown normalising constant?</p>
+<p><strong>[8 marks]</strong></p></li>
+<li><p>Recall the detailed balance equation for a continuous state-space Markov chain: <span class="math display">\[\pi(x)p(y|x)=\pi(y)p(x|y)\quad\forall x, y\in \mathcal{X}.\]</span> By integrating both sides with respect to <span class="math inline">\(x\)</span>, show that <span class="math inline">\(\pi(\cdot)\)</span> is a stationary distribution of the chain.</p>
+<p><strong>[4 marks]</strong></p></li>
 <li><p>Consider the AR(1) process: <span class="math display">\[X_{n+1} = \alpha X_{n}+\epsilon_{n+1}, \quad\epsilon_{n+1}\overset{\textrm{indep}}{\sim} N(0,\sigma^2), \quad |\alpha|&lt;1.\]</span></p>
 <p>(a) Find the stationary mean and variance. Hint: in equilibrium, <span class="math inline">\(\mathbb{E}(X_{n+1})=\mathbb{E}(X_n)\)</span> and <span class="math inline">\(\mathrm{Var}(X_{n+1})=\mathrm{Var}(X_n)\)</span>.</p>
-<p>(b) Suppose that <span class="math inline">\(\pi(x)\)</span> is taken to be a Gaussian density with mean and variance from (a). Show that detailed balance is satisfied for this <span class="math inline">\(\pi(x)\)</span>. You may assume that the stationary distribution is Gaussian with mean and variance to be determined.</p></li>
+<p>(b) Suppose that <span class="math inline">\(\pi(x)\)</span> is taken to be a Gaussian density with mean and variance from (a). Show that detailed balance is satisfied for this <span class="math inline">\(\pi(x)\)</span>. You may assume that the stationary distribution is Gaussian with mean and variance to be determined.</p>
+<p><strong>[10 marks]</strong></p></li>
 <li><p>Consider a random process: <span class="math display">\[X_{n+1} = \alpha X_{n}+\epsilon_{n+1}, 
 \quad \epsilon_{n+1}\overset{\textrm{indep}}{\sim}\textrm{Exp}(\lambda), \quad\alpha\in(0,1),\]</span></p>
 <p>(a) What is the transition kernel <span class="math inline">\(p(y|x)\)</span> of the chain?</p>
-<p>(b) Given <span class="math inline">\(X_0=1\)</span>, describe an algorithm for simulating this chain up to step <span class="math inline">\(N\)</span>.</p></li>
+<p>(b) Given <span class="math inline">\(X_0=1\)</span>, describe an algorithm for simulating this chain up to step <span class="math inline">\(N\)</span>.</p>
+<p><strong>[8 marks]</strong></p></li>
 </ol>
+<p><strong>[TOTAL: 50 marks]</strong></p>
 </section>
 <script>
 function doNumbering() {
