@@ -48,9 +48,9 @@
 <p>(c) Explain why the two analyses give the same inferences on <span class="math inline">\(\theta\)</span>.</p>
 <p>(d) If <span class="math inline">\(a&gt;1\)</span>, express the posterior mode of <span class="math inline">\(\theta\)</span> as a weighted average of <span class="math inline">\(\boldsymbol{y}\)</span> and the prior mode (where the weight <span class="math inline">\(\rho\)</span> depends only on <span class="math inline">\(b/n\)</span>).</p>
 <p><strong>[15 marks]</strong></p></li>
-<li><p>Describe a Monte Carlo algorithm to calculate the normalising constant <span class="math inline">\(f(\boldsymbol{x})\)</span> in a Bayesian analysis. You should assume that the prior distribution is easy to directly simulate from.</p>
+<li><p>Describe a Monte Carlo algorithm to calculate the normalising constant <span class="math inline">\(f(\boldsymbol{x})\)</span> in a Bayesian analysis. You should assume that the prior distribution <span class="math inline">\(\pi(\theta)\)</span> is easy to directly simulate from.</p>
 <p><strong>[5 marks]</strong></p></li>
-<li><p>Describe a weighted resampling algorithm for generating draws from a posterior <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\)</span> (known up to proportionality) using a proposal with density <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>, i.e. the prior. What are the weights? How can the weights be used to estimate the unknown normalising constant?</p>
+<li><p>Describe a weighted resampling algorithm for generating draws from a posterior <span class="math inline">\(\pi(\theta|\boldsymbol{x})\)</span> (known up to proportionality) using a proposal with density <span class="math inline">\(\pi(\theta)\)</span>, i.e. the prior. What are the weights? How can the weights be used to estimate the unknown normalising constant <span class="math inline">\(f(\boldsymbol{x})\)</span>?</p>
 <p><strong>[8 marks]</strong></p></li>
 <li><p>Recall the detailed balance equation for a continuous state-space Markov chain: <span class="math display">\[\pi(x)p(y|x)=\pi(y)p(x|y)\quad\forall x, y\in \mathcal{X}.\]</span> By integrating both sides with respect to <span class="math inline">\(x\)</span>, show that <span class="math inline">\(\pi(\cdot)\)</span> is a stationary distribution of the chain.</p>
 <p><strong>[4 marks]</strong></p></li>
