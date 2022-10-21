@@ -89,14 +89,15 @@
 <body>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#tutorial-questions-2">Tutorial questions 2</a></li>
+<li><a href="#formative-problems-2">Formative problems 2</a></li>
 </ul>
 </nav>
-<section id="tutorial-questions-2" class="level2 unnumbered">
-<h2 class="unnumbered">Tutorial questions 2</h2>
+<section id="formative-problems-2" class="level2 unnumbered">
+<h2 class="unnumbered">Formative problems 2</h2>
+<p>Submit solutions to Q1, Q2(b)(i)–(v), Q3.</p>
 <ol>
 <li><p>Consider the following R function which implements a Metropolis-Hastings sampler:</p>
-<div class="sourceCode" id="cb1" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">## Tutorial Question 1 code</span></span>
+<div class="sourceCode" id="cb1" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">## Formative Question 1 code</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a> </span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a> MH=<span class="cf">function</span>(<span class="dt">N=</span><span class="dv">1000</span>,<span class="dt">sigma=</span><span class="dv">1</span>,<span class="dt">x0=</span><span class="dv">0</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a> {</span>
@@ -116,20 +117,25 @@
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a> <span class="kw">return</span>(x)</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a> } </span></code></pre></div>
 <p>(a) What is the target density, <span class="math inline">\(\pi(x)\)</span> with <span class="math inline">\(x\in \mathbb{R}\)</span>, of this sampler?</p>
-<p>(b) What is the proposal density, <span class="math inline">\(q(x^*|x)\)</span>, of this sampler?</p></li>
-<li><p>Consider the following target density: <span class="math display">\[f(\theta) = \begin{cases}\sin(\theta)&amp;\textrm{when\ }0\leq \theta\leq\pi/2\\
+<p>(b) What is the proposal density, <span class="math inline">\(q(x^*|x)\)</span>, of this sampler?</p>
+<p><strong>[10 marks]</strong></p></li>
+<li><p>Consider the following target density: <span class="math display">\[f(\theta) = \begin{cases}\sin(\theta)&amp;\textrm{when }0\leq \theta\leq\pi/2\\
 0&amp;\textrm{otherwise.}\end{cases}\]</span></p>
 <p>(a)</p>
 <p>(i) Give the steps of a Metropolis-Hastings independence sampler with target <span class="math inline">\(f(\theta)\)</span> based on a <span class="math inline">\(U(0,\pi/2)\)</span> proposal.</p>
 <p>(ii) If the chain is currently at <span class="math inline">\(\theta\)</span>, what is the probability that the chain will move? (iii) When the chain reaches equilibrium, what is the overall acceptance probability? (iv) Compare this probability with an empirical estimate from the sampler, initialised at <span class="math inline">\(\theta^{(0)}=\pi/4\)</span> and run for 1000 iterations.</p>
 <p>(b)</p>
-<p>(i) Give the steps of a Metropolis-Hastings independence sampler with target <span class="math inline">\(f(\theta)\)</span> based on a proposal with density <span class="math display">\[q(\theta) = \begin{cases}\frac{8\theta}{\pi^2}&amp;\textrm{for\ }0\leq \theta\leq\pi/2,\\
+<p>(i) Give the steps of a Metropolis-Hastings independence sampler with target <span class="math inline">\(f(\theta)\)</span> based on a proposal with density <span class="math display">\[q(\theta) = \begin{cases}\frac{8\theta}{\pi^2}&amp;\textrm{for }0\leq \theta\leq\pi/2,\\
 0&amp;\textrm{otherwise}.\end{cases}\]</span></p>
-<p>(ii) If the chain is currently at <span class="math inline">\(\theta\)</span>, what is the probability that the chain will move?</p>
+<p>(ii) If the chain is currently at <span class="math inline">\(\theta\)</span>, what is the probability that the chain will move? You may assume without proof that <span class="math inline">\(x^{-1} \sin x\)</span> is decreasing over <span class="math inline">\([0,\pi/2]\)</span>.</p>
 <p>(iii) When the chain reaches equilibrium, what is the overall acceptance probability?</p>
 <p>(iv) Compare this probability with an empirical estimate from the sampler, initialised at <span class="math inline">\(\theta^{(0)}=\pi/4\)</span> and run for 1000 iterations.</p>
-<p>(v) Which proposal mechanism ((a)(i) or (b)(i)) do you prefer?</p></li>
+<p>(v) Which proposal mechanism ((a)(i) or (b)(i)) do you prefer?</p>
+<p><strong>[35 marks]</strong></p></li>
+<li><p>Consider a Metropolis-Hastings algorithm for sampling from a Uniform distribution on <span class="math inline">\([0,1]\cup [2,3]\)</span> and a proposal density <span class="math inline">\(q(\cdot|\theta)\)</span> corresponding to a <span class="math inline">\(U(\theta-\delta\,,\,\theta+\delta)\)</span> distribution. If <span class="math inline">\(\delta\leq 1\)</span>, is the resulting Markov chain irreducible? Give a brief explanation for your answer.</p>
+<p><strong>[5 marks]</strong></p></li>
 </ol>
+<p><strong>[TOTAL: 50 marks]</strong></p>
 </section>
 <script>
 function doNumbering() {
