@@ -89,19 +89,24 @@
 <body>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#the-metropolis-hastings-algorithm"><span class="toc-section-number">1</span> The Metropolis-Hastings algorithm</a>
+<li><a href="#preliminaries"><span class="toc-section-number">1</span> Preliminaries</a></li>
+<li><a href="#the-metropolis-hastings-algorithm"><span class="toc-section-number">2</span> The Metropolis-Hastings algorithm</a>
 <ul>
-<li><a href="#introduction"><span class="toc-section-number">1.1</span> Introduction</a></li>
-<li><a href="#a-first-look-at-the-metropolis-hastings-algorithm"><span class="toc-section-number">1.2</span> A first look at the Metropolis-Hastings algorithm</a></li>
-<li><a href="#validity"><span class="toc-section-number">1.3</span> Validity</a></li>
-<li><a href="#practical-considerations"><span class="toc-section-number">1.4</span> Practical considerations</a></li>
+<li><a href="#introduction"><span class="toc-section-number">2.1</span> Introduction</a></li>
+<li><a href="#a-first-look-at-the-metropolis-hastings-algorithm"><span class="toc-section-number">2.2</span> A first look at the Metropolis-Hastings algorithm</a></li>
+<li><a href="#validity"><span class="toc-section-number">2.3</span> Validity</a></li>
+<li><a href="#practical-considerations"><span class="toc-section-number">2.4</span> Practical considerations</a></li>
 </ul></li>
 </ul>
 </nav>
-<section id="the-metropolis-hastings-algorithm" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> The Metropolis-Hastings algorithm</h1>
-<section id="introduction" class="level2" data-number="1.1">
-<h2 data-number="1.1"><span class="header-section-number">1.1</span> Introduction</h2>
+<section id="preliminaries" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Preliminaries</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes1">here</a>.</p>
+</section>
+<section id="the-metropolis-hastings-algorithm" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> The Metropolis-Hastings algorithm</h1>
+<section id="introduction" class="level2" data-number="2.1">
+<h2 data-number="2.1"><span class="header-section-number">2.1</span> Introduction</h2>
 <p>Markov chain Monte Carlo (MCMC) is a generic tool for simulating analytically intractable distributions, which is particularly useful for Bayesian inference. As we have seen, given a large sample from some target <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>, we can estimate almost any aspect of the distribution. The problem is obtaining that sample in the first place!</p>
 <p>The MCMC strategy takes advantage of the fact that it is easy to simulate Markov chains:</p>
 <ul>
@@ -112,14 +117,14 @@
 </ul>
 <p>This chapter describes a fundamental algorithm that defines such chains: the <em>Metropolis-Hastings algorithm</em>.</p>
 <p>Note that although interest here will typically be in sampling a posterior <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\)</span>, we will present the algorithm for a general target <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>. Later, we will consider specific Bayesian problems for which interest will be in the posterior <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\)</span>.</p>
-<section id="inception" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1"><span class="header-section-number">1.1.1</span> Inception</h3>
+<section id="inception" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1"><span class="header-section-number">2.1.1</span> Inception</h3>
 <p>Enrico Fermi and Stanislaw Ulam developed Monte Carlo methods for solving integrals in the early 20 th century. After WWII Ulam worked with John von Neumann do develop computational methods for exact independent sampling from univariate distributions. These simple Monte Carlo algorithms didn’t work for complex problems. At Los Alamos, Nick Metropolis, along with Arianna Rosenbluth, Marshall Rosenbluth, Edward Teller and Augusta Teller found a way of generating dependent samples through Markov chains.</p>
 <p>It’s a beautifully simple idea. Explore your distribution by randomly walking through it. They published a paper in 1953, on what later became known as the Metropolis algorithm or random walk Metropolis. The Metropolis algorithm was later generalised by Hastings in 1970 and his student Peskun (with papers in 1973 and 1981) as a statistical simulation tool that could overcome the curse of dimensionality met by regular Monte Carlo methods.</p>
 </section>
 </section>
-<section id="a-first-look-at-the-metropolis-hastings-algorithm" class="level2" data-number="1.2">
-<h2 data-number="1.2"><span class="header-section-number">1.2</span> A first look at the Metropolis-Hastings algorithm</h2>
+<section id="a-first-look-at-the-metropolis-hastings-algorithm" class="level2" data-number="2.2">
+<h2 data-number="2.2"><span class="header-section-number">2.2</span> A first look at the Metropolis-Hastings algorithm</h2>
 <p>In addition to the target distribution with density <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>, suppose we have some transition kernel <span class="math inline">\(q(\cdot|\boldsymbol{\theta})\)</span> which we call the <em>proposal</em> distribution and might depend on the current state of the chain (say <span class="math inline">\(\boldsymbol{\theta}\)</span>). The proposal distribution will typically have the same support as <span class="math inline">\(\pi(\cdot)\)</span> and be easy to simulate from, but does not need to have <span class="math inline">\(\pi(\cdot)\)</span> as a stationary distribution.</p>
 <p>The Metropolis-Hastings algorithm with <span class="math inline">\(N\)</span> iterations is as follows:</p>
 <ol>
@@ -146,8 +151,8 @@
 </ul></li>
 </ul>
 <p>Two commonly used special cases are discussed next.</p>
-<section id="independence-proposal-sampler" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1"><span class="header-section-number">1.2.1</span> Independence proposal / sampler</h3>
+<section id="independence-proposal-sampler" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1"><span class="header-section-number">2.2.1</span> Independence proposal / sampler</h3>
 <p>In this case the proposed transition is completely independent of the current position of the chain and so <span class="math inline">\(q(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})=q(\boldsymbol{\theta}^{*})\)</span>. The acceptance probability becomes <span class="math display">\[\alpha(\boldsymbol{\theta}^{*}|\boldsymbol{\theta}) = \textrm{min}\left\{ 1,\frac{\pi(\boldsymbol{\theta}^{*})}{q(\boldsymbol{\theta}^{*})}\times
 \frac{q(\boldsymbol{\theta})}{\pi(\boldsymbol{\theta})} \right\}.\]</span></p>
 <p><strong>Example 2.2.1:</strong> <strong>(Prior as the proposal in a Bayesian setting.)</strong> <em>For a target <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\propto \pi(\boldsymbol{\theta})f(\boldsymbol{x}|\boldsymbol{\theta})\)</span> and a proposal given by the prior <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>, the acceptance probability becomes <span class="math display">\[\alpha(\boldsymbol{\theta}^{*}|\boldsymbol{\theta}) =\textrm{min}\left\{ 1,\frac{f(\boldsymbol{x}|\boldsymbol{\theta}^{*})}{f(\boldsymbol{x}|\boldsymbol{\theta})} \right\}\]</span> and hence only depends on the likelihood ratio of the candidate point and the current point. This scheme is likely to have a very high rejection rate unless the posterior is very similar to the prior.</em></p>
@@ -167,8 +172,8 @@ q(\theta^*) &amp;= \frac{1}{\sigma_q\sqrt{2\pi}} e^{-(\theta^*)^2/(2\sigma^2_q)}
 </tbody>
 </table>
 </section>
-<section id="random-walk-metropolis" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2"><span class="header-section-number">1.2.2</span> Random walk Metropolis</h3>
+<section id="random-walk-metropolis" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2"><span class="header-section-number">2.2.2</span> Random walk Metropolis</h3>
 <p>We can define the proposed move at iteration <span class="math inline">\(j\)</span> to be <span class="math inline">\(\boldsymbol{\theta}^{*}=\boldsymbol{\theta}^{(j-1)}+\boldsymbol{w}^{(j)}\)</span> where <span class="math inline">\(\boldsymbol{w}^{(j)}\)</span> is a <span class="math inline">\(d\times 1\)</span> random vector (completely independent of the state of the chain). Suppose that the <span class="math inline">\(\boldsymbol{w}^j\)</span> have density <span class="math inline">\(g(\cdot)\)</span> which is easy to simulate from. The proposal kernel is then <span class="math inline">\(q(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})=g(\boldsymbol{\theta}^*-\boldsymbol{\theta})\)</span> and this can be used to calculate the acceptance probability. Of course, if <span class="math inline">\(g(\boldsymbol{\theta}^*-\boldsymbol{\theta})=g(\boldsymbol{\theta}-\boldsymbol{\theta}^*)\)</span>, then we have a symmetric random walk chain, and the acceptance probability becomes <span class="math display">\[\alpha(\boldsymbol{\theta}^{*}|\boldsymbol{\theta}) = \textrm{min}\left\{ 1,\frac{\pi(\boldsymbol{\theta}^{*})}{\pi(\boldsymbol{\theta})} \right\}\]</span> and hence does not involve the proposal density at all.</p>
 <p>A commonly used method has <span class="math inline">\(\boldsymbol{w}^{(j)}\sim N_d(\boldsymbol{0},\lambda^2 I_{d})\)</span> where <span class="math inline">\(I_d\)</span> denotes the <span class="math inline">\(d\times d\)</span> identity matrix and <span class="math inline">\(\lambda\)</span> is ‘tuned’ to maximimse efficiency, a concept that we will revisit later in the notes.</p>
 <p><strong>Example 2.2.3:</strong> <strong>(Running example: Gaussian target and RWM method with Gaussian innovations.)</strong> <em>Consider a target and proposal of the form <span class="math display">\[\begin{aligned}
@@ -190,11 +195,11 @@ q(\theta^*|\theta) &amp;= \frac{1}{\lambda\sqrt{2\pi}} e^{-(\theta^*-\theta)^2/(
 <p><em>The first plot shows the two densities, <span class="math inline">\(\pi\)</span>, and <span class="math inline">\(q\)</span> when <span class="math inline">\(\theta=1\)</span>, the second shows a trace plot of the Markov chain, the third shows a kernel density plot of the 101 chain values, and the fourth shows the trace plot again but overlays the proposals as points. Note that for a proposal, <span class="math inline">\(\theta^*\)</span>, well outside of the typical range of <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\pi(\theta^*)&lt;&lt;\pi(\theta)\)</span>, so the proposed value is very likely to be rejected.</em></p>
 </section>
 </section>
-<section id="validity" class="level2" data-number="1.3">
-<h2 data-number="1.3"><span class="header-section-number">1.3</span> Validity</h2>
+<section id="validity" class="level2" data-number="2.3">
+<h2 data-number="2.3"><span class="header-section-number">2.3</span> Validity</h2>
 <p>We first show that <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span> is a stationary distribution of the Markov chain generated by the Metropolis-Hastings algorithm, before considering convergence to this stationary distribution.</p>
-<section id="detailed-balance" class="level3" data-number="1.3.1">
-<h3 data-number="1.3.1"><span class="header-section-number">1.3.1</span> Detailed balance</h3>
+<section id="detailed-balance" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1"><span class="header-section-number">2.3.1</span> Detailed balance</h3>
 <p>Recall that if a Markov chain satisfies detailed balance with respect to a distribution, <span class="math inline">\(\pi\)</span>, then <span class="math inline">\(\pi\)</span> is a stationary distribution for the chain. First we need to obtain the transition kernel of the Markov chain being simulated by the Metropolis-Hastings algorithm.</p>
 <p>The kernel for the MH algorithm is not simply a probability density since there is often a non-zero probability that the proposal is rejected but including this simply complicates the notation without adding further insight.</p>
 <p>Hence, assuming that the chain moves we have the transition kernel as <span class="math display">\[p(\boldsymbol{\phi}|\boldsymbol{\theta}) = \alpha(\boldsymbol{\phi}|\boldsymbol{\theta})q(\boldsymbol{\phi}|\boldsymbol{\theta})\quad\textrm{when\ } \boldsymbol{\theta}\neq\boldsymbol{\phi}.\]</span> We can then check whether detailed balance holds: <span class="math display">\[\begin{aligned}
@@ -203,8 +208,8 @@ q(\theta^*|\theta) &amp;= \frac{1}{\lambda\sqrt{2\pi}} e^{-(\theta^*-\theta)^2/(
 \left\{ 1, \frac{\pi(\boldsymbol{\phi})\,q(\boldsymbol{\theta}|\boldsymbol{\phi})}{\pi(\boldsymbol{\theta})\,q(\boldsymbol{\phi}|\boldsymbol{\theta})} \right\} \\
 &amp;=\textrm{min}\left\{ \pi(\boldsymbol{\theta})\,q(\boldsymbol{\phi}|\boldsymbol{\theta}),\pi(\boldsymbol{\phi})\,q(\boldsymbol{\theta}|\boldsymbol{\phi}) \right\}.\end{aligned}\]</span> This expression is clearly symmetric in <span class="math inline">\(\boldsymbol{\theta}\)</span> and <span class="math inline">\(\boldsymbol{\phi}\)</span>. Hence, detailed balance holds and we may conclude that he Metropolis-Hastings algorithm defines a Markov chain with stationary distribution <span class="math inline">\(\pi\)</span>.</p>
 </section>
-<section id="convergence" class="level3" data-number="1.3.2">
-<h3 data-number="1.3.2"><span class="header-section-number">1.3.2</span> Convergence</h3>
+<section id="convergence" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2"><span class="header-section-number">2.3.2</span> Convergence</h3>
 <p>We need to show that the Markov chain is <span class="math inline">\(\mu\)</span>-irreducible and aperiodic. For simplicity we restrict ourselves to proposals <span class="math inline">\(q\)</span> such that <span class="math inline">\(q(\boldsymbol{\phi}|\boldsymbol{\theta}) &gt; 0\)</span> for all <span class="math inline">\(\boldsymbol{\theta}\in \mathcal{X}\)</span> and all <span class="math inline">\(\boldsymbol{\phi}\in \mathcal{X}\)</span> and densities <span class="math inline">\(\pi(\boldsymbol{\theta}) \leq C\)</span> everywhere, for some <span class="math inline">\(C &gt; 0\)</span>.</p>
 <p><strong><span class="math inline">\(\mu\)</span>-irreducibility:</strong> We choose <span class="math inline">\(\mu=\pi\)</span> and note that since <span class="math inline">\(\pi(\boldsymbol{\theta}) &lt; \infty\)</span> for all <span class="math inline">\(\boldsymbol{\theta}\in\mathcal{X}\)</span>: <span class="math display">\[\begin{aligned}
 \mathbb{P}(\boldsymbol{\theta}^{(1)}\in A|\boldsymbol{\theta}^{(0)}=\boldsymbol{\theta}) &amp;= \int_{A}q(\boldsymbol{\phi}|\boldsymbol{\theta})\textrm{min}
@@ -217,17 +222,17 @@ q(\theta^*|\theta) &amp;= \frac{1}{\lambda\sqrt{2\pi}} e^{-(\theta^*-\theta)^2/(
 <p><strong>Aperiodicity:</strong> wherever it is currently, the chain has a non-zero chance of moving to any set <span class="math inline">\(A\)</span> where <span class="math inline">\(\mathbb{P}_{\pi}(\boldsymbol{\theta}\in A) &gt; 0\)</span>, so it could move from any set in a partition <span class="math inline">\(\mathcal{X}_1,\ldots, \mathcal{X}_d\)</span> to any other; hence it cannot be periodic.</p>
 </section>
 </section>
-<section id="practical-considerations" class="level2" data-number="1.4">
-<h2 data-number="1.4"><span class="header-section-number">1.4</span> Practical considerations</h2>
+<section id="practical-considerations" class="level2" data-number="2.4">
+<h2 data-number="2.4"><span class="header-section-number">2.4</span> Practical considerations</h2>
 <p>How do we implement MH in practice? How many iterations should we run the sampler for? Should we discard some iterations? We will endeavour to answer these questions in this section.</p>
-<section id="accepting-a-move" class="level3" data-number="1.4.1">
-<h3 data-number="1.4.1"><span class="header-section-number">1.4.1</span> Accepting a move</h3>
+<section id="accepting-a-move" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1"><span class="header-section-number">2.4.1</span> Accepting a move</h3>
 <p>Recall that the MH acceptance probability is <span class="math display">\[\alpha(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})=\textrm{min}\left\{ 1, 
 \frac{\pi(\boldsymbol{\theta}^{*})\,q(\boldsymbol{\theta}|\boldsymbol{\theta}^{*})}{\pi(\boldsymbol{\theta})\,q(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})} \right\}.\]</span> Now let <span class="math display">\[R(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})=\frac{\pi(\boldsymbol{\theta}^{*})\,q(\boldsymbol{\theta}|\boldsymbol{\theta}^{*})}{\pi(\boldsymbol{\theta})\,q(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})}\]</span> so that <span class="math inline">\(\alpha=\textrm{min}(1,R)\)</span>.</p>
 <p>The simplest way to make the accept/reject decision is to generate a random number <span class="math inline">\(u\)</span> from <span class="math inline">\(U[0, 1]\)</span> distribution and accept if <span class="math inline">\(u\leq \alpha\)</span>, rejecting otherwise. Since <span class="math inline">\(\alpha\leq 1\)</span> this is equivalent to accepting if <span class="math inline">\(u \leq R\)</span> and rejecting otherwise. In practice (for example when there is a lot of data) the target density can be so small or so large that calculating <span class="math inline">\(R\)</span> can be prone to numerical issues. Since log is an increasing function <span class="math inline">\(a \leq b\)</span> <span class="math inline">\(\iff\)</span> <span class="math inline">\(\log a \leq \log b\)</span>, so all practical implementations of Metropolis-Hastings algorithms accept if <span class="math display">\[\log u \leq \log R = \log\pi(\boldsymbol{\theta}^{*})-\log \pi(\boldsymbol{\theta})+\log q(\boldsymbol{\theta}|\boldsymbol{\theta}^{*})-\log q(\boldsymbol{\theta}^{*}|\boldsymbol{\theta}).\]</span></p>
 </section>
-<section id="overall-acceptance-rate" class="level3" data-number="1.4.2">
-<h3 data-number="1.4.2"><span class="header-section-number">1.4.2</span> Overall acceptance rate</h3>
+<section id="overall-acceptance-rate" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2"><span class="header-section-number">2.4.2</span> Overall acceptance rate</h3>
 <p>We know that the probability of accepting a move given a current value <span class="math inline">\(\boldsymbol{\theta}\)</span> and a proposed value <span class="math inline">\(\boldsymbol{\theta}^*\)</span> is <span class="math inline">\(\alpha(\boldsymbol{\theta}^*|\boldsymbol{\theta})\)</span>. Hence, the probability of accepting a move, averaged over all possible proposed values is <span class="math display">\[\begin{aligned}
 \mathbb{P}(\textrm{move}|\boldsymbol{\theta}) &amp;= \mathbb{E}_{\boldsymbol{\phi}\sim q(\boldsymbol{\phi}|\boldsymbol{\theta})}\left[\alpha(\boldsymbol{\phi}|\boldsymbol{\theta}) \right]\\
 &amp;= \int \alpha(\boldsymbol{\phi}|\boldsymbol{\theta})q(\boldsymbol{\phi}|\boldsymbol{\theta})d\boldsymbol{\phi}.\end{aligned}\]</span> The <em>theoretical acceptance rate</em> for a Metropolis-Hastings chain at stationarity is <span class="math display">\[\begin{aligned}
@@ -263,8 +268,8 @@ q(\theta^*|\theta) &amp;= \frac{1}{\lambda\sqrt{2\pi}} e^{-(\theta^*-\theta)^2/(
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true"></a><span class="co">## [1] 0.4848485</span></span></code></pre></div>
 <p><em>Note that the estimated overall acceptance rate is around <span class="math inline">\(48\%\)</span>. We will consider whether or not this is reasonable later in the notes.</em></p>
 </section>
-<section id="burn-in-and-mixing" class="level3" data-number="1.4.3">
-<h3 data-number="1.4.3"><span class="header-section-number">1.4.3</span> Burn-in and mixing</h3>
+<section id="burn-in-and-mixing" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3"><span class="header-section-number">2.4.3</span> Burn-in and mixing</h3>
 <p>We want each draw <span class="math inline">\(\boldsymbol{\theta}^{(n)}\)</span> to have distribution <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>. However, any simulation cannot be started with <span class="math inline">\(\boldsymbol{\theta}^{(0)}\sim\pi\)</span> – because we cannot simulate from <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span> directly (otheriwse, why use MCMC at all?). Thus we have no <em>guarantee</em> that <span class="math inline">\(\boldsymbol{\theta}^{(n)}\)</span> follows the target distribution for any <span class="math inline">\(n\)</span>. However, there are good reasons to believe that, independent of the starting distribution <span class="math inline">\(\pi^{(0)}\)</span>, the chain will converge towards the target distribution i.e. for all sufficiently large <span class="math inline">\(n\)</span> we will have <span class="math inline">\(\boldsymbol{\theta}^{(n)}\sim\pi\)</span>, <em>approximately</em>.</p>
 <p>The usual strategy adopted to deal with this issue is to run the simulated chain for a certain number of iterations, say <span class="math inline">\(K\)</span>, disgard these samples, and then regard subsequent iterations as (dependent) samples that are approximately distributed according to <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>. The discarded number of iterations is called the <em>burn-in</em> period.</p>
 <p><strong>Example 2.4.2:</strong> <strong>(Running example: Gaussian target and RWM method with Gaussian innovations.)</strong> <em>Suppose we initialise the sampler at <span class="math inline">\(\theta^{(0)}=20\)</span> and run for 500 iterations. The R code below produces trace plots and histograms of the sampler output with and without a burn-in period of 30 values.</em></p>
@@ -296,8 +301,8 @@ q(\theta^*|\theta) &amp;= \frac{1}{\lambda\sqrt{2\pi}} e^{-(\theta^*-\theta)^2/(
 </table>
 <p> </p>
 </section>
-<section id="measuring-assessing-efficiency" class="level3" data-number="1.4.4">
-<h3 data-number="1.4.4"><span class="header-section-number">1.4.4</span> Measuring / assessing efficiency</h3>
+<section id="measuring-assessing-efficiency" class="level3" data-number="2.4.4">
+<h3 data-number="2.4.4"><span class="header-section-number">2.4.4</span> Measuring / assessing efficiency</h3>
 <p>For this section, for simplicity of presentation, we assume that the burn-in samples have been removed, and that we have relabelled the points so that we have a sequence <span class="math inline">\(\boldsymbol{\theta}^{(1)},\boldsymbol{\theta}^{(2)},\ldots,\boldsymbol{\theta}^{(N)}\)</span> from the chain.</p>
 <section id="trace-plots" class="level4 unnumbered">
 <h4 class="unnumbered">Trace plots</h4>
