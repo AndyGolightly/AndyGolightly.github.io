@@ -159,135 +159,165 @@
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true"></a>normvec=<span class="kw">norm</span>(<span class="dv">100000</span>,<span class="dv">4</span>) <span class="co">#acceptance rate around 0.4 with a=4</span></span></code></pre></div>
 <p>(c) Histogram of 100k samples and target <span class="math inline">\(N(0,1)\)</span> density overlaid.</p>
 <div class="sourceCode" id="cb4" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">hist</span>(normvec,<span class="dv">30</span>,<span class="dt">freq=</span><span class="ot">FALSE</span>) <span class="co">#&quot;freq=FALSE&quot; so that area is 1</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="kw">lines</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.001</span>),<span class="kw">dnorm</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.001</span>)),<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
-<p><strong>2. A simple Metropolis-Hastings independence sampler.</strong> <span class="math inline">\(Gamma(a,b)\)</span> target, normal proposal (with mean and variance to match the target).</p>
-<div class="sourceCode" id="cb5" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>gammaMH=<span class="cf">function</span>(N,a,b) </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="kw">lines</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="dv">6</span>,<span class="dv">6</span>,<span class="fl">0.001</span>),<span class="kw">dnorm</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="dv">6</span>,<span class="dv">6</span>,<span class="fl">0.001</span>)),<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<p>(d) Add the initial value of the chain as a function argument.</p>
+<div class="sourceCode" id="cb5" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>norm=<span class="cf">function</span>(N,a,theta) </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>{</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a> mu =<span class="st"> </span>a<span class="op">/</span>b; sig =<span class="st"> </span><span class="kw">sqrt</span>(a<span class="op">/</span>(b<span class="op">*</span>b))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a> vec =<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>,N)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a> theta =<span class="st"> </span>a<span class="op">/</span>b</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a> vec[<span class="dv">1</span>] =<span class="st"> </span>theta</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N) </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a> {</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a>  can =<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>,mu,sig)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a>  laprob1=<span class="kw">dgamma</span>(can,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dgamma</span>(theta,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a>  laprob2=<span class="kw">dnorm</span>(theta,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dnorm</span>(can,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true"></a>  laprob=laprob1<span class="op">+</span>laprob2</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true"></a>  u =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true"></a>  <span class="cf">if</span> (<span class="kw">log</span>(u) <span class="op">&lt;</span><span class="st"> </span>laprob){ </span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true"></a>   theta =<span class="st"> </span>can</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true"></a>  } </span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true"></a>   vec[i] =<span class="st"> </span>theta</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true"></a>  }</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a> vec =<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>,N)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a> count =<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a> vec[<span class="dv">1</span>] =<span class="st"> </span>theta</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N) </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a> {</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a>  innov =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>,<span class="op">-</span>a,a)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a>  can =<span class="st"> </span>theta <span class="op">+</span><span class="st"> </span>innov</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a>  laprob =<span class="st"> </span><span class="kw">dnorm</span>(can,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dnorm</span>(theta,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a>  u =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true"></a>  <span class="cf">if</span> (<span class="kw">log</span>(u) <span class="op">&lt;</span><span class="st"> </span>laprob){ </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true"></a>   theta =<span class="st"> </span>can</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true"></a>   count =<span class="st"> </span>count<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true"></a>  }</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true"></a>   vec[i] =<span class="st"> </span>theta</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true"></a>  }</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true"></a> <span class="kw">print</span>(count<span class="op">/</span>(N<span class="dv">-1</span>)) <span class="co">#empirical overall acceptance rate</span></span>
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true"></a> <span class="kw">return</span>(vec)</span>
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true"></a>}</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true"></a></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true"></a>vec=<span class="kw">gammaMH</span>(<span class="dv">10000</span>,<span class="fl">2.3</span>,<span class="fl">2.7</span>)</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(vec))</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true"></a><span class="kw">hist</span>(vec,<span class="dv">30</span>)</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true"></a>normvec=<span class="kw">norm</span>(<span class="dv">1000</span>,<span class="dv">4</span>,<span class="dv">100</span>) <span class="co">#start at theta=100 (well into the right tail of the target)</span></span></code></pre></div>
+<p>Produce trace plot and overlay output from different starting values. Let’s do an extra 20 runs with <span class="math inline">\(\theta^{(0)}\)</span> uniformly sampled in the range <span class="math inline">\([-10,10]\)</span></p>
+<div class="sourceCode" id="cb6" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(normvec),<span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>{</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="kw">ts</span>(<span class="kw">norm</span>(<span class="dv">1000</span>,<span class="dv">4</span>,<span class="kw">runif</span>(<span class="dv">1</span>,<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>))),<span class="dt">col=</span>i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>}</span></code></pre></div>
+<p>Comment: for initial values in regios of low target density, the burn-in period can be substantial. Plotting the output from multiple chains with different starting values can give a useful (visual) diagnostic for assessing convergence. Guards against the notion of pseudo-convergence which can arise when only a short run of a single chain is used to assess convergence.</p>
+<p><strong>2. A simple Metropolis-Hastings independence sampler.</strong> <span class="math inline">\(Gamma(a,b)\)</span> target, normal proposal (with mean and variance to match the target).</p>
+<div class="sourceCode" id="cb7" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>gammaMH=<span class="cf">function</span>(N,a,b) </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>{</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a> mu =<span class="st"> </span>a<span class="op">/</span>b; sig =<span class="st"> </span><span class="kw">sqrt</span>(a<span class="op">/</span>(b<span class="op">*</span>b))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a> vec =<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>,N)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a> theta =<span class="st"> </span>a<span class="op">/</span>b</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a> vec[<span class="dv">1</span>] =<span class="st"> </span>theta</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N) </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a> {</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>  can =<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>,mu,sig)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a>  laprob1=<span class="kw">dgamma</span>(can,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dgamma</span>(theta,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a>  laprob2=<span class="kw">dnorm</span>(theta,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dnorm</span>(can,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a>  laprob=laprob1<span class="op">+</span>laprob2</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a>  u =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a>  <span class="cf">if</span> (<span class="kw">log</span>(u) <span class="op">&lt;</span><span class="st"> </span>laprob){ </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a>   theta =<span class="st"> </span>can</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true"></a>  } </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true"></a>   vec[i] =<span class="st"> </span>theta</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true"></a>  }</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true"></a> <span class="kw">return</span>(vec)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true"></a>}</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true"></a>vec=<span class="kw">gammaMH</span>(<span class="dv">10000</span>,<span class="fl">2.3</span>,<span class="fl">2.7</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(vec))</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true"></a><span class="kw">hist</span>(vec,<span class="dv">30</span>)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
 <p>(a) Try <span class="math inline">\(a=0.1\)</span>, <span class="math inline">\(b=0.01\)</span>.</p>
-<div class="sourceCode" id="cb6" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>vec=<span class="kw">gammaMH</span>(<span class="dv">10000</span>,<span class="fl">0.1</span>,<span class="fl">0.01</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(vec))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="kw">hist</span>(vec,<span class="dv">30</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb8" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>vec=<span class="kw">gammaMH</span>(<span class="dv">10000</span>,<span class="fl">0.1</span>,<span class="fl">0.01</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(vec))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a><span class="kw">hist</span>(vec,<span class="dv">30</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
 <p>(b) Target and proposal overlaid.</p>
-<div class="sourceCode" id="cb7" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>a=<span class="fl">0.1</span>; b=<span class="fl">0.01</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>s=<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">150</span>,<span class="fl">0.001</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="kw">plot</span>(s,<span class="kw">dnorm</span>(s,a<span class="op">/</span>b,<span class="kw">sqrt</span>(a<span class="op">/</span>(b<span class="op">*</span>b))),<span class="dt">type=</span><span class="st">&quot;l&quot;</span>,<span class="dt">col=</span><span class="dv">2</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a><span class="kw">lines</span>(s,<span class="kw">dgamma</span>(s,a,b),<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a>a=<span class="fl">0.1</span>; b=<span class="fl">0.01</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>s=<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">150</span>,<span class="fl">0.001</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a><span class="kw">plot</span>(s,<span class="kw">dnorm</span>(s,a<span class="op">/</span>b,<span class="kw">sqrt</span>(a<span class="op">/</span>(b<span class="op">*</span>b))),<span class="dt">type=</span><span class="st">&quot;l&quot;</span>,<span class="dt">col=</span><span class="dv">2</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a><span class="kw">lines</span>(s,<span class="kw">dgamma</span>(s,a,b),<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p>Comment: proposal density appears to be lighter tailed than the target. Target density exhibits vertical asymptote as <span class="math inline">\(\theta\to 0\)</span>.</p>
 <p>(c) Modify sampler to also return the log of the target density and proposal density at the current value of the chain.</p>
-<div class="sourceCode" id="cb8" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>gammaMH=<span class="cf">function</span>(N,a,b) </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>{</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a> mu =<span class="st"> </span>a<span class="op">/</span>b; sig =<span class="st"> </span><span class="kw">sqrt</span>(a<span class="op">/</span>(b<span class="op">*</span>b))</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a> mat =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dt">nrow=</span>N,<span class="dt">ncol=</span><span class="dv">3</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a> theta =<span class="st"> </span>a<span class="op">/</span>b</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true"></a> mat[<span class="dv">1</span>,] =<span class="st"> </span><span class="kw">c</span>(theta,<span class="kw">dgamma</span>(theta,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>),<span class="kw">dnorm</span>(theta,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>))</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N) </span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true"></a> {</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true"></a>  can =<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>,mu,sig)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true"></a>  laprob1=<span class="kw">dgamma</span>(can,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dgamma</span>(theta,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true"></a>  laprob2=<span class="kw">dnorm</span>(theta,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dnorm</span>(can,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true"></a>  laprob=laprob1<span class="op">+</span>laprob2</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true"></a>  u =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true"></a>  <span class="cf">if</span> (<span class="kw">log</span>(u) <span class="op">&lt;</span><span class="st"> </span>laprob){ </span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true"></a>   theta =<span class="st"> </span>can</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true"></a>  } </span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true"></a>   mat[i,] =<span class="st"> </span><span class="kw">c</span>(theta,<span class="kw">dgamma</span>(theta,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>),<span class="kw">dnorm</span>(theta,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>))</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true"></a>  }</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true"></a> <span class="kw">return</span>(mat)</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true"></a>}</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true"></a></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true"></a>mat=<span class="kw">gammaMH</span>(<span class="dv">10000</span>,<span class="fl">0.1</span>,<span class="fl">0.01</span>)</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true"></a><span class="co">#Trace plots</span></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">1</span>))</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(mat[,<span class="dv">1</span>]),<span class="dt">ylab=</span><span class="st">&quot;theta&quot;</span>)</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(mat[,<span class="dv">2</span>]),<span class="dt">ylab=</span><span class="st">&quot;log pi theta&quot;</span>)</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(mat[,<span class="dv">3</span>]),<span class="dt">ylab=</span><span class="st">&quot;log q theta&quot;</span>)</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb10" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>gammaMH=<span class="cf">function</span>(N,a,b) </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>{</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a> mu =<span class="st"> </span>a<span class="op">/</span>b; sig =<span class="st"> </span><span class="kw">sqrt</span>(a<span class="op">/</span>(b<span class="op">*</span>b))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a> mat =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dt">nrow=</span>N,<span class="dt">ncol=</span><span class="dv">3</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a> theta =<span class="st"> </span>a<span class="op">/</span>b</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a> mat[<span class="dv">1</span>,] =<span class="st"> </span><span class="kw">c</span>(theta,<span class="kw">dgamma</span>(theta,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>),<span class="kw">dnorm</span>(theta,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>))</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N) </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a> {</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a>  can =<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>,mu,sig)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a>  laprob1=<span class="kw">dgamma</span>(can,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dgamma</span>(theta,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a>  laprob2=<span class="kw">dnorm</span>(theta,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dnorm</span>(can,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true"></a>  laprob=laprob1<span class="op">+</span>laprob2</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true"></a>  u =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true"></a>  <span class="cf">if</span> (<span class="kw">log</span>(u) <span class="op">&lt;</span><span class="st"> </span>laprob){ </span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true"></a>   theta =<span class="st"> </span>can</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true"></a>  } </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true"></a>   mat[i,] =<span class="st"> </span><span class="kw">c</span>(theta,<span class="kw">dgamma</span>(theta,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>),<span class="kw">dnorm</span>(theta,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>))</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true"></a>  }</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true"></a> <span class="kw">return</span>(mat)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true"></a>}</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true"></a>mat=<span class="kw">gammaMH</span>(<span class="dv">10000</span>,<span class="fl">0.1</span>,<span class="fl">0.01</span>)</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true"></a><span class="co">#Trace plots</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">1</span>))</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(mat[,<span class="dv">1</span>]),<span class="dt">ylab=</span><span class="st">&quot;theta&quot;</span>)</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(mat[,<span class="dv">2</span>]),<span class="dt">ylab=</span><span class="st">&quot;log pi theta&quot;</span>)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(mat[,<span class="dv">3</span>]),<span class="dt">ylab=</span><span class="st">&quot;log q theta&quot;</span>)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
 <p>Comment 1: when the chain gets stuck at values of <span class="math inline">\(\theta\)</span> around 0, the corresponding <span class="math inline">\(\pi(\theta)\)</span> values are large. (To see this, plot the gamma density for shape values less than 1). Moreover, corresponding <span class="math inline">\(q(\theta)\)</span> values are relatively small. This leads to the contribution of <span class="math inline">\(q(\theta) / \pi(\theta)\)</span> in the acceptance probability being very small, in turn leading to <span class="math inline">\(\alpha(\theta^*|\theta) \approx 0\)</span>. Hence the stickiness!</p>
 <p>Comment 2: the chain gets stuck at large values of <span class="math inline">\(\theta\)</span> due to the small values of the corresponding <span class="math inline">\(q(\theta)\)</span>. That is, these values are likely under the target but not the proposal.</p>
 <p><strong>3. Crude oil volatility analysis.</strong> repeating the analysis from problems class 1, but with a prior that precludes a conjugate analysis! Hence the need for Metropolis-Hastings.</p>
-<div class="sourceCode" id="cb9" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="co">#Function to evaluate \log\pi(\psi|y) up to an additive constant</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>lpost=<span class="cf">function</span>(psi)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>{</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a> lprior =<span class="st"> </span><span class="kw">dnorm</span>(psi,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a> llike =<span class="st"> </span><span class="dv">-25</span><span class="op">*</span><span class="kw">log</span>(<span class="kw">exp</span>(psi))<span class="op">-</span><span class="fl">0.5</span><span class="op">*</span><span class="fl">0.0305</span><span class="op">/</span><span class="kw">exp</span>(<span class="dv">2</span><span class="op">*</span>psi) </span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a> <span class="kw">return</span>(lprior<span class="op">+</span>llike)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb11" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="co">#Function to evaluate \log\pi(\psi|y) up to an additive constant</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>lpost=<span class="cf">function</span>(psi)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a>{</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a> lprior =<span class="st"> </span><span class="kw">dnorm</span>(psi,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a> llike =<span class="st"> </span><span class="dv">-25</span><span class="op">*</span><span class="kw">log</span>(<span class="kw">exp</span>(psi))<span class="op">-</span><span class="fl">0.5</span><span class="op">*</span><span class="fl">0.0305</span><span class="op">/</span><span class="kw">exp</span>(<span class="dv">2</span><span class="op">*</span>psi) </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a> <span class="kw">return</span>(lprior<span class="op">+</span>llike)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a>}</span></code></pre></div>
 <p>(a)</p>
-<div class="sourceCode" id="cb10" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>rwm=<span class="cf">function</span>(N,lambda)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>{</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a> vec =<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>,N)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a> psi =<span class="st"> </span><span class="dv">0</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a> vec[<span class="dv">1</span>] =<span class="st"> </span>psi</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N) </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a> {</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a>  innov =<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,lambda)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a>  can =<span class="st"> </span>psi <span class="op">+</span><span class="st"> </span>innov</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a>  laprob =<span class="st"> </span><span class="kw">lpost</span>(can)<span class="op">-</span><span class="kw">lpost</span>(psi)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a>  u =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true"></a>  <span class="cf">if</span> (<span class="kw">log</span>(u) <span class="op">&lt;</span><span class="st"> </span>laprob){ </span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true"></a>   psi =<span class="st"> </span>can</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true"></a>  }</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true"></a>   vec[i] =<span class="st"> </span>psi</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true"></a>  }</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true"></a> <span class="kw">return</span>(vec)</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb12" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>rwm=<span class="cf">function</span>(N,lambda)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>{</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a> vec =<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>,N)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a> psi =<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a> vec[<span class="dv">1</span>] =<span class="st"> </span>psi</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N) </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a> {</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true"></a>  innov =<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,lambda)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true"></a>  can =<span class="st"> </span>psi <span class="op">+</span><span class="st"> </span>innov</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true"></a>  laprob =<span class="st"> </span><span class="kw">lpost</span>(can)<span class="op">-</span><span class="kw">lpost</span>(psi)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true"></a>  u =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true"></a>  <span class="cf">if</span> (<span class="kw">log</span>(u) <span class="op">&lt;</span><span class="st"> </span>laprob){ </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true"></a>   psi =<span class="st"> </span>can</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true"></a>  }</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true"></a>   vec[i] =<span class="st"> </span>psi</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true"></a>  }</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true"></a> <span class="kw">return</span>(vec)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true"></a>}</span></code></pre></div>
 <p>(b), (c) Run for 10k iters with lambda=0.1:</p>
-<div class="sourceCode" id="cb11" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a>out=<span class="kw">rwm</span>(<span class="dv">10000</span>,<span class="fl">0.1</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(out))</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a><span class="kw">hist</span>(out,<span class="dv">30</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a><span class="co">#Remove burn in and transform output to set sigma samples</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true"></a>sigout=<span class="kw">exp</span>(out[<span class="dv">101</span><span class="op">:</span><span class="dv">10000</span>])</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true"></a></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true"></a><span class="co">#Posterior summaries</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true"></a><span class="kw">mean</span>(sigout)</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true"></a><span class="kw">var</span>(sigout)</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true"></a><span class="kw">quantile</span>(sigout,<span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb13" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>out=<span class="kw">rwm</span>(<span class="dv">10000</span>,<span class="fl">0.1</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(out))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a><span class="kw">hist</span>(out,<span class="dv">30</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true"></a><span class="co">#Remove burn in and transform output to set sigma samples</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true"></a>sigout=<span class="kw">exp</span>(out[<span class="dv">101</span><span class="op">:</span><span class="dv">10000</span>])</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true"></a><span class="co">#Posterior summaries</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true"></a><span class="kw">mean</span>(sigout)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true"></a><span class="kw">var</span>(sigout)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true"></a><span class="kw">quantile</span>(sigout,<span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span></code></pre></div>
 <p>(d) Generate (dependent) samples from the posterior predictive for <span class="math inline">\(Y_26\)</span> and produce a histogram:</p>
-<div class="sourceCode" id="cb12" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>Ns=<span class="kw">length</span>(sigout)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>y26=<span class="kw">rep</span>(<span class="dv">0</span>,Ns)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>Ns)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a>{</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a> y26[i]=<span class="fl">88.35</span><span class="op">*</span><span class="kw">exp</span>(<span class="kw">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,sigout[i]))</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a>}</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true"></a><span class="kw">hist</span>(y26)</span></code></pre></div>
+<div class="sourceCode" id="cb14" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a>Ns=<span class="kw">length</span>(sigout)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>y26=<span class="kw">rep</span>(<span class="dv">0</span>,Ns)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>Ns)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a>{</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true"></a> y26[i]=<span class="fl">88.35</span><span class="op">*</span><span class="kw">exp</span>(<span class="kw">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,sigout[i]))</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a>}</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true"></a><span class="kw">hist</span>(y26)</span></code></pre></div>
 <p>The actual value of <span class="math inline">\(y_26=90.66\)</span> is consistent with sampled values from the predictive. In fact, an equi-tailed 95% credible interval is</p>
-<div class="sourceCode" id="cb13" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="kw">quantile</span>(y26,<span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a><span class="co">#  2.5%    97.5% </span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a><span class="co"># 81.63549 95.54454 </span></span></code></pre></div>
+<div class="sourceCode" id="cb15" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="kw">quantile</span>(y26,<span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a><span class="co">#  2.5%    97.5% </span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a><span class="co"># 81.63549 95.54454 </span></span></code></pre></div>
 </section>
 <script>
 function doNumbering() {
