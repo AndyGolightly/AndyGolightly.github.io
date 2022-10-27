@@ -187,7 +187,7 @@
 <div class="sourceCode" id="cb6" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(normvec),<span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>{</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="kw">ts</span>(<span class="kw">norm</span>(<span class="dv">1000</span>,<span class="dv">4</span>,<span class="kw">runif</span>(<span class="dv">1</span>,<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>))),<span class="dt">col=</span>i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="kw">ts</span>(<span class="kw">norm</span>(<span class="dv">1000</span>,<span class="dv">4</span>,<span class="kw">runif</span>(<span class="dv">1</span>,<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>))),<span class="dt">col=</span>(i<span class="op">+</span><span class="dv">1</span>))</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>}</span></code></pre></div>
 <p>Comment: for initial values in regios of low target density, the burn-in period can be substantial. Plotting the output from multiple chains with different starting values can give a useful (visual) diagnostic for assessing convergence. Guards against the notion of pseudo-convergence which can arise when only a short run of a single chain is used to assess convergence.</p>
 <p><strong>2. A simple Metropolis-Hastings independence sampler.</strong> <span class="math inline">\(Gamma(a,b)\)</span> target, normal proposal (with mean and variance to match the target).</p>
@@ -200,9 +200,9 @@
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N) </span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a> {</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>  can =<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>,mu,sig)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a>  laprob1=<span class="kw">dgamma</span>(can,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dgamma</span>(theta,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a>  laprob2=<span class="kw">dnorm</span>(theta,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dnorm</span>(can,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a>  laprob=laprob1<span class="op">+</span>laprob2</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a>  laprob1 =<span class="st"> </span><span class="kw">dgamma</span>(can,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dgamma</span>(theta,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a>  laprob2 =<span class="st"> </span><span class="kw">dnorm</span>(theta,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dnorm</span>(can,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a>  laprob =<span class="st"> </span>laprob1<span class="op">+</span>laprob2</span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a>  u =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a>  <span class="cf">if</span> (<span class="kw">log</span>(u) <span class="op">&lt;</span><span class="st"> </span>laprob){ </span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a>   theta =<span class="st"> </span>can</span>
@@ -239,9 +239,9 @@
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N) </span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a> {</span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a>  can =<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>,mu,sig)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a>  laprob1=<span class="kw">dgamma</span>(can,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dgamma</span>(theta,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a>  laprob2=<span class="kw">dnorm</span>(theta,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dnorm</span>(can,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true"></a>  laprob=laprob1<span class="op">+</span>laprob2</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a>  laprob1 =<span class="st"> </span><span class="kw">dgamma</span>(can,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dgamma</span>(theta,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a>  laprob2 =<span class="st"> </span><span class="kw">dnorm</span>(theta,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dnorm</span>(can,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true"></a>  laprob =<span class="st"> </span>laprob1<span class="op">+</span>laprob2</span>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true"></a>  u =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</span>
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true"></a>  <span class="cf">if</span> (<span class="kw">log</span>(u) <span class="op">&lt;</span><span class="st"> </span>laprob){ </span>
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true"></a>   theta =<span class="st"> </span>can</span>
@@ -266,7 +266,7 @@
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>lpost=<span class="cf">function</span>(psi)</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a>{</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a> lprior =<span class="st"> </span><span class="kw">dnorm</span>(psi,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a> llike =<span class="st"> </span><span class="dv">-25</span><span class="op">*</span><span class="kw">log</span>(<span class="kw">exp</span>(psi))<span class="op">-</span><span class="fl">0.5</span><span class="op">*</span><span class="fl">0.0305</span><span class="op">/</span><span class="kw">exp</span>(<span class="dv">2</span><span class="op">*</span>psi) </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a> llike =<span class="st"> </span><span class="dv">-25</span><span class="op">*</span>psi<span class="fl">-0.5</span><span class="op">*</span><span class="fl">0.0305</span><span class="op">/</span><span class="kw">exp</span>(<span class="dv">2</span><span class="op">*</span>psi) </span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a> <span class="kw">return</span>(lprior<span class="op">+</span>llike)</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a>}</span></code></pre></div>
 <p>(a)</p>
