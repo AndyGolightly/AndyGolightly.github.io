@@ -233,7 +233,7 @@
 <div class="sourceCode" id="cb10" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>gammaMH=<span class="cf">function</span>(N,a,b) </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>{</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a> mu =<span class="st"> </span>a<span class="op">/</span>b; sig =<span class="st"> </span><span class="kw">sqrt</span>(a<span class="op">/</span>(b<span class="op">*</span>b))</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a> mat =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dt">nrow=</span>N,<span class="dt">ncol=</span><span class="dv">3</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a> mat =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dt">nrow=</span>N,<span class="dt">ncol=</span><span class="dv">3</span>) <span class="co">#add extra columns to store \log\pi and \log q</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a> theta =<span class="st"> </span>a<span class="op">/</span>b</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a> mat[<span class="dv">1</span>,] =<span class="st"> </span><span class="kw">c</span>(theta,<span class="kw">dgamma</span>(theta,a,b,<span class="dt">log=</span><span class="ot">TRUE</span>),<span class="kw">dnorm</span>(theta,mu,sig,<span class="dt">log=</span><span class="ot">TRUE</span>))</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N) </span>
@@ -258,7 +258,7 @@
 <span id="cb10-26"><a href="#cb10-26" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(mat[,<span class="dv">2</span>]),<span class="dt">ylab=</span><span class="st">&quot;log pi theta&quot;</span>)</span>
 <span id="cb10-27"><a href="#cb10-27" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(mat[,<span class="dv">3</span>]),<span class="dt">ylab=</span><span class="st">&quot;log q theta&quot;</span>)</span>
 <span id="cb10-28"><a href="#cb10-28" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
-<p>Comment 1: when the chain gets stuck at values of <span class="math inline">\(\theta\)</span> around 0, the corresponding <span class="math inline">\(\pi(\theta)\)</span> values are large. (To see this, plot the gamma density for shape values less than 1). Moreover, corresponding <span class="math inline">\(q(\theta)\)</span> values are relatively small. This leads to the contribution of <span class="math inline">\(q(\theta) / \pi(\theta)\)</span> in the acceptance probability being very small, in turn leading to <span class="math inline">\(\alpha(\theta^*|\theta) \approx 0\)</span>. Hence the stickiness!</p>
+<p>Comment 1: when the chain gets stuck at values of <span class="math inline">\(\theta\)</span> around 0, the corresponding <span class="math inline">\(\pi(\theta)\)</span> values are large. (To see this, plot the gamma density for shape values less than 1). Moreover, corresponding <span class="math inline">\(q(\theta)\)</span> values small relative to <span class="math inline">\(\pi(\theta)\)</span>. This leads to the contribution of <span class="math inline">\(q(\theta) / \pi(\theta)\)</span> in the acceptance probability being very small, in turn leading to a very small acceptance probability <span class="math inline">\(\alpha(\theta^*|\theta)\)</span>. Hence, we get periods consisting of several (tens of) iterations for which the chain doesn’t move. We refer to this phenomenon as ‘stickiness’.</p>
 <p>Comment 2: the chain gets stuck at large values of <span class="math inline">\(\theta\)</span> due to the small values of the corresponding <span class="math inline">\(q(\theta)\)</span>. That is, these values are likely under the target but not the proposal.</p>
 <p><strong>3. Crude oil volatility analysis.</strong> repeating the analysis from problems class 1, but with a prior that precludes a conjugate analysis! Hence the need for Metropolis-Hastings.</p>
 <div class="sourceCode" id="cb11" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="co">#Function to evaluate \log\pi(\psi|y) up to an additive constant</span></span>
@@ -303,7 +303,7 @@
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true"></a><span class="kw">mean</span>(sigout)</span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true"></a><span class="kw">var</span>(sigout)</span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true"></a><span class="kw">quantile</span>(sigout,<span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span></code></pre></div>
-<p>(d) Generate (dependent) samples from the posterior predictive for <span class="math inline">\(Y_26\)</span> and produce a histogram:</p>
+<p>(d) Generate (dependent) samples from the posterior predictive for <span class="math inline">\(Y_{26}\)</span> and produce a histogram:</p>
 <div class="sourceCode" id="cb14" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a>Ns=<span class="kw">length</span>(sigout)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>y26=<span class="kw">rep</span>(<span class="dv">0</span>,Ns)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a></span>
@@ -313,7 +313,7 @@
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a>}</span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true"></a></span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true"></a><span class="kw">hist</span>(y26)</span></code></pre></div>
-<p>The actual value of <span class="math inline">\(y_26=90.66\)</span> is consistent with sampled values from the predictive. In fact, an equi-tailed 95% credible interval is</p>
+<p>The actual value of <span class="math inline">\(y_{26}=90.66\)</span> is consistent with sampled values from the predictive. In fact, an equi-tailed 95% credible interval is</p>
 <div class="sourceCode" id="cb15" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="kw">quantile</span>(y26,<span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a><span class="co">#  2.5%    97.5% </span></span>
