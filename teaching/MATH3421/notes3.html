@@ -148,6 +148,13 @@ R(\boldsymbol{\theta}^{*}_A|\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)&amp;=
 </ul></li>
 <li><p>If <span class="math inline">\(j=N\)</span>, stop, otherwise put <span class="math inline">\(j\)</span> to <span class="math inline">\(j+1\)</span>, and return to step 2.</p></li>
 </ol>
+<p>To justify the above algorithm, let <span class="math inline">\(p_i(\boldsymbol{\phi}|\boldsymbol{\theta})\)</span> denote the transition kernel associated with the <span class="math inline">\(i\)</span>th update and note that by construction of the MH step, <span class="math inline">\(p_i\)</span> has invariant distribution <span class="math inline">\(\pi\)</span>. That is <span class="math display">\[\pi(\boldsymbol{\phi})=\int \pi(\boldsymbol{\theta})p_i(\boldsymbol{\phi}|\boldsymbol{\theta}).\]</span> Now, the transition kernel governing the Markov chain given by the algorithm above is <span class="math display">\[p(\boldsymbol{\phi}|\boldsymbol{\theta}) = \int \cdots \int 
+p_1(\boldsymbol{\eta}_1|\boldsymbol{\theta})p_2(\boldsymbol{\eta}_2|\boldsymbol{\eta}_1)\ldots p_d(\boldsymbol{\phi}|\boldsymbol{\eta}_{d-1})d\boldsymbol{\eta}_1\ldots d\boldsymbol{\eta}_{d-1}.\]</span> Finally, we check stationarity directly via <span class="math display">\[\begin{aligned}
+\int \pi(\boldsymbol{\theta})p(\boldsymbol{\phi}|\boldsymbol{\theta})d\boldsymbol{\theta}
+&amp;= \int\cdots\int \pi(\boldsymbol{\theta})p_1(\boldsymbol{\eta}_1|\boldsymbol{\theta})d\boldsymbol{\theta}\,  
+p_2(\boldsymbol{\eta}_2|\boldsymbol{\eta}_1)\ldots p_d(\boldsymbol{\phi}|\boldsymbol{\eta}_{d-1})d\boldsymbol{\eta}_1\ldots d\boldsymbol{\eta}_{d-1}\\
+&amp;=\int\cdots\int \pi(\boldsymbol{\eta}_1)p_2(\boldsymbol{\eta}_2|\boldsymbol{\eta}_1)d\boldsymbol{\eta}_1\, p_3(\boldsymbol{\eta}_3|\boldsymbol{\eta}_2)\ldots p_d(\boldsymbol{\phi}|\boldsymbol{\eta}_{d-1})d\boldsymbol{\eta}_2\ldots d\boldsymbol{\eta}_{d-1}\\
+&amp;=\ldots = \pi(\boldsymbol{\phi}).\end{aligned}\]</span></p>
 <p><strong>Remarks:</strong></p>
 <ul>
 <li><p>The algorithm above updates the components of <span class="math inline">\(\boldsymbol{\theta}\)</span> in order. This is known as the <em>deterministic scan</em> Gibbs sampler.</p></li>
@@ -164,17 +171,15 @@ R(\boldsymbol{\theta}^{*}_A|\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)&amp;=
 <section id="direct-checking" class="level4 unnumbered">
 <h4 class="unnumbered">Direct checking</h4>
 <p>The Gibbs sampler admits a Markov chain with transition density <span class="math display">\[p(\boldsymbol{\phi}|\boldsymbol{\theta}) = \prod_{i=1}^d\pi(\phi_i | 
-\phi_1,\ldots,\phi_{i-1},\theta_{i+1},\ldots,\theta_d).\]</span> To check stationarity directly, we show that <span class="math display">\[\pi(\boldsymbol{\phi}) = \int p(\boldsymbol{\phi}|\boldsymbol{\theta})\pi(\boldsymbol{\theta})d\boldsymbol{\theta}.\]</span> For reasons of brevity, we will consider the bivariate case. We have: <span class="math display">\[\begin{aligned}
-\int p(\boldsymbol{\phi}|\boldsymbol{\theta})\pi(\boldsymbol{\theta})d\boldsymbol{\theta}&amp;=
-\int \int \pi(\phi_1|\theta_2)\pi(\phi_2|\phi_1) \pi(\theta_1,\theta_2)d\theta_1 d\theta_2\\
-&amp;=\pi(\phi_2|\phi_1)\int\int \pi(\phi_1|\theta_2) \pi(\theta_1,\theta_2)d\theta_1 d\theta_2\\
-&amp;= \pi(\phi_2|\phi_1)\int \pi(\phi_1|\theta_2)
-\left[ \int\pi(\theta_1,\theta_2)d\theta_1 \right]d\theta_2\\
-&amp;=\pi(\phi_2|\phi_1)\int \pi(\phi_1|\theta_2)
-\pi(\theta_2) d\theta_2\\
-&amp;=\pi(\phi_2|\phi_1)\pi(\phi_1)\\
-&amp;= \pi(\phi_1, \phi_2)\\
-&amp;=\pi(\boldsymbol{\phi}).\end{aligned}\]</span></p>
+\phi_1,\ldots,\phi_{i-1},\theta_{i+1},\ldots,\theta_d).\]</span> To check stationarity directly, we show that <span class="math display">\[\pi(\boldsymbol{\phi}) = \int p(\boldsymbol{\phi}|\boldsymbol{\theta})\pi(\boldsymbol{\theta})d\boldsymbol{\theta}.\]</span> Starting with the RHS, we have <span class="math display">\[\begin{aligned}
+\int p(\boldsymbol{\phi}|\boldsymbol{\theta})\pi(\boldsymbol{\theta})d\boldsymbol{\theta}&amp;= 
+\int\cdots\int \pi(\boldsymbol{\theta})d\theta_1\, \pi(\phi_1|\theta_2,\ldots,\theta_d)\ldots \pi(\phi_d|\phi_1,\ldots,\phi_{d-1})d\theta_2\ldots d\theta_d\\
+&amp;=\int\cdots\int \pi(\phi_1,\theta_2,\ldots,\theta_d)d\theta_2\, 
+\pi(\phi_2|\phi_1,\theta_3,\ldots,\theta_d)\ldots \pi(\phi_d|\phi_1,\ldots,\phi_{d-1})d\theta_3\ldots d\theta_d\\
+&amp;= \ldots\\
+&amp;= \int \pi(\phi_1,\ldots,\phi_{d-1},\theta_d)d\theta_d\, 
+\pi(\phi_d|\phi_1,\ldots,\phi_{d-1})\\
+&amp;=\pi(\phi_1,\ldots,\phi_d)\end{aligned}\]</span> as required.</p>
 </section>
 </section>
 <section id="reversible-gibbs-samplers" class="level3" data-number="1.2.2">
