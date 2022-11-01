@@ -89,18 +89,28 @@
 <body>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#the-gibbs-sampler"><span class="toc-section-number">1</span> The Gibbs sampler</a>
+<li><a href="#preliminaries"><span class="toc-section-number">1</span> Preliminaries</a></li>
+<li><a href="#the-metropolis-hastings-algorithm"><span class="toc-section-number">2</span> The Metropolis-Hastings algorithm</a></li>
+<li><a href="#the-gibbs-sampler"><span class="toc-section-number">3</span> The Gibbs sampler</a>
 <ul>
-<li><a href="#component-wise-and-block-wise-transitions"><span class="toc-section-number">1.1</span> Component-wise and block-wise transitions</a></li>
-<li><a href="#the-gibbs-sampler-1"><span class="toc-section-number">1.2</span> The Gibbs sampler</a></li>
+<li><a href="#component-wise-and-block-wise-transitions"><span class="toc-section-number">3.1</span> Component-wise and block-wise transitions</a></li>
+<li><a href="#the-gibbs-sampler-1"><span class="toc-section-number">3.2</span> The Gibbs sampler</a></li>
 </ul></li>
 </ul>
 </nav>
-<section id="the-gibbs-sampler" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> The Gibbs sampler</h1>
+<section id="preliminaries" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Preliminaries</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes1">here</a>.</p>
+</section>
+<section id="the-metropolis-hastings-algorithm" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> The Metropolis-Hastings algorithm</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes2">here</a>.</p>
+</section>
+<section id="the-gibbs-sampler" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> The Gibbs sampler</h1>
 <p>Constructing a suitable proposal density <span class="math inline">\(q(\boldsymbol{\theta}^*|\boldsymbol{\theta})\)</span> may be difficult, especially when the target <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span> is high dimensional. Sometimes, it is more natural to update subsets of components of <span class="math inline">\(\boldsymbol{\theta}\)</span> in a single Metropolis-Hastings step, with steps for these different subsets combined to give a single algorithm. Moreover, for many problems of interest, the corresponding <em>full conditional distributions (FCDs)</em> associated with these subsets of components may be available for sampling from. This leads to an MCMC technique known as <em>the Gibbs sampler</em>.</p>
-<section id="component-wise-and-block-wise-transitions" class="level2" data-number="1.1">
-<h2 data-number="1.1"><span class="header-section-number">1.1</span> Component-wise and block-wise transitions</h2>
+<section id="component-wise-and-block-wise-transitions" class="level2" data-number="3.1">
+<h2 data-number="3.1"><span class="header-section-number">3.1</span> Component-wise and block-wise transitions</h2>
 <p>Suppose that <span class="math inline">\(\boldsymbol{\theta}\)</span> can be decomposed into <span class="math inline">\((\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)&#39;\)</span> and that, for the moment, <span class="math inline">\(\boldsymbol{\theta}_B\)</span> is fixed and known. We therefore wish to generate samples from a target density <span class="math inline">\(\pi(\boldsymbol{\theta}_A|\boldsymbol{\theta}_B)\)</span> using Metropolis-Hastings with a proposal <span class="math display">\[q(\boldsymbol{\theta}_A^*|\boldsymbol{\theta}_A):=q(\boldsymbol{\theta}_A^*|\boldsymbol{\theta}_A,\boldsymbol{\theta}_B).\]</span> The MH acceptance probability is <span class="math inline">\(\min\{1,R\}\)</span> where <span class="math display">\[\begin{aligned}
 R(\boldsymbol{\theta}^{*}_A|\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)&amp;=
 \frac{\pi(\boldsymbol{\theta}^{*}_A|\boldsymbol{\theta}_B)\,q(\boldsymbol{\theta}_A|\boldsymbol{\theta}_A^{*})}{\pi(\boldsymbol{\theta}_A|\boldsymbol{\theta}_B)\,q(\boldsymbol{\theta}_A^{*}|\boldsymbol{\theta}_A)}\\
@@ -134,8 +144,8 @@ R(\boldsymbol{\theta}^{*}_A|\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)&amp;=
 <li><p>If the FCD <span class="math inline">\(\pi(\theta_i|\boldsymbol{\theta}_{-i})\)</span> is available for sampling from directly for a particular component <span class="math inline">\(\theta_{i}\)</span>, it is easy to see that the resulting acceptance probability is 1. When all FCDs are available for sampling from, we obtain an algorithm known as the Gibbs sampler.</p></li>
 </ul>
 </section>
-<section id="the-gibbs-sampler-1" class="level2" data-number="1.2">
-<h2 data-number="1.2"><span class="header-section-number">1.2</span> The Gibbs sampler</h2>
+<section id="the-gibbs-sampler-1" class="level2" data-number="3.2">
+<h2 data-number="3.2"><span class="header-section-number">3.2</span> The Gibbs sampler</h2>
 <p>We will consider first the algorithm and then examine its properties. The algorithm has the following form.</p>
 <ol>
 <li><p>Initialise the state of the chain to <span class="math inline">\(\boldsymbol{\theta}^{(0)}=(\theta_1^{(0)},\ldots,\theta_d^{(0)})&#39;\)</span>. Initialise the iteration counter to <span class="math inline">\(j=1\)</span>.</p></li>
@@ -160,8 +170,8 @@ p_2(\boldsymbol{\eta}_2|\boldsymbol{\eta}_1)\ldots p_d(\boldsymbol{\phi}|\boldsy
 <li><p>The algorithm above updates the components of <span class="math inline">\(\boldsymbol{\theta}\)</span> in order. This is known as the <em>deterministic scan</em> Gibbs sampler.</p></li>
 <li><p>The algorithm clearly defines a homogeneous Markov chain, as each simulated value depends only on the previous simulated value and not on any previous value or the iteration counter <span class="math inline">\(j\)</span>.</p></li>
 </ul>
-<section id="validity" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1"><span class="header-section-number">1.2.1</span> Validity</h3>
+<section id="validity" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1"><span class="header-section-number">3.2.1</span> Validity</h3>
 <section id="a-note-on-reversible-chains" class="level4 unnumbered">
 <h4 class="unnumbered">A note on reversible chains</h4>
 <p>If <span class="math inline">\(\boldsymbol{\theta}^{(0)},\boldsymbol{\theta}^{(1)},\ldots,\boldsymbol{\theta}^{(N)}\)</span> is a Markov chain then it is straightforward to show that the reversed sequence of states <span class="math inline">\(\boldsymbol{\theta}^{(N)}, \boldsymbol{\theta}^{(N-1)},\ldots,  \boldsymbol{\theta}^{(0)}\)</span> is also a Markov chain. Let <span class="math inline">\(p(\boldsymbol{\phi}|\boldsymbol{\theta})\)</span> denote the transition density for the forward chain. The reversed chain is not homogeneous in general, however, if the chain is in equilibrium then the transition density for the reversed chain is, via Bayes Theorem <span class="math display">\[p^*(\boldsymbol{\phi}|\boldsymbol{\theta}) = \frac{p(\boldsymbol{\theta}|\boldsymbol{\phi})\pi(\boldsymbol{\phi})}{\pi^(\boldsymbol{\theta})}.\]</span></p>
@@ -182,8 +192,8 @@ p_2(\boldsymbol{\eta}_2|\boldsymbol{\eta}_1)\ldots p_d(\boldsymbol{\phi}|\boldsy
 &amp;=\pi(\phi_1,\ldots,\phi_d)\end{aligned}\]</span> as required.</p>
 </section>
 </section>
-<section id="reversible-gibbs-samplers" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2"><span class="header-section-number">1.2.2</span> Reversible Gibbs samplers</h3>
+<section id="reversible-gibbs-samplers" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2"><span class="header-section-number">3.2.2</span> Reversible Gibbs samplers</h3>
 <p>While the standard <em>deterministic scan</em> version of the Gibbs sampler presented above is not reversible, each <em>component update</em> is in fact reversible. Hence there are several variations of the Gibbs sampler that <em>are</em> reversible, and hence do satisfy the detailed balance equation. Let’s start by considering each component update separately.</p>
 <p>Suppose we wish to update component <span class="math inline">\(i\)</span>, that is, we update <span class="math inline">\(\boldsymbol{\theta}\)</span> by replacing <span class="math inline">\(\theta_i\)</span> with <span class="math inline">\(\phi_i\)</span> drawn from <span class="math inline">\(\pi(\phi_i|\boldsymbol{\theta}_{-i})\)</span>, where <span class="math inline">\(\boldsymbol{\theta}_{-i}=(\theta_{1},\ldots,\theta_{i-1},\theta_{i+1},\ldots,\theta_{d})&#39;\)</span>. All the other components are not changed. The transition kernel for this update is <span class="math display">\[p(\boldsymbol{\phi}|\boldsymbol{\theta})=\pi(\phi_i|\boldsymbol{\theta}_{-i})I(\boldsymbol{\theta}_{-i}=\boldsymbol{\phi}_{-i})\]</span> where <span class="math display">\[I(E)=\begin{cases}1&amp; \textrm{if $E$ is true}\\0 &amp;\textrm{if $E$ is false}\end{cases}.\]</span> Note that the density is zero for a transition changing any but the <span class="math inline">\(i\)</span>-th component. Now we can check detailed balance: <span class="math display">\[\begin{aligned}
 \pi(\boldsymbol{\theta})p(\boldsymbol{\phi}|\boldsymbol{\theta})&amp;=
@@ -199,8 +209,8 @@ p_2(\boldsymbol{\eta}_2|\boldsymbol{\eta}_1)\ldots p_d(\boldsymbol{\phi}|\boldsy
 <li><p>An alternative is to pick a component at random at each stage, and update that. This gives a reversible chain with the required stationary distribution, and is known as the <em>random scan</em> Gibbs sampler.</p></li>
 </ul>
 </section>
-<section id="gibbs-sampling-in-practice" class="level3" data-number="1.2.3">
-<h3 data-number="1.2.3"><span class="header-section-number">1.2.3</span> Gibbs sampling in practice</h3>
+<section id="gibbs-sampling-in-practice" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3"><span class="header-section-number">3.2.3</span> Gibbs sampling in practice</h3>
 <p><strong>Example 3.2.1:</strong> <strong>(Bivariate Gaussian target.)</strong> <em>Consider a bivariate normal target with zero mean and unit variance for the marginals, but a correlation of <span class="math inline">\(\rho\)</span> between the two components. We have that <span class="math display">\[\begin{pmatrix} \theta_1\\ \theta_2 \end{pmatrix}\sim 
 N\left\{\begin{pmatrix}0\\0\end{pmatrix}\,,\, \begin{pmatrix} 1 &amp; \rho \\ \rho &amp; 1 \end{pmatrix}\right\}\]</span> with associated density <span class="math display">\[\pi(\theta_{1},\theta_{2})\propto \exp\left\{-\frac{1}{2(1-\rho^2)}\left(\theta_{1}^{2}+\theta_{2}^{2}-2\rho \theta_{1}\theta_{2}\right)\right\},\quad -\infty &lt;\theta_1,\theta_2&lt;\infty.\]</span> Let us construct a Gibbs sampler for this target.</em></p>
 <p><em>The full conditional density for <span class="math inline">\(\theta_1\)</span> is <span class="math display">\[\begin{aligned}
