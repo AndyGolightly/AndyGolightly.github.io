@@ -303,7 +303,7 @@
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true"></a><span class="kw">mean</span>(sigout)</span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true"></a><span class="kw">var</span>(sigout)</span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true"></a><span class="kw">quantile</span>(sigout,<span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span></code></pre></div>
-<p>(d) Generate (dependent) samples from the posterior predictive for <span class="math inline">\(Y_{26}\)</span> and produce a histogram:</p>
+<p>(d) Generate (conditionally independent) samples from the posterior predictive for <span class="math inline">\(Y_{26}\)</span> and produce a histogram:</p>
 <div class="sourceCode" id="cb14" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a>Ns=<span class="kw">length</span>(sigout)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>y26=<span class="kw">rep</span>(<span class="dv">0</span>,Ns)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a></span>
