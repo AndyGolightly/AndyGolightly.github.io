@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>hw2</title>
+  <title>Q2aRcode</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -76,7 +76,6 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -89,55 +88,36 @@
 <body>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#formative-problems-2">Formative problems 2</a></li>
+<li><a href="#formative-problems-q2a-r-code">Formative problems Q2(a) R code</a></li>
 </ul>
 </nav>
-<section id="formative-problems-2" class="level2 unnumbered">
-<h2 class="unnumbered">Formative problems 2</h2>
-<p>Submit solutions to Q1, Q2(b)(i)–(v), Q3.</p>
-<ol>
-<li><p>Consider the following R function which implements a Metropolis-Hastings sampler:</p>
-<div class="sourceCode" id="cb1" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">## Formative Question 1 code</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a> </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a> MH=<span class="cf">function</span>(<span class="dt">N=</span><span class="dv">1000</span>,<span class="dt">sigma=</span><span class="dv">1</span>,<span class="dt">x0=</span><span class="dv">0</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a> {</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>  x=<span class="kw">rep</span>(<span class="dv">0</span>,N)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>  x[<span class="dv">1</span>]=x0</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>  {</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>   y=<span class="kw">rnorm</span>(<span class="dv">1</span>,x[i<span class="dv">-1</span>],sigma)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>   lalpha=<span class="kw">abs</span>(x[i<span class="dv">-1</span>])<span class="op">-</span><span class="kw">abs</span>(y)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>   <span class="cf">if</span>(<span class="kw">log</span>(<span class="kw">runif</span>(<span class="dv">1</span>))<span class="op">&lt;</span>lalpha)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>   {</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>    x[i]=y</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>   }<span class="cf">else</span>{</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>    x[i]=x[i<span class="dv">-1</span>]</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>   }</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>  }</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a> <span class="kw">return</span>(x)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a> } </span></code></pre></div>
-<p>(a) What is the target density, <span class="math inline">\(\pi(x)\)</span> with <span class="math inline">\(x\in \mathbb{R}\)</span>, of this sampler?</p>
-<p>(b) What is the proposal density, <span class="math inline">\(q(x^*|x)\)</span>, of this sampler?</p>
-<p><strong>[10 marks]</strong></p></li>
-<li><p>Consider the following target density: <span class="math display">\[f(\theta) = \begin{cases}\sin(\theta)&amp;\textrm{when }0\leq \theta\leq\pi/2\\
-0&amp;\textrm{otherwise.}\end{cases}\]</span></p>
-<p>(a)</p>
-<p>(i) Give the steps of a Metropolis-Hastings independence sampler with target <span class="math inline">\(f(\theta)\)</span> based on a <span class="math inline">\(U(0,\pi/2)\)</span> proposal.</p>
-<p>(ii) If the chain is currently at <span class="math inline">\(\theta\)</span>, what is the probability that the chain will move?</p>
-<p>(iii) When the chain reaches equilibrium, what is the overall acceptance probability?</p>
-<p>(iv) Compare this probability with an empirical estimate from the sampler, initialised at <span class="math inline">\(\theta^{(0)}=\pi/4\)</span> and run for 1000 iterations.</p>
-<p>(b)</p>
-<p>(i) Give the steps of a Metropolis-Hastings independence sampler with target <span class="math inline">\(f(\theta)\)</span> based on a proposal with density <span class="math display">\[q(\theta) = \begin{cases}\frac{8\theta}{\pi^2}&amp;\textrm{for }0\leq \theta\leq\pi/2,\\
-0&amp;\textrm{otherwise}.\end{cases}\]</span></p>
-<p>(ii) If the chain is currently at <span class="math inline">\(\theta\)</span>, what is the probability that the chain will move? You may assume without proof that <span class="math inline">\(x^{-1} \sin x\)</span> is decreasing over <span class="math inline">\([0,\pi/2]\)</span>.</p>
-<p>(iii) When the chain reaches equilibrium, what is the overall acceptance probability?</p>
-<p>(iv) Compare this probability with an empirical estimate from the sampler, initialised at <span class="math inline">\(\theta^{(0)}=\pi/4\)</span> and run for 1000 iterations.</p>
-<p>(v) Which proposal mechanism ((a)(i) or (b)(i)) do you prefer?</p>
-<p><strong>[35 marks]</strong></p></li>
-<li><p>Consider a Metropolis-Hastings algorithm for sampling from a Uniform distribution on <span class="math inline">\([0,1]\cup [2,3]\)</span> and a proposal density <span class="math inline">\(q(\cdot|\theta)\)</span> corresponding to a <span class="math inline">\(U(\theta-\delta\,,\,\theta+\delta)\)</span> distribution. If <span class="math inline">\(\delta\leq 1\)</span>, is the resulting Markov chain irreducible? Give a brief explanation for your answer.</p>
-<p><strong>[5 marks]</strong></p></li>
-</ol>
-<p><strong>[TOTAL: 50 marks]</strong></p>
+<section id="formative-problems-q2a-r-code" class="level1 unnumbered">
+<h1 class="unnumbered">Formative problems Q2(a) R code</h1>
+<p>The following R code will implement the sampler and estimate the overall acceptance rate:</p>
+<div class="sourceCode" id="cb1" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>Q2a=<span class="cf">function</span>(<span class="dt">N=</span><span class="dv">1000</span>,<span class="dt">theta0=</span>pi<span class="op">/</span><span class="dv">4</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>{</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a> theta=<span class="kw">rep</span>(<span class="dv">0</span>,N)  <span class="co"># Store theta values here</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a> theta[<span class="dv">1</span>]=theta0 <span class="co"># Initialise</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a> count=<span class="dv">0</span> <span class="co"># count acceptances</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a> {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>  can=<span class="kw">runif</span>(<span class="dv">1</span>,<span class="dv">0</span>,pi<span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>  aprob=<span class="kw">sin</span>(can)<span class="op">/</span><span class="kw">sin</span>(theta[i<span class="dv">-1</span>])</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>  <span class="cf">if</span>(<span class="kw">runif</span>(<span class="dv">1</span>)<span class="op">&lt;</span>aprob)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>  {</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>   theta[i]=can <span class="co"># Store candidate value</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>   count=count<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>  }<span class="cf">else</span>{</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>   theta[i]=theta[i<span class="dv">-1</span>] <span class="co"># Else store current value</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>  }</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a> }</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a><span class="kw">print</span>(count<span class="op">/</span>(N<span class="dv">-1</span>))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a><span class="kw">return</span>(theta)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a>} </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a>out=<span class="kw">Q2a</span>()</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true"></a><span class="co">## 0.7217217 = empirical acceptance rate</span></span></code></pre></div>
 </section>
 <script>
 function doNumbering() {
