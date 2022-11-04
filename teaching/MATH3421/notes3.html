@@ -138,6 +138,13 @@ R(\boldsymbol{\theta}^{*}_A|\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)&amp;=
 </ul></li>
 <li><p>If <span class="math inline">\(j=N\)</span>, stop, otherwise put <span class="math inline">\(j\)</span> to <span class="math inline">\(j+1\)</span>, and return to step 2.</p></li>
 </ol>
+<p>To justify the above algorithm, let <span class="math inline">\(p_i(\boldsymbol{\phi}|\boldsymbol{\theta})\)</span> denote the transition kernel associated with the <span class="math inline">\(i\)</span>th update and note that by construction of the MH step, <span class="math inline">\(p_i\)</span> has invariant distribution <span class="math inline">\(\pi\)</span>. That is <span class="math display">\[\pi(\boldsymbol{\phi})=\int \pi(\boldsymbol{\theta})p_i(\boldsymbol{\phi}|\boldsymbol{\theta}).\]</span> Now, the transition kernel governing the Markov chain given by the algorithm above is <span class="math display">\[p(\boldsymbol{\phi}|\boldsymbol{\theta}) = \int \cdots \int 
+p_1(\boldsymbol{\eta}_1|\boldsymbol{\theta})p_2(\boldsymbol{\eta}_2|\boldsymbol{\eta}_1)\ldots p_d(\boldsymbol{\phi}|\boldsymbol{\eta}_{d-1})d\boldsymbol{\eta}_1\ldots d\boldsymbol{\eta}_{d-1}.\]</span> Finally, we check stationarity directly via <span class="math display">\[\begin{aligned}
+\int \pi(\boldsymbol{\theta})p(\boldsymbol{\phi}|\boldsymbol{\theta})d\boldsymbol{\theta}
+&amp;= \int\cdots\int \pi(\boldsymbol{\theta})p_1(\boldsymbol{\eta}_1|\boldsymbol{\theta})d\boldsymbol{\theta}\,  
+p_2(\boldsymbol{\eta}_2|\boldsymbol{\eta}_1)\ldots p_d(\boldsymbol{\phi}|\boldsymbol{\eta}_{d-1})d\boldsymbol{\eta}_1\ldots d\boldsymbol{\eta}_{d-1}\\
+&amp;=\int\cdots\int \pi(\boldsymbol{\eta}_1)p_2(\boldsymbol{\eta}_2|\boldsymbol{\eta}_1)d\boldsymbol{\eta}_1\, p_3(\boldsymbol{\eta}_3|\boldsymbol{\eta}_2)\ldots p_d(\boldsymbol{\phi}|\boldsymbol{\eta}_{d-1})d\boldsymbol{\eta}_2\ldots d\boldsymbol{\eta}_{d-1}\\
+&amp;=\ldots = \pi(\boldsymbol{\phi}).\end{aligned}\]</span></p>
 <p><strong>Remarks:</strong></p>
 <ul>
 <li><p>This is in fact (close to) the original form of the Metropolis algorithm.</p></li>
@@ -158,13 +165,6 @@ R(\boldsymbol{\theta}^{*}_A|\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)&amp;=
 </ul></li>
 <li><p>If <span class="math inline">\(j=N\)</span>, stop, otherwise put <span class="math inline">\(j\)</span> to <span class="math inline">\(j+1\)</span>, and return to step 2.</p></li>
 </ol>
-<p>To justify the above algorithm, let <span class="math inline">\(p_i(\boldsymbol{\phi}|\boldsymbol{\theta})\)</span> denote the transition kernel associated with the <span class="math inline">\(i\)</span>th update and note that by construction of the MH step, <span class="math inline">\(p_i\)</span> has invariant distribution <span class="math inline">\(\pi\)</span>. That is <span class="math display">\[\pi(\boldsymbol{\phi})=\int \pi(\boldsymbol{\theta})p_i(\boldsymbol{\phi}|\boldsymbol{\theta}).\]</span> Now, the transition kernel governing the Markov chain given by the algorithm above is <span class="math display">\[p(\boldsymbol{\phi}|\boldsymbol{\theta}) = \int \cdots \int 
-p_1(\boldsymbol{\eta}_1|\boldsymbol{\theta})p_2(\boldsymbol{\eta}_2|\boldsymbol{\eta}_1)\ldots p_d(\boldsymbol{\phi}|\boldsymbol{\eta}_{d-1})d\boldsymbol{\eta}_1\ldots d\boldsymbol{\eta}_{d-1}.\]</span> Finally, we check stationarity directly via <span class="math display">\[\begin{aligned}
-\int \pi(\boldsymbol{\theta})p(\boldsymbol{\phi}|\boldsymbol{\theta})d\boldsymbol{\theta}
-&amp;= \int\cdots\int \pi(\boldsymbol{\theta})p_1(\boldsymbol{\eta}_1|\boldsymbol{\theta})d\boldsymbol{\theta}\,  
-p_2(\boldsymbol{\eta}_2|\boldsymbol{\eta}_1)\ldots p_d(\boldsymbol{\phi}|\boldsymbol{\eta}_{d-1})d\boldsymbol{\eta}_1\ldots d\boldsymbol{\eta}_{d-1}\\
-&amp;=\int\cdots\int \pi(\boldsymbol{\eta}_1)p_2(\boldsymbol{\eta}_2|\boldsymbol{\eta}_1)d\boldsymbol{\eta}_1\, p_3(\boldsymbol{\eta}_3|\boldsymbol{\eta}_2)\ldots p_d(\boldsymbol{\phi}|\boldsymbol{\eta}_{d-1})d\boldsymbol{\eta}_2\ldots d\boldsymbol{\eta}_{d-1}\\
-&amp;=\ldots = \pi(\boldsymbol{\phi}).\end{aligned}\]</span></p>
 <p><strong>Remarks:</strong></p>
 <ul>
 <li><p>The algorithm above updates the components of <span class="math inline">\(\boldsymbol{\theta}\)</span> in order. This is known as the <em>deterministic scan</em> Gibbs sampler.</p></li>
