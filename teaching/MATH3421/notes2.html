@@ -215,7 +215,7 @@ q(\theta^*|\theta) &amp;= \frac{1}{\lambda\sqrt{2\pi}} e^{-(\theta^*-\theta)^2/(
 \mathbb{P}(\boldsymbol{\theta}^{(1)}\in A|\boldsymbol{\theta}^{(0)}=\boldsymbol{\theta}) &amp;= \int_{A}q(\boldsymbol{\phi}|\boldsymbol{\theta})\textrm{min}
 \left\{ 1, 
 \frac{\pi(\boldsymbol{\phi})\,q(\boldsymbol{\theta}|\boldsymbol{\phi})}{\pi(\boldsymbol{\theta})\,q(\boldsymbol{\phi}|\boldsymbol{\theta})} \right\}d\boldsymbol{\phi}\\
-&amp;= \textrm{min}\left\{\frac{q(\boldsymbol{\phi}|\boldsymbol{\theta})}{\pi(\boldsymbol{\phi})}\,,\, \frac{q(\boldsymbol{\theta}|\boldsymbol{\phi})}{\pi(\boldsymbol{\theta})}\right\}\pi(\boldsymbol{\phi})d\boldsymbol{\phi}\\
+&amp;= \int_A \textrm{min}\left\{\frac{q(\boldsymbol{\phi}|\boldsymbol{\theta})}{\pi(\boldsymbol{\phi})}\,,\, \frac{q(\boldsymbol{\theta}|\boldsymbol{\phi})}{\pi(\boldsymbol{\theta})}\right\}\pi(\boldsymbol{\phi})d\boldsymbol{\phi}\\
 &amp;\geq \frac{1}{C}\int_{A} \textrm{min}\left\{q(\boldsymbol{\phi}|\boldsymbol{\theta})\,,\,q(\boldsymbol{\theta}|\boldsymbol{\phi}) \right\} \pi(\boldsymbol{\phi})d\boldsymbol{\phi}\\
 &amp;=\frac{\mathbb{P}_{\pi}(A)}{C} \times \mathbb{E}_{\boldsymbol{\phi}\sim\pi^A}\left[\textrm{min}\left\{q(\boldsymbol{\phi}|\boldsymbol{\theta})\,,\,q(\boldsymbol{\theta}|\boldsymbol{\phi})  \right\}\right]\\
 &amp;&gt;0\end{aligned}\]</span> where <span class="math inline">\(\pi^A\)</span> is <span class="math inline">\(\pi\)</span> restricted to the set <span class="math inline">\(A\)</span>.</p>
