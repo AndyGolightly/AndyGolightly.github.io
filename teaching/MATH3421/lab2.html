@@ -168,7 +168,7 @@ Y_{i}|\lambda &amp;\sim Po(\lambda)\,, \qquad i=k+1,\ldots ,n (=112)\end{aligned
 \left(\lambda|\theta ,k,\boldsymbol{y}\right)&amp;\sim Gamma\left(a_{2}+\sum_{i=k+1}^{n}y_{i}\,,\,b_{2}+(n-k)\right)\\
 Pr\left(k=j|\theta,\lambda,\boldsymbol{y}\right)&amp;\propto \exp\left\{j(\lambda-\theta)\right\}
 (\theta/\lambda)^{\sum_{i=1}^{j}y_{i}}\end{aligned}\]</span> [You might like to verify these as an exercise.]</p>
-<p>Suppose that <span class="math inline">\(a_1=a_2=b_1=b_2=1\)</span>. The following R function takes as arguments the required number of draws and the data (vector) and aims to return a matrix whose rows are (dependent) samples from the posterior <span class="math inline">\(\pi(\theta,\lambda,k|\boldsymbol{y})\)</span>.</p>
+<p>Suppose that <span class="math inline">\(a_1=a_2=b_1=b_2=1\)</span>. The following <strong>incomplete</strong> R function takes as arguments the required number of draws and the data (vector) and aims to return a matrix whose rows are (dependent) samples from the posterior <span class="math inline">\(\pi(\theta,\lambda,k|\boldsymbol{y})\)</span>.</p>
 <div class="sourceCode" id="cb7" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>gibbs =<span class="st"> </span><span class="cf">function</span>(N,data) </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>{</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>n =<span class="st"> </span><span class="kw">length</span>(data)</span>
@@ -181,23 +181,23 @@ Pr\left(k=j|\theta,\lambda,\boldsymbol{y}\right)&amp;\propto \exp\left\{j(\lambd
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N)</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a>{</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a> <span class="co">#Update theta</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a> theta =<span class="st"> </span><span class="kw">rgamma</span>(<span class="dv">1</span>,a1<span class="op">+</span><span class="kw">sum</span>(data[<span class="dv">1</span><span class="op">:</span>k]),k<span class="op">+</span>b1)</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a> <span class="co">#Update lambda</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true"></a> lambda =<span class="st"> </span><span class="kw">rgamma</span>(<span class="dv">1</span>,a2<span class="op">+</span><span class="kw">sum</span>(data[(k<span class="op">+</span><span class="dv">1</span>)<span class="op">:</span>n]),n<span class="op">-</span>k<span class="op">+</span>b2)</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true"></a> <span class="co">#calculate pmf for k</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true"></a> <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a> <span class="co">#Update theta from FCD</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a> theta =<span class="st"> </span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a><span class="st"> </span><span class="co">#Update lambda from FCD</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true"></a><span class="st"> </span>lambda =</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true"></a><span class="st"> </span><span class="co">#calculate pmf for k</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true"></a><span class="st"> </span><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n)</span>
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true"></a> {</span>
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true"></a>  probVec[j] =<span class="st"> </span><span class="kw">exp</span>((lambda<span class="op">-</span>theta)<span class="op">*</span>j)<span class="op">*</span>(theta<span class="op">/</span>lambda)<span class="op">**</span><span class="kw">sum</span>(data[<span class="dv">1</span><span class="op">:</span>j])</span>
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true"></a> }</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true"></a> <span class="co">#Update k</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true"></a> k =<span class="st"> </span><span class="kw">sample</span>(n,<span class="dt">size=</span><span class="dv">1</span>,<span class="dt">prob=</span>probVec)</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true"></a> </span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true"></a> out[i,] =<span class="st"> </span><span class="kw">c</span>(theta,lambda,k)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true"></a> <span class="co">#Update k (Hint: k is discrete...use the sample command) </span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true"></a> k =<span class="st"> </span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true"></a><span class="st"> </span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true"></a><span class="st"> </span>out[i,] =<span class="st"> </span><span class="kw">c</span>(theta,lambda,k)</span>
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true"></a>}</span>
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true"></a><span class="kw">return</span>(out)</span>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true"></a>}</span></code></pre></div>
-<p>(a) Run the code for <span class="math inline">\(N=5,000\)</span> iterations and produce trace plots for each parameter chain.</p>
+<p>(a) Add the code for the missing updates (for <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(k\)</span>). Run the code for <span class="math inline">\(N=5,000\)</span> iterations and produce trace plots for each parameter chain.</p>
 <p>(b) Now try running the code with <span class="math inline">\(k\)</span> initialised at <span class="math inline">\(n=112\)</span>. Does the code run? What is the full conditional distribution for <span class="math inline">\(\lambda\)</span> conditional on <span class="math inline">\(k=n\)</span>? Modify the function to allow for this. (<strong>Hint</strong>: an <code>if</code> statement might help.)</p>
 <p>(c) Run your modified function with <span class="math inline">\(N=10,000\)</span> and produce kernel density estimates of the marginal posteriors for <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\lambda\)</span> on the same plot. Comment. (Hint: <code>plot(density())</code> and <code>lines(density())</code> will help here.)</p>
 <p>(d) Use R to produce 95% equi-tailed credible intervals for <span class="math inline">\(\theta|\boldsymbol{y}\)</span> and <span class="math inline">\(\lambda|\boldsymbol{y}\)</span>.</p>

@@ -134,7 +134,7 @@
 <div class="sourceCode" id="cb3" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">install.packages</span>(<span class="st">&quot;coda&quot;</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="kw">library</span>(coda)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="kw">effectiveSize</span>(out)</span></code></pre></div>
-<p>The ESS values for the components of the Markov chain produced using <span class="math inline">\(\rho=0.99\)</span> are around 11. Note that we often give a single summary as minimum (over component chains) ESS, wit the intuition that the overall efficiency can be summarised by the worst (in terms of ESS) mixing component chain.</p>
+<p>The ESS values for the components of the Markov chain produced using <span class="math inline">\(\rho=0.99\)</span> are around 11. Note that we often give a single summary as minimum (over component chains) ESS, with the intuition that the overall efficiency can be summarised by the worst (in terms of ESS) mixing component chain.</p>
 <p>(b)</p>
 <div class="sourceCode" id="cb4" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>rbivnorm=<span class="cf">function</span>(<span class="dt">N=</span><span class="dv">1000</span>,<span class="dt">rho=</span><span class="fl">0.99</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>{</span>
@@ -200,11 +200,11 @@
 <span id="cb9-26"><a href="#cb9-26" aria-hidden="true"></a>}</span>
 <span id="cb9-27"><a href="#cb9-27" aria-hidden="true"></a><span class="kw">return</span>(out)</span>
 <span id="cb9-28"><a href="#cb9-28" aria-hidden="true"></a>}</span></code></pre></div>
-<p>(a) Run the code for <span class="math inline">\(N=5,000\)</span> iterations and produce trace plots for each parameter chain.</p>
+<p>(a) The completed function is above. Run the code for <span class="math inline">\(N=5,000\)</span> iterations and produce trace plots for each parameter chain.</p>
 <div class="sourceCode" id="cb10" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>out=<span class="kw">gibbs</span>(<span class="dv">5000</span>,y)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(out))</span></code></pre></div>
 <p>Separate plots with informative labelling would be better practice here! Otherwise, the mixing looks fine.</p>
-<p>(b) What if we initialise at k=112? We get an error, as in this case sum(data[(k+1):n]) in the lambda update returns "NA" which gets passed to <code>probVec</code>.</p>
+<p>(b) What if we initialise at k=112? We get an error, as in this case sum(data[(k+1):n]) in the <span class="math inline">\(\lambda\)</span> update returns "NA" which gets passed to <code>probVec</code>.</p>
 <p>We need to remedy this by drawing <span class="math inline">\(\lambda\)</span> from its prior when <span class="math inline">\(k=n\)</span>.</p>
 <div class="sourceCode" id="cb11" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="co">#Now include fix for k=n</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a></span>
@@ -248,13 +248,13 @@
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">density</span>(out[<span class="dv">10</span><span class="op">:</span><span class="dv">10000</span>,<span class="dv">1</span>]),<span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>),<span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">4</span>))</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a><span class="kw">lines</span>(<span class="kw">density</span>(out[<span class="dv">10</span><span class="op">:</span><span class="dv">10000</span>,<span class="dv">2</span>]),<span class="dt">col=</span><span class="dv">2</span>)</span></code></pre></div>
 <p>Marginal posterior densities for <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\lambda\)</span> show minimal overlap in terms of high density regions suggesting the assumption of two different rates is plausible.</p>
-<p>(d) Use R to produce 95% equi-tailed credible intervals for <span class="math inline">\(\theta|y\)</span> and <span class="math inline">\(\lambda|y\)</span>:</p>
+<p>(d) Use R to produce 95% equi-tailed credible intervals for <span class="math inline">\(\theta|\boldsymbol{y}\)</span> and <span class="math inline">\(\lambda|\boldsymbol{y}\)</span>:</p>
 <div class="sourceCode" id="cb13" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="co">#theta</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="kw">quantile</span>(out[<span class="dv">10</span><span class="op">:</span><span class="dv">10000</span>,<span class="dv">1</span>],<span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a><span class="co">#lambda</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a><span class="kw">quantile</span>(out[<span class="dv">10</span><span class="op">:</span><span class="dv">10000</span>,<span class="dv">2</span>],<span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span></code></pre></div>
 <p>Confirms the comment in (c).</p>
-<p>(e) Produce a contour plot showing the kernel density estimate of <span class="math inline">\(\pi(\theta,\lambda|y)\)</span> using the function <code>kde2d</code> in the <code>MASS</code> package.</p>
+<p>(e) Produce a contour plot showing the kernel density estimate of <span class="math inline">\(\pi(\theta,\lambda|\boldsymbol{y})\)</span> using the function <code>kde2d</code> in the <code>MASS</code> package.</p>
 <div class="sourceCode" id="cb14" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a><span class="kw">library</span>(MASS)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>dens=<span class="kw">kde2d</span>(out[<span class="dv">10</span><span class="op">:</span><span class="dv">10000</span>,<span class="dv">1</span>],out[<span class="dv">10</span><span class="op">:</span><span class="dv">10000</span>,<span class="dv">2</span>])</span>
