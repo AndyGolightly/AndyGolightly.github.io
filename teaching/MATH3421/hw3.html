@@ -27,26 +27,30 @@
 <body>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#tutorial-questions-3">Tutorial questions 3</a></li>
+<li><a href="#formative-problems-3">Formative problems 3</a></li>
 </ul>
 </nav>
-<section id="tutorial-questions-3" class="level2 unnumbered">
-<h2 class="unnumbered">Tutorial questions 3</h2>
+<section id="formative-problems-3" class="level2 unnumbered">
+<h2 class="unnumbered">Formative problems 3</h2>
 <ol>
 <li><p>Consider a target density of the form <span class="math display">\[\pi(\theta_{1},\theta_{2})\propto \theta_{1}\exp\left(-\theta_{1}\theta_{2}^2-\theta_{2}^2+2\theta_{2}-\theta_{1}\right),\quad \theta_{1}&gt;0,\,\,-\infty&lt;\theta_{2}&lt;\infty,\]</span></p>
 <p>(a) Construct a (deterministic scan) Gibbs sampling algorithm for sampling from this target using random variates from standard distributions. <em>Do not write any R code, simply compute the full conditionals and give the algorithm specific to this target.</em></p>
-<p>(b) Write down the transition density <span class="math inline">\(p(\boldsymbol{\phi}|\boldsymbol{\theta})\)</span> for this sampler.</p></li>
+<p>(b) Write down the transition density <span class="math inline">\(p(\boldsymbol{\phi}|\boldsymbol{\theta})\)</span> for this sampler.</p>
+<p><strong>[15 marks]</strong></p></li>
 <li><p>Consider the following bivariate Gaussian density: <span class="math display">\[\pi(\theta_{1},\theta_{2})= N(\boldsymbol{\theta};\boldsymbol{\mu}\,,\,\Sigma), \quad \boldsymbol{\mu}=(0,0)&#39;,\quad 
-\Sigma=\begin{pmatrix} 1 &amp; \rho \\ \rho &amp; 1 \end{pmatrix}.\]</span> We have seen in Example 3.2.1 how to implement a Gibbs sampler for this target.</p>
+\Sigma=\begin{pmatrix} 1 &amp; \rho \\ \rho &amp; 1 \end{pmatrix}.\]</span></p>
 <p>(a) Let <span class="math inline">\(\psi_1=\frac{1}{\sqrt{2}}(\theta_1+\theta_2)\)</span> and <span class="math inline">\(\psi_2=\frac{1}{\sqrt{2}}(\theta_1-\theta_2)\)</span>. The joint distribution of <span class="math inline">\(\boldsymbol{\psi}=(\psi_1,\psi_2)&#39;\)</span> is itself Gaussian.</p>
-<p>(i) Find the parameters of the joint distribution of <span class="math inline">\(\boldsymbol{\psi}\)</span> (that is, find the mean vector and variance matrix).</p>
-<p>(ii) Implement a Gibbs sampler (in R) to generate samples from the distribution of <span class="math inline">\(\boldsymbol{\psi}\)</span>.</p>
-<p>(iii) Explore the behavior of this chain for <span class="math inline">\(\rho=0.5\)</span> and <span class="math inline">\(\rho=0.99\)</span>. Comment.</p>
-<p>(b) Let <span class="math inline">\(\boldsymbol{\psi}^{(n)}\)</span> be the Markov chain from (a). Let <span class="math inline">\(\tilde{\theta}^{(n)}_1=\frac{1}{\sqrt{2}}(\psi_1^{(n)}+\psi_2^{(n)})\)</span> and <span class="math inline">\(\tilde{\theta}_2^{(n)}=\frac{1}{\sqrt{2}}(\psi_1^{(n)}-\psi_2^{(n)})\)</span>.</p>
-<p>(i) What is the stationary distribution of the Markov chain <span class="math inline">\(\tilde{\boldsymbol{\theta}}^{(n)}=(\tilde{\theta}_1^{(n)},\tilde{\theta}_2^{(n)})&#39;\)</span>?</p>
-<p>(ii) Explore the behavior of the chain <span class="math inline">\(\tilde{\boldsymbol{\theta}}^{(n)}\)</span> for <span class="math inline">\(\rho=0.5\)</span> and <span class="math inline">\(\rho=0.99\)</span>.</p>
-<p>(iii) How does the behaviour compare with that of the chain <span class="math inline">\(\boldsymbol{\theta}^{(n)}\)</span> considered in Example 3.2.1?</p></li>
+<p>(i) Find the parameters of the joint distribution of <span class="math inline">\((\psi_1,\psi_2)&#39;\)</span> (that is, find the mean vector and variance matrix).</p>
+<p>(ii) Implement a Gibbs sampler (in R) to generate <span class="math inline">\(N=1000\)</span> samples directly from the joint distribution you have obtained in (i), with <span class="math inline">\(\rho=0.99\)</span>.</p>
+<p>(iii) Is the behavior of the resulting <em>zero order</em> Markov chain affected by <span class="math inline">\(\rho\)</span>?</p>
+<p><strong>[15 marks]</strong></p>
+<p>(b) Let <span class="math inline">\(\tilde{\theta}_1=\frac{1}{\sqrt{2}}(\psi_1+\psi_2)\)</span> and <span class="math inline">\(\tilde{\theta}_2=\frac{1}{\sqrt{2}}(\psi_1-\psi_2)\)</span>.</p>
+<p>(i) What is the joint distribution of <span class="math inline">\(\tilde{\boldsymbol{\theta}}=(\tilde{\theta}_1,\tilde{\theta}_2)&#39;\)</span>?</p>
+<p>(ii) In R, and using your samples <span class="math inline">\(\boldsymbol{\psi}^{(1)},\ldots,\boldsymbol{\psi}^{(1000)}\)</span> from part (a)(ii), obtain samples <span class="math inline">\(\tilde{\boldsymbol{\theta}}^{(1)},\ldots,\tilde{\boldsymbol{\theta}}^{(1000)}\)</span>. Give the R code that you use here.</p>
+<p>(iii) Compare and contrast the mixing of <span class="math inline">\(\tilde{\boldsymbol{\theta}}^{(1)},\ldots,\tilde{\boldsymbol{\theta}}^{(1000)}\)</span> with that of a realisation <span class="math inline">\(\boldsymbol{\theta}^{(1)},\ldots,\boldsymbol{\theta}^{(1000)}\)</span> obtained by running the code from Example 3.2.1 (see also Lab 1) for 1000 iterations and <span class="math inline">\(\rho=0.99\)</span>.</p>
+<p><strong>[20 marks]</strong></p></li>
 </ol>
+<p><strong>[TOTAL: 50 marks]</strong></p>
 </section>
 <script>
 function doNumbering() {
