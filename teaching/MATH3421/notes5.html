@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>notes5</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/x-mathjax-config">
+  	MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "ams"} } });
+  	// I need to wait until MathJax has finished before running the numbering script
+  	MathJax.Hub.Register.StartupHook("End",function(){doNumbering()});
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#preliminaries"><span class="toc-section-number">1</span> Preliminaries</a></li>
+<li><a href="#the-metropolis-hastings-algorithm"><span class="toc-section-number">2</span> The Metropolis-Hastings algorithm</a></li>
+<li><a href="#the-gibbs-sampler"><span class="toc-section-number">3</span> The Gibbs sampler</a></li>
+<li><a href="#bayesian-inference-via-mcmc"><span class="toc-section-number">4</span> Bayesian inference via MCMC</a></li>
+<li><a href="#sequential-monte-carlo"><span class="toc-section-number">5</span> Sequential Monte Carlo</a>
+<ul>
+<li><a href="#motivating-examples"><span class="toc-section-number">5.1</span> Motivating examples</a></li>
+<li><a href="#hidden-markov-models-and-aims"><span class="toc-section-number">5.2</span> Hidden Markov models and aims</a></li>
+<li><a href="#weighted-resampling-for-hmms"><span class="toc-section-number">5.3</span> Weighted resampling for HMMs</a></li>
+<li><a href="#filtering-recursions"><span class="toc-section-number">5.4</span> Filtering recursions</a></li>
+<li><a href="#the-particle-filter"><span class="toc-section-number">5.5</span> The particle filter</a></li>
+<li><a href="#observed-data-likelihood"><span class="toc-section-number">5.6</span> Observed data likelihood</a></li>
+<li><a href="#better-particle-filters"><span class="toc-section-number">5.7</span> Better particle filters</a></li>
+<li><a href="#particle-filter-theory-in-brief"><span class="toc-section-number">5.8</span> Particle filter theory in brief</a></li>
+</ul></li>
+</ul>
+</nav>
+<section id="preliminaries" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Preliminaries</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes1">here</a>.</p>
+</section>
+<section id="the-metropolis-hastings-algorithm" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> The Metropolis-Hastings algorithm</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes2">here</a>.</p>
+</section>
+<section id="the-gibbs-sampler" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> The Gibbs sampler</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes3">here</a>.</p>
+</section>
+<section id="bayesian-inference-via-mcmc" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Bayesian inference via MCMC</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes4">here</a>.</p>
+</section>
+<section id="sequential-monte-carlo" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Sequential Monte Carlo</h1>
+<p>Often, observations arrive sequentially in time and one is interested in performing inference <em>on-line</em>. From a Bayesian perspective, it is therefore necessary to update the posterior distribution as data become available. Examples include tracking aircraft using radar measurements, estimating a communications signal using noisy measurements or estimating volatility of financial instruments using stock market data.</p>
+<p>The MCMC applications that we have looked at so far can be thought of as <em>batch analyses</em>, that is, we run the sampler for all available data we are in receipt of. A naive approach to implementing MCMC in a sequential fashion involves re-running the sampler (from scratch) as each observation arrives. This is wasteful (in terms of both storage and computational cost). A different approach is therefore required. This will involve a cunning implementation of the <em>weighted resampling</em> algorithm of Chapter 1.</p>
+<section id="motivating-examples" class="level2" data-number="5.1">
+<h2 data-number="5.1"><span class="header-section-number">5.1</span> Motivating examples</h2>
+<p>Suppose that we have data <span class="math inline">\(y_{0:T}=(y_0,\ldots,y_T)&#39;\)</span>, of a process observed discretely and noisily over a time interval <span class="math inline">\([0,T]\)</span>.</p>
+<p><strong>Example 5.1.1:</strong> <strong>(Stochastic volatility.)</strong> <em>The model is <span class="math display">\[\begin{aligned}
+X_0 &amp;\sim N\left(0,\, \frac{\sigma^2}{1-\phi^2} \right),\\
+X_t|X_{t-1}=x_{t-1} &amp;\sim N\left(\phi x_{t-1},\, \sigma^2  \right),\quad t=1,\ldots,T,\\
+Y_{t}|X_{t}=x_t &amp;\sim N\left(0,\, \kappa^2\exp\{x_t\} \right), \quad t=0,\ldots,T.\end{aligned}\]</span></em></p>
+<p><strong>Remarks:</strong></p>
+<ul>
+<li><p><span class="math inline">\(X_t\)</span>, <span class="math inline">\(t=0,\ldots,T\)</span> is a <em>hidden Markov process</em> since it is unobserved and Markovian.</p></li>
+<li><p>Conditional on <span class="math inline">\(x_{0:T}\)</span>, a particular observation only depends on the value of the hidden process at the observation time and is independent of all other observations.</p></li>
+</ul>
+<p><strong>Example 5.1.2:</strong> <strong>(Tracking a bird/plane/missile (in 1-d).)</strong> <em>Consider the following model for the evolution of the position <span class="math inline">\(s\)</span> and velocity <span class="math inline">\(v\)</span> of a bird/plane/missile and a noisy observation of its position <span class="math inline">\(y\)</span>: <span class="math display">\[\begin{aligned}
+S_0 &amp;\sim N(0,\, 1/4), \quad V_0=\frac{\sigma^2}{1-\phi^2}\epsilon_0,\\
+S_t &amp;=s_{t-1}+v_{t-1},\quad t=1,\ldots,T,\\
+V_t &amp;=\phi v_{t-1}+\sigma \epsilon_t,\quad t=1,\ldots,T\\
+Y_{t} &amp;=S_t + \omega_t, \quad t=0,\ldots,T\end{aligned}\]</span> where <span class="math inline">\(\epsilon_t\sim t_5\)</span> are iid, <span class="math inline">\(\omega_t\sim N(0,\kappa^2)\)</span> are iid, <span class="math inline">\(\phi\in(0,1)\)</span>, <span class="math inline">\(\sigma&gt;0\)</span> and <span class="math inline">\(\kappa&gt;0\)</span>.</em> <em>The structure is the same as the SV model: <span class="math inline">\(X_t=(S_t,V_t)&#39;\)</span> is Markovian and is unobserved; the observation <span class="math inline">\(Y_t\)</span> is a noisy function of <span class="math inline">\(X_t\)</span>.</em></p>
+<p><em>Suppose that <span class="math inline">\(\phi=0.9\)</span>, <span class="math inline">\(\sigma=0.5\)</span> and <span class="math inline">\(\kappa=1\)</span>. The following suite of R functions can be used to simulate the process with <span class="math inline">\(T=50\)</span>.</em></p>
+<div class="sourceCode" id="cb1" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">## Tracking model</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a> <span class="co">## Function to simulate initial condition</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a> x0Sim=<span class="cf">function</span>(theta)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a> {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  phi=theta[<span class="dv">1</span>]; sigma=theta[<span class="dv">2</span>]; kappa=theta[<span class="dv">3</span>]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>  <span class="kw">return</span>(<span class="kw">c</span>(<span class="fl">0.5</span><span class="op">*</span><span class="kw">rnorm</span>(<span class="dv">1</span>),<span class="kw">rt</span>(<span class="dv">1</span>,<span class="dt">df=</span><span class="dv">5</span>)<span class="op">*</span>sigma<span class="op">/</span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">-</span>phi<span class="op">^</span><span class="dv">2</span>)))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a> }</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a> <span class="co">## Function to simulate X_t|X_{t-1}=x</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a> </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a> xtSim=<span class="cf">function</span>(x,theta)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a> {</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>  phi=theta[<span class="dv">1</span>]; sigma=theta[<span class="dv">2</span>]; kappa=theta[<span class="dv">3</span>]</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>  xnew=<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">2</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>  xnew=<span class="kw">c</span>(x[<span class="dv">1</span>]<span class="op">+</span>x[<span class="dv">2</span>],phi<span class="op">*</span>x[<span class="dv">2</span>]<span class="op">+</span>sigma<span class="op">*</span><span class="kw">rt</span>(<span class="dv">1</span>,<span class="dt">df=</span><span class="dv">5</span>))</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a>  <span class="kw">return</span>(xnew)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a> }</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a> </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a> <span class="co">## Function to simulate Y_t|X_t=x</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a> </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a> ytSim=<span class="cf">function</span>(x,theta)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true"></a> {</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true"></a>  phi=theta[<span class="dv">1</span>]; sigma=theta[<span class="dv">2</span>]; kappa=theta[<span class="dv">3</span>]</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true"></a>  <span class="kw">return</span>(x[<span class="dv">1</span>]<span class="op">+</span>kappa<span class="op">*</span><span class="kw">rnorm</span>(<span class="dv">1</span>))</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true"></a> }</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true"></a> </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true"></a> <span class="co">## Function to simulate {X_t} and {Y_t} over [0,T]</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true"></a> </span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true"></a> modelSim=<span class="cf">function</span>(T,theta)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true"></a> {</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true"></a>  Xmat=<span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dt">nrow=</span>T<span class="op">+</span><span class="dv">1</span>,<span class="dt">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true"></a>  Yvec=<span class="kw">rep</span>(<span class="dv">0</span>,T<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true"></a>  x=<span class="kw">x0Sim</span>(theta); y=<span class="kw">ytSim</span>(x,theta)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true"></a>  Xmat[<span class="dv">1</span>,]=x; Yvec[<span class="dv">1</span>]=y</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>(T<span class="op">+</span><span class="dv">1</span>))</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true"></a>  {</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true"></a>   x=<span class="kw">xtSim</span>(x,theta); y=<span class="kw">ytSim</span>(x,theta)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true"></a>   Xmat[i,]=x; Yvec[i]=y</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true"></a>  }</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true"></a>  <span class="kw">return</span>(<span class="kw">list</span>(Xmat,Yvec))</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true"></a> }</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true"></a> </span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true"></a> <span class="co">## Run and plot</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true"></a> out=<span class="kw">modelSim</span>(<span class="dv">50</span>,<span class="kw">c</span>(<span class="fl">0.9</span>,<span class="fl">0.5</span>,<span class="dv">1</span>))</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true"></a> </span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true"></a> <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="kw">ts</span>(out[[<span class="dv">1</span>]][,<span class="dv">2</span>]),<span class="dt">ylab=</span><span class="st">&quot;Vt&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;t&quot;</span>)</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="kw">ts</span>(out[[<span class="dv">1</span>]][,<span class="dv">1</span>]),<span class="dt">ylab=</span><span class="st">&quot;St&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;t&quot;</span>)</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="kw">ts</span>(out[[<span class="dv">2</span>]]),<span class="dt">type=</span><span class="st">&quot;p&quot;</span>)</span></code></pre></div>
+<p> </p>
+<div class="center">
+<figure>
+<embed src="../graphics/smc1.pdf" id="fig:figSMC1" style="width:16cm;height:8cm" /><figcaption aria-hidden="true">Tracking model. Left panel: Velocity <span class="math inline">\(V_t\)</span> (unobserved). Right panel: Position <span class="math inline">\(S_t\)</span> (unobserved) and noisy observations <span class="math inline">\(Y_t\)</span> thereof.</figcaption>
+</figure>
+</div>
+</section>
+<section id="hidden-markov-models-and-aims" class="level2" data-number="5.2">
+<h2 data-number="5.2"><span class="header-section-number">5.2</span> Hidden Markov models and aims</h2>
+<p>A discretely observed <em>hidden Markov model (HMM)</em> is a Markov model where the true state is not observed; instead only a noisy function of the state is observed, and only at a discrete set of time points. An HMM is also known as a <em>state-space model</em>.</p>
+<p><strong>Definition:</strong> <em>A state-space model is a time series model that consists of two discrete-time processes <span class="math inline">\(\{X_t,t\geq 0\}\)</span> and <span class="math inline">\(\{Y_t,t\geq 0\}\)</span> taking values respectively in spaces <span class="math inline">\(\mathcal{X}\)</span> and <span class="math inline">\(\mathcal{Y}\)</span>. The model is specified by densities <span class="math inline">\(p(x_0|\boldsymbol{\theta})\)</span>, <span class="math inline">\(p(x_t|x_{0:t-1},\boldsymbol{\theta})=p(x_t|x_{t-1},\boldsymbol{\theta})\)</span> and <span class="math inline">\(p(y_t|x_t,y_{0:t-1},\boldsymbol{\theta})=p(y_t|x_t,\boldsymbol{\theta})\)</span>, for some parameter vector <span class="math inline">\(\boldsymbol{\theta}\)</span>.</em></p>
+<p><strong>Remarks:</strong></p>
+<ul>
+<li><p>The above definition describes a generative probabilistic model, where <span class="math inline">\(X_0\)</span> is drawn from the initial density <span class="math inline">\(p(x_0|\boldsymbol{\theta})\)</span>, and then each <span class="math inline">\(X_t\)</span> is drawn conditionally on the previous draw <span class="math inline">\(X_{t-1}=x_{t-1}\)</span> according to the density <span class="math inline">\(p(x_t|x_{t-1},\boldsymbol{\theta})\)</span>, and each <span class="math inline">\(Y_t\)</span> conditionally on the most recent <span class="math inline">\(X_t=x_t\)</span> from <span class="math inline">\(p(y_t|x_t,\boldsymbol{\theta})\)</span>.</p></li>
+<li><p>The model can be represented graphically by having variables as nodes and an edge between two variables that are related by one of the kernels in the above definition.</p>
+<p> </p>
+<div class="center">
+<figure>
+<img src="../graphics/dag.png" id="fig:figSMCgraph" style="width:95.0%" alt="Partially observed Markov process as an undirected graphical model." /><figcaption aria-hidden="true">Partially observed Markov process as an undirected graphical model.</figcaption>
+</figure>
+</div></li>
+</ul>
+<section id="aims" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1"><span class="header-section-number">5.2.1</span> Aims</h3>
+<p>When analysing HMMs, there are typically 3 key aims:</p>
+<ul>
+<li><p><strong>Filtering:</strong> after a new observation arrives, we wish to learn the corresponding hidden state via the filtering density <span class="math inline">\(p(x_t|y_{0:t})\)</span>.</p></li>
+<li><p><strong>Smoothing:</strong> given all of the data, learn the hidden states via the smoothing density <span class="math inline">\(p(x_{0:t}|y_{0:T})\)</span>.</p></li>
+<li><p><strong>Parameter inference:</strong> learn the parameters via the (marginal) posterior density <span class="math inline">\(\pi(\boldsymbol{\theta}|y_{0:T})\)</span>.</p></li>
+</ul>
+<p>The first two aims are tractable (that is, given the parameters, the filtering and smoothing distributions are available in closed form) when:</p>
+<ol>
+<li><p>the unobserved Markov chain has a finite number of states or</p></li>
+<li><p>the unobserved Markov chain is a Gaussian autoregressive process (explored further in the tutorial questions).</p></li>
+</ol>
+<p>Except in these two cases, <em>sequential Monte Carlo</em> methods provide the best generic methods for filtering and smoothing. These methods are known as <em>particle filtering</em> and <em>particle smoothing</em>. The remainder of this chapter will focus on <em>particle filtering</em>, which is based on the idea of approximating distributions by <em>weighted samples</em>. We will therefore have a quick refresher of the weighted resampling algorithm, and it’s use within the context of an HMM.</p>
+<p><strong>For now we will assume that we know the parameter values and drop them from the notation where possible.</strong></p>
+</section>
+</section>
+<section id="weighted-resampling-for-hmms" class="level2" data-number="5.3">
+<h2 data-number="5.3"><span class="header-section-number">5.3</span> Weighted resampling for HMMs</h2>
+<p>Consider a target density <span class="math inline">\(f(x)\)</span> and a proposal density <span class="math inline">\(g(x)\)</span>. We can view weighted resampling algorithmically as follows:</p>
+<ol>
+<li><p>Gnerate <span class="math inline">\(N\)</span> iid samples <span class="math inline">\(x^{(1)},\ldots,x^{(N)}\)</span> from <span class="math inline">\(g(x)\)</span>.</p></li>
+<li><p>Construct and normalise the importance weights. For <span class="math inline">\(i=1,\ldots,N\)</span>: <span class="math display">\[w(x^{(i)})=\frac{f(x^{(i)})}{g(x^{(i)})},\quad \tilde{w}(x^{(i)})=\frac{w(x^{(i)})}{\sum_{k=1}^N w(x^{(k)})}.\]</span></p></li>
+<li><p>Resample (with replacement) from the discrete distribution on <span class="math inline">\(\{x^{(1)},\ldots,x^{(N)}\}\)</span> with associated probabilities <span class="math inline">\(\{\tilde{w}(x^{(1)}),\ldots,\tilde{w}(x^{(N)})\}\)</span>.</p></li>
+</ol>
+<p><strong>Remarks:</strong></p>
+<ul>
+<li><p>Recall that after step 2, we have an <em>empirical approximation</em> of <span class="math inline">\(f(x)\)</span> as <span class="math display">\[\hat{f}(x) = \sum_{i=1}^{N} \tilde{w}(x^{(i)})\delta (x-x^{(i)})\]</span> where <span class="math inline">\(\delta\)</span> denotes the Dirac mass function.</p></li>
+<li><p>After step 3, we have an equally weighted sample <span class="math inline">\(\{x^{(1)},\ldots,x^{(N)}\}\)</span>, approximately distributed according to <span class="math inline">\(f\)</span>.</p></li>
+<li><p>An obvious question is how to choose <span class="math inline">\(N\)</span>. The accuracy of an estimator of <span class="math inline">\(\mathbb{E}_f[h(X)]\)</span> will depend on the weight function and <span class="math inline">\(h(\cdot)\)</span>.</p></li>
+<li><p>As a rough guide, the <em>effective sample size</em>, which is estimated as <span class="math display">\[\textrm{ESS}= \frac{1}{\sum_{i=1}^N\left(\tilde{w}(x^{(i)}\right)^2}\]</span> gives the number of iid samples necessary to obtain (roughly) the same accuracy as the estimator based on the weighted sample.</p></li>
+</ul>
+<section id="application-to-hmms" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1"><span class="header-section-number">5.3.1</span> Application to HMMs</h3>
+<p>Consider a target of the form <span class="math display">\[p(x_{0:T}|y_{0:T})\propto p(x_{0:T})p(y_{0:T}|x_{0:T})\]</span> where <span class="math display">\[\begin{aligned}
+p(x_{0:T})&amp;= p(x_0)\prod_{t=1}^T p(x_t|x_{t-1}), \\
+p(y_{0:T}|x_{0:T})&amp;=\prod_{t=0}^T p(y_t|x_t).\end{aligned}\]</span> Now take the proposal density to be <span class="math inline">\(g(x_{0:T})=p(x_{0:T})\)</span>. To sample a path, we first simulate the initial value <span class="math inline">\(x_0\)</span> using <span class="math inline">\(p(x_0)\)</span>, then given this initial value we draw <span class="math inline">\(x_1\)</span> from <span class="math inline">\(p(x_1|x_0)\)</span> etc. The weight for sample <span class="math inline">\(x_{0:T}^{(i)}\)</span> is <span class="math display">\[w(x_{0:T}^{(i)})=p(y_{0:T}|x_{0:T}^{(i)}).\]</span></p>
+<p><strong>Example 5.3.1:</strong> <strong>(Tracking model revisited.)</strong> <em>Consider the tracking model and data. Using <span class="math inline">\(g(x_{0:T})=p(x_{0:T})\)</span> as the proposal density gives the weight of a sample <span class="math inline">\(x_{0:T}^{(i)}\)</span> as <span class="math display">\[w(x_{0:T}^{(i)})=\prod_{t=0}^T N\left(y_t;\, s_t^{(i)} ,\, \kappa^2 \right).\]</span></em> <em>Take <span class="math inline">\(N=5\)</span>. The plot below shows the data and the 5 proposed realisations.</em></p>
+<p> </p>
+<div class="center">
+<figure>
+<embed src="../graphics/smc2.pdf" id="fig:figSMC2" style="width:11cm;height:9cm" /><figcaption aria-hidden="true">Tracking model. Data and 5 realisations of <span class="math inline">\(X_{0:T}\)</span>.</figcaption>
+</figure>
+</div>
+<p><em>The normalised weights are <span class="math inline">\(1,0,0,0,0,\)</span> and the ESS is 1. If we reduce <span class="math inline">\(T\)</span> to 4 (giving 5 observations) and increase <span class="math inline">\(N\)</span> to 100, we obtain an ESS of around 3. However, reducing <span class="math inline">\(T\)</span> to 1 (giving 2 observations) gives an ESS of around 40, and reducing <span class="math inline">\(T\)</span> further still to 0 (giving 1 observation) gives an ESS of around 96.</em></p>
+<p><strong>Remarks:</strong></p>
+<ul>
+<li><p>The effective sample size can degrade very quickly as the number of observations increases; typically, the degradation is exponential in the number of observations.</p></li>
+<li><p>The degradation is manageable with just one observation.</p></li>
+<li><p>Applying weighted resampling to each observation in turn might work! In fact, we can do this by exploiting the structure of the HMM.</p></li>
+</ul>
+<p>First, we will describe the ideal ‘one-at-a-time’ updates before considering the weighted resampling approximation to these updates; use of weighted resampling in this way is known as <em>particle filtering</em>.</p>
+</section>
+</section>
+<section id="filtering-recursions" class="level2" data-number="5.4">
+<h2 data-number="5.4"><span class="header-section-number">5.4</span> Filtering recursions</h2>
+<p>We need the <em>filtering densities</em> <span class="math inline">\(p(x_t|y_{0:t})\)</span>, <span class="math inline">\(t=0,\ldots,T\)</span>. It will be helpful to note that <em>the special structure</em> of the HMM means that <span class="math display">\[p(x_t|x_{t-1},y_{0:t-1})=p(x_t|x_{t-1}),\quad \textrm{and} \quad p(y_t|x_{t},y_{0:t-1})=p(y_t|x_t).\]</span></p>
+<ul>
+<li><p>Consider <span class="math inline">\(t=0\)</span>. Using Bayes Theorem, we have that <span class="math display">\[p(x_0|y_0) = \frac{p(x_0)p(y_0|x_0)}{p(y_0)}\]</span> where the numerator is <span class="math inline">\(p(x_0,y_0)\)</span>. Note that the <em>normalising constant</em> is <span class="math inline">\(p(y_0)=\int p(x_0,y_0) dx_0\)</span>. Hence, <span class="math display">\[\boxed{
+p(x_0|y_0) \propto p(x_0)p(y_0|x_0).
+}\]</span></p></li>
+<li><p>Now consider <span class="math inline">\(t\in\{1,2,\ldots,T\}\)</span> and suppose that we ‘know’ <span class="math inline">\(p(x_{t-1}|y_{0:t-1})\)</span>. Bayes Theorem gives <span class="math display">\[\begin{aligned}
+p(x_t|y_{0:t-1},y_t) &amp;= \frac{p(x_t,y_t|y_{0:t-1})}{p(y_t|y_{0:t-1})}\\
+&amp;=\frac{p(x_t|y_{0:t-1})p(y_t|x_t,y_{0:t-1})}{p(y_t|y_{0:t-1})}\\
+&amp;=\frac{p(x_t|y_{0:t-1})p(y_t|x_t)}{p(y_t|y_{0:t-1})}\\\end{aligned}\]</span> where the last line uses the special structure of the HMM. Now, write the first term in the numerator as <span class="math display">\[\begin{aligned}
+p(x_t|y_{0:t-1}) &amp;= \int p(x_t,x_{t-1}|y_{0:t-1})dx_{t-1}\\
+&amp;=\int p(x_{t-1}|y_{0:t-1})p(x_t|x_{t-1},y_{0:t-1})dx_{t-1}\\
+&amp;=\int p(x_{t-1}|y_{0:t-1})p(x_t|x_{t-1})dx_{t-1}\end{aligned}\]</span> where the last line again uses the special structure of the HMM. Putting it all together gives <span class="math display">\[\boxed{
+p(x_t|y_{0:t})\propto p(y_t|x_t) \int p(x_{t-1}|y_{0:t-1})p(x_t|x_{t-1})dx_{t-1}.
+}\]</span> Note that the <em>normalising constant</em> is <span class="math inline">\(p(y_t|y_{0:t-1}))=\int p(x_t,y_t|y_{0:t-1}) dx_t\)</span>.</p></li>
+<li><p>The <em>observed data likelihood</em> is <span class="math display">\[p(y_{0:T})=p(y_0)\prod_{t=1}^T p(y_t|y_{0:t-1}).\]</span></p></li>
+</ul>
+<p>As already stated, these densities are intracatable except in two special cases. We will therefore look at a Monte Carlo method for approximating the filtering densities.</p>
+</section>
+<section id="the-particle-filter" class="level2" data-number="5.5">
+<h2 data-number="5.5"><span class="header-section-number">5.5</span> The particle filter</h2>
+<p>Consider weighted resampling to approximate <span class="math inline">\(p(x_0|y_0)\)</span> by drawing <span class="math inline">\(x_0^{(i)}\)</span> from <span class="math inline">\(p(x_0)\)</span>, <span class="math inline">\(i=1,\ldots,N\)</span> and constructing weights <span class="math inline">\(w_0(x_0^{(i)})=p(y_0|x_0^{(i)})\)</span>. Normalising the weights gives <span class="math display">\[\tilde{w}_0(x_0^{(i)})= \frac{w_0(x_0^{(i)})}{\sum_{k=1}^N w_0(x_0^{(k)})}.\]</span> Hence, we may approximate <span class="math inline">\(p(x_0|y_0)\)</span> via <span class="math display">\[\widehat{p}(x_0|y_0) = \sum_{i=1}^N \tilde{w}_0(x_0^{(i)}) \delta (x_0-x_0^{(i)}).\]</span> The particle filter then samples <span class="math inline">\(N\)</span> times from this distribution to get a new, <em>unweighted</em> sample from <span class="math inline">\(\widehat{p}(x_0|y_0)\approx p(x_0|y_0)\)</span>. This is equivalent to resampling (with replacement) from the existing sample with probabilities given by the normalised weights.</p>
+<p>These steps can be summarised as follows:</p>
+<ol>
+<li><p><strong>Initialise</strong> with an unweighted sample of size <span class="math inline">\(M\)</span> drawn from the prior distribution of <span class="math inline">\(x_0\)</span>, <span class="math inline">\(p(x_0)\)</span>.</p></li>
+<li><p><strong>Weight</strong> each sample <span class="math inline">\(x_0^{(i)}\)</span> by the likelihood <span class="math inline">\(p(y_0|x_0^{(i)})\)</span>.</p></li>
+<li><p><strong>Resample</strong>: simulate <span class="math inline">\(N\)</span> values of <span class="math inline">\(x_0\)</span> with probabilities proportional to the weights to obtain an approximate unweighted sample from <span class="math inline">\(p(x_0|y_0)\)</span>. Denote the resulting sample by <span class="math inline">\(x_0^{(1)},\ldots,x_0^{(N)}\)</span>.</p></li>
+</ol>
+<p>Now we observe <span class="math inline">\(y_1\)</span> and we wish to obtain a sample approximately distributed according to <span class="math inline">\(p(x_1|y_{0:1})\)</span>. We construct the approximation <span class="math display">\[\widehat{p}(x_1|y_{0:1})\propto p(y_1|x_1)\widehat{p}(x_1|y_0).\]</span> <strong>Crucially</strong>, <span class="math inline">\(\widehat{p}(x_1|y_0)\)</span> is <strong>easy</strong> to sample from, by taking each <span class="math inline">\(x_0^{(i)}|y_0\)</span> from step 3 above and drawing from <span class="math inline">\(p(x_1|x_0^{(i)})\)</span> to obtain <span class="math inline">\(x_1^{(i)}|y_0\)</span>, <span class="math inline">\(i=1,\ldots,N\)</span>. Hence, applying weighted resampling to the target <span class="math inline">\(\widehat{p}(x_1|y_{0:1})\)</span> with proposal density <span class="math inline">\(\widehat{p}(x_1|y_0)\)</span> performs the following steps:</p>
+<ol>
+<li><p><strong>Propagate</strong>: for each sample <span class="math inline">\(x_0^{(i)}|y_0\)</span>, draw from <span class="math inline">\(p(x_1|x_0^{(i)})\)</span> to obtain <span class="math inline">\(x_1^{(i)}|y_0\)</span>, <span class="math inline">\(i=1,\ldots,N\)</span>.</p></li>
+<li><p><strong>weight</strong> each <span class="math inline">\(x_1^{(i)}|y_0\)</span> by the likelihood <span class="math inline">\(p(y_1|x_1^{(i)})\)</span>.</p></li>
+<li><p><strong>Resample</strong>: simulate <span class="math inline">\(N\)</span> values of <span class="math inline">\(x_1\)</span> with probabilities proportional to the weights to obtain an approximate unweighted sample from <span class="math inline">\(p(x_1|y_{0:1})\)</span>. Denote the resulting sample by <span class="math inline">\(x_1^{(1)},\ldots,x_1^{(N)}\)</span>.</p></li>
+</ol>
+<p>Repeating these steps, in general to deal with observation <span class="math inline">\(y_t\)</span> gives:</p>
+<ol>
+<li><p><strong>Propagate</strong>: for each sample <span class="math inline">\(x_{t-1}^{(i)}|y_{0:t-1}\)</span>, draw from <span class="math inline">\(p(x_t|x_{t-1}^{(i)})\)</span> to obtain <span class="math inline">\(x_t^{(i)}|y_{0:t-1}\)</span>, <span class="math inline">\(i=1,\ldots,N\)</span>.</p></li>
+<li><p><strong>weight</strong> each <span class="math inline">\(x_t^{(i)}|y_{0:t-1}\)</span> by the likelihood <span class="math inline">\(p(y_t|x_t^{(i)})\)</span>.</p></li>
+<li><p><strong>Resample</strong>: simulate <span class="math inline">\(N\)</span> values of <span class="math inline">\(x_t\)</span> with probabilities proportional to the weights to obtain an approximate unweighted sample from <span class="math inline">\(p(x_t|y_{0:t})\)</span>. Denote the resulting sample by <span class="math inline">\(x_t^{(1)},\ldots,x_t^{(N)}\)</span>.</p></li>
+</ol>
+<p><strong>Remarks:</strong></p>
+<ul>
+<li><p>After each step 2, we have the approximation <span class="math display">\[\widehat{p}(x_t|y_{0:t}) = \sum_{i=1}^N \tilde{w}_t(x_t^{(i)}) \delta (x_t-x_t^{(i)})\]</span> based on the weighted sample.</p></li>
+<li><p>After each step 3, this becomes <span class="math display">\[\widehat{p}(x_t|y_{0:t}) = \frac{1}{M}\sum_{i=1}^N \delta (x_t-x_t^{(i)})\]</span> and can be (straightforwardly) used to estimate expectations of the form <span class="math inline">\(\mathbb{E}_{X_t|y_{0:t}}[h(X_t)]\)</span> by the equivalent sample average.</p></li>
+<li><p>Executing steps 1–3 recursively corresponds to the <em>sample-importance-resampling</em> filter of Gordon, Salmond and Smith (1993), also know as the <em>bootstrap particle filter</em>.</p></li>
+</ul>
+<p><strong>Example 5.5.1:</strong> <strong>(Tracking model revisited.)</strong> <em>The following R code implements the bootstrap particle filter (BPF) for this model. The first function is used for weight evaluation in the BPF.</em></p>
+<div class="sourceCode" id="cb2" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co">## Bootstrap particle filter for tracking model</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a> <span class="co">## Uses functions x0Sim and xtSim above</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a> <span class="co">## Function to evaluate log p(y_t|x_t)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a> llike=<span class="cf">function</span>(y,x,theta)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a> {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>  phi=theta[<span class="dv">1</span>]; sigma=theta[<span class="dv">2</span>]; kappa=theta[<span class="dv">3</span>]</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>  <span class="kw">return</span>(<span class="op">-</span><span class="fl">0.5</span><span class="op">*</span>(y<span class="op">-</span>x[<span class="dv">1</span>])<span class="op">^</span><span class="dv">2</span><span class="op">/</span>kappa<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a> }</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a> </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a> <span class="co">## Function to implement particle filter to track position</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a> </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a> BPF=<span class="cf">function</span>(N,theta,ydata)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a> {</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>  endT=<span class="kw">length</span>(ydata)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a>  <span class="co"># Store unweighted samples from filtering density for position here:</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a>  mat=<span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dt">nrow=</span>N,<span class="dt">ncol=</span>endT) </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a>  wts=<span class="kw">rep</span>(<span class="dv">0</span>,N) <span class="co"># Store weights here</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a>  x=<span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dt">nrow=</span>N,<span class="dt">ncol=</span><span class="dv">2</span>) <span class="co"># Samples of current state X_t=(S_t,V_t)</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true"></a>  <span class="co"># Initialise (t=0)</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>N)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true"></a>  {</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true"></a>   x[j,]=<span class="kw">x0Sim</span>(theta) <span class="co">#Sample prior</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true"></a>   wts[j]=<span class="kw">llike</span>(ydata[<span class="dv">1</span>],x[j,<span class="dv">1</span>],theta) <span class="co"># Weight</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true"></a>  }</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true"></a>  x=x[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>N,N,<span class="ot">TRUE</span>,<span class="kw">exp</span>(wts)),] <span class="co"># Resample</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true"></a>  mat[,<span class="dv">1</span>]=x[,<span class="dv">1</span>] <span class="co"># Store position</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true"></a>  <span class="co"># Loop for times t=1,...,T</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>endT)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true"></a>  {</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true"></a>   <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>N)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true"></a>   {</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true"></a>     x[j,]=<span class="kw">xtSim</span>(x[j,],theta)  <span class="co"># Propagate</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true"></a>     wts[j]=<span class="kw">llike</span>(ydata[i],x[j,<span class="dv">1</span>],theta) <span class="co"># Weight</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true"></a>   }</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true"></a>   x=x[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>N,N,<span class="ot">TRUE</span>,<span class="kw">exp</span>(wts)),] <span class="co"># Resample</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true"></a>   mat[,i]=x[,<span class="dv">1</span>] <span class="co"># Store position</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true"></a>  }</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true"></a>  <span class="kw">return</span>(mat)</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true"></a> }</span></code></pre></div>
+<p><em>We then generate the data and run the BPF as folows.</em></p>
+<div class="sourceCode" id="cb3" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="co">## Generate synthetic data and store in out</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a> out=<span class="kw">modelSim</span>(<span class="dv">50</span>,<span class="kw">c</span>(<span class="fl">0.9</span>,<span class="fl">0.5</span>,<span class="dv">1</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a> <span class="co">## Run BPF</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a> filt=<span class="kw">BPF</span>(<span class="dv">100</span>,<span class="kw">c</span>(<span class="fl">0.9</span>,<span class="fl">0.5</span>,<span class="dv">1</span>),out[[<span class="dv">2</span>]])</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a> <span class="co">## Construct and plot filtering summaries</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a> filt_mean=<span class="kw">apply</span>(filt,<span class="dv">2</span>,mean)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a> filt_lq=<span class="kw">apply</span>(filt,<span class="dv">2</span>,quantile,<span class="fl">0.025</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a> filt_uq=<span class="kw">apply</span>(filt,<span class="dv">2</span>,quantile,<span class="fl">0.975</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a> </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="kw">ts</span>(filt_mean),<span class="dt">ylab=</span><span class="st">&quot;St&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;t&quot;</span>,<span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>,<span class="dv">40</span>))</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="kw">ts</span>(filt_lq))</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="kw">ts</span>(filt_uq))</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="kw">ts</span>(out[[<span class="dv">1</span>]][,<span class="dv">1</span>]),<span class="dt">type=</span><span class="st">&quot;p&quot;</span>) <span class="co"># ground truth position</span></span></code></pre></div>
+<p> </p>
+<div class="center">
+<figure>
+<embed src="../graphics/smc3.pdf" id="fig:figSMC3" style="width:11cm;height:9cm" /><figcaption aria-hidden="true">Tracking model, filtering distribution summaries. Mean and 95% credible interval for <span class="math inline">\(S_t|y_{0:t}\)</span>. The ground truth values of <span class="math inline">\(S_t\)</span> are shown by the circles.</figcaption>
+</figure>
+</div>
+</section>
+<section id="observed-data-likelihood" class="level2" data-number="5.6">
+<h2 data-number="5.6"><span class="header-section-number">5.6</span> Observed data likelihood</h2>
+<p>Recall that the <em>observed data likelihood</em> is <span class="math display">\[p(y_{0:T})=p(y_0)\prod_{t=1}^T p(y_t|y_{0:t-1}).\]</span> Now, we have that <span class="math inline">\(\widehat{p}(x_0)=\frac{1}{N}\sum_{i=1}^N \delta (x_0-x_0^{(i)})\)</span>, so <span class="math display">\[\begin{aligned}
+p(y_0)&amp;= \int p(x_0)p(y_0|x_0) dx_0\\
+&amp;\approx \int \widehat{p}(x_0)p(y_0|x_0) dx_0\\
+&amp;= \frac{1}{N} \sum_{i=1}^N p(y_0|x_0^{(i)})\\
+&amp;=\frac{1}{N} \sum_{i=1}^N w_0(x_0^{(i)}).\end{aligned}\]</span> After <span class="math inline">\(y_{t-1}\)</span> has been assimilated and the hidden process simulated forward to time <span class="math inline">\(t\)</span>, we have that <span class="math inline">\(\widehat{p}(x_t|y_{0:t-1})=\frac{1}{N}\sum_{i=1}^N \delta (x_t-x_t^{(i)})\)</span>. Hence, <span class="math display">\[\begin{aligned}
+p(y_t|y_{0:t-1})&amp;=\int p(x_t|y_{0:t-1})p(y_t|x_t)dx_t\\
+&amp;\approx \widehat{p}(x_t|y_{0:t-1})p(y_t|x_t)dx_t\\
+&amp;=\frac{1}{N} \sum_{i=1}^N p(y_t|x_t^{(i)})\\
+&amp;=\frac{1}{N} \sum_{i=1}^N w_t(x_t^{(i)}).\end{aligned}\]</span> Therefore, we may estimate the observed data likelihood via <span class="math display">\[\widehat{p}(y_{0:T})=\widehat{p}(y_0)\prod_{t=1}^T \widehat{p}(y_t|y_{0:t-1}).\]</span></p>
+<p><strong>Remarks:</strong></p>
+<ul>
+<li><p>The above estimator is <em>unbiased</em> (although hard to prove, and beyond the scope of this course).</p></li>
+<li><p>The estimator is the product (over time points) of the average un-normalised weight.</p></li>
+</ul>
+<p><strong>Example 5.6.1:</strong> <strong>(Tracking model revisited.)</strong> <em>The <code>BPF</code> function can be easily modified to calculate the average weight stored in the <code>wts</code> vector. Taking the logarithm of this average and adding up over time points gives an estimate of the log (observed data) likelihood. For example, calculating 3 realisations of the log-likelihood for different values of <span class="math inline">\(N\)</span> gives:</em></p>
+<div class="sourceCode" id="cb4" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="co">## N=10</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="fl">-77.34225</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="fl">-91.22439</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="fl">-114.1485</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a><span class="co">## N=50</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="fl">-63.63864</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="fl">-58.62918</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="fl">-62.57907</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a><span class="co">## N=500</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="fl">-55.24049</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="fl">-57.28235</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true"></a>[<span class="dv">1</span>] <span class="fl">-57.2842</span></span></code></pre></div>
+<p><em>The ground truth is around <span class="math inline">\(-56.1\)</span>. Plainly, increasing <span class="math inline">\(N\)</span> will lead to greater accuracy but increases computational cost.</em></p>
+</section>
+<section id="better-particle-filters" class="level2" data-number="5.7">
+<h2 data-number="5.7"><span class="header-section-number">5.7</span> Better particle filters</h2>
+<p>Upon receipt of the observation <span class="math inline">\(y_t\)</span>, the bootstrap particle filter targets <span class="math display">\[\widehat{p}(x_t|y_{0:t})\propto p(y_t|x_t)\widehat{p}(x_t|y_{0:t-1})\]</span> by using <span class="math inline">\(\widehat{p}(x_t|y_{0:t-1})\)</span> as the proposal density. The proposal is sampled by taking each <span class="math inline">\(x_{t-1}^{(i)}|y_{0:t-1}\)</span> and drawing from <span class="math inline">\(p(x_t|x_{t-1}^{(i)})\)</span> to obtain <span class="math inline">\(x_t^{(i)}|y_{0:t-1}\)</span>, <span class="math inline">\(i=1,\ldots,N\)</span>. This leads to the weight <span class="math display">\[w_t(x_t^{(i)}) = \frac{\widehat{p}(x_t^{(i)}|y_{0:t})}{\widehat{p}(x_t^{(i)}|y_{0:t-1})} = p(y_t|x_t^{(i)}).\]</span> Note that the particle <span class="math inline">\(x_t^{(i)}\)</span> is generated via forward simulation from <span class="math inline">\(p(x_t|x_{t-1}^{(i)})\)</span>, which does not depend on <span class="math inline">\(y_t\)</span> at all. In fact, we are ‘free’ to generate particles from an arbitrary proposal density <span class="math inline">\(g(x_t|x_{t-1})\)</span> for which the importance weight is <span class="math display">\[w_t(x_t^{(i)}) = \frac{p(y_t|x_t^{(i)})p(x_t^{(i)}|x_{t-1}^{(i)})}{g(x_t^{(i)}|x_{t-1}^{(i)})}.\]</span> It can be shown that (see tutorial questions) <span class="math inline">\(g(x_t|x_{t-1})=p(x_t|x_{t-1},y_t)\)</span> is optimal in the sense of minimising the variance of the weights. Unfortunately, <span class="math inline">\(p(x_t|x_{t-1},y_t)\)</span> is rarely tractable, and we instead seek some approximation thereof, for propagating particles.</p>
+</section>
+<section id="particle-filter-theory-in-brief" class="level2" data-number="5.8">
+<h2 data-number="5.8"><span class="header-section-number">5.8</span> Particle filter theory in brief</h2>
+<p>There is extensive theory underpinning particle filters. In a nutshell, if the model mixes quickly, then it is possible to develop particle filters whose Monte Carlo variability is bounded in time. We call such filters <em>stable</em>. Roughly, the idea of quick mixing is related to requiring the amount the distribution <span class="math inline">\(X_T|y_{0:T},x_t\)</span> depends on <span class="math inline">\(x_t\)</span> to decay exponentially as <span class="math inline">\(T-t\)</span> increases. Put another way, to prevent the asymptotic variance from blowing up, we need the impact of past time steps to vaish; that is, that the past is forgotten in some sense.</p>
+<p>Resampling is crucial to obtaining long-term stability of particle filter algorithms (when it is possible).</p>
+<p>Filters for the <em>path</em> of the hidden state are not <em>stable</em> in time; nor is the estimate of the marginal likelihood.</p>
+<p>For a stable process, subject to conditions, we have approximately, if <span class="math inline">\(N\)</span> is large enough (e.g., Chopin, 2004, Ann. Stat.) and <span class="math inline">\(T\)</span> is fixed: <span class="math display">\[\sum_{i=1}^N w_T(x_T^{(i)})h(x_T^{(i)}) -\mathbb{E}\left[h(X_T)|y_{0:T} \right]\sim N(0,\frac{1}{N}\lambda^2_{h,T}),\]</span> for some <span class="math inline">\(\lambda_{h,T}^2\)</span>. For fixed <span class="math inline">\(T\)</span>, the approximation to <span class="math inline">\(\mathbb{E}[h(X_T)|y_{0:T}]\)</span> gets better and better as <span class="math inline">\(N\to\infty\)</span> with the usual <span class="math inline">\(1/N\)</span> rate for Monte Carlo approximations. Importantly, for a fixed <span class="math inline">\(h\)</span>, <span class="math inline">\(\lambda_{h,T}\)</span> is bounded as <span class="math inline">\(t\to\infty\)</span>; thus for calculating expectations at the final time point, the behaviour is stable when the number of particles is fixed.</p>
+<p>Now set <span class="math inline">\(\widehat{p}(y_{0:T})=\prod_{t=0}^T \frac{1}{N}\sum_{i=1}^N w_t(x_t^{(i)})\)</span>. For any fixed <span class="math inline">\(T\)</span> and large <span class="math inline">\(N\)</span>, approximately <span class="math display">\[\frac{1}{p(y_{0:T})}\{ \widehat{p}(y_{0:T})-p(y_{0:T})\} \overset{D}{=} \frac{1}{\sqrt{N}}V_T\]</span> for some fixed random variable <span class="math inline">\(V_T\)</span>.</p>
+<p>Finally, if <span class="math inline">\(T\)</span> is large and <span class="math inline">\(N\)</span> is of similar size, then approximately: <span class="math display">\[\log \widehat{p}(y_{0:T}) - \log p(y_{0:T}) \sim N\left(-\frac{T}{2N}\lambda^2\,,\,\frac{T}{N}\lambda^2  \right)\]</span> for some <span class="math inline">\(\lambda^2\)</span>. Hence, as the length of the time series increases, for stable behaviour in the calculation of the observed data likelihood, the number of particles should be increased in proportion to <span class="math inline">\(T\)</span>.</p>
+</section>
+</section>
+<script>
+function doNumbering() {
+	// The syntax to read the structured data from the yaml is horrible, template literals fix the problem but probably aren't widely supported enough. Escaping line breaks is browser dependant. I don't know if there's a better way?
+	// Note that the data from the yaml file is manipulated into an array, and then parsed back into strings later, but I didn't want to deal with the pandoc templating syntax longer than necessary.
+	var supportedEnvsArrayString = ' .definition;;; .theorem;;; .lemma;;; .example;;; .exampleqed;;; .proposition;;; .remark;;; .corollary;;; .exercise;;; .question';
+	var supportedEnvsArray = supportedEnvsArrayString.split("|||");
+	supportedEnvsArray = supportedEnvsArray.map(inner => inner.split(";;;"));
+	var numberWithin = '1';
+	var counterOffset = '';
+	var subcounterOffset = '';
+	var problemCounter = '';
+	const partLabels = 'abcdefghijklmnopqrstuvwxyz'.split('');
+	
+	// counterOffset may be negative, and by default if specified on the command line this gets string concatenated with the default given in the yaml config and this then causes a problem. Can be fixed by removing the default in the config file and converting to an int, but this causes a NaN error if no value is suplied on the command line, so if NaN set to 0.
+	counterOffset = parseInt(counterOffset);
+	if (isNaN(counterOffset)) {
+		counterOffset = 0;
+	}
+	
+	subcounterOffset = parseInt(subcounterOffset);
+	if (isNaN(subcounterOffset)) {
+		subcounterOffset = 0;
+	}
+	
+	problemCounter = parseInt(problemCounter);
+	if (isNaN(problemCounter)) {
+		problemCounter = 1;
+	}
+	
+	function sanitiseSelector(selector) {
+		// tex labels often have colons in which need escaping. There may be other escaping needed here. Unfortunately neither encodeURI nor encodeURIComponent do what I need, so use regex to do the escaping manually.
+		var sanitised = selector.replace(/\:/g,"\\\:");
+		sanitised = sanitised.replace(/(^[\d])/,"\\3$1 ");
+		sanitised = sanitised.replace(/\//g,"\\\/");
+		return sanitised
+	}
+	
+	function labelLinks() {
+		var refs = document.querySelectorAll("a[data-reference-type=ref]")
+		for (ref of refs) {
+			// Escape colons (or other) from the link title.
+			var ref_label = sanitiseSelector(ref.getAttribute("data-reference"));
+			// Hopefully ref is a reference to a div or a section, which should have the associated id. If so, we just need the data-number from the relevant DOM item.
+			var ref_to = document.querySelector("#"+ref_label);
+			if (ref_to !== null) {
+				var ref_number = ref_to.getAttribute("data-number");
+			} else {
+				// If ref is being used for an equation, then we need to try to parse the mathjax divs. This is fragile, but try to find the span which corresponds to the equation number we need.
+				try {
+					var mathjax_ref = "#mjx-eqn-"+ref_label;
+					ref_to = document.querySelector(mathjax_ref);
+					// Since this is a ref, we don't want the parens to be returned, so find the equation number and strip the parens.
+					var ref_number = ref_to.querySelector(".mjx-char").innerHTML.replace(/[()]/g,"");
+					ref.setAttribute("href",mathjax_ref);
+				}
+				// If we can't find a place to link to, just indicate a missing link.
+				catch (err){
+					var ref_number = "???"
+				}
+			}
+			ref.innerHTML = ref_number;
+		};
+	}
+	
+	function numberEnvs() {
+		for (var levelSpec = 0; levelSpec <= numberWithin; levelSpec++) {
+			var reqLevels = document.querySelectorAll(".level"+levelSpec);
+			for (var level of reqLevels) {
+				levelCount = level.getAttribute("data-number");
+				levelCount = String(parseFloat(levelCount)+(counterOffset));
+				levelCount = levelCount+(("."+subcounterOffset).repeat(numberWithin-levelSpec));
+				for (var counter of supportedEnvsArray) {
+					var envCount = 1;
+					var envs = level.querySelectorAll(counter.join(", "));
+					for (var env of envs) {
+						env.setAttribute("data-number",levelCount+"."+envCount);
+						envCount += 1;
+					}
+				}
+			}
+		}
+	}
+	
+	function numberFigs() {
+		// Figures should either be in a figure environment, or a table with image class imageTable thanks to the tableCaps filter.
+		figs = document.querySelectorAll("figure, .imageTable");
+		var fig_no = 1
+		for (var fig of figs) {
+			var cap
+			// For figures, we want to move the id to the figure, and set the data-number on both the figure and the figcaption
+			if (fig.nodeName == "FIGURE") {
+				cap = fig.querySelector("figcaption");
+				var img = fig.querySelector("img, embed")
+				if (img) {
+					var img_id = img.getAttribute("id");
+					fig.setAttribute("id",img_id);
+					img.removeAttribute("id");
+				}
+			// for tables (which must be .imageTable due to the querySelector above), we want to set the data-number on the table and the caption
+			} else if (fig.nodeName == "TABLE") {
+				cap = fig.querySelector("caption");
+			}
+			cap.setAttribute("data-number",fig_no);
+			fig.setAttribute("data-number",fig_no);
+			fig_no += 1;
+		}
+	}
+	
+	function numberGlobals() {
+		// This function numbers any environments that just use a global counter, such as a problem number on a problems sheet, where there are no sections to number with respect to.
+		probsols = document.querySelectorAll(".problem, .solution");
+		var prob_no = problemCounter;
+		var partNo = 0;
+		for (var probsol of probsols) {
+			if (probsol.className == "problem"){
+				prob_no +=1;
+				partNo = 0;
+				probsol.setAttribute("data-number",prob_no);
+			}
+			else {
+				if (probsol.parentNode.nodeName == "LI") {
+					var partLabel = partLabels[partNo];
+					probsol.setAttribute("data-number",prob_no.toString()+partLabel);
+					partNo +=1;
+				}
+				else{
+					probsol.setAttribute("data-number",prob_no);
+				}
+			}
+			
+		}
+		// sols = document.querySelectorAll(".solution");
+// 		var sol_no = problemCounter;
+// 		for (var sol of sols) {
+// 			sol.setAttribute("data-number",sol_no);
+// 			sol_no +=1
+// 		}
+	}
+	
+	// labelLinks() should occur last, so that the data-numbers have been correctly set first.
+	numberEnvs();
+	numberFigs();
+	numberGlobals();
+	labelLinks();
+}
+</script><script>
+	var imageDir = ''
+	imgs = document.querySelectorAll("img");
+	for (var img of imgs) {
+		imgsrc = img.getAttribute("src");
+		img.setAttribute("src",imageDir.concat(imgsrc));
+	}
+</script></body>
+</html>
