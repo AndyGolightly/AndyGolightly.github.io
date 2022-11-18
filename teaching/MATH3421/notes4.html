@@ -140,7 +140,7 @@ X_i | \mu, \tau &amp;\sim N(\mu, 1/\tau)\ \textrm{independently, for\ }i=1,\ldot
 h+\frac{n}{2}\left[ s^2+(\bar{x}-\mu)^2 \right] \right)\\
 \mu|\tau,\boldsymbol{x}&amp;\sim N\left( \frac{bc+n\tau\bar{x}}{c+n\tau}, \frac{1}{c+n\tau} \right).\end{aligned}\]</span> It therefore seems natural to apply the Gibbs sampler to this problem. The (deterministic scan) Gibbs sampler takes the following form:</p>
 <ol>
-<li><p>Initialise the state of the chain <span class="math inline">\((\mu^{(0)},\tau^{(0)})^{T}\)</span> e.g. using the prior mean <span class="math inline">\((10,10)&#39;\)</span>. Initialise the iteration counter to <span class="math inline">\(j=1\)</span>.</p></li>
+<li><p>Initialise the state of the chain <span class="math inline">\((\mu^{(0)},\tau^{(0)})&#39;\)</span> e.g. using the prior mean <span class="math inline">\((10,10)&#39;\)</span>. Initialise the iteration counter to <span class="math inline">\(j=1\)</span>.</p></li>
 <li><p>Obtain a new values <span class="math inline">\(\mu^{(j)}\)</span> and <span class="math inline">\(\tau^{(j)}\)</span> from by successive generation of values</p>
 <ul>
 <li><p><span class="math inline">\(\mu^{(j)}\sim  N\left( \frac{bc+n\tau^{(j-1)}\bar{x}}{n\tau^{(j-1)}+c}, \frac{1}{n\tau^{(j-1)}+c} \right)\)</span></p></li>
@@ -204,8 +204,8 @@ h+\frac{n}{2}\left[ s^2+(\bar{x}-\mu^{(j)})^2 \right] \right)\)</span></p></li>
 <p>We will use a proposal of the form <span class="math display">\[\boldsymbol{\theta}^{*}=\boldsymbol{\theta}+\boldsymbol{w}, \qquad \boldsymbol{w}\sim N(\boldsymbol{0},V)\,.\]</span> Thus, <span class="math inline">\(\boldsymbol{\theta}^{*}\sim N(\boldsymbol{\theta},V)\)</span>. We therefore need to be able to simulate multivariate Normal random quantities. This is possible in R with <code>mvrnorm</code> which requires the MASS package, or alternatively we can devise our own algorithm. A simple way to generate <span class="math inline">\(d\)</span>-dimensional <span class="math inline">\(N(\boldsymbol{m},V)\)</span> random quantities using just univariate <span class="math inline">\(N(0,1)\)</span> realisations is as follows.</p>
 <ol>
 <li><p>Generate <span class="math inline">\(d\)</span> independent <span class="math inline">\(N(0,1)\)</span> realisations, <span class="math inline">\(z_{1},z_{2},\ldots ,z_{d}\)</span> and stack these in the <span class="math inline">\(d\times 1\)</span> vector <span class="math inline">\(\boldsymbol{z}\)</span>.</p></li>
-<li><p>Find a matrix <span class="math inline">\(A\)</span> such that <span class="math inline">\(V=AA^{T}\)</span>. For example, use the <em>Cholesky</em> decomposition so that <span class="math inline">\(A\)</span> is lower triangular.</p></li>
-<li><p>Take <span class="math inline">\(\boldsymbol{m}+A\boldsymbol{z}\)</span> as a <span class="math inline">\(N(\boldsymbol{m},V)\)</span> realisation.</p></li>
+<li><p>Find a matrix <span class="math inline">\(A\)</span> such that <span class="math inline">\(V=A&#39;A\)</span> (or <span class="math inline">\(V=AA&#39;\)</span>). For example, use the <em>Cholesky</em> decomposition so that <span class="math inline">\(A\)</span> is lower triangular. (The <code>chol()</code> function in R gives a matrix <span class="math inline">\(A\)</span> such that <span class="math inline">\(V=A&#39;A\)</span>.)</p></li>
+<li><p>Take <span class="math inline">\(\boldsymbol{m}+A&#39;\boldsymbol{z}\)</span> as a <span class="math inline">\(N(\boldsymbol{m},V)\)</span> realisation.</p></li>
 </ol>
 <p>These steps can be implemented in R as follows.</p>
 <div class="sourceCode" id="cb2" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co">## Multivariate normal simulation</span></span>
