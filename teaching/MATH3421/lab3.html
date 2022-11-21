@@ -237,7 +237,9 @@ I_{t+\Delta t}&amp;\approx I_t+(\beta S_t I_t -\gamma I_t)\Delta t\end{aligned}\
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>S.lq =<span class="st"> </span><span class="kw">apply</span>(S.mat,<span class="dv">1</span>,quantile,<span class="fl">0.025</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>S.uq =<span class="st"> </span><span class="kw">apply</span>(S.mat,<span class="dv">1</span>,quantile,<span class="fl">0.975</span>)</span></code></pre></div>
 <p>Hence, give a time series plot of the mean of the susceptible process and overlay a 95% credible interval. The resulting plot is a summary of the predictive distribution of the susceptible process.</p>
-<p><strong>Bonus</strong>: repeat the above steps for the infective process, and additionally overlay the data.</p>
+<p><strong>Bonus 1</strong>: repeat the above steps for the infective process, and additionally overlay the data.</p>
+<p><strong>Bonus 2</strong>: the statistical model <span class="math display">\[Y_t\overset{\textrm{indep}}{\sim} N(I_t,\sigma^2), \qquad t=0,1\ldots,14.\]</span> assumes that the observation error / discrepancy between the observations and latent infective process has the same variance irrespective of the latent infected state.</p>
+<p>Can you think of a model (or models) that would overcome this issue?</p>
 <p><strong>End of practical!</strong></p>
 </section>
 <script>
