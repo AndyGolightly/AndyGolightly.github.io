@@ -508,7 +508,7 @@ f(\boldsymbol{y}|\boldsymbol{\theta}) &amp;= \int f(\boldsymbol{y},\boldsymbol{x
 <span id="cb11-37"><a href="#cb11-37" aria-hidden="true"></a>  <span class="kw">print</span>(<span class="kw">c</span>(count1<span class="op">/</span>(N<span class="dv">-1</span>),count2<span class="op">/</span>(N<span class="dv">-1</span>)))</span>
 <span id="cb11-38"><a href="#cb11-38" aria-hidden="true"></a>  <span class="kw">return</span>(<span class="kw">list</span>(mat,matX))</span>
 <span id="cb11-39"><a href="#cb11-39" aria-hidden="true"></a> }</span></code></pre></div>
-<p>We call the function with <span class="math inline">\(N=50,000\)</span> iterations, <span class="math inline">\(\boldsymbol{\theta}\)</span> initialised at the prior mean and <span class="math inline">\(\boldsymbol{x}\)</span> initialised at the length-101 vector of zeros.</p>
+<p>We call the function with <span class="math inline">\(N=50,000\)</span> iterations, and <span class="math inline">\(\boldsymbol{\theta}\)</span> and <span class="math inline">\(\boldsymbol{x}\)</span> initialised at the ground truth.</p>
 <div class="sourceCode" id="cb12" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="co"># Run and plot parameter output</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">3421</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a> out=<span class="kw">metropolis</span>(<span class="dv">50000</span>,ydata,V,B,<span class="kw">c</span>(<span class="dv">2</span>,<span class="kw">log</span>(<span class="fl">0.1</span>),<span class="kw">log</span>(<span class="fl">0.5</span>)),xs)</span>
