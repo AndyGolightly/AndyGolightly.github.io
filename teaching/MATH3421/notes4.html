@@ -415,7 +415,7 @@ f(\boldsymbol{y}|\boldsymbol{\theta}) &amp;= \int f(\boldsymbol{y},\boldsymbol{x
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true"></a> {</span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true"></a>  x=<span class="fl">0.9</span><span class="op">*</span>x<span class="op">+</span><span class="kw">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="fl">0.1</span>)</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true"></a>  xs[i<span class="op">+</span><span class="dv">1</span>]=x</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true"></a>  ydata[i]=<span class="kw">rnorm</span>(<span class="dv">1</span>,x,<span class="fl">0.5</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true"></a>  ydata[i]=<span class="kw">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="fl">0.5</span><span class="op">*</span><span class="kw">exp</span>(<span class="fl">0.5</span><span class="op">*</span>x))</span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true"></a> }</span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true"></a> </span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true"></a> <span class="co">## Plot</span></span>
@@ -544,8 +544,8 @@ f(\boldsymbol{y}|\boldsymbol{\theta}) &amp;= \int f(\boldsymbol{y},\boldsymbol{x
 </table>
 <p><strong>Remarks:</strong></p>
 <ul>
-<li><p>The effective sample sizes for logit <span class="math inline">\(\phi\)</span>, <span class="math inline">\(\log \sigma\)</span> and <span class="math inline">\(\log \kappa\)</span> are 496, 22 and 103, suggesting that a run of at least ten times the current length would be preferred.</p></li>
-<li><p>The acceptance rates for the <span class="math inline">\(\boldsymbol{\theta}\)</span> and <span class="math inline">\(\boldsymbol{x}\)</span> updates are 0.41 and 0.24 respectively.</p></li>
+<li><p>The effective sample sizes for logit <span class="math inline">\(\phi\)</span>, <span class="math inline">\(\log \sigma\)</span> and <span class="math inline">\(\log \kappa\)</span> are 424, 44 and 112, suggesting that a run of at least ten times the current length would be preferred.</p></li>
+<li><p>The acceptance rates for the <span class="math inline">\(\boldsymbol{\theta}\)</span> and <span class="math inline">\(\boldsymbol{x}\)</span> updates are 0.41 and 0.27 respectively.</p></li>
 <li><p>The worst mixing chain is that for <span class="math inline">\(\theta_2=\log \sigma\)</span>. This is the <em>volatility of the volatility</em> parameter, and is well known to be hard to estimate.</p></li>
 <li><p>We can summarise the marginal posterior distrubtion of the dynamic <span class="math inline">\(X_t\)</span> process at each time <span class="math inline">\(t\)</span> by computing the posterior mean and a <span class="math inline">\(95\%\)</span> equi-tailed credible interval via the follwong code.</p></li>
 </ul>
