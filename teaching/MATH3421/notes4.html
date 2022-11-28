@@ -407,7 +407,7 @@ f(\boldsymbol{y}|\boldsymbol{\theta}) &amp;= \int f(\boldsymbol{y},\boldsymbol{x
 <div class="sourceCode" id="cb8" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="co">## Generate synthetic data</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a> </span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">3421</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a> x=<span class="dv">2</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a> x=<span class="dv">0</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a> nt=<span class="dv">100</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true"></a> xs=<span class="kw">rep</span>(<span class="dv">0</span>,nt<span class="op">+</span><span class="dv">1</span>)</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true"></a> xs[<span class="dv">1</span>]=x; ydata=<span class="kw">rep</span>(<span class="dv">0</span>,nt)</span>
@@ -460,14 +460,14 @@ f(\boldsymbol{y}|\boldsymbol{\theta}) &amp;= \int f(\boldsymbol{y},\boldsymbol{x
 <p>Now, using that for a stationary AR(1) process, <span class="math display">\[Cov(X_s,X_t)=\frac{\sigma^2}{1-\phi^2}\phi^{|s-t|}\]</span> we use the following code to set <span class="math inline">\(V\)</span> and <span class="math inline">\(B\)</span>.</p>
 <div class="sourceCode" id="cb10" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="co">## Generate initial tuning matrix for theta update</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a> V=<span class="kw">diag</span>(<span class="kw">rep</span>(<span class="fl">0.01</span>,<span class="dv">3</span>)) <span class="co"># diagonal matrix</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a> V=<span class="kw">diag</span>(<span class="kw">rep</span>(<span class="fl">0.05</span>,<span class="dv">3</span>)) <span class="co"># diagonal matrix</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a> </span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a> <span class="co">## Generate initial tuning matrix for x update</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a> </span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a> phi=<span class="fl">0.9</span></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a> sigma=<span class="fl">0.1</span></span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a> times=<span class="kw">seq</span>(<span class="dv">0</span>,<span class="kw">length</span>(ydata),<span class="dv">1</span>)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a> B=<span class="fl">0.5</span><span class="op">*</span>sigma<span class="op">^</span><span class="dv">2</span><span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>phi<span class="op">^</span><span class="dv">2</span>)<span class="op">*</span>phi<span class="op">^</span><span class="kw">abs</span>(<span class="kw">outer</span>(times,times,<span class="st">&quot;-&quot;</span>))</span></code></pre></div>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a> B=<span class="fl">0.05</span><span class="op">*</span>sigma<span class="op">^</span><span class="dv">2</span><span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>phi<span class="op">^</span><span class="dv">2</span>)<span class="op">*</span>phi<span class="op">^</span><span class="kw">abs</span>(<span class="kw">outer</span>(times,times,<span class="st">&quot;-&quot;</span>))</span></code></pre></div>
 <p>Finally, the Metropolis sampler can be implemented via the following R function.</p>
 <div class="sourceCode" id="cb11" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a>metropolis=<span class="cf">function</span>(N,data,Vtune,Btune,theta0,x0)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a> {</span>
@@ -511,8 +511,8 @@ f(\boldsymbol{y}|\boldsymbol{\theta}) &amp;= \int f(\boldsymbol{y},\boldsymbol{x
 <p>We call the function with <span class="math inline">\(N=50,000\)</span> iterations, <span class="math inline">\(\boldsymbol{\theta}\)</span> initialised at the prior mean and <span class="math inline">\(\boldsymbol{x}\)</span> initialised at the length-101 vector of zeros.</p>
 <div class="sourceCode" id="cb12" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="co"># Run and plot parameter output</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">3421</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a> out=<span class="kw">metropolis</span>(<span class="dv">50000</span>,ydata,V,B,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>),<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">101</span>))</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a><span class="co">##[1] 0.4093882 0.2357647</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a> out=<span class="kw">metropolis</span>(<span class="dv">50000</span>,ydata,V,B,<span class="kw">c</span>(<span class="dv">2</span>,<span class="kw">log</span>(<span class="fl">0.1</span>),<span class="kw">log</span>(<span class="fl">0.5</span>)),xs)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a><span class="co">##[1] 0.1357227 0.3749275</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a> </span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a> phiVec=<span class="kw">exp</span>(out[[<span class="dv">1</span>]][,<span class="dv">1</span>])<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span><span class="kw">exp</span>(out[[<span class="dv">1</span>]][,<span class="dv">1</span>]))</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a> sigVec=<span class="kw">exp</span>(out[[<span class="dv">1</span>]][,<span class="dv">2</span>])</span>
@@ -544,8 +544,8 @@ f(\boldsymbol{y}|\boldsymbol{\theta}) &amp;= \int f(\boldsymbol{y},\boldsymbol{x
 </table>
 <p><strong>Remarks:</strong></p>
 <ul>
-<li><p>The effective sample sizes for logit <span class="math inline">\(\phi\)</span>, <span class="math inline">\(\log \sigma\)</span> and <span class="math inline">\(\log \kappa\)</span> are 424, 44 and 112, suggesting that a run of at least ten times the current length would be preferred.</p></li>
-<li><p>The acceptance rates for the <span class="math inline">\(\boldsymbol{\theta}\)</span> and <span class="math inline">\(\boldsymbol{x}\)</span> updates are 0.41 and 0.27 respectively.</p></li>
+<li><p>The effective sample sizes for logit <span class="math inline">\(\phi\)</span>, <span class="math inline">\(\log \sigma\)</span> and <span class="math inline">\(\log \kappa\)</span> are 499, 16 and 426, suggesting that a run of at least ten times the current length would be preferred.</p></li>
+<li><p>The acceptance rates for the <span class="math inline">\(\boldsymbol{\theta}\)</span> and <span class="math inline">\(\boldsymbol{x}\)</span> updates are 0.14 and 0.37 (– a little high and low resp. Needs further tuning!)</p></li>
 <li><p>The worst mixing chain is that for <span class="math inline">\(\theta_2=\log \sigma\)</span>. This is the <em>volatility of the volatility</em> parameter, and is well known to be hard to estimate.</p></li>
 <li><p>We can summarise the marginal posterior distrubtion of the dynamic <span class="math inline">\(X_t\)</span> process at each time <span class="math inline">\(t\)</span> by computing the posterior mean and a <span class="math inline">\(95\%\)</span> equi-tailed credible interval via the follwong code.</p></li>
 </ul>
