@@ -139,7 +139,7 @@ Y_{t}|X_{t}=x_t &amp;\sim N\left(0,\, \kappa^2\exp\{x_t\} \right), \quad t=0,\ld
 <li><p>Conditional on <span class="math inline">\(x_{0:T}\)</span>, a particular observation only depends on the value of the hidden process at the observation time and is independent of all other observations.</p></li>
 </ul>
 <p><strong>Example 5.1.2:</strong> <strong>(Tracking a bird/plane/missile (in 1-d).)</strong> <em>Consider the following model for the evolution of the position <span class="math inline">\(s\)</span> and velocity <span class="math inline">\(v\)</span> of a bird/plane/missile and a noisy observation of its position <span class="math inline">\(y\)</span>: <span class="math display">\[\begin{aligned}
-S_0 &amp;\sim N(0,\, 1/4), \quad V_0=\frac{\sigma^2}{1-\phi^2}\epsilon_0,\\
+S_0 &amp;\sim N(0,\, 1/4), \quad V_0=\frac{\sigma}{\sqrt{1-\phi^2}}\epsilon_0,\\
 S_t &amp;=s_{t-1}+v_{t-1},\quad t=1,\ldots,T,\\
 V_t &amp;=\phi v_{t-1}+\sigma \epsilon_t,\quad t=1,\ldots,T\\
 Y_{t} &amp;=S_t + \omega_t, \quad t=0,\ldots,T\end{aligned}\]</span> where <span class="math inline">\(\epsilon_t\sim t_5\)</span> are iid, <span class="math inline">\(\omega_t\sim N(0,\kappa^2)\)</span> are iid, <span class="math inline">\(\phi\in(0,1)\)</span>, <span class="math inline">\(\sigma&gt;0\)</span> and <span class="math inline">\(\kappa&gt;0\)</span>.</em> <em>The structure is the same as the SV model: <span class="math inline">\(X_t=(S_t,V_t)&#39;\)</span> is Markovian and is unobserved; the observation <span class="math inline">\(Y_t\)</span> is a noisy function of <span class="math inline">\(X_t\)</span>.</em></p>
@@ -317,8 +317,8 @@ p(x_t|y_{0:t})\propto p(y_t|x_t) \int p(x_{t-1}|y_{0:t-1})p(x_t|x_{t-1})dx_{t-1}
 <p><strong>Remarks:</strong></p>
 <ul>
 <li><p>After each step 2, we have the approximation <span class="math display">\[\widehat{p}(x_t|y_{0:t}) = \sum_{i=1}^N \tilde{w}_t(x_t^{(i)}) \delta (x_t-x_t^{(i)})\]</span> based on the weighted sample.</p></li>
-<li><p>After each step 3, this becomes <span class="math display">\[\widehat{p}(x_t|y_{0:t}) = \frac{1}{M}\sum_{i=1}^N \delta (x_t-x_t^{(i)})\]</span> and can be (straightforwardly) used to estimate expectations of the form <span class="math inline">\(\mathbb{E}_{X_t|y_{0:t}}[h(X_t)]\)</span> by the equivalent sample average.</p></li>
-<li><p>Executing steps 1–3 recursively corresponds to the <em>sample-importance-resampling</em> filter of Gordon, Salmond and Smith (1993), also know as the <em>bootstrap particle filter</em>.</p></li>
+<li><p>After each step 3, this becomes <span class="math display">\[\widehat{p}(x_t|y_{0:t}) = \frac{1}{N}\sum_{i=1}^N \delta (x_t-x_t^{(i)})\]</span> and can be (straightforwardly) used to estimate expectations of the form <span class="math inline">\(\mathbb{E}_{X_t|y_{0:t}}[h(X_t)]\)</span> by the equivalent sample average.</p></li>
+<li><p>Executing steps 1–3 recursively corresponds to the <em>sample-importance-resampling</em> filter of Gordon, Salmond and Smith (1993), also known as the <em>bootstrap particle filter</em>.</p></li>
 </ul>
 <p><strong>Example 5.5.1:</strong> <strong>(Tracking model revisited.)</strong> <em>The following R code implements the bootstrap particle filter (BPF) for this model. The first function is used for weight evaluation in the BPF.</em></p>
 <div class="sourceCode" id="cb2" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co">## Bootstrap particle filter for tracking model</span></span>
