@@ -159,44 +159,43 @@ Y_{t} &amp;=S_t + \omega_t, \quad t=0,\ldots,T\end{aligned}\]</span> where <span
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a> xtSim=<span class="cf">function</span>(x,theta)</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a> {</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>  phi=theta[<span class="dv">1</span>]; sigma=theta[<span class="dv">2</span>]; kappa=theta[<span class="dv">3</span>]</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>  xnew=<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">2</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>  xnew=<span class="kw">c</span>(x[<span class="dv">1</span>]<span class="op">+</span>x[<span class="dv">2</span>],phi<span class="op">*</span>x[<span class="dv">2</span>]<span class="op">+</span>sigma<span class="op">*</span><span class="kw">rt</span>(<span class="dv">1</span>,<span class="dt">df=</span><span class="dv">5</span>))</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a>  <span class="kw">return</span>(xnew)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a> }</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a> </span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a> <span class="co">## Function to simulate Y_t|X_t=x</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a> </span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a> ytSim=<span class="cf">function</span>(x,theta)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true"></a> {</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true"></a>  phi=theta[<span class="dv">1</span>]; sigma=theta[<span class="dv">2</span>]; kappa=theta[<span class="dv">3</span>]</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true"></a>  <span class="kw">return</span>(x[<span class="dv">1</span>]<span class="op">+</span>kappa<span class="op">*</span><span class="kw">rnorm</span>(<span class="dv">1</span>))</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true"></a> }</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true"></a> </span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true"></a> <span class="co">## Function to simulate {X_t} and {Y_t} over [0,T]</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true"></a> </span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true"></a> modelSim=<span class="cf">function</span>(T,theta)</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true"></a> {</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true"></a>  Xmat=<span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dt">nrow=</span>T<span class="op">+</span><span class="dv">1</span>,<span class="dt">ncol=</span><span class="dv">2</span>)</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true"></a>  Yvec=<span class="kw">rep</span>(<span class="dv">0</span>,T<span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true"></a>  x=<span class="kw">x0Sim</span>(theta); y=<span class="kw">ytSim</span>(x,theta)</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true"></a>  Xmat[<span class="dv">1</span>,]=x; Yvec[<span class="dv">1</span>]=y</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>(T<span class="op">+</span><span class="dv">1</span>))</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true"></a>  {</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true"></a>   x=<span class="kw">xtSim</span>(x,theta); y=<span class="kw">ytSim</span>(x,theta)</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true"></a>   Xmat[i,]=x; Yvec[i]=y</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true"></a>  }</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true"></a>  <span class="kw">return</span>(<span class="kw">list</span>(Xmat,Yvec))</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true"></a> }</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true"></a> </span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true"></a> <span class="co">## Run and plot</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true"></a></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">5</span>)</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true"></a> out=<span class="kw">modelSim</span>(<span class="dv">50</span>,<span class="kw">c</span>(<span class="fl">0.9</span>,<span class="fl">0.5</span>,<span class="dv">1</span>))</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true"></a> </span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true"></a> <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="kw">ts</span>(out[[<span class="dv">1</span>]][,<span class="dv">2</span>]),<span class="dt">ylab=</span><span class="st">&quot;Vt&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;t&quot;</span>)</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="kw">ts</span>(out[[<span class="dv">1</span>]][,<span class="dv">1</span>]),<span class="dt">ylab=</span><span class="st">&quot;St&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;t&quot;</span>)</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="kw">ts</span>(out[[<span class="dv">2</span>]]),<span class="dt">type=</span><span class="st">&quot;p&quot;</span>)</span></code></pre></div>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>  xnew=<span class="kw">c</span>(x[<span class="dv">1</span>]<span class="op">+</span>x[<span class="dv">2</span>],phi<span class="op">*</span>x[<span class="dv">2</span>]<span class="op">+</span>sigma<span class="op">*</span><span class="kw">rt</span>(<span class="dv">1</span>,<span class="dt">df=</span><span class="dv">5</span>))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>  <span class="kw">return</span>(xnew)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a> }</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a> </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a> <span class="co">## Function to simulate Y_t|X_t=x</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a> </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a> ytSim=<span class="cf">function</span>(x,theta)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a> {</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true"></a>  phi=theta[<span class="dv">1</span>]; sigma=theta[<span class="dv">2</span>]; kappa=theta[<span class="dv">3</span>]</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true"></a>  <span class="kw">return</span>(x[<span class="dv">1</span>]<span class="op">+</span>kappa<span class="op">*</span><span class="kw">rnorm</span>(<span class="dv">1</span>))</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true"></a> }</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true"></a> </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true"></a> <span class="co">## Function to simulate {X_t} and {Y_t} over [0,T]</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true"></a> </span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true"></a> modelSim=<span class="cf">function</span>(T,theta)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true"></a> {</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true"></a>  Xmat=<span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dt">nrow=</span>T<span class="op">+</span><span class="dv">1</span>,<span class="dt">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true"></a>  Yvec=<span class="kw">rep</span>(<span class="dv">0</span>,T<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true"></a>  x=<span class="kw">x0Sim</span>(theta); y=<span class="kw">ytSim</span>(x,theta)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true"></a>  Xmat[<span class="dv">1</span>,]=x; Yvec[<span class="dv">1</span>]=y</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>(T<span class="op">+</span><span class="dv">1</span>))</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true"></a>  {</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true"></a>   x=<span class="kw">xtSim</span>(x,theta); y=<span class="kw">ytSim</span>(x,theta)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true"></a>   Xmat[i,]=x; Yvec[i]=y</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true"></a>  }</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true"></a>  <span class="kw">return</span>(<span class="kw">list</span>(Xmat,Yvec))</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true"></a> }</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true"></a> </span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true"></a> <span class="co">## Run and plot</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true"></a> out=<span class="kw">modelSim</span>(<span class="dv">50</span>,<span class="kw">c</span>(<span class="fl">0.9</span>,<span class="fl">0.5</span>,<span class="dv">1</span>))</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true"></a> </span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true"></a> <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="kw">ts</span>(out[[<span class="dv">1</span>]][,<span class="dv">2</span>]),<span class="dt">ylab=</span><span class="st">&quot;Vt&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;t&quot;</span>)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="kw">ts</span>(out[[<span class="dv">1</span>]][,<span class="dv">1</span>]),<span class="dt">ylab=</span><span class="st">&quot;St&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;t&quot;</span>)</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="kw">ts</span>(out[[<span class="dv">2</span>]]),<span class="dt">type=</span><span class="st">&quot;p&quot;</span>)</span></code></pre></div>
 <p> </p>
 <div class="center">
 <figure>
@@ -298,7 +297,7 @@ p(x_t|y_{0:t})\propto p(y_t|x_t) \int p(x_{t-1}|y_{0:t-1})p(x_t|x_{t-1})dx_{t-1}
 <p>Consider weighted resampling to approximate <span class="math inline">\(p(x_0|y_0)\)</span> by drawing <span class="math inline">\(x_0^{(i)}\)</span> from <span class="math inline">\(p(x_0)\)</span>, <span class="math inline">\(i=1,\ldots,N\)</span> and constructing weights <span class="math inline">\(w_0(x_0^{(i)})=p(y_0|x_0^{(i)})\)</span>. Normalising the weights gives <span class="math display">\[\tilde{w}_0(x_0^{(i)})= \frac{w_0(x_0^{(i)})}{\sum_{k=1}^N w_0(x_0^{(k)})}.\]</span> Hence, we may approximate <span class="math inline">\(p(x_0|y_0)\)</span> via <span class="math display">\[\widehat{p}(x_0|y_0) = \sum_{i=1}^N \tilde{w}_0(x_0^{(i)}) \delta (x_0-x_0^{(i)}).\]</span> The particle filter then samples <span class="math inline">\(N\)</span> times from this distribution to get a new, <em>unweighted</em> sample from <span class="math inline">\(\widehat{p}(x_0|y_0)\approx p(x_0|y_0)\)</span>. This is equivalent to resampling (with replacement) from the existing sample with probabilities given by the normalised weights.</p>
 <p>These steps can be summarised as follows:</p>
 <ol>
-<li><p><strong>Initialise</strong> with an unweighted sample of size <span class="math inline">\(M\)</span> drawn from the prior distribution of <span class="math inline">\(x_0\)</span>, <span class="math inline">\(p(x_0)\)</span>.</p></li>
+<li><p><strong>Initialise</strong> with an unweighted sample of size <span class="math inline">\(N\)</span> drawn from the prior distribution of <span class="math inline">\(x_0\)</span>, <span class="math inline">\(p(x_0)\)</span>.</p></li>
 <li><p><strong>Weight</strong> each sample <span class="math inline">\(x_0^{(i)}\)</span> by the likelihood <span class="math inline">\(p(y_0|x_0^{(i)})\)</span>.</p></li>
 <li><p><strong>Resample</strong>: simulate <span class="math inline">\(N\)</span> values of <span class="math inline">\(x_0\)</span> with probabilities proportional to the weights to obtain an approximate unweighted sample from <span class="math inline">\(p(x_0|y_0)\)</span>. Denote the resulting sample by <span class="math inline">\(x_0^{(1)},\ldots,x_0^{(N)}\)</span>.</p></li>
 </ol>
