@@ -140,8 +140,8 @@ Y_{t}|X_{t}=x_t &amp;\sim N\left(0,\, \kappa^2\exp\{x_t\} \right), \quad t=0,\ld
 </ul>
 <p><strong>Example 5.1.2:</strong> <strong>(Tracking a bird/plane/missile (in 1-d).)</strong> <em>Consider the following model for the evolution of the position <span class="math inline">\(s\)</span> and velocity <span class="math inline">\(v\)</span> of a bird/plane/missile and a noisy observation of its position <span class="math inline">\(y\)</span>: <span class="math display">\[\begin{aligned}
 S_0 &amp;\sim N(0,\, 1/4), \quad V_0=\frac{\sigma}{\sqrt{1-\phi^2}}\epsilon_0,\\
-S_t &amp;=s_{t-1}+v_{t-1},\quad t=1,\ldots,T,\\
-V_t &amp;=\phi v_{t-1}+\sigma \epsilon_t,\quad t=1,\ldots,T\\
+S_t &amp;=S_{t-1}+V_{t-1},\quad t=1,\ldots,T,\\
+V_t &amp;=\phi V_{t-1}+\sigma \epsilon_t,\quad t=1,\ldots,T\\
 Y_{t} &amp;=S_t + \omega_t, \quad t=0,\ldots,T\end{aligned}\]</span> where <span class="math inline">\(\epsilon_t\sim t_5\)</span> are iid, <span class="math inline">\(\omega_t\sim N(0,\kappa^2)\)</span> are iid, <span class="math inline">\(\phi\in(0,1)\)</span>, <span class="math inline">\(\sigma&gt;0\)</span> and <span class="math inline">\(\kappa&gt;0\)</span>.</em> <em>The structure is the same as the SV model: <span class="math inline">\(X_t=(S_t,V_t)&#39;\)</span> is Markovian and is unobserved; the observation <span class="math inline">\(Y_t\)</span> is a noisy function of <span class="math inline">\(X_t\)</span>.</em></p>
 <p><em>Suppose that <span class="math inline">\(\phi=0.9\)</span>, <span class="math inline">\(\sigma=0.5\)</span> and <span class="math inline">\(\kappa=1\)</span>. The following suite of R functions can be used to simulate the process with <span class="math inline">\(T=50\)</span>.</em></p>
 <div class="sourceCode" id="cb1" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">## Tracking model</span></span>
