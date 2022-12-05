@@ -35,7 +35,7 @@
 <p>Not for hand in. These are about as hard as it gets. Solutions are available <a href="https://andygolightly.github.io/teaching/MATH3421/topic5QsSols">here</a>.</p>
 <ol>
 <li><p>Consider a weight function of the form <span class="math display">\[w_t(x_t) = \frac{p(y_t|x_t)p(x_t|x_{t-1})}{g(x_t|x_{t-1})}.\]</span></p>
-<p>(a) Show that <span class="math display">\[\mathrm{Var}_g(w_t(X_t))=\left(\int \frac{[p(x_t|x_{t-1})p(y_t|x_t)]^2}{g(x_t|x_{t-1})}dx_t   \right) - [p(y_t|x_{t-1})]^2.\]</span> Hint: Recall that for a random variable <span class="math inline">\(X\)</span>, <span class="math inline">\(\mathrm{Var}(X)=\mathbb{E}(X^2)-[\mathbb{E}(X)]^2\)</span>.</p>
+<p>(a) Show that <span class="math display">\[\mathrm{Var}_g[w_t(X_t)]=\left(\int \frac{[p(x_t|x_{t-1})p(y_t|x_t)]^2}{g(x_t|x_{t-1})}dx_t   \right) - [p(y_t|x_{t-1})]^2.\]</span> Hint: Recall that for a random variable <span class="math inline">\(X\)</span>, <span class="math inline">\(\mathrm{Var}(X)=\mathbb{E}(X^2)-[\mathbb{E}(X)]^2\)</span>.</p>
 <p>(b) Suppose that <span class="math inline">\(g(x_t|x_{t-1})=p(x_t|x_{t-1},y_t)\)</span>. Note that explicit conditioning of the density <span class="math inline">\(g\)</span> on <span class="math inline">\(y_t\)</span> has been supressed for notational simplicity. Show that <span class="math inline">\(\mathrm{Var}_g(w_t(X_t))=0\)</span>.</p></li>
 <li><p>Consider a hidden Markov model of the form <span class="math display">\[\begin{aligned}
 X_0&amp;\sim \textrm{Uniform}\{0,1\}\\
