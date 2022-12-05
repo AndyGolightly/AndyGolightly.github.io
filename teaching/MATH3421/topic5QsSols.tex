@@ -1,0 +1,346 @@
+\documentclass[12pt,BCOR2mm,DIV14,english]{scrreprt}
+\usepackage[pdftex,pdftitle={Bayesian computation and modelling III},pdflang={en-GB}]{hyperref}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage{babel,comment}
+\usepackage{listings}
+%\usepackage{minted}
+%\usepackage{blindtext}
+\KOMAoption{chapterprefix}{true}
+
+\usepackage{fancyvrb}
+
+\usepackage{paralist}
+\usepackage{natbib}
+\usepackage{microtype, booktabs}
+\usepackage{amsthm,amsmath,amsfonts,psfrag}
+\usepackage{latexsym}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\graphicspath{{../graphics/}}
+\addtolength{\parskip}{1ex}
+\pagestyle{fancy}
+\lhead{MATH3421}
+\chead{}
+\rhead{}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{listings}
+
+\usepackage{bm}
+\usepackage{xcolor}
+
+\lstset{ 
+  language=R,                     % the language of the code
+  basicstyle=\small\ttfamily, % the size of the fonts that are used for the code
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\small\color{Blue},  % the style that is used for the line-numbers
+  stepnumber=1,                   % the step between two line-numbers. If it is 1, each line
+                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  %keywordstyle=\color{RoyalBlue},      % keyword style
+  keywordstyle=\color{purple},	
+  commentstyle=\color{violet},   % comment style
+  %stringstyle=\color{ForestGreen}      % string literal style
+  stringstyle=\color{RoyalBlue} 
+} 
+
+
+
+%\newcommand{\pr}[2][]{\ensuremath{\mathrm{Pr}_{#1}\!\left(#2\right)}}
+\newenvironment{myhighlight}{\textit}{}
+%\renewenvironment{emph}{\textbf}{}
+\newcommand{\Exp}[2][]{\ensuremath{\mathrm{Exp}\left(#2\right)}}
+\newcommand{\Bin}[2][]{\ensuremath{\mathrm{Bin}\left(#2\right)}}
+\newcommand{\Po}[2][]{\ensuremath{\mathrm{Po}\left(#2\right)}}
+\newcommand{\cov}[2][]{\ensuremath{\mathrm{Cov}\left(#2\right)}}
+\newcommand{\cor}[2][]{\ensuremath{\mathrm{Cor}\left(#2\right)}}
+\newcommand{\diag}[2][]{\ensuremath{\mathrm{diag}\left(#2\right)}}
+\newcommand{\given}{\ensuremath{\ |\ }}
+\newcommand{\stationary}{\ensuremath{\vec{\pi}}}
+\newcommand{\identity}{\ensuremath{\vec{I}}}
+\renewcommand{\vec}[1]{\underline{#1}}
+\newcommand{\remove}[1]{}
+%\newcommand{\cover}[2]{\emph{#1}}
+\newcommand{\cover}[2]{{\color{red}{#2}}}
+
+\newcommand{\newnotes}{}\newcommand{\newstud}{}
+
+\newcommand{\smallnotes}{\renewcommand{\newnotes}{\newpage}
+   \newenvironment{soln}{\color{red}\begin{sloppypar}\bigskip\noindent
+      \textbf{\large Solution}\\~\\\noindent}{\end{sloppypar}\normalcolor}
+   \newenvironment{ggap}{\color{red}\begin{sloppypar}\bigskip\noindent}{\end{sloppypar}\normalcolor}}
+% full notes - with solns (staff version)
+\newcommand{\notes}{\renewcommand{\newstud}{\newpage}
+   \newenvironment{soln}{\begin{sloppypar}\bigskip\noindent
+      \textbf{\large Solution}\\~\color{red}\begingroup\LARGE
+      \noindent\\}{\endgroup\color{red}\end{sloppypar}}
+   \newenvironment{ggap}{\color{red}\begin{sloppypar}\bigskip\noindent
+      \begingroup\LARGE\noindent}{\endgroup\end{sloppypar}\normalcolor}}
+% full notes - with solns (student version)
+\newcommand{\studnotes}{\renewcommand{\newstud}{\newpage}
+   \newenvironment{soln}{\begin{sloppypar}\bigskip\noindent
+      \textbf{\large Solution}\\~\color{white}\begingroup\LARGE
+      \noindent\\}{\endgroup\color{white}\end{sloppypar}}
+   \newenvironment{ggap}{\begin{sloppypar}\bigskip\noindent\color{white}
+      \begingroup\LARGE\noindent}{\endgroup\color{white}\end{sloppypar}}}
+
+\newtheoremstyle{exmp}% hnamei
+{3pt}% hSpace abovei
+{3pt}% hSpace belowi
+{}% hBody fonti
+{}% hIndent amounti1
+{\bfseries}% hTheorem head fonti
+{:}% hPunctuation after theorem headi
+{.5em}% hSpace after theorem headi2
+{}% hTheorem head spec (can be left empty, meaning `normal')i
+\theoremstyle{exmp}
+\newtheorem{example}{Example}[section]
+
+%\def \var{{\textrm{Var}}}
+%\newcommand{\E}[2][]{\ensuremath{\mathrm{E}\left[#2\right]}}
+\def \R{\mathbb{R}}
+\def \Z{\mathbb{Z}}
+\def \proof{\noindent{\bfseries Proof:  }}
+\def \eproof{\qed\vskip .3cm}
+\def \union{\cup}
+\def \intersect{\cap}
+\newcommand{\ex}[2][]{\ensuremath{\mathrm{E}_{#1}\!\left[#2\right]}}
+\newcommand{\var}[2][]{\ensuremath{\mathrm{Var}_{#1}\left(#2\right)}}
+%\renewcommand{\det}[1][]{\ensuremath{\mathrm{det}\left(#1\right)}}
+\newtheorem{defn}{Definition}[section]
+%\newtheorem*{example}{Example}
+\newtheorem{result}{Result}[section]
+\newtheorem{algorithm}{Algorithm}[section]
+
+\newcommand{\bmX}{\boldsymbol{X}}
+\newcommand{\bmx}{\boldsymbol{x}}
+\newcommand{\bmy}{\boldsymbol{y}}
+\newcommand{\bmw}{\boldsymbol{w}}
+\newcommand{\bmm}{\boldsymbol{m}}
+\newcommand{\bmz}{\boldsymbol{z}}
+\newcommand{\bms}{\boldsymbol{s}}
+\newcommand{\bmtheta}{\boldsymbol{\theta}}
+\newcommand{\bmTheta}{\boldsymbol{\Theta}}
+\newcommand{\bmphi}{\boldsymbol{\phi}}
+\newcommand{\bmpsi}{\boldsymbol{\psi}}
+\newcommand{\bmpi}{\boldsymbol{\pi}}
+\newcommand{\bmnu}{\boldsymbol{\nu}}
+\newcommand{\bmmu}{\boldsymbol{\mu}}
+\newcommand{\bmepsilon}{\boldsymbol{\epsilon}}
+\newcommand{\pr}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\V}{\mathrm{Var}}
+\renewcommand{\familydefault}{\sfdefault}
+
+\def \prior{\pi({\theta})}
+%\def \posterior{f_{{\Theta}|\bmX}(\theta |\bmx)}
+\def \posterior{f(\theta |\bmx)}
+\def \posteriorpi{\pi(\theta |\bmx)}
+%\def \likelihoodf{f_{\bmX|\Theta}(\bmx|\theta)}
+\def \likelihoodf{f(\bmx|\theta)}
+\def \likelihood{\ell(\theta|\bmx)}
+%\def \jointDensity{f_{\Theta,\bmX}(\theta,\bmx)}
+\def \jointDensity{f(\theta,\bmx)}
+\def \BayesDenom{\int_{\Theta} \prior\likelihood~d\theta}
+
+
+
+\DeclareFontShape{OT1}{cmr}{bx}{n}
+  { <5> <6> <7> <8> <9> <10> <12> gen * cmbx
+    <10.95> cmbx10
+    <14.4> <17.28><20.74><24.88><43> cmbx12}{} 
+\DeclareFixedFont{\bigfont}{OT1}{cmr}{bx}{n}{43pt}
+
+%\notes
+% use the following to get contents page etc for slides
+%\notes\renewcommand{\slidepage}[1]{\newpage\setcounter{page}{#1}}
+%
+
+%\studnotes 
+\smallnotes
+
+\renewenvironment{center}
+	{\begin{verse}
+	Center:
+	}
+	{\end{verse}}
+\newenvironment{example}
+	{\begin{verse}
+	Example:
+	}
+	{\end{verse}}
+	
+\begin{document}
+
+%\input front
+\thispagestyle{empty}
+%\begin{center}
+%\includegraphics[width=0.8\textwidth]{../graphics/DurhamUniversityLogo.png}
+
+%\vspace{5cm}
+%{\Large MATH3421}
+
+%\vspace{2cm}
+%{\Large Bayesian Computation and Modelling III}
+
+%\vspace{3cm}
+%{\LARGE Michaelmas, 2022--23}
+
+%\vspace{2cm}\hspace*{-2mm}
+%\end{center}
+
+%\chapter*{MATH3421: Bayesian Computation and Modelling III}
+%\section*{Michaelmas, 2022--23}
+
+\rhead{Solutions to Topic 5 Questions }
+%\chapter{Tutorial questions 3}
+\setcounter{page}{1}
+
+
+\subsection*{Solutions to Topic 5 Questions}
+\begin{enumerate}
+\item 
+%\begin{itemize}
+
+(a) Using the hint,
+\begin{align*}
+\V_g[w_t(X_t)]&= \E_g[w_t(X_t)^2]-\left\{\E_g[w_t(X_t)] \right\}^2\\
+&=\left(\int \frac{p(x_t|x_{t-1})p(y_t|x_t)}{g(x_t|x_{t-1})} \right)^2 g(x_t|x_{t-1})dx_t - \left[\int p(y_t|x_t)p(x_t|x_{t-1})dx_t\right]^2\\
+&=\left(\int \frac{[p(x_t|x_{t-1})p(y_t|x_t)]^2}{g(x_t|x_{t-1})}dx_t   \right) - [p(y_t|x_{t-1})]^2
+\end{align*}
+as required.
+
+(b) We have $g(x_t|x_{t-1})=p(x_t|x_{t-1},y_t)$. First note that
+\begin{align*}
+p(x_t|x_{t-1},y_t)&= \frac{p(x_t,y_t|x_{t-1})}{p(y_t|x_{t-1})}\\
+&=\frac{p(x_t|x_{t-1})p(y_t|x_t)}{p(y_t|x_{t-1})}.
+\end{align*}
+Now substitute the latter expression into the first term in $\V_g[w_t(X_t)]$ to obtain 
+\begin{align*}
+\V_g[w_t(X_t)]&=\int p(y_t|x_{t-1}) p(x_t|x_{t-1})p(y_t|x_t)dx_t - [p(y_t|x_{t-1})]^2\\
+&=p(y_t|x_{t-1})\int p(x_t|x_{t-1})p(y_t|x_t)dx_t - [p(y_t|x_{t-1})]^2\\
+&=[p(y_t|x_{t-1})]^2 - [p(y_t|x_{t-1})]^2\\
+&=0
+\end{align*}
+as required.
+%\end{itemize}
+
+\item 
+
+%\begin{itemize}
+(a) Something like the following will do the job:
+\begin{enumerate}
+\item[1.] Set $x_0=0$ with probability 0.5 and $x_0=1$ otherwise. Set $t=1$.
+\item[2.] Set $x_t=1-x_{t-1}$ with probability $\epsilon$ and $x_t=x_{t-1}$ otherwise. 
+\item[3.] Draw $y_t\sim N(x_t,1)$.
+\item[4.] Set $t:=t+1$ and go to step 2. 
+\end{enumerate}
+
+(b) Note that $X_t$ is discrete, taking values in the set $\{x_{t-1},1-x_{t-1}\}$. Hence 
+$p(x_t|x_{t-1},y_t)$ is the corresponding probability mass function. We have that
+\[
+p(x_t|x_{t-1},y_t)\propto p(x_t|x_{t-1})p(y_t|x_t).
+\]
+Now suppose $x_{t-1}=x$. Then,
+\[
+p(X_t=x|x_{t-1},y_t)\propto (1-\epsilon)N(y_t;x,1).
+\]
+Similarly,
+\[
+p(X_t=1-x|x_{t-1},y_t)\propto \epsilon N(y_t;1-x,1).
+\]
+The normalising constant in both probabilities is simply the sum of the two 
+expressions above.
+
+(c) We have $x_{t-1}=0$. We require 
+\begin{align*}
+p(X_t=1-x_{t-1}|x_{t-1},y_t) &= p(X_t=x_{t-1}|x_{t-1},y_t) \\
+\Rightarrow \epsilon\exp\left(-\frac{1}{2}(y_t-1)^2\right) &= (1-\epsilon)\exp\left(-\frac{1}{2}y_t^2 \right)\\
+\Rightarrow y_t &= \frac{1}{2}-\log\left(\frac{\epsilon}{1-\epsilon}  \right).
+\end{align*}
+
+%\end{itemize}
+
+\item 
+
+%\begin{itemize}
+(a) We have that $X_{t-1}|y_{0:t-1}\sim N(m_{t-1}, V_{t-1})$. Writing the second equation 
+in the model definition as
+\[
+X_t=X_{t-1}+\epsilon_t, \quad \epsilon_t\overset{\textrm{indep}}{\sim} N(0,1)
+\]
+and using properties of linear combinations of (jointly) Gaussian random variables gives
+\[
+X_t|y_{0:t-1}\sim N(m_{t-1},V_{t-1}+1).
+\]
+
+(b) Now write the third equation in the model definition as
+\[
+Y_t=X_t+\omega_t,\quad \omega_t\overset{\textrm{indep}}{\sim} N(0,1)
+\]
+to give
+\[
+Y_t|y_{0:t-1}\sim N(m_{t-1},V_{t-1}+2).
+\]
+We now have the marginal distributions of $X_t|y_{0:t-1}$ and $Y_t|y_{0:t-1}$. We just need 
+the covariance between $X_t$ and $Y_t$, conditional on $y_{0:t-1}$. We have that, upon 
+dropping the explicit dependence on $y_{0:t-1}$ 
+\begin{align*}
+\textrm{Cov}(Y_t,X_t)&= \textrm{Cov}(X_t+\omega_t,X_t)\\
+&=\V(X_t)\\
+&=V_{t-1}+1.
+\end{align*}
+Hence,
+\[
+\begin{pmatrix}X_t \\Y_t \end{pmatrix}\big | y_{0:t-1} \sim 
+N\left\{ \begin{pmatrix} m_{t-1} \\ m_{t-1} \end{pmatrix}\,,\, 
+\begin{pmatrix} V_{t-1}+1 & V_{t-1}+1 \\
+V_{t-1}+1 & V_{t-1}+2 \end{pmatrix} \right\}.
+\] 
+
+(c) Using the hint, $X_t|y_{0:t}\sim N(\mu,\Sigma)$ where
+\begin{align*}
+\mu&=m_{t-1}+\frac{V_{t-1}+1}{V_{t-1}+2}(y_t-m_{t-1}),\\
+\Sigma&=(V_{t-1}+1)\left(1-\frac{V_{t-1}+1}{V_{t-1}+2}\right).
+\end{align*}
+
+%\end{itemize}
+\emph{The point of this question is that for linear Gaussian hidden Markov models such as the 
+one considered here, the filtering distribution is tractable and can be updated recursively. 
+These steps give an algorithm known in a more general setting as the Kalman filter.}
+
+
+\end{enumerate}
+
+
+\end{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{example}
+\end{example}
+
+\cover{Copy down the solution.}{
+\textbf{Solution.}
+
+}
+\eproof
+
+
