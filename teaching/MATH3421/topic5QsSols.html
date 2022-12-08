@@ -40,7 +40,7 @@
 <p>(b) We have <span class="math inline">\(g(x_t|x_{t-1})=p(x_t|x_{t-1},y_t)\)</span>. First note that <span class="math display">\[\begin{aligned}
 p(x_t|x_{t-1},y_t)&amp;= \frac{p(x_t,y_t|x_{t-1})}{p(y_t|x_{t-1})}\\
 &amp;=\frac{p(x_t|x_{t-1})p(y_t|x_t)}{p(y_t|x_{t-1})}.\end{aligned}\]</span> Now substitute the latter expression into the first term in <span class="math inline">\(\mathrm{Var}_g[w_t(X_t)]\)</span> to obtain <span class="math display">\[\begin{aligned}
-\mathrm{Var}_g[w_t(X_t)]&amp;=\int p(y_t|x_{t-1})^2 \frac{p(x_t|x_{t-1})p(y_t|x_t)}{p(y_t|x_{t-1})}- [p(y_t|x_{t-1})]^2\\
+\mathrm{Var}_g[w_t(X_t)]&amp;=\int p(y_t|x_{t-1}) p(x_t|x_{t-1})p(y_t|x_t)dx_t - [p(y_t|x_{t-1})]^2\\
 &amp;=p(y_t|x_{t-1})\int p(x_t|x_{t-1})p(y_t|x_t)dx_t - [p(y_t|x_{t-1})]^2\\
 &amp;=[p(y_t|x_{t-1})]^2 - [p(y_t|x_{t-1})]^2\\
 &amp;=0\end{aligned}\]</span> as required.</p></li>
@@ -51,7 +51,7 @@ p(x_t|x_{t-1},y_t)&amp;= \frac{p(x_t,y_t|x_{t-1})}{p(y_t|x_{t-1})}\\
 <li><p>Draw <span class="math inline">\(y_t\sim N(x_t,1)\)</span>.</p></li>
 <li><p>Set <span class="math inline">\(t:=t+1\)</span> and go to step 2.</p></li>
 </ol>
-<p>(b) Note that <span class="math inline">\(X_t\)</span> is discrete, taking values in the set <span class="math inline">\(\{x_{t-1},1-x_{t-1}\}\)</span>. Hence <span class="math inline">\(p(x_t|x_{t-1},y_t)\)</span> is the corresponding probability mass function. We have that <span class="math display">\[p(x_t|x_{t-1},y_t)\propto p(x_t|x_{t-1})p(y_t|x_t).\]</span> Now suppose <span class="math inline">\(x_{t-1}=x\)</span>. Then, <span class="math display">\[p(X_t=x|x_{t-1},y_t)\propto (1-\epsilon)N(y_t;x,1).\]</span> Similarly, <span class="math display">\[p(X_t=1-x|x_{t-1},y_t)\propto \epsilon N(y_t;1-x,1).\]</span> The normalising constant in both probabilities is simply the sum of the two expressions above.</p>
+<p>(b) Note that <span class="math inline">\(X_t|x_{t-1}\)</span> is discrete, taking values in the set <span class="math inline">\(\{x_{t-1},1-x_{t-1}\}\)</span>. Hence <span class="math inline">\(p(x_t|x_{t-1},y_t)\)</span> is the corresponding probability mass function. We have that <span class="math display">\[p(x_t|x_{t-1},y_t)\propto p(x_t|x_{t-1})p(y_t|x_t).\]</span> Now suppose <span class="math inline">\(x_{t-1}=x\)</span>. Then, <span class="math display">\[p(X_t=x|x_{t-1},y_t)\propto (1-\epsilon)N(y_t;x,1).\]</span> Similarly, <span class="math display">\[p(X_t=1-x|x_{t-1},y_t)\propto \epsilon N(y_t;1-x,1).\]</span> The normalising constant in both probabilities is simply the sum of the two expressions above.</p>
 <p>(c) We have <span class="math inline">\(x_{t-1}=0\)</span>. We require <span class="math display">\[\begin{aligned}
 p(X_t=1-x_{t-1}|x_{t-1},y_t) &amp;= p(X_t=x_{t-1}|x_{t-1},y_t) \\
 \Rightarrow \epsilon\exp\left(-\frac{1}{2}(y_t-1)^2\right) &amp;= (1-\epsilon)\exp\left(-\frac{1}{2}y_t^2 \right)\\
