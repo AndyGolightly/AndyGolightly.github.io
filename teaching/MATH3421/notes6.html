@@ -27,28 +27,53 @@
 <body>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#other-methods"><span class="toc-section-number">1</span> Other methods</a>
+<li><a href="#preliminaries"><span class="toc-section-number">1</span> Preliminaries</a></li>
+<li><a href="#the-metropolis-hastings-algorithm"><span class="toc-section-number">2</span> The Metropolis-Hastings algorithm</a></li>
+<li><a href="#the-gibbs-sampler"><span class="toc-section-number">3</span> The Gibbs sampler</a></li>
+<li><a href="#bayesian-inference-via-mcmc"><span class="toc-section-number">4</span> Bayesian inference via MCMC</a></li>
+<li><a href="#sequential-monte-carlo"><span class="toc-section-number">5</span> Sequential Monte Carlo</a></li>
+<li><a href="#other-methods"><span class="toc-section-number">6</span> Other methods</a>
 <ul>
-<li><a href="#laplace-approximation"><span class="toc-section-number">1.1</span> Laplace approximation</a></li>
-<li><a href="#variational-bayes"><span class="toc-section-number">1.2</span> Variational Bayes</a></li>
-<li><a href="#simulated-annealing"><span class="toc-section-number">1.3</span> Simulated annealing</a></li>
-<li><a href="#mala"><span class="toc-section-number">1.4</span> MALA</a></li>
-<li><a href="#particle-mcmc"><span class="toc-section-number">1.5</span> Particle MCMC</a></li>
-<li><a href="#approximate-bayesian-computation"><span class="toc-section-number">1.6</span> Approximate Bayesian computation</a></li>
+<li><a href="#laplace-approximation"><span class="toc-section-number">6.1</span> Laplace approximation</a></li>
+<li><a href="#variational-bayes"><span class="toc-section-number">6.2</span> Variational Bayes</a></li>
+<li><a href="#simulated-annealing"><span class="toc-section-number">6.3</span> Simulated annealing</a></li>
+<li><a href="#mala"><span class="toc-section-number">6.4</span> MALA</a></li>
+<li><a href="#particle-mcmc"><span class="toc-section-number">6.5</span> Particle MCMC</a></li>
+<li><a href="#approximate-bayesian-computation"><span class="toc-section-number">6.6</span> Approximate Bayesian computation</a></li>
 </ul></li>
 </ul>
 </nav>
-<section id="other-methods" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Other methods</h1>
+<section id="preliminaries" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Preliminaries</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes1">here</a>.</p>
+</section>
+<section id="the-metropolis-hastings-algorithm" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> The Metropolis-Hastings algorithm</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes2">here</a>.</p>
+</section>
+<section id="the-gibbs-sampler" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> The Gibbs sampler</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes3">here</a>.</p>
+</section>
+<section id="bayesian-inference-via-mcmc" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Bayesian inference via MCMC</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes4">here</a>.</p>
+</section>
+<section id="sequential-monte-carlo" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Sequential Monte Carlo</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes5">here</a>.</p>
+</section>
+<section id="other-methods" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Other methods</h1>
 <p>This chapter provides a short explanation of other methods you might come across, with references for further, self-directed study (where appropriate).</p>
-<section id="laplace-approximation" class="level2" data-number="1.1">
-<h2 data-number="1.1"><span class="header-section-number">1.1</span> Laplace approximation</h2>
+<section id="laplace-approximation" class="level2" data-number="6.1">
+<h2 data-number="6.1"><span class="header-section-number">6.1</span> Laplace approximation</h2>
 <p>While for many models, Markov chain Monte Carlo is the approximate inference method of choice, the Laplace approximation still provides the simplest deterministic method available.</p>
 <p>In essence, the Laplace approximation entails finding a Gaussian approximation to a continuous probability density. Let’s consider a univariate continuous random variable <span class="math inline">\(\theta\)</span> with probability density function <span class="math inline">\(p(\theta)\)</span>. This could be a Bayesian posterior. Suppose that <span class="math display">\[p(\theta)=\frac{1}{Z} f(\theta)\]</span> where <span class="math inline">\(Z=\int f(\theta)d\theta\)</span> is the normalising constant. The goal of the Laplace approximation is to find a Gaussian approximation <span class="math inline">\(q(\theta)\)</span> to the target <span class="math inline">\(p(\theta)\)</span>. The mean of this approximation is specified to be the <em>mode</em> of the target, which we will denote by <span class="math inline">\(\theta_0\)</span>. Now, we construct a Taylor expansion of <span class="math inline">\(\log f(\theta)\)</span> about <span class="math inline">\(\theta_0\)</span> to provide an approximation for <span class="math inline">\(\log f(\theta)\)</span> as <span class="math display">\[\log f(\theta) \approx \log f(\theta_0)-\frac{1}{2} H\,(\theta-\theta_0)^2\]</span> where <span class="math display">\[H=\left. -\frac{d^2}{d\theta^2}\log f(\theta) \right |_{\theta=\theta_0}.\]</span> Exponentiating gives <span class="math display">\[f(\theta)\approx f(\theta_0)\exp\left\{-\frac{1}{2} H\,(\theta-\theta_0)^2\right\}\]</span> which is proportional to a Gaussian kernel with mean <span class="math inline">\(\theta_0\)</span> and variance <span class="math inline">\(H^{-1}\)</span>. Normalising gives the Laplace approximation <span class="math display">\[q(\theta)=\frac{H^{1/2}}{\sqrt{2\pi}}\exp\left\{ -\frac{1}{2} \frac{(\theta-\theta_0)^2}{H^{-1}} \right\}.\]</span></p>
 <p>We can extend the Laplace approximation for a multivariate distribution. For the <span class="math inline">\(d\)</span>-dimensional target <span class="math inline">\(p(\boldsymbol{\theta})\propto f(\boldsymbol{\theta})\)</span> we have that <span class="math display">\[\log f(\boldsymbol{\theta}) \approx \log f(\boldsymbol{\theta}_0) -\frac{1}{2}(\boldsymbol{\theta}-\boldsymbol{\theta}_0)&#39; \,H\, (\boldsymbol{\theta}-\boldsymbol{\theta}_0)\]</span> where <span class="math inline">\(H\)</span> is the <em>Hessian</em> matrix, that is, the matrix of second-order partial derivatives which describes the local curvature of <span class="math inline">\(\log f(\boldsymbol{\theta})\)</span> at <span class="math inline">\(\boldsymbol{\theta}_0\)</span>. In particular, the <span class="math inline">\((i,j)\)</span>th element of the <span class="math inline">\(d\times d\)</span> matrix <span class="math inline">\(H\)</span> is <span class="math display">\[(H)_{i,j}= \frac{\partial^2 f}{\partial \theta_i \partial \theta_j}.\]</span> Exponentiating and including the normalisation constant for a multivariate normal gives the approximate multivariate distribution <span class="math display">\[q(\boldsymbol{\theta})=\frac{|H|^{1/2}}{(2\pi)^{d/2}}\exp\left\{ -\frac{1}{2}(\boldsymbol{\theta}-\boldsymbol{\theta}_0)&#39; \,H\, (\boldsymbol{\theta}-\boldsymbol{\theta}_0)  \right\}.\]</span> To summarise, the Laplace approximation is <span class="math display">\[q(\boldsymbol{\theta})=N\left(\boldsymbol{\theta}; \boldsymbol{\theta}_0\,,\, H^{-1}\right).\]</span></p>
 </section>
-<section id="variational-bayes" class="level2" data-number="1.2">
-<h2 data-number="1.2"><span class="header-section-number">1.2</span> Variational Bayes</h2>
+<section id="variational-bayes" class="level2" data-number="6.2">
+<h2 data-number="6.2"><span class="header-section-number">6.2</span> Variational Bayes</h2>
 <p>Consider the independence (MCMC) sampler from Chapter 3. This will work well when the proposal density <span class="math inline">\(q\)</span> is ‘close’ to the target density <span class="math inline">\(\pi\)</span>. For example, provided the dimension of the target is not too large, we might use the Laplace approximation so that the proposal distribution is a multivariate normal with parameters chosen so that the approximation is reasonable. Variational Bayes seeks to find the “best” (over the possible parameter values) approximation <span class="math inline">\(q\)</span>, to <span class="math inline">\(\pi\)</span> across a particular class of distributions such as all multivariate normal distributions, or product distributions with particular univariate distributions for each component. It then uses this “best” <span class="math inline">\(q\)</span> directly for inference as if it were the true target.</p>
 <p>Suppose that the target is a Bayesian posterior <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\)</span>. “Best” is defined according to a particular measure, the <em>Kullback-Leibler divergence</em>: <span class="math display">\[KL\left(q(\boldsymbol{\theta})||\pi(\boldsymbol{\theta}|\boldsymbol{x})\right)=\mathbb{E}_{q}\left[\log\left(\frac{q(\boldsymbol{\theta})}{\pi(\boldsymbol{\theta}|\boldsymbol{x})}\right)\right].\]</span> Now, <span class="math inline">\(KL(q(\boldsymbol{\theta})||\pi(\boldsymbol{\theta}|\boldsymbol{x}))\geq 0\)</span> with equality if and only if <span class="math inline">\(q=\pi\)</span>. Moreover, <span class="math display">\[\begin{aligned}
 KL\left(q(\boldsymbol{\theta})||\pi(\boldsymbol{\theta}|\boldsymbol{x})\right)&amp;= 
@@ -59,8 +84,8 @@ KL\left(q(\boldsymbol{\theta})||\pi(\boldsymbol{\theta}|\boldsymbol{x})\right)&a
 +\log p(\boldsymbol{x}).\end{aligned}\]</span> Now, since <span class="math inline">\(p(\boldsymbol{x})\)</span> is a constant, minimising the KL-divergence of the class of densities for <span class="math inline">\(q\)</span> is equivalent to minimising <span class="math display">\[\int q(\boldsymbol{\theta})\log q(\boldsymbol{\theta}) d\boldsymbol{\theta}-\int q(\boldsymbol{\theta})\log\{ \pi(\boldsymbol{\theta})f(\boldsymbol{x}|\boldsymbol{\theta})\}d\boldsymbol{\theta}.\]</span> As with MCMC therefore, we do not need to know the normalising constant <span class="math inline">\(p(\boldsymbol{x})\)</span>.</p>
 <p><strong>Further reading</strong>: Blei, Kucukelbir and McAuliffe (2017), “Variational inference: a review for statisticians", JASA.</p>
 </section>
-<section id="simulated-annealing" class="level2" data-number="1.3">
-<h2 data-number="1.3"><span class="header-section-number">1.3</span> Simulated annealing</h2>
+<section id="simulated-annealing" class="level2" data-number="6.3">
+<h2 data-number="6.3"><span class="header-section-number">6.3</span> Simulated annealing</h2>
 <p>This is a method for finding global extrema of arbitrary functions. Consider first the problem of finding the global mode(s) of a distribution. We could estimate the mode of a distribution with density <span class="math inline">\(f(\boldsymbol{x})\)</span> by generating samples <span class="math inline">\(\{\boldsymbol{x}^{(n)}\}\)</span> and finding the sample with maximal density. However, this is inefficient since the sampling procedure will explore the whole distribution rather than the mode.</p>
 <p>This suggests modifying the distribution so that it is more concentrated around the mode(s). One of way of achieving this is to consider the density <span class="math display">\[f_\beta(\boldsymbol{x})\propto [f(\boldsymbol{x})]^{\beta}\]</span> for very large values of <span class="math inline">\(\beta\)</span>. As an example, consider <span class="math inline">\(X\sim N(\mu,\sigma^2)\)</span> and raise the density to the power <span class="math inline">\(\beta\)</span> to see that the effect is to scale the variance by <span class="math inline">\(1/\beta\)</span>, so that the larger we make <span class="math inline">\(\beta\)</span>, the more concentrated the distribution around the mode <span class="math inline">\(\mu\)</span>. It turns out that this result holds in general and as <span class="math inline">\(\beta\to\infty\)</span>, <span class="math inline">\(f_\beta(\boldsymbol{x})\)</span> converges to a distribution that has all mass on the mode(s) of <span class="math inline">\(f\)</span>.</p>
 <p>Hence, as a first attempt at mode finding, we could use MCMC to generate samples from <span class="math inline">\(f_\beta(\boldsymbol{x})\)</span> with <span class="math inline">\(\beta\)</span> chosen to be some large value. The problem here is that the resulting Markov chain will have poor mixing properties, for example, by finding it difficult to move away from a local extremum surrounded by areas of low probability (the density of such a distribution will have many local extrema separated y areas where the density is effectively 0).</p>
@@ -78,8 +103,8 @@ KL\left(q(\boldsymbol{\theta})||\pi(\boldsymbol{\theta}|\boldsymbol{x})\right)&a
 <p>Finally, it is worth mentioning the related method of <em>parallel tempering</em>. For a multimodal target density <span class="math inline">\(f(\boldsymbol{x})\)</span>, a density proportional to <span class="math inline">\(f(\boldsymbol{x})^{1/\beta}\)</span>, <span class="math inline">\(\beta&gt;1\)</span>, has broader, flatter modes and troughs between the modes that are less “deep”; hence, running an MCMC scheme to target this density will find it easier to move between modes. Parallel tempering uses this idea by running multiple chains at different <span class="math inline">\(\beta\)</span> values while allowing exchange moves between chains. The chain with <span class="math inline">\(\beta=1\)</span> admits dependent samples from the target of interest.</p>
 <p><strong>Further reading</strong>: Kirkpatrick, Gelatt and Vecchi (1983), “Optimization by simulated annealing", Science. Chapter 10 of Liu (2001), “Monte Carlo Strategies in Scientific Computing", New York: Springer.</p>
 </section>
-<section id="mala" class="level2" data-number="1.4">
-<h2 data-number="1.4"><span class="header-section-number">1.4</span> MALA</h2>
+<section id="mala" class="level2" data-number="6.4">
+<h2 data-number="6.4"><span class="header-section-number">6.4</span> MALA</h2>
 <p>Like the independence sampler and random walk Metropolis (RWM), the <em>Metropolis adjusted Langevin algorithm</em> (MALA) is a special case of the Metropolis-Hastings algortihm. It is similar to RWM, except that the proposal is not centered on the current value but is shifted<br />
 uphill” from the current value. For a target <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>, the proposal takes the form <span class="math display">\[\boldsymbol{\theta}^*|\boldsymbol{\theta}\sim N\left(\boldsymbol{\theta}+\frac{1}{2}\lambda^2 V \nabla\log\pi(\boldsymbol{\theta})\,,\, \lambda^2 V   \right).\]</span> If we write <span class="math inline">\(\ell(\boldsymbol{\theta})=\log\pi(\boldsymbol{\theta})\)</span> for simplicity, then the <em>gradient vector</em> is <span class="math display">\[\nabla\log\pi(\boldsymbol{\theta})=\left.\left(\frac{\partial\ell}{\partial\theta_1},\ldots , \frac{\partial\ell}{\partial\theta_d}
 \right)&#39; \right|_{\boldsymbol{\theta}} .\]</span> The acceptance probability is the standard Metropolis-Hastings probability: <span class="math display">\[\alpha(\boldsymbol{\theta}^*|\boldsymbol{\theta})= \min\left\{1\,\, \frac{\pi(\boldsymbol{\theta}^*)q(\boldsymbol{\theta}|\boldsymbol{\theta}^*)}
@@ -94,8 +119,8 @@ uphill” from the current value. For a target <span class="math inline">\(\pi(\
 </ul>
 <p><strong>Further reading</strong>: Roberts and Rosenthal, (1998) “Optimal scaling of discrete approximations to Langevin diffusions.” J. R. Statist. Soc. B.</p>
 </section>
-<section id="particle-mcmc" class="level2" data-number="1.5">
-<h2 data-number="1.5"><span class="header-section-number">1.5</span> Particle MCMC</h2>
+<section id="particle-mcmc" class="level2" data-number="6.5">
+<h2 data-number="6.5"><span class="header-section-number">6.5</span> Particle MCMC</h2>
 <p>Consider the hidden Markov model (HMM) formalism of Section 5.2. Consider data <span class="math inline">\(\boldsymbol{y}=y_{0:T}=(y_0,\ldots,y_T)&#39;\)</span> and suppose interest lies in the marginal posterior density <span class="math display">\[\pi(\boldsymbol{\theta}|\boldsymbol{y})\propto \pi(\boldsymbol{\theta})p(\boldsymbol{y}|\boldsymbol{\theta})\]</span> where the <em>observed data likelihood</em> is <span class="math display">\[p(\boldsymbol{y}|\boldsymbol{\theta}) = \int p(\boldsymbol{y},\boldsymbol{x}|\boldsymbol{\theta})d\boldsymbol{x}\]</span> and <span class="math inline">\(\boldsymbol{x}=(x_0,\ldots,x_T)&#39;\)</span>. Although the observed data likelihood is typically intractable, we can run a particle filter to estimate it (see Section 5.6). It will be helpful to denote the estimator by <span class="math inline">\(\widehat{p}_U(\boldsymbol{y}|\boldsymbol{\theta})\)</span> where <span class="math inline">\(U\)</span> denotes all random variables used to construct the estimator and <span class="math inline">\(U\sim g(u)\)</span> for some density <span class="math inline">\(g\)</span>. Whilst beyond the scope of this course, it can be shown that <span class="math inline">\(\widehat{p}_U(\boldsymbol{y}|\boldsymbol{\theta})\)</span> is a non-negative, unbiased estimator. That is <span class="math display">\[\mathbb{E}_g[\widehat{p}_U(\boldsymbol{y}|\boldsymbol{\theta})] = \int \widehat{p}_u(\boldsymbol{y}|\boldsymbol{\theta}) g(u)du = p(\boldsymbol{y}|\boldsymbol{\theta}).\]</span> This property is crucial in constructing a particle MCMC scheme to generate draws from <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{y})\)</span>. Particle MCMC refers to a suite of algorithms that belong to a much more general class of algorithms known as <em>pseudo-marginal</em> MCMC. The pseudo-marginal “trick” is to run a standard MCMC scheme targeting a joint density over <span class="math inline">\(\boldsymbol{\theta}\)</span> and <span class="math inline">\(U\)</span>, for which the target <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{y})\)</span> is a marginal. Hence, retaining <span class="math inline">\(\boldsymbol{\theta}\)</span> draws from the scheme will give (dependent) samples from the target. To this end, consider a joint density <span class="math display">\[\pi(\boldsymbol{\theta},u)\propto \pi(\boldsymbol{\theta})\widehat{p}_u(\boldsymbol{y}|\boldsymbol{\theta})g(u)\]</span> for which integrating out <span class="math inline">\(u\)</span> gives <span class="math display">\[\int \pi(\boldsymbol{\theta})\widehat{p}_u(\boldsymbol{y}|\boldsymbol{\theta})g(u)du = \pi(\boldsymbol{\theta})p(\boldsymbol{y}|\boldsymbol{\theta}) \propto \pi(\boldsymbol{\theta}|\boldsymbol{y}).\]</span> Hence, <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{y})\)</span> is a marginal of <span class="math inline">\(\pi(\boldsymbol{\theta},u)\)</span>. Now, consider a Metropolis-Hastings scheme with target <span class="math inline">\(\pi(\boldsymbol{\theta},u)\)</span> and proposal <span class="math inline">\(q([\boldsymbol{\theta}^*,u^*]\,|\,[\boldsymbol{\theta},u])= 
 q(\boldsymbol{\theta}^*|\boldsymbol{\theta})g(u^*)\)</span>. The acceptance probability is <span class="math display">\[\begin{aligned}
 \alpha([\boldsymbol{\theta}^*,u^*]\,|\,[\boldsymbol{\theta},u])&amp;=\textrm{min}\left\{1, \frac{\pi(\boldsymbol{\theta}^*,u^*)}{\pi(\boldsymbol{\theta},u)} \times 
@@ -116,8 +141,8 @@ q(\boldsymbol{\theta}^*|\boldsymbol{\theta})g(u^*)\)</span>. The acceptance prob
 <p><strong>Remark</strong>: the number of particles <span class="math inline">\(N\)</span> should be chosen to balance computational and mixing efficiency (beyond the scope of the course, but the interested student might like to see Sherlock, Thiery, Roberts and Rosenthal (2015), “On the effciency of pseudomarginal random walk Metropolis algorithms”, the Annals of Statistics).</p>
 <p><strong>Further reading</strong>: Andrieu, Doucet and Holenstein (2010), “Particle Markov chain Monte Carlo methods (with discussion)”, J. R. Statist. Soc. B.</p>
 </section>
-<section id="approximate-bayesian-computation" class="level2" data-number="1.6">
-<h2 data-number="1.6"><span class="header-section-number">1.6</span> Approximate Bayesian computation</h2>
+<section id="approximate-bayesian-computation" class="level2" data-number="6.6">
+<h2 data-number="6.6"><span class="header-section-number">6.6</span> Approximate Bayesian computation</h2>
 <p>In many statistical applications it is straightforward to simulate from the model but calculating the likelihood of the data is impracticable if not impossible. Suppose that <span class="math inline">\(f(\boldsymbol{x}|\boldsymbol{\theta})\)</span> is not known even up to a normalising constant. In this case the posterior is <em>completely intractable</em>.</p>
 <p>Consider first the following algorithm.</p>
 <ol>
