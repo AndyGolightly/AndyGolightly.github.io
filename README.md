@@ -1,8 +1,8 @@
-# Dr Andy Golightly
+# Andy Golightly
 
 <img align="right" src="AG.jpg" width="20%" height="18%"/>
 
-## Associate Professor (Statistics), Durham University
+## Professor (Statistics), Durham University
 
 ### Useful links
 - [Durham University staff profile](https://www.durham.ac.uk/staff/andrew-golightly/)
