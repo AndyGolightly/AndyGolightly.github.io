@@ -58,10 +58,10 @@
 <p>(a) Find the stationary mean and variance. Hint: in equilibrium, <span class="math inline">\(\mathbb{E}(X_{n+1})=\mathbb{E}(X_n)\)</span> and <span class="math inline">\(\mathrm{Var}(X_{n+1})=\mathrm{Var}(X_n)\)</span>.</p>
 <p>(b) Suppose that <span class="math inline">\(\pi(x)\)</span> is taken to be a Gaussian density with mean and variance from part (a). Show that detailed balance is satisfied for this <span class="math inline">\(\pi(x)\)</span>. Hint: note the form of the transition density derived in the lecture notes.</p>
 <p><strong>[10 marks]</strong></p></li>
-<li><p>Consider a random process: <span class="math display">\[X_{n+1} = \alpha X_{n}+\epsilon_{n+1}, 
-\quad \epsilon_{n+1}\overset{\textrm{indep}}{\sim}\textrm{Exp}(1), \quad\alpha\in(0,1),\]</span></p>
+<li><p>Consider a Markov chain: <span class="math display">\[X_{n+1} = \alpha X_{n}+\epsilon_{n+1}, 
+\quad \epsilon_{n+1}\overset{\textrm{indep}}{\sim}\textrm{Exp}(\lambda), \quad\alpha\in(0,1), \quad\lambda&gt;0.\]</span></p>
 <p>(a) What is the transition kernel (density form) <span class="math inline">\(p(y|x)\)</span> of the chain?</p>
-<p>(b) Given <span class="math inline">\(X_0=1\)</span>, describe an algorithm for simulating this chain up to step <span class="math inline">\(N\)</span>. [Do not write any code.]</p>
+<p>(b) Suppose that you are able to generate <span class="math inline">\(\textrm{Exp}(1)\)</span> random draws. Given <span class="math inline">\(X_0=1\)</span>, describe an algorithm for simulating the Markov chain up to step <span class="math inline">\(N\)</span>. [Do not write any code.]</p>
 <p><strong>[8 marks]</strong></p></li>
 </ol>
 <p><strong>[TOTAL: 50 marks]</strong></p>
