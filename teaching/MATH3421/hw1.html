@@ -39,14 +39,14 @@
 \end{array}\right.\]</span> When you first obtain the data you find that you have only been given the number <span class="math inline">\(y_j\)</span> of emissions in the interval <span class="math inline">\((j-1,j]\)</span>. You know, however, that from the above, <span class="math inline">\(Y_j\)</span> (<span class="math inline">\(j=1,2,\ldots\)</span>) are independent with the following mass function, <span class="math display">\[f_{2}(y|\theta)=\left\{ \begin{array}{ll}
 \frac{\theta^y}{y!}\exp\{-\theta\} &amp; y=0,1,2,\ldots \, \theta&gt;0,\\
 0 &amp; \textrm{otherwise}.
-\end{array}\right.\]</span> The last observation arrives exactly on the <span class="math inline">\(n\)</span>th minute. Your prior distribution for <span class="math inline">\(\theta\)</span> is a <span class="math inline">\(Gamma(a,b)\)</span>, with density <span class="math display">\[\pi(\theta)\propto \left\{ \begin{array}{ll}
+\end{array}\right.\]</span> The last observation arrives exactly on the <span class="math inline">\(n\)</span>th minute. Your prior distribution for <span class="math inline">\(\theta\)</span> is a <span class="math inline">\(\textrm{Gamma}(a,b)\)</span>, with density <span class="math display">\[\pi(\theta)\propto \left\{ \begin{array}{ll}
 \theta^{a-1}\exp\{-b\theta\} &amp; \theta,a,b&gt;0,\\
 0 &amp; \textrm{otherwise}.
 \end{array}\right.\]</span></p>
 <p>(a) Find the posterior distribution for <span class="math inline">\(\theta\)</span> using <span class="math inline">\(y_1,\ldots,y_n\)</span>.</p>
 <p>(b) Find the posterior distribution for <span class="math inline">\(\theta\)</span> using <span class="math inline">\(x_1,\ldots,x_m\)</span> where <span class="math inline">\(m\)</span> is the total number of particle emissions.</p>
 <p>(c) Explain why the two analyses give the same inferences on <span class="math inline">\(\theta\)</span>.</p>
-<p>(d) If <span class="math inline">\(a&gt;1\)</span>, express the posterior mode of <span class="math inline">\(\theta\)</span> as a weighted average of <span class="math inline">\(\bar{y}\)</span> and the prior mode (where the weight <span class="math inline">\(\rho\)</span> depends only on <span class="math inline">\(b/n\)</span>). You may assume (without proof) that the mode of a <span class="math inline">\(Gamma(a,b)\)</span> random variable is <span class="math inline">\((a-1)/b\)</span> for <span class="math inline">\(a&gt;1\)</span>.</p>
+<p>(d) If <span class="math inline">\(a&gt;1\)</span>, express the posterior mode of <span class="math inline">\(\theta\)</span> as a weighted average of <span class="math inline">\(\bar{y}\)</span> and the prior mode (where the weight <span class="math inline">\(\rho\)</span> depends only on <span class="math inline">\(b/n\)</span>). You may assume (without proof) that the mode of a <span class="math inline">\(\textrm{Gamma}(a,b)\)</span> random variable is <span class="math inline">\((a-1)/b\)</span> for <span class="math inline">\(a&gt;1\)</span>.</p>
 <p><strong>[15 marks]</strong></p></li>
 <li><p>Describe a Monte Carlo algorithm to calculate the normalising constant <span class="math inline">\(f(\boldsymbol{x})\)</span> in a Bayesian analysis. You should assume that the prior distribution <span class="math inline">\(\pi(\theta)\)</span> is easy to directly simulate from.</p>
 <p><strong>[5 marks]</strong></p></li>
