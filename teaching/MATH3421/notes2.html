@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>notes2</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/x-mathjax-config">
+  	MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "ams"} } });
+  	// I need to wait until MathJax has finished before running the numbering script
+  	MathJax.Hub.Register.StartupHook("End",function(){doNumbering()});
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#preliminaries"><span class="toc-section-number">1</span> Preliminaries</a></li>
+<li><a href="#the-metropolis-hastings-algorithm"><span class="toc-section-number">2</span> The Metropolis-Hastings algorithm</a>
+<ul>
+<li><a href="#introduction"><span class="toc-section-number">2.1</span> Introduction</a></li>
+<li><a href="#a-first-look-at-the-metropolis-hastings-algorithm"><span class="toc-section-number">2.2</span> A first look at the Metropolis-Hastings algorithm</a></li>
+<li><a href="#validity"><span class="toc-section-number">2.3</span> Validity</a></li>
+<li><a href="#practical-considerations"><span class="toc-section-number">2.4</span> Practical considerations</a></li>
+</ul></li>
+</ul>
+</nav>
+<section id="preliminaries" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Preliminaries</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes1">here</a>.</p>
+</section>
+<section id="the-metropolis-hastings-algorithm" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> The Metropolis-Hastings algorithm</h1>
+<section id="introduction" class="level2" data-number="2.1">
+<h2 data-number="2.1"><span class="header-section-number">2.1</span> Introduction</h2>
+<p>Markov chain Monte Carlo (MCMC) is a generic tool for simulating analytically intractable distributions, which is particularly useful for Bayesian inference. As we have seen, given a large sample from some target <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>, we can estimate almost any aspect of the distribution. The problem is obtaining that sample in the first place!</p>
+<p>The MCMC strategy takes advantage of the fact that it is easy to simulate Markov chains:</p>
+<ul>
+<li><p>Construct a Markov chain with stationary distribution <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>.</p></li>
+<li><p>Simulate a realization of this chain.</p></li>
+<li><p>After some ‘burn-in’ period (discussed later), take the realizations as (dependent) samples from <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>.</p></li>
+<li><p>Use this sample to evaluate integrals / perform inference.</p></li>
+</ul>
+<p>This chapter describes a fundamental algorithm that defines such chains: the <em>Metropolis-Hastings algorithm</em>.</p>
+<p>Note that although interest here will typically be in sampling a posterior <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\)</span>, we will present the algorithm for a general target <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>. Later, we will consider specific Bayesian problems for which interest will be in the posterior <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\)</span>.</p>
+<section id="inception" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1"><span class="header-section-number">2.1.1</span> Inception</h3>
+<p>Enrico Fermi and Stanislaw Ulam developed Monte Carlo methods for solving integrals in the early 20 th century. After WWII Ulam worked with John von Neumann do develop computational methods for exact independent sampling from univariate distributions. These simple Monte Carlo algorithms didn’t work for complex problems. At Los Alamos, Nick Metropolis, along with Arianna Rosenbluth, Marshall Rosenbluth, Edward Teller and Augusta Teller found a way of generating dependent samples through Markov chains.</p>
+<p>It’s a beautifully simple idea. Explore your distribution by randomly walking through it. They published a paper in 1953, on what later became known as the Metropolis algorithm or random walk Metropolis. The Metropolis algorithm was later generalised by Hastings in 1970 and his student Peskun (with papers in 1973 and 1981) as a statistical simulation tool that could overcome the curse of dimensionality met by regular Monte Carlo methods.</p>
+</section>
+</section>
+<section id="a-first-look-at-the-metropolis-hastings-algorithm" class="level2" data-number="2.2">
+<h2 data-number="2.2"><span class="header-section-number">2.2</span> A first look at the Metropolis-Hastings algorithm</h2>
+<p>In addition to the target distribution with density <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>, suppose we have some transition kernel <span class="math inline">\(q(\cdot|\boldsymbol{\theta})\)</span> which we call the <em>proposal</em> distribution and might depend on the current state of the chain (say <span class="math inline">\(\boldsymbol{\theta}\)</span>). The proposal distribution will typically have the same support as <span class="math inline">\(\pi(\cdot)\)</span> and be easy to simulate from, but does not need to have <span class="math inline">\(\pi(\cdot)\)</span> as a stationary distribution.</p>
+<p>The Metropolis-Hastings algorithm with <span class="math inline">\(N\)</span> iterations is as follows:</p>
+<ol>
+<li><p>Initialise the chain to <span class="math inline">\(\boldsymbol{\theta}^{(0)}=(\theta_{1}^{(0)},\ldots,\theta_d^{(0)})&#39;\)</span> somewhere in the support of <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>. Set the iteration counter <span class="math inline">\(j=1\)</span>.</p></li>
+<li><p>Generate a <em>proposed</em> value <span class="math inline">\(\boldsymbol{\theta}^{*}\)</span> using the transition kernel <span class="math inline">\(q(\boldsymbol{\theta}^{*}|\boldsymbol{\theta}^{(j-1)})\)</span>.</p></li>
+<li><p>Evaluate the <em>acceptance probability</em> <span class="math inline">\(\alpha(\boldsymbol{\theta}^{*}|\boldsymbol{\theta}^{(j-1)})\)</span> of the proposed move, defined by <span class="math display">\[\alpha(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})=\textrm{min}\left\{ 1, 
+\frac{\pi(\boldsymbol{\theta}^{*})\,q(\boldsymbol{\theta}|\boldsymbol{\theta}^{*})}{\pi(\boldsymbol{\theta})\,q(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})} \right\}.\]</span></p></li>
+<li><p>Put <span class="math inline">\(\boldsymbol{\theta}^{(j)}=\boldsymbol{\theta}^{*}\)</span> with probability <span class="math inline">\(\alpha(\boldsymbol{\theta}^{*}|\boldsymbol{\theta}^{(j-1)})\)</span>; otherwise put <span class="math inline">\(\boldsymbol{\theta}^{(j)}=\boldsymbol{\theta}^{(j-1)}\)</span>.</p></li>
+<li><p>If <span class="math inline">\(j=N\)</span> stop, otherwise put <span class="math inline">\(j\)</span> to <span class="math inline">\(j+1\)</span> and go to step 2.</p></li>
+</ol>
+<p><strong>Remarks:</strong></p>
+<ul>
+<li><p>At each stage a new value is generated from the proposal distribution. This is either accepted, in which case the chain moves, or rejected, in which case the chain stays at the same point.</p></li>
+<li><p>The target only enters into the acceptance probability as a ratio, and so the method can be used when the target is only known up to a multiplicative constant. Hence, if the target is a Bayesian posterior <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\)</span>, the acceptance probability can be written as <span class="math display">\[\alpha(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})=\textrm{min}\left\{ 1, 
+\frac{\pi(\boldsymbol{\theta}^{*})\,f(\boldsymbol{x}|\boldsymbol{\theta}^{*})\,q(\boldsymbol{\theta}|\boldsymbol{\theta}^{*})}{\pi(\boldsymbol{\theta})\,f(\boldsymbol{x}|\boldsymbol{\theta})\,q(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})} \right\}.\]</span></p></li>
+</ul>
+<p>Considerable freedom in the choice of proposal <span class="math inline">\(q(\cdot|\boldsymbol{\theta})\)</span> leaves us wondering what choices might be good, or generally quite useful. In particular we want a chain that</p>
+<ul>
+<li><p>converges rapidly, and</p></li>
+<li><p><em>mixes</em> well ie. it</p>
+<ul>
+<li><p>moves often and</p></li>
+<li><p>moves well around the support of <span class="math inline">\(\pi(\cdot)\)</span>.</p></li>
+</ul></li>
+</ul>
+<p>Two commonly used special cases are discussed next.</p>
+<section id="independence-proposal-sampler" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1"><span class="header-section-number">2.2.1</span> Independence proposal / sampler</h3>
+<p>In this case the proposed transition is completely independent of the current position of the chain and so <span class="math inline">\(q(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})=q(\boldsymbol{\theta}^{*})\)</span>. The acceptance probability becomes <span class="math display">\[\alpha(\boldsymbol{\theta}^{*}|\boldsymbol{\theta}) = \textrm{min}\left\{ 1,\frac{\pi(\boldsymbol{\theta}^{*})}{q(\boldsymbol{\theta}^{*})}\times
+\frac{q(\boldsymbol{\theta})}{\pi(\boldsymbol{\theta})} \right\}.\]</span></p>
+<p><strong>Example 2.2.1:</strong> <strong>(Prior as the proposal in a Bayesian setting.)</strong> <em>For a target <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\propto \pi(\boldsymbol{\theta})f(\boldsymbol{x}|\boldsymbol{\theta})\)</span> and a proposal given by the prior <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>, the acceptance probability becomes <span class="math display">\[\alpha(\boldsymbol{\theta}^{*}|\boldsymbol{\theta}) =\textrm{min}\left\{ 1,\frac{f(\boldsymbol{x}|\boldsymbol{\theta}^{*})}{f(\boldsymbol{x}|\boldsymbol{\theta})} \right\}\]</span> and hence only depends on the likelihood ratio of the candidate point and the current point. This scheme is likely to have a very high rejection rate unless the posterior is very similar to the prior.</em></p>
+<p><strong>Example 2.2.2:</strong> <strong>(Gaussian target and proposal.)</strong> <em>Consider a target and proposal of the form <span class="math display">\[\begin{aligned}
+\pi(\theta) &amp;= \frac{1}{\sigma_p\sqrt{2\pi}} e^{-\theta^2/(2\sigma^2_p)},\\
+q(\theta^*) &amp;= \frac{1}{\sigma_q\sqrt{2\pi}} e^{-(\theta^*)^2/(2\sigma^2_q)}\end{aligned}\]</span> with <span class="math inline">\(\sigma_p=1\)</span> and <span class="math inline">\(\sigma_q=2\)</span>. The initial value of the independence sampler is <span class="math inline">\(\theta^{(0)}=0\)</span>. The graphs below show the result of running the independence sampler for <span class="math inline">\(N=100\)</span> iterations. The first plot shows the two densities, <span class="math inline">\(\pi\)</span> and <span class="math inline">\(q\)</span>, the second shows the Markov chain with positions joined by lines (known as a trace plot), the third shows a kernel density plot of the 100 chain values, and the fourth shows the chain again but overlays the proposals in red. Note that proposed points outside of the typical range of <span class="math inline">\(\theta\)</span> are likely to be rejected. Also note that from the bottom left panel, the approximation to the Gaussian density is far from perfect, and we might expect estimates obtained using our 101 samples to be poor. What might constitute a reasonable number of samples will be discussed in detail later.</em></p>
+<p> </p>
+<table id="fig:figind3" class="imageTable">
+<caption>Independence sampler output. Top panel: target density (black) and proposal density (red), trace plot. Bottom panel: kernel density estimate, trace plot with proposed points overlaid.</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><embed src="../graphics/ind1.pdf" title="fig:" id="fig:figind3" style="width:16cm;height:8cm" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><embed src="../graphics/ind2.pdf" title="fig:" id="fig:figind3" style="width:16cm;height:8cm" /></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="random-walk-metropolis" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2"><span class="header-section-number">2.2.2</span> Random walk Metropolis</h3>
+<p>We can define the proposed move at iteration <span class="math inline">\(j\)</span> to be <span class="math inline">\(\boldsymbol{\theta}^{*}=\boldsymbol{\theta}^{(j-1)}+\boldsymbol{w}^{(j)}\)</span> where <span class="math inline">\(\boldsymbol{w}^{(j)}\)</span> is a <span class="math inline">\(d\times 1\)</span> random vector (completely independent of the state of the chain). Suppose that the <span class="math inline">\(\boldsymbol{w}^j\)</span> have density <span class="math inline">\(g(\cdot)\)</span> which is easy to simulate from. The proposal kernel is then <span class="math inline">\(q(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})=g(\boldsymbol{\theta}^*-\boldsymbol{\theta})\)</span> and this can be used to calculate the acceptance probability. Of course, if <span class="math inline">\(g(\boldsymbol{\theta}^*-\boldsymbol{\theta})=g(\boldsymbol{\theta}-\boldsymbol{\theta}^*)\)</span>, then we have a symmetric random walk chain, and the acceptance probability becomes <span class="math display">\[\alpha(\boldsymbol{\theta}^{*}|\boldsymbol{\theta}) = \textrm{min}\left\{ 1,\frac{\pi(\boldsymbol{\theta}^{*})}{\pi(\boldsymbol{\theta})} \right\}\]</span> and hence does not involve the proposal density at all.</p>
+<p>A commonly used method has <span class="math inline">\(\boldsymbol{w}^{(j)}\sim N_d(\boldsymbol{0},\lambda^2 I_{d})\)</span> where <span class="math inline">\(I_d\)</span> denotes the <span class="math inline">\(d\times d\)</span> identity matrix and <span class="math inline">\(\lambda\)</span> is ‘tuned’ to maximimse efficiency, a concept that we will revisit later in the notes.</p>
+<p><strong>Example 2.2.3:</strong> <strong>(Running example: Gaussian target and RWM method with Gaussian innovations.)</strong> <em>Consider a target and proposal of the form <span class="math display">\[\begin{aligned}
+\pi(\theta) &amp;= \frac{1}{\sigma\sqrt{2\pi}} e^{-\theta^2/(2\sigma^2)},\\
+q(\theta^*|\theta) &amp;= \frac{1}{\lambda\sqrt{2\pi}} e^{-(\theta^*-\theta)^2/(2\lambda^2)}.\end{aligned}\]</span> with <span class="math inline">\(\sigma=1\)</span> and <span class="math inline">\(\lambda=2\)</span>. The initial value of the RWM algorithm is <span class="math inline">\(\theta^{(0)}=0\)</span>.</em></p>
+<p> </p>
+<table id="fig:figRwmc" class="imageTable">
+<caption>RWM output. Top panel: target density (black) and proposal density (red) at <span class="math inline">\(\theta=1\)</span>, trace plot. Bottom panel: kernel density estimate, trace plot with proposed points overlaid.</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><embed src="../graphics/rwmA.pdf" title="fig:" id="fig:figRwmc" style="width:16cm;height:8cm" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><embed src="../graphics/rwmB.pdf" title="fig:" id="fig:figRwmc" style="width:16cm;height:8cm" /></td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p><em>The first plot shows the two densities, <span class="math inline">\(\pi\)</span>, and <span class="math inline">\(q\)</span> when <span class="math inline">\(\theta=1\)</span>, the second shows a trace plot of the Markov chain, the third shows a kernel density plot of the 101 chain values, and the fourth shows the trace plot again but overlays the proposals as points. Note that for a proposal, <span class="math inline">\(\theta^*\)</span>, well outside of the typical range of <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\pi(\theta^*)&lt;&lt;\pi(\theta)\)</span>, so the proposed value is very likely to be rejected.</em></p>
+</section>
+</section>
+<section id="validity" class="level2" data-number="2.3">
+<h2 data-number="2.3"><span class="header-section-number">2.3</span> Validity</h2>
+<p>We first show that <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span> is a stationary distribution of the Markov chain generated by the Metropolis-Hastings algorithm, before considering convergence to this stationary distribution.</p>
+<section id="detailed-balance" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1"><span class="header-section-number">2.3.1</span> Detailed balance</h3>
+<p>Recall that if a Markov chain satisfies detailed balance with respect to a distribution, <span class="math inline">\(\pi\)</span>, then <span class="math inline">\(\pi\)</span> is a stationary distribution for the chain. First we need to obtain the transition kernel of the Markov chain being simulated by the Metropolis-Hastings algorithm.</p>
+<p>The kernel for the MH algorithm is not simply a probability density since there is often a non-zero probability that the proposal is rejected but including this simply complicates the notation without adding further insight.</p>
+<p>Hence, assuming that the chain moves we have the transition kernel as <span class="math display">\[p(\boldsymbol{\phi}|\boldsymbol{\theta}) = \alpha(\boldsymbol{\phi}|\boldsymbol{\theta})q(\boldsymbol{\phi}|\boldsymbol{\theta})\quad\textrm{when\ } \boldsymbol{\theta}\neq\boldsymbol{\phi}.\]</span> We can then check whether detailed balance holds: <span class="math display">\[\begin{aligned}
+\pi(\boldsymbol{\theta})p(\boldsymbol{\phi}|\boldsymbol{\theta}) &amp;=
+\pi(\boldsymbol{\theta})q(\boldsymbol{\phi}|\boldsymbol{\theta})\textrm{min}
+\left\{ 1, \frac{\pi(\boldsymbol{\phi})\,q(\boldsymbol{\theta}|\boldsymbol{\phi})}{\pi(\boldsymbol{\theta})\,q(\boldsymbol{\phi}|\boldsymbol{\theta})} \right\} \\
+&amp;=\textrm{min}\left\{ \pi(\boldsymbol{\theta})\,q(\boldsymbol{\phi}|\boldsymbol{\theta}),\pi(\boldsymbol{\phi})\,q(\boldsymbol{\theta}|\boldsymbol{\phi}) \right\}.\end{aligned}\]</span> This expression is clearly symmetric in <span class="math inline">\(\boldsymbol{\theta}\)</span> and <span class="math inline">\(\boldsymbol{\phi}\)</span>. Hence, detailed balance holds and we may conclude that he Metropolis-Hastings algorithm defines a Markov chain with stationary distribution <span class="math inline">\(\pi\)</span>.</p>
+</section>
+<section id="convergence" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2"><span class="header-section-number">2.3.2</span> Convergence</h3>
+<p>We need to show that the Markov chain is <span class="math inline">\(\mu\)</span>-irreducible and aperiodic. For simplicity we restrict ourselves to proposals <span class="math inline">\(q\)</span> such that <span class="math inline">\(q(\boldsymbol{\phi}|\boldsymbol{\theta}) &gt; 0\)</span> for all <span class="math inline">\(\boldsymbol{\theta}\in \mathcal{X}\)</span> and all <span class="math inline">\(\boldsymbol{\phi}\in \mathcal{X}\)</span> and densities <span class="math inline">\(\pi(\boldsymbol{\theta}) \leq C\)</span> everywhere, for some <span class="math inline">\(C &gt; 0\)</span>.</p>
+<p><strong><span class="math inline">\(\mu\)</span>-irreducibility:</strong> We choose <span class="math inline">\(\mu=\pi\)</span> and note that since <span class="math inline">\(\pi(\boldsymbol{\theta}) &lt; \infty\)</span> for all <span class="math inline">\(\boldsymbol{\theta}\in\mathcal{X}\)</span>: <span class="math display">\[\begin{aligned}
+\mathbb{P}(\boldsymbol{\theta}^{(1)}\in A|\boldsymbol{\theta}^{(0)}=\boldsymbol{\theta}) &amp;= \int_{A}q(\boldsymbol{\phi}|\boldsymbol{\theta})\textrm{min}
+\left\{ 1, 
+\frac{\pi(\boldsymbol{\phi})\,q(\boldsymbol{\theta}|\boldsymbol{\phi})}{\pi(\boldsymbol{\theta})\,q(\boldsymbol{\phi}|\boldsymbol{\theta})} \right\}d\boldsymbol{\phi}\\
+&amp;= \int_A \textrm{min}\left\{\frac{q(\boldsymbol{\phi}|\boldsymbol{\theta})}{\pi(\boldsymbol{\phi})}\,,\, \frac{q(\boldsymbol{\theta}|\boldsymbol{\phi})}{\pi(\boldsymbol{\theta})}\right\}\pi(\boldsymbol{\phi})d\boldsymbol{\phi}\\
+&amp;\geq \frac{1}{C}\int_{A} \textrm{min}\left\{q(\boldsymbol{\phi}|\boldsymbol{\theta})\,,\,q(\boldsymbol{\theta}|\boldsymbol{\phi}) \right\} \pi(\boldsymbol{\phi})d\boldsymbol{\phi}\\
+&amp;=\frac{\mathbb{P}_{\pi}(A)}{C} \times \mathbb{E}_{\boldsymbol{\phi}\sim\pi^A}\left[\textrm{min}\left\{q(\boldsymbol{\phi}|\boldsymbol{\theta})\,,\,q(\boldsymbol{\theta}|\boldsymbol{\phi})  \right\}\right]\\
+&amp;&gt;0\end{aligned}\]</span> where <span class="math inline">\(\pi^A\)</span> is <span class="math inline">\(\pi\)</span> restricted to the set <span class="math inline">\(A\)</span>.</p>
+<p><strong>Aperiodicity:</strong> wherever it is currently, the chain has a non-zero chance of moving to any set <span class="math inline">\(A\)</span> where <span class="math inline">\(\mathbb{P}_{\pi}(\boldsymbol{\theta}\in A) &gt; 0\)</span>, so it could move from any set in a partition <span class="math inline">\(\mathcal{X}_1,\ldots, \mathcal{X}_d\)</span> to any other; hence it cannot be periodic.</p>
+</section>
+</section>
+<section id="practical-considerations" class="level2" data-number="2.4">
+<h2 data-number="2.4"><span class="header-section-number">2.4</span> Practical considerations</h2>
+<p>How do we implement MH in practice? How many iterations should we run the sampler for? Should we discard some iterations? We will endeavour to answer these questions in this section.</p>
+<section id="accepting-a-move" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1"><span class="header-section-number">2.4.1</span> Accepting a move</h3>
+<p>Recall that the MH acceptance probability is <span class="math display">\[\alpha(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})=\textrm{min}\left\{ 1, 
+\frac{\pi(\boldsymbol{\theta}^{*})\,q(\boldsymbol{\theta}|\boldsymbol{\theta}^{*})}{\pi(\boldsymbol{\theta})\,q(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})} \right\}.\]</span> Now let <span class="math display">\[R(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})=\frac{\pi(\boldsymbol{\theta}^{*})\,q(\boldsymbol{\theta}|\boldsymbol{\theta}^{*})}{\pi(\boldsymbol{\theta})\,q(\boldsymbol{\theta}^{*}|\boldsymbol{\theta})}\]</span> so that <span class="math inline">\(\alpha=\textrm{min}(1,R)\)</span>.</p>
+<p>The simplest way to make the accept/reject decision is to generate a random number <span class="math inline">\(u\)</span> from <span class="math inline">\(U[0, 1]\)</span> distribution and accept if <span class="math inline">\(u\leq \alpha\)</span>, rejecting otherwise. Since <span class="math inline">\(\alpha\leq 1\)</span> this is equivalent to accepting if <span class="math inline">\(u \leq R\)</span> and rejecting otherwise. In practice (for example when there is a lot of data) the target density can be so small or so large that calculating <span class="math inline">\(R\)</span> can be prone to numerical issues. Since log is an increasing function <span class="math inline">\(a \leq b\)</span> <span class="math inline">\(\iff\)</span> <span class="math inline">\(\log a \leq \log b\)</span>, so all practical implementations of Metropolis-Hastings algorithms accept if <span class="math display">\[\log u \leq \log R = \log\pi(\boldsymbol{\theta}^{*})-\log \pi(\boldsymbol{\theta})+\log q(\boldsymbol{\theta}|\boldsymbol{\theta}^{*})-\log q(\boldsymbol{\theta}^{*}|\boldsymbol{\theta}).\]</span></p>
+</section>
+<section id="overall-acceptance-rate" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2"><span class="header-section-number">2.4.2</span> Overall acceptance rate</h3>
+<p>We know that the probability of accepting a move given a current value <span class="math inline">\(\boldsymbol{\theta}\)</span> and a proposed value <span class="math inline">\(\boldsymbol{\theta}^*\)</span> is <span class="math inline">\(\alpha(\boldsymbol{\theta}^*|\boldsymbol{\theta})\)</span>. Hence, the probability of accepting a move, averaged over all possible proposed values is <span class="math display">\[\begin{aligned}
+\mathbb{P}(\textrm{move}|\boldsymbol{\theta}) &amp;= \mathbb{E}_{\boldsymbol{\phi}\sim q(\boldsymbol{\phi}|\boldsymbol{\theta})}\left[\alpha(\boldsymbol{\phi}|\boldsymbol{\theta}) \right]\\
+&amp;= \int \alpha(\boldsymbol{\phi}|\boldsymbol{\theta})q(\boldsymbol{\phi}|\boldsymbol{\theta})d\boldsymbol{\phi}.\end{aligned}\]</span> The <em>theoretical acceptance rate</em> for a Metropolis-Hastings chain at stationarity is <span class="math display">\[\begin{aligned}
+\mathbb{P}(\textrm{move}) &amp;=  \mathbb{E}_{\boldsymbol{\theta}\sim \pi(\boldsymbol{\theta})}\left[\mathbb{P}(\textrm{move}|\boldsymbol{\theta}) \right]\\
+&amp;=\int \mathbb{P}(\textrm{move}|\boldsymbol{\theta})\pi(\boldsymbol{\theta})d\boldsymbol{\theta}.\end{aligned}\]</span> This is almost always intractable (except in some simple cases – see tutorial questions); however, we can approximate it via the empirical acceptance rate, the fraction of proposals that have been accepted. As we shall see, the acceptance rate of an algorithm often provides an easy to measure handle on the efficiency of the algorithm.</p>
+<p><strong>Example 2.4.1:</strong> <strong>(Running example: Gaussian target and RWM method with Gaussian innovations.)</strong> <em>Recall the target and proposal of the form <span class="math display">\[\begin{aligned}
+\pi(\theta) &amp;= \frac{1}{\sigma\sqrt{2\pi}} e^{-\theta^2/(2\sigma^2)},\\
+q(\theta^*|\theta) &amp;= \frac{1}{\lambda\sqrt{2\pi}} e^{-(\theta^*-\theta)^2/(2\lambda^2)}.\end{aligned}\]</span> with <span class="math inline">\(\sigma=1\)</span> and <span class="math inline">\(\lambda=2\)</span>. R code for implementing this example is given below.</em></p>
+<div class="sourceCode" id="cb1" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">## RWM (normal target and normal innovations)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a> rwm=<span class="cf">function</span>(N,lambda,theta0)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a> {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>  theta=<span class="kw">rep</span>(<span class="dv">0</span>,N)  <span class="co"># Store theta values here</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>  theta[<span class="dv">1</span>]=theta0 <span class="co"># Initialise</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  count=<span class="dv">0</span> <span class="co"># count acceptances</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>  {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>   can=theta[i<span class="dv">-1</span>]<span class="op">+</span><span class="kw">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,lambda)  <span class="co"># Propose</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>   laprob=<span class="kw">dnorm</span>(can,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dnorm</span>(theta[i<span class="dv">-1</span>],<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>   <span class="cf">if</span>(<span class="kw">log</span>(<span class="kw">runif</span>(<span class="dv">1</span>))<span class="op">&lt;</span>laprob)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>   {</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>    theta[i]=can <span class="co"># Store candidate value</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>    count=count<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>   }<span class="cf">else</span>{</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>    theta[i]=theta[i<span class="dv">-1</span>] <span class="co"># Else store current value</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a>   }</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a>  }</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a> <span class="kw">print</span>(count<span class="op">/</span>(N<span class="dv">-1</span>))</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a> <span class="kw">return</span>(theta)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a> } </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a> </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true"></a> out=<span class="kw">rwm</span>(<span class="dv">100</span>,<span class="dv">2</span>,<span class="dv">0</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true"></a><span class="co">## [1] 0.4848485</span></span></code></pre></div>
+<p><em>Note that the estimated overall acceptance rate is around <span class="math inline">\(48\%\)</span>. We will consider whether or not this is reasonable later in the notes.</em></p>
+</section>
+<section id="burn-in-and-mixing" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3"><span class="header-section-number">2.4.3</span> Burn-in and mixing</h3>
+<p>We want each draw <span class="math inline">\(\boldsymbol{\theta}^{(n)}\)</span> to have distribution <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>. However, any simulation cannot be started with <span class="math inline">\(\boldsymbol{\theta}^{(0)}\sim\pi\)</span> – because we cannot simulate from <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span> directly (otheriwse, why use MCMC at all?). Thus we have no <em>guarantee</em> that <span class="math inline">\(\boldsymbol{\theta}^{(n)}\)</span> follows the target distribution for any <span class="math inline">\(n\)</span>. However, there are good reasons to believe that, independent of the starting distribution <span class="math inline">\(\pi^{(0)}\)</span>, the chain will converge towards the target distribution i.e. for all sufficiently large <span class="math inline">\(n\)</span> we will have <span class="math inline">\(\boldsymbol{\theta}^{(n)}\sim\pi\)</span>, <em>approximately</em>.</p>
+<p>The usual strategy adopted to deal with this issue is to run the simulated chain for a certain number of iterations, say <span class="math inline">\(K\)</span>, disgard these samples, and then regard subsequent iterations as (dependent) samples that are approximately distributed according to <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>. The discarded number of iterations is called the <em>burn-in</em> period.</p>
+<p><strong>Example 2.4.2:</strong> <strong>(Running example: Gaussian target and RWM method with Gaussian innovations.)</strong> <em>Suppose we initialise the sampler at <span class="math inline">\(\theta^{(0)}=20\)</span> and run for 500 iterations. The R code below produces trace plots and histograms of the sampler output with and without a burn-in period of 30 values.</em></p>
+<div class="sourceCode" id="cb2" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co">## Demonstrating burn-in </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">3421</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a> out=<span class="kw">rwm</span>(<span class="dv">500</span>,<span class="dv">2</span>,<span class="dv">20</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="co">## [1] 0.511022</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a> <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="kw">ts</span>(out),<span class="dt">main=</span><span class="st">&quot;All samples&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;Iteration&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;theta&quot;</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="kw">ts</span>(out[<span class="dv">31</span><span class="op">:</span><span class="dv">500</span>]),<span class="dt">main=</span><span class="st">&quot;Remove burn-in&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;Iteration&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;theta&quot;</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a> <span class="kw">hist</span>(out,<span class="dt">freq=</span><span class="ot">FALSE</span>,<span class="dt">main=</span><span class="st">&quot;All samples&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;theta&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;&quot;</span>,<span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.45</span>))</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="dv">20</span>,<span class="dv">20</span>,<span class="fl">0.001</span>),<span class="kw">dnorm</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="dv">20</span>,<span class="dv">20</span>,<span class="fl">0.001</span>)),<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a> <span class="kw">hist</span>(out[<span class="dv">31</span><span class="op">:</span><span class="dv">500</span>],<span class="dt">freq=</span><span class="ot">FALSE</span>,<span class="dt">main=</span><span class="st">&quot;Remove burn-in&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;theta&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;&quot;</span>,<span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">0.45</span>))</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="dv">20</span>,<span class="dv">20</span>,<span class="fl">0.001</span>),<span class="kw">dnorm</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="dv">20</span>,<span class="dv">20</span>,<span class="fl">0.001</span>)),<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<p><em>Inspection of the trace plot (upper left in the figure below) gives a good indication of the values to be removed.</em></p>
+<p> </p>
+<table id="fig:figBurnc" class="imageTable">
+<caption>Burn-in demonstration for RWM sampler. Top panel: trace plots. Bottom panel: histograms with target overlaid.</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><embed src="../graphics/burn1.pdf" title="fig:" id="fig:figBurnc" style="width:16cm;height:8cm" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><embed src="../graphics/burn2.pdf" title="fig:" id="fig:figBurnc" style="width:16cm;height:8cm" /></td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+</section>
+<section id="measuring-assessing-efficiency" class="level3" data-number="2.4.4">
+<h3 data-number="2.4.4"><span class="header-section-number">2.4.4</span> Measuring / assessing efficiency</h3>
+<p>For this section, for simplicity of presentation, we assume that the burn-in samples have been removed, and that we have relabelled the points so that we have a sequence <span class="math inline">\(\boldsymbol{\theta}^{(1)},\boldsymbol{\theta}^{(2)},\ldots,\boldsymbol{\theta}^{(N)}\)</span> from the chain.</p>
+<section id="trace-plots" class="level4 unnumbered">
+<h4 class="unnumbered">Trace plots</h4>
+<p>The following trace plots were obtained from the RWM running example, started from <span class="math inline">\(\theta^{(0)}=0\)</span> and run for 500 iterations with <span class="math inline">\(\lambda\in \{0.3,3,10\}\)</span>.</p>
+<p> </p>
+<div class="center">
+<figure>
+<embed src="../graphics/mix.pdf" id="fig:figMix" style="width:18cm;height:6.5cm" /><figcaption aria-hidden="true">Mixing demonstration for RWM sampler. Trace plots based on 500 iterations with the innovation standard deviation <span class="math inline">\(\lambda=0.3\)</span> (left), <span class="math inline">\(\lambda=3\)</span> (middle) and <span class="math inline">\(\lambda=10\)</span> (right).</figcaption>
+</figure>
+</div>
+<p> </p>
+<p>For <span class="math inline">\(\lambda=0.3\)</span>, the chain is moving in such small jumps (that are mostly accepted) and has not had time to explore the range of “reasonable” values of <span class="math inline">\(\theta\)</span>. For <span class="math inline">\(\lambda=10\)</span>, the chain proposes values that do not fit with <span class="math inline">\(\pi\)</span> and these are rejected. Both chains are said to be <em>mixing slowly</em>.</p>
+<p><strong>Remarks:</strong></p>
+<ul>
+<li><p>The above example suggests a value of the innovation standard deviation <span class="math inline">\(\lambda\)</span> (also known as the <em>scaling</em>) that maximises mixing efficiency.</p></li>
+<li><p>Consider a general <span class="math inline">\(d\)</span>-dimensional target <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span> and a Gaussian random walk proposal at iteration <span class="math inline">\(j\)</span> of <span class="math display">\[\boldsymbol{\theta}^*=\boldsymbol{\theta}^{(j-1)}+\boldsymbol{w}^{(j)},\quad \boldsymbol{w}^{(j)}\sim N(\boldsymbol{0},V)\]</span> with a general tuning matrix <span class="math inline">\(V\)</span>.</p>
+<ul>
+<li><p>Under certain constraints on the posterior distribution, researchers have shown that the optimal choice of <span class="math inline">\(V\)</span> (for large <span class="math inline">\(d\)</span>) is <span class="math display">\[V=\frac{2.38^2}{d}\,\mathrm{Var}(\boldsymbol{\theta})\]</span> and this leads to an optimal acceptance rate of 0.234.</p></li>
+<li><p>Of course, we typically don’t know the posterior variance <span class="math inline">\(\mathrm{Var}(\boldsymbol{\theta})\)</span>. However, we could first run the MCMC algorithm (for example by using a diagonal <span class="math inline">\(V\)</span>) to obtain an estimate of <span class="math inline">\(\mathrm{Var}(\boldsymbol{\theta})\)</span>.</p></li>
+<li><p>We should also note that in practice, and especially for small <span class="math inline">\(d\)</span>, the above formula for <span class="math inline">\(V\)</span> should just be used as a guide – an acceptance rate anywhere between 0.1 and 0.4 could be close to optimal.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="autocorrelation-and-acf-plots" class="level4 unnumbered">
+<h4 class="unnumbered">Autocorrelation and ACF plots</h4>
+<p>The level of dependence in the sample can be measured in terms of the correlation at lag-<span class="math inline">\(k\)</span>: <span class="math display">\[\rho_k = \textrm{Cor}[h(\boldsymbol{\theta}^{(0)}), h(\boldsymbol{\theta}^{(k)})],\]</span> also known as the lag-<span class="math inline">\(k\)</span> autocorrelation. Since the chain is (approximately) stationary, this can be obtained empirically, by looking at the correlation between pairs in the sample <span class="math display">\[[h(\boldsymbol{\theta}^{(0)}), h(\boldsymbol{\theta}^{(k)})], [h(\boldsymbol{\theta}^{(1)}), h(\boldsymbol{\theta}^{(k+1)})],\ldots, [h(\boldsymbol{\theta}^{(N-k)}), h(\boldsymbol{\theta}^{(N)})].\]</span> Typically, in practice we examine the individual components of the vector <span class="math inline">\(\boldsymbol{\theta}\)</span>.</p>
+<p>The plots below show the estimated lag-<span class="math inline">\(k\)</span> autocorrelation of <span class="math inline">\(h(\theta)=\theta\)</span> as a function of <span class="math inline">\(k = 0,1,\ldots,25\)</span> for the RWM example. The plots are often called ACF plots (ACF<span class="math inline">\(=\)</span>autocorrelation function).</p>
+<p> </p>
+<div class="center">
+<figure>
+<embed src="../graphics/acf.pdf" id="fig:figACF" style="width:18cm;height:6.5cm" /><figcaption aria-hidden="true">RWM sampler. ACF plots based on 500 iterations with the innovation standard deviation <span class="math inline">\(\lambda=0.3\)</span> (left), <span class="math inline">\(\lambda=3\)</span> (middle) and <span class="math inline">\(\lambda=10\)</span> (right).</figcaption>
+</figure>
+</div>
+<p> </p>
+<p>The dashed, blue lines show the critical value for a hypothesis test of <span class="math inline">\(H_0: \rho_k = 0\)</span>. Samples from the RWM algorithm with <span class="math inline">\(\lambda=3\)</span> are close to independent by lag 5, whereas even when separated by a lag of 25 the samples from the algorithm with <span class="math inline">\(\lambda = 0.3\)</span> are highly positively correlated.</p>
+</section>
+<section id="effective-sample-size-ess" class="level4 unnumbered">
+<h4 class="unnumbered">Effective sample size (ESS)</h4>
+<p>Recall that for a sequence of iid samples from <span class="math inline">\(\pi\)</span>, <span class="math inline">\(\boldsymbol{\theta}^{(1)},\ldots,\boldsymbol{\theta}^{(N)}\)</span>, if we set <span class="math display">\[\hat{\mu}_h = \frac{1}{N}\sum_{i=1}^N h(\boldsymbol{\theta}^{(i)})\]</span> then <span class="math display">\[\begin{aligned}
+\mathbb{E}(\hat{\mu}_h) &amp;=  \mathbb{E}_{\pi}[h(\boldsymbol{\theta})] = \mu_h,\\
+\mathrm{Var}(\hat{\mu}_h)  &amp;=  \frac{1}{N}\mathrm{Var}_{\pi}[h(\boldsymbol{\theta})] = \frac{\sigma^2_h}{N}.\end{aligned}\]</span> Now, if <span class="math inline">\(\boldsymbol{\theta}^{(1)},\ldots,\boldsymbol{\theta}^{(N)}\)</span> are generated from an MH algorithm, then, since the Markov chain is not quite stationary, <span class="math inline">\(\hat{\mu}_h\)</span> is biased. However, the bias is <span class="math inline">\(O(1/N)\)</span> whereas the standard deviation of <span class="math inline">\(\hat{\mu}_h\)</span> is <span class="math inline">\(\propto 1/\sqrt{N}\)</span>, and the impact of this can be substantial.</p>
+<p>Consider <span class="math inline">\(\mathrm{Var}(\hat{\mu}_h)\)</span>. It can be shown that (e.g. Brockwell and Davis, 1991, dominated convergence Theorem) that <span class="math display">\[\mathrm{Var}(\hat{\mu}_h)\approx C\frac{\sigma^{2}_h}{N}=\frac{\sigma^2_h}{N/C}.\]</span> The quantity <span class="math inline">\(N/C\)</span> is known as the effective sample size (ESS) and can be computed from the autocorrelation function, leading to the following definition.</p>
+<p><strong>Definition:</strong> <em>The effective sample size (ESS) can be computed as <span class="math display">\[\textrm{ESS} = \frac{N}{1+2\sum_{k=1}^{\infty}\rho_k}.\]</span> It is the number of iid samples that would lead to the same variance of <span class="math inline">\(\hat{\mu}_h\)</span> as that obtained from the chain.</em></p>
+<p><strong>Remarks:</strong></p>
+<ul>
+<li><p>Typically we examine the ESS for each component of <span class="math inline">\(\boldsymbol{\theta}\)</span> to ascertain whether sufficient mixing has occurred.</p></li>
+<li><p>For the RWM example above, we obtain ESS values of 16.8 for <span class="math inline">\(\lambda=0.3\)</span>, 118.2 for <span class="math inline">\(\lambda=3\)</span> and 30.3 for <span class="math inline">\(\lambda=10\)</span>.</p></li>
+<li><p>A good ESS is one that allows you to calculate what you need to the required accuracy. Often an ESS of 500 is deemed sufficent; if an ESS is below 100, inference from the MCMC sample should be treated with caution.</p></li>
+<li><p>Roughly speaking, we have <span class="math display">\[\mathrm{Var}(\hat{\mu}_h) \approx \frac{\sigma^2_h}{\textrm{ESS}}.\]</span> Applying the central limit Theorem, we have approximately <span class="math display">\[\hat{\mu}_h \sim N\left(\mu_h\,,\,\frac{\sigma^2_h}{\textrm{ESS}} \right).\]</span> By estimating <span class="math inline">\(\sigma^2_h\)</span> via the empirical variance of <span class="math inline">\(h(\boldsymbol{\theta}^{(1)}),\ldots,h(\boldsymbol{\theta}^{(N)})\)</span>, we obtain <span class="math inline">\(\hat{\sigma}^2_h\)</span>. Now, since most of the mass of a gaussian distribution lies within two standard deviations of the expectation, an approximate estimate of the error is <span class="math inline">\(2\hat{\sigma}_h/\sqrt{\textrm{ESS}}\)</span>.</p></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<script>
+function doNumbering() {
+	// The syntax to read the structured data from the yaml is horrible, template literals fix the problem but probably aren't widely supported enough. Escaping line breaks is browser dependant. I don't know if there's a better way?
+	// Note that the data from the yaml file is manipulated into an array, and then parsed back into strings later, but I didn't want to deal with the pandoc templating syntax longer than necessary.
+	var supportedEnvsArrayString = ' .definition;;; .theorem;;; .lemma;;; .example;;; .exampleqed;;; .proposition;;; .remark;;; .corollary;;; .exercise;;; .question';
+	var supportedEnvsArray = supportedEnvsArrayString.split("|||");
+	supportedEnvsArray = supportedEnvsArray.map(inner => inner.split(";;;"));
+	var numberWithin = '1';
+	var counterOffset = '';
+	var subcounterOffset = '';
+	var problemCounter = '';
+	const partLabels = 'abcdefghijklmnopqrstuvwxyz'.split('');
+	
+	// counterOffset may be negative, and by default if specified on the command line this gets string concatenated with the default given in the yaml config and this then causes a problem. Can be fixed by removing the default in the config file and converting to an int, but this causes a NaN error if no value is suplied on the command line, so if NaN set to 0.
+	counterOffset = parseInt(counterOffset);
+	if (isNaN(counterOffset)) {
+		counterOffset = 0;
+	}
+	
+	subcounterOffset = parseInt(subcounterOffset);
+	if (isNaN(subcounterOffset)) {
+		subcounterOffset = 0;
+	}
+	
+	problemCounter = parseInt(problemCounter);
+	if (isNaN(problemCounter)) {
+		problemCounter = 1;
+	}
+	
+	function sanitiseSelector(selector) {
+		// tex labels often have colons in which need escaping. There may be other escaping needed here. Unfortunately neither encodeURI nor encodeURIComponent do what I need, so use regex to do the escaping manually.
+		var sanitised = selector.replace(/\:/g,"\\\:");
+		sanitised = sanitised.replace(/(^[\d])/,"\\3$1 ");
+		sanitised = sanitised.replace(/\//g,"\\\/");
+		return sanitised
+	}
+	
+	function labelLinks() {
+		var refs = document.querySelectorAll("a[data-reference-type=ref]")
+		for (ref of refs) {
+			// Escape colons (or other) from the link title.
+			var ref_label = sanitiseSelector(ref.getAttribute("data-reference"));
+			// Hopefully ref is a reference to a div or a section, which should have the associated id. If so, we just need the data-number from the relevant DOM item.
+			var ref_to = document.querySelector("#"+ref_label);
+			if (ref_to !== null) {
+				var ref_number = ref_to.getAttribute("data-number");
+			} else {
+				// If ref is being used for an equation, then we need to try to parse the mathjax divs. This is fragile, but try to find the span which corresponds to the equation number we need.
+				try {
+					var mathjax_ref = "#mjx-eqn-"+ref_label;
+					ref_to = document.querySelector(mathjax_ref);
+					// Since this is a ref, we don't want the parens to be returned, so find the equation number and strip the parens.
+					var ref_number = ref_to.querySelector(".mjx-char").innerHTML.replace(/[()]/g,"");
+					ref.setAttribute("href",mathjax_ref);
+				}
+				// If we can't find a place to link to, just indicate a missing link.
+				catch (err){
+					var ref_number = "???"
+				}
+			}
+			ref.innerHTML = ref_number;
+		};
+	}
+	
+	function numberEnvs() {
+		for (var levelSpec = 0; levelSpec <= numberWithin; levelSpec++) {
+			var reqLevels = document.querySelectorAll(".level"+levelSpec);
+			for (var level of reqLevels) {
+				levelCount = level.getAttribute("data-number");
+				levelCount = String(parseFloat(levelCount)+(counterOffset));
+				levelCount = levelCount+(("."+subcounterOffset).repeat(numberWithin-levelSpec));
+				for (var counter of supportedEnvsArray) {
+					var envCount = 1;
+					var envs = level.querySelectorAll(counter.join(", "));
+					for (var env of envs) {
+						env.setAttribute("data-number",levelCount+"."+envCount);
+						envCount += 1;
+					}
+				}
+			}
+		}
+	}
+	
+	function numberFigs() {
+		// Figures should either be in a figure environment, or a table with image class imageTable thanks to the tableCaps filter.
+		figs = document.querySelectorAll("figure, .imageTable");
+		var fig_no = 1
+		for (var fig of figs) {
+			var cap
+			// For figures, we want to move the id to the figure, and set the data-number on both the figure and the figcaption
+			if (fig.nodeName == "FIGURE") {
+				cap = fig.querySelector("figcaption");
+				var img = fig.querySelector("img, embed")
+				if (img) {
+					var img_id = img.getAttribute("id");
+					fig.setAttribute("id",img_id);
+					img.removeAttribute("id");
+				}
+			// for tables (which must be .imageTable due to the querySelector above), we want to set the data-number on the table and the caption
+			} else if (fig.nodeName == "TABLE") {
+				cap = fig.querySelector("caption");
+			}
+			cap.setAttribute("data-number",fig_no);
+			fig.setAttribute("data-number",fig_no);
+			fig_no += 1;
+		}
+	}
+	
+	function numberGlobals() {
+		// This function numbers any environments that just use a global counter, such as a problem number on a problems sheet, where there are no sections to number with respect to.
+		probsols = document.querySelectorAll(".problem, .solution");
+		var prob_no = problemCounter;
+		var partNo = 0;
+		for (var probsol of probsols) {
+			if (probsol.className == "problem"){
+				prob_no +=1;
+				partNo = 0;
+				probsol.setAttribute("data-number",prob_no);
+			}
+			else {
+				if (probsol.parentNode.nodeName == "LI") {
+					var partLabel = partLabels[partNo];
+					probsol.setAttribute("data-number",prob_no.toString()+partLabel);
+					partNo +=1;
+				}
+				else{
+					probsol.setAttribute("data-number",prob_no);
+				}
+			}
+			
+		}
+		// sols = document.querySelectorAll(".solution");
+// 		var sol_no = problemCounter;
+// 		for (var sol of sols) {
+// 			sol.setAttribute("data-number",sol_no);
+// 			sol_no +=1
+// 		}
+	}
+	
+	// labelLinks() should occur last, so that the data-numbers have been correctly set first.
+	numberEnvs();
+	numberFigs();
+	numberGlobals();
+	labelLinks();
+}
+</script><script>
+	var imageDir = ''
+	imgs = document.querySelectorAll("img");
+	for (var img of imgs) {
+		imgsrc = img.getAttribute("src");
+		img.setAttribute("src",imageDir.concat(imgsrc));
+	}
+</script></body>
+</html>
