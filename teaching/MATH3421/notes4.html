@@ -229,7 +229,7 @@ h+\frac{n}{2}\left[ s^2+(\bar{x}-\mu^{(j)})^2 \right] \right)\)</span></p></li>
 <p>Recall that:</p>
 <ul>
 <li><p>The prior density is <span class="math inline">\(\pi(\boldsymbol{\theta})=\pi(\mu)\pi(\tau)\)</span> due to the independent prior specification.</p></li>
-<li><p>The likelihood is <span class="math inline">\(f(\boldsymbol{x}|\boldsymbol{\theta})=\prod_{i=1}^n N(x_i; \mu,\tau^{-1})\)</span>.</p></li>
+<li><p>The likelihood is <span class="math inline">\(f(\boldsymbol{x}|\boldsymbol{\theta})=\prod_{i=1}^n N(x_i; \mu,\tau^{-1})\)</span> (but recall that we’re given data summaries so we will implement the R code accordingly!)</p></li>
 </ul>
 <p><strong>Random walk Metropolis: R code</strong></p>
 <div class="sourceCode" id="cb3" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="co">##Random walk Metropolis</span></span>
