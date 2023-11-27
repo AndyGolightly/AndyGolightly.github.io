@@ -403,7 +403,7 @@ f(\boldsymbol{y}|\boldsymbol{\theta}) &amp;= \int f(\boldsymbol{y},\boldsymbol{x
 \theta_1 &amp;=\log[\phi/(1-\phi)],\\
 \theta_2 &amp;= \log\sigma,\\
 \theta_3 &amp;= \log\kappa.\end{aligned}\]</span></p>
-<p>We will use <em>simulated data</em> which were generated using ground truth values of <span class="math inline">\((\phi,\sigma,\kappa)=(0.9,0.1,0.5)\)</span>. Hence <span class="math inline">\(\boldsymbol{\theta}\approx (-0.105,-2.303,-0.693)\)</span>. The code for generating and plotting the data is as follows.</p>
+<p>We will use <em>simulated data</em> which were generated using ground truth values of <span class="math inline">\((\phi,\sigma,\kappa)=(0.9,0.1,0.5)\)</span>. Hence <span class="math inline">\(\boldsymbol{\theta}\approx (2.197,-2.303,-0.693)\)</span>. The code for generating and plotting the data is as follows.</p>
 <div class="sourceCode" id="cb8" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="co">## Generate synthetic data</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a> </span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">3421</span>)</span>
@@ -545,7 +545,7 @@ f(\boldsymbol{y}|\boldsymbol{\theta}) &amp;= \int f(\boldsymbol{y},\boldsymbol{x
 <p><strong>Remarks:</strong></p>
 <ul>
 <li><p>The effective sample sizes for logit <span class="math inline">\(\phi\)</span>, <span class="math inline">\(\log \sigma\)</span> and <span class="math inline">\(\log \kappa\)</span> are 499, 16 and 426, suggesting that a run of at least ten times the current length would be preferred.</p></li>
-<li><p>The acceptance rates for the <span class="math inline">\(\boldsymbol{\theta}\)</span> and <span class="math inline">\(\boldsymbol{x}\)</span> updates are 0.14 and 0.37 (– a little high and low resp. Needs further tuning!)</p></li>
+<li><p>The acceptance rates for the <span class="math inline">\(\boldsymbol{\theta}\)</span> and <span class="math inline">\(\boldsymbol{x}\)</span> updates are 0.14 and 0.37 (– a little low and high resp. Needs further tuning!)</p></li>
 <li><p>The worst mixing chain is that for <span class="math inline">\(\theta_2=\log \sigma\)</span>. This is the <em>volatility of the volatility</em> parameter, and is well known to be hard to estimate.</p></li>
 <li><p>We can summarise the marginal posterior distrubtion of the dynamic <span class="math inline">\(X_t\)</span> process at each time <span class="math inline">\(t\)</span> by computing the posterior mean and a <span class="math inline">\(95\%\)</span> equi-tailed credible interval via the follwong code.</p></li>
 </ul>
