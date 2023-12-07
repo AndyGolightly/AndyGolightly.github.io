@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>notes6</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/x-mathjax-config">
+  	MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "ams"} } });
+  	// I need to wait until MathJax has finished before running the numbering script
+  	MathJax.Hub.Register.StartupHook("End",function(){doNumbering()});
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#preliminaries"><span class="toc-section-number">1</span> Preliminaries</a></li>
+<li><a href="#the-metropolis-hastings-algorithm"><span class="toc-section-number">2</span> The Metropolis-Hastings algorithm</a></li>
+<li><a href="#the-gibbs-sampler"><span class="toc-section-number">3</span> The Gibbs sampler</a></li>
+<li><a href="#bayesian-inference-via-mcmc"><span class="toc-section-number">4</span> Bayesian inference via MCMC</a></li>
+<li><a href="#sequential-monte-carlo"><span class="toc-section-number">5</span> Sequential Monte Carlo</a></li>
+<li><a href="#other-methods"><span class="toc-section-number">6</span> Other methods</a>
+<ul>
+<li><a href="#laplace-approximation"><span class="toc-section-number">6.1</span> Laplace approximation</a></li>
+<li><a href="#variational-bayes"><span class="toc-section-number">6.2</span> Variational Bayes</a></li>
+<li><a href="#simulated-annealing"><span class="toc-section-number">6.3</span> Simulated annealing</a></li>
+<li><a href="#mala"><span class="toc-section-number">6.4</span> MALA</a></li>
+<li><a href="#particle-mcmc"><span class="toc-section-number">6.5</span> Particle MCMC</a></li>
+<li><a href="#approximate-bayesian-computation"><span class="toc-section-number">6.6</span> Approximate Bayesian computation</a></li>
+</ul></li>
+</ul>
+</nav>
+<section id="preliminaries" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Preliminaries</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes1">here</a>.</p>
+</section>
+<section id="the-metropolis-hastings-algorithm" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> The Metropolis-Hastings algorithm</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes2">here</a>.</p>
+</section>
+<section id="the-gibbs-sampler" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> The Gibbs sampler</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes3">here</a>.</p>
+</section>
+<section id="bayesian-inference-via-mcmc" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Bayesian inference via MCMC</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes4">here</a>.</p>
+</section>
+<section id="sequential-monte-carlo" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Sequential Monte Carlo</h1>
+<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes5">here</a>.</p>
+</section>
+<section id="other-methods" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Other methods</h1>
+<p>This chapter provides a short explanation of other methods you might come across, with references for further, self-directed study (where appropriate).</p>
+<section id="laplace-approximation" class="level2" data-number="6.1">
+<h2 data-number="6.1"><span class="header-section-number">6.1</span> Laplace approximation</h2>
+<p>While for many models, Markov chain Monte Carlo is the approximate inference method of choice, the Laplace approximation still provides the simplest deterministic method available.</p>
+<p>In essence, the Laplace approximation entails finding a Gaussian approximation to a continuous probability density. Let’s consider a univariate continuous random variable <span class="math inline">\(\theta\)</span> with probability density function <span class="math inline">\(p(\theta)\)</span>. This could be a Bayesian posterior. Suppose that <span class="math display">\[p(\theta)=\frac{1}{Z} f(\theta)\]</span> where <span class="math inline">\(Z=\int f(\theta)d\theta\)</span> is the normalising constant. The goal of the Laplace approximation is to find a Gaussian approximation <span class="math inline">\(q(\theta)\)</span> to the target <span class="math inline">\(p(\theta)\)</span>. The mean of this approximation is specified to be the <em>mode</em> of the target, which we will denote by <span class="math inline">\(\theta_0\)</span>. Now, we construct a Taylor expansion of <span class="math inline">\(\log f(\theta)\)</span> about <span class="math inline">\(\theta_0\)</span> to provide an approximation for <span class="math inline">\(\log f(\theta)\)</span> as <span class="math display">\[\log f(\theta) \approx \log f(\theta_0)-\frac{1}{2} H\,(\theta-\theta_0)^2\]</span> where <span class="math display">\[H=\left. -\frac{d^2}{d\theta^2}\log f(\theta) \right |_{\theta=\theta_0}.\]</span> Exponentiating gives <span class="math display">\[f(\theta)\approx f(\theta_0)\exp\left\{-\frac{1}{2} H\,(\theta-\theta_0)^2\right\}\]</span> which is proportional to a Gaussian kernel with mean <span class="math inline">\(\theta_0\)</span> and variance <span class="math inline">\(H^{-1}\)</span>. Normalising gives the Laplace approximation <span class="math display">\[q(\theta)=\frac{H^{1/2}}{\sqrt{2\pi}}\exp\left\{ -\frac{1}{2} \frac{(\theta-\theta_0)^2}{H^{-1}} \right\}.\]</span></p>
+<p>We can extend the Laplace approximation for a multivariate distribution. For the <span class="math inline">\(d\)</span>-dimensional target <span class="math inline">\(p(\boldsymbol{\theta})\propto f(\boldsymbol{\theta})\)</span> we have that <span class="math display">\[\log f(\boldsymbol{\theta}) \approx \log f(\boldsymbol{\theta}_0) -\frac{1}{2}(\boldsymbol{\theta}-\boldsymbol{\theta}_0)&#39; \,H\, (\boldsymbol{\theta}-\boldsymbol{\theta}_0)\]</span> where <span class="math inline">\(H\)</span> is the <em>Hessian</em> matrix, that is, the matrix of second-order partial derivatives which describes the local curvature of <span class="math inline">\(\log f(\boldsymbol{\theta})\)</span> at <span class="math inline">\(\boldsymbol{\theta}_0\)</span>. In particular, the <span class="math inline">\((i,j)\)</span>th element of the <span class="math inline">\(d\times d\)</span> matrix <span class="math inline">\(H\)</span> is <span class="math display">\[(H)_{i,j}= \frac{\partial^2 f}{\partial \theta_i \partial \theta_j}.\]</span> Exponentiating and including the normalisation constant for a multivariate normal gives the approximate multivariate distribution <span class="math display">\[q(\boldsymbol{\theta})=\frac{|H|^{1/2}}{(2\pi)^{d/2}}\exp\left\{ -\frac{1}{2}(\boldsymbol{\theta}-\boldsymbol{\theta}_0)&#39; \,H\, (\boldsymbol{\theta}-\boldsymbol{\theta}_0)  \right\}.\]</span> To summarise, the Laplace approximation is <span class="math display">\[q(\boldsymbol{\theta})=N\left(\boldsymbol{\theta}; \boldsymbol{\theta}_0\,,\, H^{-1}\right).\]</span></p>
+</section>
+<section id="variational-bayes" class="level2" data-number="6.2">
+<h2 data-number="6.2"><span class="header-section-number">6.2</span> Variational Bayes</h2>
+<p>Consider the independence (MCMC) sampler from Chapter 3. This will work well when the proposal density <span class="math inline">\(q\)</span> is ‘close’ to the target density <span class="math inline">\(\pi\)</span>. For example, provided the dimension of the target is not too large, we might use the Laplace approximation so that the proposal distribution is a multivariate normal with parameters chosen so that the approximation is reasonable. Variational Bayes seeks to find the “best” (over the possible parameter values) approximation <span class="math inline">\(q\)</span>, to <span class="math inline">\(\pi\)</span> across a particular class of distributions such as all multivariate normal distributions, or product distributions with particular univariate distributions for each component. It then uses this “best” <span class="math inline">\(q\)</span> directly for inference as if it were the true target.</p>
+<p>Suppose that the target is a Bayesian posterior <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\)</span>. “Best” is defined according to a particular measure, the <em>Kullback-Leibler divergence</em>: <span class="math display">\[KL\left(q(\boldsymbol{\theta})||\pi(\boldsymbol{\theta}|\boldsymbol{x})\right)=\mathbb{E}_{q}\left[\log\left(\frac{q(\boldsymbol{\theta})}{\pi(\boldsymbol{\theta}|\boldsymbol{x})}\right)\right].\]</span> Now, <span class="math inline">\(KL(q(\boldsymbol{\theta})||\pi(\boldsymbol{\theta}|\boldsymbol{x}))\geq 0\)</span> with equality if and only if <span class="math inline">\(q=\pi\)</span>. Moreover, <span class="math display">\[\begin{aligned}
+KL\left(q(\boldsymbol{\theta})||\pi(\boldsymbol{\theta}|\boldsymbol{x})\right)&amp;= 
+\int q(\boldsymbol{\theta})\log q(\boldsymbol{\theta}) d\boldsymbol{\theta}-\int q(\boldsymbol{\theta})\log \pi(\boldsymbol{\theta}|\boldsymbol{x})d\boldsymbol{\theta}\\
+&amp;= \int q(\boldsymbol{\theta})\log q(\boldsymbol{\theta}) d\boldsymbol{\theta}-\int q(\boldsymbol{\theta})\log\{ \pi(\boldsymbol{\theta})f(\boldsymbol{x}|\boldsymbol{\theta})\}d\boldsymbol{\theta}
++\int q(\boldsymbol{\theta})\log p(\boldsymbol{x}) d\boldsymbol{\theta}\\
+&amp;=\int q(\boldsymbol{\theta})\log q(\boldsymbol{\theta}) d\boldsymbol{\theta}-\int q(\boldsymbol{\theta})\log\{ \pi(\boldsymbol{\theta})f(\boldsymbol{x}|\boldsymbol{\theta})\}d\boldsymbol{\theta}
++\log p(\boldsymbol{x}).\end{aligned}\]</span> Now, since <span class="math inline">\(p(\boldsymbol{x})\)</span> is a constant, minimising the KL-divergence of the class of densities for <span class="math inline">\(q\)</span> is equivalent to minimising <span class="math display">\[\int q(\boldsymbol{\theta})\log q(\boldsymbol{\theta}) d\boldsymbol{\theta}-\int q(\boldsymbol{\theta})\log\{ \pi(\boldsymbol{\theta})f(\boldsymbol{x}|\boldsymbol{\theta})\}d\boldsymbol{\theta}.\]</span> As with MCMC therefore, we do not need to know the normalising constant <span class="math inline">\(p(\boldsymbol{x})\)</span>.</p>
+<p><strong>Further reading</strong>: Blei, Kucukelbir and McAuliffe (2017), “Variational inference: a review for statisticians", JASA.</p>
+</section>
+<section id="simulated-annealing" class="level2" data-number="6.3">
+<h2 data-number="6.3"><span class="header-section-number">6.3</span> Simulated annealing</h2>
+<p>This is a method for finding global extrema of arbitrary functions. Consider first the problem of finding the global mode(s) of a distribution. We could estimate the mode of a distribution with density <span class="math inline">\(f(\boldsymbol{x})\)</span> by generating samples <span class="math inline">\(\{\boldsymbol{x}^{(n)}\}\)</span> and finding the sample with maximal density. However, this is inefficient since the sampling procedure will explore the whole distribution rather than the mode.</p>
+<p>This suggests modifying the distribution so that it is more concentrated around the mode(s). One of way of achieving this is to consider the density <span class="math display">\[f_\beta(\boldsymbol{x})\propto [f(\boldsymbol{x})]^{\beta}\]</span> for very large values of <span class="math inline">\(\beta\)</span>. As an example, consider <span class="math inline">\(X\sim N(\mu,\sigma^2)\)</span> and raise the density to the power <span class="math inline">\(\beta\)</span> to see that the effect is to scale the variance by <span class="math inline">\(1/\beta\)</span>, so that the larger we make <span class="math inline">\(\beta\)</span>, the more concentrated the distribution around the mode <span class="math inline">\(\mu\)</span>. It turns out that this result holds in general and as <span class="math inline">\(\beta\to\infty\)</span>, <span class="math inline">\(f_\beta(\boldsymbol{x})\)</span> converges to a distribution that has all mass on the mode(s) of <span class="math inline">\(f\)</span>.</p>
+<p>Hence, as a first attempt at mode finding, we could use MCMC to generate samples from <span class="math inline">\(f_\beta(\boldsymbol{x})\)</span> with <span class="math inline">\(\beta\)</span> chosen to be some large value. The problem here is that the resulting Markov chain will have poor mixing properties, for example, by finding it difficult to move away from a local extremum surrounded by areas of low probability (the density of such a distribution will have many local extrema separated y areas where the density is effectively 0).</p>
+<p>The idea of <em>simulated annealing</em> is to sample from a target distribution that changes over time: <span class="math inline">\(f_{\beta_t}(\boldsymbol{x})\)</span> with <span class="math inline">\(\beta_t \to \infty\)</span>. Two possible methods for updating <span class="math inline">\(\beta_t\)</span> include <em>logarithmic tempering</em> with <span class="math inline">\(\beta_t=\frac{\log (1+t)}{\beta_0}\)</span> and geometric tempering with <span class="math inline">\(\beta_t=a^t \beta_0\)</span> for some <span class="math inline">\(a&gt;1\)</span>.</p>
+<p>Suppose now that we want to find the global minimum of a function <span class="math inline">\(h(\boldsymbol{x})\)</span> with <span class="math inline">\(h:E\to\mathbb{R}\)</span>. Finding the global minimum of <span class="math inline">\(h(\boldsymbol{x})\)</span> is equivalent to finding the mode of a distribution with density <span class="math display">\[f(\boldsymbol{x})\propto \exp\{-h(\boldsymbol{x})\},\quad \boldsymbol{x}\in E,\]</span> if such a distribution exists. We then raise <span class="math inline">\(f\)</span> to large powers to obtain a distribution <span class="math display">\[f_{\beta_t}(\boldsymbol{x})= [f(\boldsymbol{x})]^{\beta_t}\propto \exp\{-\beta_t h(\boldsymbol{x})\},\quad \boldsymbol{x}\in E.\]</span> We hope to find the (global) minimum of <span class="math inline">\(h(\boldsymbol{x})\)</span>, which is the (global) model of the distribution with density <span class="math inline">\(f_{\beta_t}(\boldsymbol{x})\)</span>, by sampling from a Metropolis-Hastings algorithm. This yields the following steps.</p>
+<ol>
+<li><p>Initialise with <span class="math inline">\(\boldsymbol{x}^{(0)}\)</span> and <span class="math inline">\(\beta_0&gt;0\)</span>. Set <span class="math inline">\(j=1\)</span>.</p></li>
+<li><p>Increase <span class="math inline">\(\beta_{j-1}\)</span> to <span class="math inline">\(\beta_j\)</span>. Propose <span class="math inline">\(\boldsymbol{x}^*\sim q(\cdot|\boldsymbol{x}^{(j-1)})\)</span>.</p></li>
+<li><p>Compute the acceptance probability <span class="math display">\[\alpha(\boldsymbol{x}^*|\boldsymbol{x})=\textrm{min}\left\{1\,,\, \exp\left(-\beta_j [h(\boldsymbol{x}^*)-h(\boldsymbol{x})] \right)\times 
+\frac{q(\boldsymbol{x}|\boldsymbol{x}^*)}{q(\boldsymbol{x}^*|\boldsymbol{x})}  \right\}.\]</span></p></li>
+<li><p>With probability <span class="math inline">\(\alpha(\boldsymbol{x}^*|\boldsymbol{x}^{(j-1)})\)</span> set <span class="math inline">\(\boldsymbol{x}^{(j)}=\boldsymbol{x}^*\)</span> otherwise set <span class="math inline">\(\boldsymbol{x}^{(j)}=\boldsymbol{x}^{(j-1)}\)</span>.</p></li>
+<li><p>Put <span class="math inline">\(j:=j+1\)</span> and go to step 2.</p></li>
+</ol>
+<p>The algorithm will converge to a global minimum of <span class="math inline">\(h(\cdot)\)</span>. Whether or not it will find the global minimum depends on how slowly <span class="math inline">\(\beta\)</span> increases.</p>
+<p>Finally, it is worth mentioning the related method of <em>parallel tempering</em>. For a multimodal target density <span class="math inline">\(f(\boldsymbol{x})\)</span>, a density proportional to <span class="math inline">\(f(\boldsymbol{x})^{1/\beta}\)</span>, <span class="math inline">\(\beta&gt;1\)</span>, has broader, flatter modes and troughs between the modes that are less “deep”; hence, running an MCMC scheme to target this density will find it easier to move between modes. Parallel tempering uses this idea by running multiple chains at different <span class="math inline">\(\beta\)</span> values while allowing exchange moves between chains. The chain with <span class="math inline">\(\beta=1\)</span> admits dependent samples from the target of interest.</p>
+<p><strong>Further reading</strong>: Kirkpatrick, Gelatt and Vecchi (1983), “Optimization by simulated annealing", Science. Chapter 10 of Liu (2001), “Monte Carlo Strategies in Scientific Computing", New York: Springer.</p>
+</section>
+<section id="mala" class="level2" data-number="6.4">
+<h2 data-number="6.4"><span class="header-section-number">6.4</span> MALA</h2>
+<p>Like the independence sampler and random walk Metropolis (RWM), the <em>Metropolis adjusted Langevin algorithm</em> (MALA) is a special case of the Metropolis-Hastings algortihm. It is similar to RWM, except that the proposal is not centered on the current value but is shifted<br />
+uphill” from the current value. For a target <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>, the proposal takes the form <span class="math display">\[\boldsymbol{\theta}^*|\boldsymbol{\theta}\sim N\left(\boldsymbol{\theta}+\frac{1}{2}\lambda^2 V \nabla\log\pi(\boldsymbol{\theta})\,,\, \lambda^2 V   \right).\]</span> If we write <span class="math inline">\(\ell(\boldsymbol{\theta})=\log\pi(\boldsymbol{\theta})\)</span> for simplicity, then the <em>gradient vector</em> is <span class="math display">\[\nabla\log\pi(\boldsymbol{\theta})=\left.\left(\frac{\partial\ell}{\partial\theta_1},\ldots , \frac{\partial\ell}{\partial\theta_d}
+\right)&#39; \right|_{\boldsymbol{\theta}} .\]</span> The acceptance probability is the standard Metropolis-Hastings probability: <span class="math display">\[\alpha(\boldsymbol{\theta}^*|\boldsymbol{\theta})= \min\left\{1\,\, \frac{\pi(\boldsymbol{\theta}^*)q(\boldsymbol{\theta}|\boldsymbol{\theta}^*)}
+{\pi(\boldsymbol{\theta})q(\boldsymbol{\theta}^*|\boldsymbol{\theta})}  \right\}.\]</span></p>
+<p><strong>Remarks:</strong></p>
+<ul>
+<li><p>The algorithm will work for a Bayesian posterior known up to proportionality since, for a constant <span class="math inline">\(c\)</span>, <span class="math display">\[\frac{\partial}{\partial\theta_j}\log (c\pi)=\frac{\partial}{\partial\theta_j}\log c+\frac{\partial}{\partial\theta_j}\log\pi 
+=\frac{\partial}{\partial\theta_j}\log\pi.\]</span></p></li>
+<li><p>If <span class="math inline">\(V\)</span> correctly represents the shape of the target then the inclusion of <span class="math inline">\(V\)</span> in the offset allows the deterministic aspect of the proposal to take account of the shape, just as the random part does.</p></li>
+<li><p>MALA can work much better than RWM when the target is moderate to high dimensional, since MALA can tolerate a larger scaling <span class="math inline">\(\lambda\)</span> than RWM, while still admitting a reasonable acceptance rate. The rule for choosing <span class="math inline">\(\lambda\)</span> in MALA is to obtain an acceptance rate of around 0.574. As with RWM, in low to moderate dimensions, an acceptancerate a little higher than the theoretical optimum is usually better.</p></li>
+<li><p>The MALA proposal is derived from the transition kernel of a <em>Langevin</em> diffusion, whose equilibrium distribution is the target. The diffusion process itself is typically intractable, precluding direct simulation.</p></li>
+</ul>
+<p><strong>Further reading</strong>: Roberts and Rosenthal, (1998) “Optimal scaling of discrete approximations to Langevin diffusions.” J. R. Statist. Soc. B.</p>
+</section>
+<section id="particle-mcmc" class="level2" data-number="6.5">
+<h2 data-number="6.5"><span class="header-section-number">6.5</span> Particle MCMC</h2>
+<p>Consider the hidden Markov model (HMM) formalism of Section 5.2. Consider data <span class="math inline">\(\boldsymbol{y}=y_{0:T}=(y_0,\ldots,y_T)&#39;\)</span> and suppose interest lies in the marginal posterior density <span class="math display">\[\pi(\boldsymbol{\theta}|\boldsymbol{y})\propto \pi(\boldsymbol{\theta})p(\boldsymbol{y}|\boldsymbol{\theta})\]</span> where the <em>observed data likelihood</em> is <span class="math display">\[p(\boldsymbol{y}|\boldsymbol{\theta}) = \int p(\boldsymbol{y},\boldsymbol{x}|\boldsymbol{\theta})d\boldsymbol{x}\]</span> and <span class="math inline">\(\boldsymbol{x}=(x_0,\ldots,x_T)&#39;\)</span>. Although the observed data likelihood is typically intractable, we can run a particle filter to estimate it (see Section 5.6). It will be helpful to denote the estimator by <span class="math inline">\(\widehat{p}_U(\boldsymbol{y}|\boldsymbol{\theta})\)</span> where <span class="math inline">\(U\)</span> denotes all random variables used to construct the estimator and <span class="math inline">\(U\sim g(u)\)</span> for some density <span class="math inline">\(g\)</span>. Whilst beyond the scope of this course, it can be shown that <span class="math inline">\(\widehat{p}_U(\boldsymbol{y}|\boldsymbol{\theta})\)</span> is a non-negative, unbiased estimator. That is <span class="math display">\[\mathbb{E}_g[\widehat{p}_U(\boldsymbol{y}|\boldsymbol{\theta})] = \int \widehat{p}_u(\boldsymbol{y}|\boldsymbol{\theta}) g(u)du = p(\boldsymbol{y}|\boldsymbol{\theta}).\]</span> This property is crucial in constructing a particle MCMC scheme to generate draws from <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{y})\)</span>. Particle MCMC refers to a suite of algorithms that belong to a much more general class of algorithms known as <em>pseudo-marginal</em> MCMC. The pseudo-marginal “trick” is to run a standard MCMC scheme targeting a joint density over <span class="math inline">\(\boldsymbol{\theta}\)</span> and <span class="math inline">\(U\)</span>, for which the target <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{y})\)</span> is a marginal. Hence, retaining <span class="math inline">\(\boldsymbol{\theta}\)</span> draws from the scheme will give (dependent) samples from the target. To this end, consider a joint density <span class="math display">\[\pi(\boldsymbol{\theta},u)\propto \pi(\boldsymbol{\theta})\widehat{p}_u(\boldsymbol{y}|\boldsymbol{\theta})g(u)\]</span> for which integrating out <span class="math inline">\(u\)</span> gives <span class="math display">\[\int \pi(\boldsymbol{\theta})\widehat{p}_u(\boldsymbol{y}|\boldsymbol{\theta})g(u)du = \pi(\boldsymbol{\theta})p(\boldsymbol{y}|\boldsymbol{\theta}) \propto \pi(\boldsymbol{\theta}|\boldsymbol{y}).\]</span> Hence, <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{y})\)</span> is a marginal of <span class="math inline">\(\pi(\boldsymbol{\theta},u)\)</span>. Now, consider a Metropolis-Hastings scheme with target <span class="math inline">\(\pi(\boldsymbol{\theta},u)\)</span> and proposal <span class="math inline">\(q([\boldsymbol{\theta}^*,u^*]\,|\,[\boldsymbol{\theta},u])= 
+q(\boldsymbol{\theta}^*|\boldsymbol{\theta})g(u^*)\)</span>. The acceptance probability is <span class="math display">\[\begin{aligned}
+\alpha([\boldsymbol{\theta}^*,u^*]\,|\,[\boldsymbol{\theta},u])&amp;=\textrm{min}\left\{1, \frac{\pi(\boldsymbol{\theta}^*,u^*)}{\pi(\boldsymbol{\theta},u)} \times 
+\frac{q(\boldsymbol{\theta}|\boldsymbol{\theta}^*)g(u)}{q(\boldsymbol{\theta}^*|\boldsymbol{\theta})g(u^*)}\right\}\\
+&amp;=\textrm{min}\left\{1, \frac{\pi(\boldsymbol{\theta}^*)\widehat{p}_{u^*}(\boldsymbol{y}|\boldsymbol{\theta}^*)g(u^*)}{\pi(\boldsymbol{\theta})\widehat{p}_{u}(\boldsymbol{y}|\boldsymbol{\theta})g(u)} \times 
+\frac{q(\boldsymbol{\theta}|\boldsymbol{\theta}^*)g(u)}{q(\boldsymbol{\theta}^*|\boldsymbol{\theta})g(u^*)}\right\}\\
+&amp;=\textrm{min}\left\{1, \frac{\pi(\boldsymbol{\theta}^*)\widehat{p}_{u^*}(\boldsymbol{y}|\boldsymbol{\theta}^*)}{\pi(\boldsymbol{\theta})\widehat{p}_{u}(\boldsymbol{y}|\boldsymbol{\theta})} \times 
+\frac{q(\boldsymbol{\theta}|\boldsymbol{\theta}^*)}{q(\boldsymbol{\theta}^*|\boldsymbol{\theta})}\right\}\end{aligned}\]</span> which doesn’t require that we evaluate <span class="math inline">\(g(u)\)</span> at all. In fact, we don’t even need to store the auxiliary variables as part of the sampler. If we use a particle filter to obtain <span class="math inline">\(\widehat{p}_{u^*}(\boldsymbol{y}|\boldsymbol{\theta}^*)\)</span> then we have a particular particle MCMC scheme, known as the <em>particle marginal Metropolis-Hastings scheme</em>. Algorithmically, the scheme runs as follows:</p>
+<ol>
+<li><p>Initialise with <span class="math inline">\(\boldsymbol{\theta}^{(0)}\)</span>. Set <span class="math inline">\(j=1\)</span>.</p></li>
+<li><p>Propose <span class="math inline">\(\boldsymbol{\theta}^*\sim q(\cdot|\boldsymbol{\theta}^{(j-1)})\)</span>.</p></li>
+<li><p>Run a particle filter (conditional on <span class="math inline">\(\boldsymbol{\theta}^*\)</span>) with <span class="math inline">\(N\)</span> particles to obtain <span class="math inline">\(\widehat{p}_{u^*}(\boldsymbol{y}|\boldsymbol{\theta}^*)\)</span>.</p></li>
+<li><p>Compute the acceptance probability <span class="math display">\[\alpha(\boldsymbol{\theta}^*|\boldsymbol{\theta}^{(j-1)})=\textrm{min}\left\{1, \frac{\pi(\boldsymbol{\theta}^*)\widehat{p}_{u^*}(\boldsymbol{y}|\boldsymbol{\theta}^*)}{\pi(\boldsymbol{\theta}^{(j-1)})\widehat{p}_{u^{(j-1)}}(\boldsymbol{y}|\boldsymbol{\theta}^{(j-1)})} \times 
+\frac{q(\boldsymbol{\theta}^{(j-1)}|\boldsymbol{\theta}^*)}{q(\boldsymbol{\theta}^*|\boldsymbol{\theta}^{(j-1)})}\right\}\]</span></p></li>
+<li><p>With probability <span class="math inline">\(\alpha(\boldsymbol{\theta}^*|\boldsymbol{\theta}^{(j-1)})\)</span> set <span class="math inline">\(\boldsymbol{\theta}^{(j)}=\boldsymbol{\theta}^*\)</span> and <span class="math inline">\(\widehat{p}_{u^{(j)}}(\boldsymbol{y}|\boldsymbol{\theta}^{(j)})=\widehat{p}_{u^*}(\boldsymbol{y}|\boldsymbol{\theta}^*)\)</span>, otherwise set <span class="math inline">\(\boldsymbol{\theta}^{(j)}=\boldsymbol{\theta}^{(j-1)}\)</span> and <span class="math inline">\(\widehat{p}_{u^{(j)}}(\boldsymbol{y}|\boldsymbol{\theta}^{(j)})=\widehat{p}_{u^{(j-1)}}(\boldsymbol{y}|\boldsymbol{\theta}^{(j-1)})\)</span>.</p></li>
+<li><p>Put <span class="math inline">\(j:=j+1\)</span> and go to step 2.</p></li>
+</ol>
+<p><strong>Remark</strong>: the number of particles <span class="math inline">\(N\)</span> should be chosen to balance computational and mixing efficiency (beyond the scope of the course, but the interested student might like to see Sherlock, Thiery, Roberts and Rosenthal (2015), “On the effciency of pseudomarginal random walk Metropolis algorithms”, the Annals of Statistics).</p>
+<p><strong>Further reading</strong>: Andrieu, Doucet and Holenstein (2010), “Particle Markov chain Monte Carlo methods (with discussion)”, J. R. Statist. Soc. B.</p>
+</section>
+<section id="approximate-bayesian-computation" class="level2" data-number="6.6">
+<h2 data-number="6.6"><span class="header-section-number">6.6</span> Approximate Bayesian computation</h2>
+<p>In many statistical applications it is straightforward to simulate from the model but calculating the likelihood of the data is impracticable if not impossible. Suppose that <span class="math inline">\(f(\boldsymbol{x}|\boldsymbol{\theta})\)</span> is not known even up to a normalising constant. In this case the posterior is <em>completely intractable</em>.</p>
+<p>Consider first the following algorithm.</p>
+<ol>
+<li><p>Draw <span class="math inline">\(\boldsymbol{\theta}^{*}\sim \pi(\cdot)\)</span>.</p></li>
+<li><p>Accept <span class="math inline">\(\boldsymbol{\theta}^*\)</span> as a draw from <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\)</span> with probability <span class="math inline">\(f(\boldsymbol{x}|\boldsymbol{\theta}^*)\)</span>.</p></li>
+</ol>
+<p>If <span class="math inline">\(f(\boldsymbol{x}|\boldsymbol{\theta})\)</span> cannot be evaluated, but simulation from the model is straightforward then an equivalent algorithm is:</p>
+<ol>
+<li><p>Draw <span class="math inline">\(\boldsymbol{\theta}^{*}\sim \pi(\cdot)\)</span>.</p></li>
+<li><p>Draw <span class="math inline">\(\boldsymbol{z}\sim f(\cdot|\boldsymbol{\theta}^*)\)</span>.</p></li>
+<li><p>Accept <span class="math inline">\(\boldsymbol{\theta}^*\)</span> as a draw from <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\)</span> if <span class="math inline">\(\boldsymbol{z}=\boldsymbol{x}\)</span>.</p></li>
+</ol>
+<p>It is straightforward to prove that this rejection algorithm samples from the posterior <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\)</span>.</p>
+<p>For discrete <span class="math inline">\(\boldsymbol{x}\)</span>, the above algorithm will have a non-zero acceptance rate. However, in most interesting problems the rejection rate will be intolerably high. In particular, the acceptance rate will typically be zero for continuous valued <span class="math inline">\(\boldsymbol{x}\)</span>.</p>
+<p>The ABC ‘approximation’ is to accept values provided that <span class="math inline">\(\boldsymbol{z}\)</span> is ‘sufficiently close’ to the data <span class="math inline">\(\boldsymbol{x}\)</span>. Formally, we define some distance <span class="math inline">\(\rho(\boldsymbol{z},\boldsymbol{x})\)</span> and retain a candidate value <span class="math inline">\(\boldsymbol{\theta}^*\)</span> if <span class="math inline">\(\rho(\boldsymbol{z},\boldsymbol{x})\leq \epsilon\)</span> for some small pre-defined <span class="math inline">\(\epsilon\)</span>. Hence, the ABC rejection algorithm runs as follows.</p>
+<ol>
+<li><p>Draw <span class="math inline">\(\boldsymbol{\theta}^{*}\sim \pi(\cdot)\)</span>.</p></li>
+<li><p>Draw <span class="math inline">\(\boldsymbol{z}\sim f(\cdot|\boldsymbol{\theta}^*)\)</span>.</p></li>
+<li><p>Accept <span class="math inline">\(\boldsymbol{\theta}^*\)</span> as a draw from <span class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{x})\)</span> if <span class="math inline">\(\rho(\boldsymbol{z},\boldsymbol{x})\leq \epsilon\)</span>.</p></li>
+</ol>
+<p>A typical choice of <span class="math inline">\(\rho(\boldsymbol{z},\boldsymbol{x})\)</span> is Euclidean distance <span class="math display">\[\rho(\boldsymbol{z},\boldsymbol{x})=||\boldsymbol{z}-\boldsymbol{x}||=\sqrt{(z_{1}-x_{1})^{2}+\ldots +(z_{n}-x_{n})^{2}}\,.\]</span></p>
+<p>For suitable small choice of <span class="math inline">\(\epsilon\)</span>, the ABC rejection algorithm will closely approximate the true posterior. However, smaller choices of <span class="math inline">\(\epsilon\)</span> will lead to higher rejection rates. This will be a particular problem in the context of high-dimensional <span class="math inline">\(\boldsymbol{x}\)</span>, where it is often unrealistic to expect a close match between all components of <span class="math inline">\(\boldsymbol{x}\)</span> and the simulated data <span class="math inline">\(\boldsymbol{z}\)</span>, even for a good choice of <span class="math inline">\(\boldsymbol{\theta}^*\)</span>. In this case, it makes more sense to look for good agreement between particular aspects of <span class="math inline">\(\boldsymbol{x}\)</span>, such as the mean, or variance, or auto-correlation, depending on the exact problem and context.</p>
+<p>In the simplest case, this is done by forming a (vector of) summary statistic(s), <span class="math inline">\(\boldsymbol{s}(\boldsymbol{z})\)</span>, and accepting provided that <span class="math inline">\(\rho(\boldsymbol{s}(\boldsymbol{z}),\boldsymbol{s}(\boldsymbol{x}))\leq \epsilon\)</span> for some suitable choice of metric and <span class="math inline">\(\epsilon\)</span>. Ideally, the summary statistics should be <em>sufficient</em> for the parameter <span class="math inline">\(\boldsymbol{\theta}\)</span>, although determining sufficient statistics requires a closed form expression of the likelihood, which we don’t have, otherwise why would we want to implement ABC?!</p>
+<p>There are various flavours of ABC such as ABC-MCMC and ABC-SMC, with the latter typically preferred.</p>
+<p><strong>Further reading</strong>: Kypraios, Neal and Prangle (2017): "A tutorial introduction to Bayesian inference for stochastic epidemic models using approximate Bayesian computation", Mathematical Biosciences.</p>
+</section>
+</section>
+<script>
+function doNumbering() {
+	// The syntax to read the structured data from the yaml is horrible, template literals fix the problem but probably aren't widely supported enough. Escaping line breaks is browser dependant. I don't know if there's a better way?
+	// Note that the data from the yaml file is manipulated into an array, and then parsed back into strings later, but I didn't want to deal with the pandoc templating syntax longer than necessary.
+	var supportedEnvsArrayString = ' .definition;;; .theorem;;; .lemma;;; .example;;; .exampleqed;;; .proposition;;; .remark;;; .corollary;;; .exercise;;; .question';
+	var supportedEnvsArray = supportedEnvsArrayString.split("|||");
+	supportedEnvsArray = supportedEnvsArray.map(inner => inner.split(";;;"));
+	var numberWithin = '1';
+	var counterOffset = '';
+	var subcounterOffset = '';
+	var problemCounter = '';
+	const partLabels = 'abcdefghijklmnopqrstuvwxyz'.split('');
+	
+	// counterOffset may be negative, and by default if specified on the command line this gets string concatenated with the default given in the yaml config and this then causes a problem. Can be fixed by removing the default in the config file and converting to an int, but this causes a NaN error if no value is suplied on the command line, so if NaN set to 0.
+	counterOffset = parseInt(counterOffset);
+	if (isNaN(counterOffset)) {
+		counterOffset = 0;
+	}
+	
+	subcounterOffset = parseInt(subcounterOffset);
+	if (isNaN(subcounterOffset)) {
+		subcounterOffset = 0;
+	}
+	
+	problemCounter = parseInt(problemCounter);
+	if (isNaN(problemCounter)) {
+		problemCounter = 1;
+	}
+	
+	function sanitiseSelector(selector) {
+		// tex labels often have colons in which need escaping. There may be other escaping needed here. Unfortunately neither encodeURI nor encodeURIComponent do what I need, so use regex to do the escaping manually.
+		var sanitised = selector.replace(/\:/g,"\\\:");
+		sanitised = sanitised.replace(/(^[\d])/,"\\3$1 ");
+		sanitised = sanitised.replace(/\//g,"\\\/");
+		return sanitised
+	}
+	
+	function labelLinks() {
+		var refs = document.querySelectorAll("a[data-reference-type=ref]")
+		for (ref of refs) {
+			// Escape colons (or other) from the link title.
+			var ref_label = sanitiseSelector(ref.getAttribute("data-reference"));
+			// Hopefully ref is a reference to a div or a section, which should have the associated id. If so, we just need the data-number from the relevant DOM item.
+			var ref_to = document.querySelector("#"+ref_label);
+			if (ref_to !== null) {
+				var ref_number = ref_to.getAttribute("data-number");
+			} else {
+				// If ref is being used for an equation, then we need to try to parse the mathjax divs. This is fragile, but try to find the span which corresponds to the equation number we need.
+				try {
+					var mathjax_ref = "#mjx-eqn-"+ref_label;
+					ref_to = document.querySelector(mathjax_ref);
+					// Since this is a ref, we don't want the parens to be returned, so find the equation number and strip the parens.
+					var ref_number = ref_to.querySelector(".mjx-char").innerHTML.replace(/[()]/g,"");
+					ref.setAttribute("href",mathjax_ref);
+				}
+				// If we can't find a place to link to, just indicate a missing link.
+				catch (err){
+					var ref_number = "???"
+				}
+			}
+			ref.innerHTML = ref_number;
+		};
+	}
+	
+	function numberEnvs() {
+		for (var levelSpec = 0; levelSpec <= numberWithin; levelSpec++) {
+			var reqLevels = document.querySelectorAll(".level"+levelSpec);
+			for (var level of reqLevels) {
+				levelCount = level.getAttribute("data-number");
+				levelCount = String(parseFloat(levelCount)+(counterOffset));
+				levelCount = levelCount+(("."+subcounterOffset).repeat(numberWithin-levelSpec));
+				for (var counter of supportedEnvsArray) {
+					var envCount = 1;
+					var envs = level.querySelectorAll(counter.join(", "));
+					for (var env of envs) {
+						env.setAttribute("data-number",levelCount+"."+envCount);
+						envCount += 1;
+					}
+				}
+			}
+		}
+	}
+	
+	function numberFigs() {
+		// Figures should either be in a figure environment, or a table with image class imageTable thanks to the tableCaps filter.
+		figs = document.querySelectorAll("figure, .imageTable");
+		var fig_no = 1
+		for (var fig of figs) {
+			var cap
+			// For figures, we want to move the id to the figure, and set the data-number on both the figure and the figcaption
+			if (fig.nodeName == "FIGURE") {
+				cap = fig.querySelector("figcaption");
+				var img = fig.querySelector("img, embed")
+				if (img) {
+					var img_id = img.getAttribute("id");
+					fig.setAttribute("id",img_id);
+					img.removeAttribute("id");
+				}
+			// for tables (which must be .imageTable due to the querySelector above), we want to set the data-number on the table and the caption
+			} else if (fig.nodeName == "TABLE") {
+				cap = fig.querySelector("caption");
+			}
+			cap.setAttribute("data-number",fig_no);
+			fig.setAttribute("data-number",fig_no);
+			fig_no += 1;
+		}
+	}
+	
+	function numberGlobals() {
+		// This function numbers any environments that just use a global counter, such as a problem number on a problems sheet, where there are no sections to number with respect to.
+		probsols = document.querySelectorAll(".problem, .solution");
+		var prob_no = problemCounter;
+		var partNo = 0;
+		for (var probsol of probsols) {
+			if (probsol.className == "problem"){
+				prob_no +=1;
+				partNo = 0;
+				probsol.setAttribute("data-number",prob_no);
+			}
+			else {
+				if (probsol.parentNode.nodeName == "LI") {
+					var partLabel = partLabels[partNo];
+					probsol.setAttribute("data-number",prob_no.toString()+partLabel);
+					partNo +=1;
+				}
+				else{
+					probsol.setAttribute("data-number",prob_no);
+				}
+			}
+			
+		}
+		// sols = document.querySelectorAll(".solution");
+// 		var sol_no = problemCounter;
+// 		for (var sol of sols) {
+// 			sol.setAttribute("data-number",sol_no);
+// 			sol_no +=1
+// 		}
+	}
+	
+	// labelLinks() should occur last, so that the data-numbers have been correctly set first.
+	numberEnvs();
+	numberFigs();
+	numberGlobals();
+	labelLinks();
+}
+</script><script>
+	var imageDir = ''
+	imgs = document.querySelectorAll("img");
+	for (var img of imgs) {
+		imgsrc = img.getAttribute("src");
+		img.setAttribute("src",imageDir.concat(imgsrc));
+	}
+</script></body>
+</html>
