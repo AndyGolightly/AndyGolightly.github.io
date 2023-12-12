@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>lecture1</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/x-mathjax-config">
+  	MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "ams"} } });
+  	// I need to wait until MathJax has finished before running the numbering script
+  	MathJax.Hub.Register.StartupHook("End",function(){doNumbering()});
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#recap-correlation-simple-linear-regression">Recap: correlation, simple linear regression</a></li>
+</ul>
+</nav>
+<section id="recap-correlation-simple-linear-regression" class="level1 unnumbered">
+<h1 class="unnumbered">Recap: correlation, simple linear regression</h1>
+<section id="motivation" class="level3 unnumbered">
+<h3 class="unnumbered">Motivation</h3>
+<p>Later lectures will build on concepts such as correlation and regression; we therefore need to first recap requisite material from MATH42715, <em>An Introduction to Statistics for Data Science</em>.</p>
+</section>
+<section id="variables" class="level3 unnumbered">
+<h3 class="unnumbered">Variables</h3>
+<p>Put simply, <em>variables</em> are measurable entities that can change or vary, for example a person’s height.</p>
+<p>In the context of regression, the <em>independent / predictor</em> variable is the variable we think might be associated with the outcome. The <em>dependent / response / outcome</em> variable is the effect that depends on the value of the independent variable. Variable types are summarised in Figure 1.</p>
+<div class="center">
+<figure>
+<img src="../graphics2/lect1a.png" id="fig:figBA1" style="width:5cm;height:4.5cm" alt="Types of variable." /><figcaption aria-hidden="true">Types of variable.</figcaption>
+</figure>
+</div>
+<p><strong>Categorical variables</strong></p>
+<p>Categorical variables are made up of mutually exclusive, distinct categories e.g. shapes (circle, triangle etc). Categorical variables can be binary (two mutually exclusive categories e.g. ‘heads’ or ‘tails’ on a coin toss), nominal (more than two categories e.g. types of fruit), or ordinal (the variable has an ordered rank e.g. finishing position in a race).</p>
+<p><strong>Continuous variables</strong></p>
+<p>Continuous variables are scores that can take on any value along a given measurement scale. These can be intervals (so that equal intervals correspond to equal differences e.g. temperature in Celsius), ratios (have a meaningful zero thus having meaningful ratios e.g reaction times, money), or discrete (counts e.g. number of students in a class).</p>
+</section>
+<section id="correlation" class="level3 unnumbered">
+<h3 class="unnumbered">Correlation</h3>
+<p>Before thinking of any analysis, you should always display your data graphically! A <em>scatterplot</em> is useful for checking to see if there is an <em>association</em> between a response and predictor variable. Association can be:</p>
+<ul>
+<li><p>linear or non-linear,</p></li>
+<li><p>positive or negative,</p></li>
+<li><p>not present (no association)</p></li>
+</ul>
+<div class="center">
+<figure>
+<img src="../graphics2/lect1b.png" id="fig:figBA2" style="width:8cm;height:7cm" alt="Example scatterplot showing exam performance against anxiety. What conclusions can you draw from this plot?" /><figcaption aria-hidden="true">Example scatterplot showing exam performance against anxiety. What conclusions can you draw from this plot?</figcaption>
+</figure>
+</div>
+<p>We can use <em>covariance</em> as a measure of the relationship between two random variables. The metric evaluates how much – to what extent – the variables change together.</p>
+<p>Given <span class="math inline">\(n\)</span> pairs of data points <span class="math inline">\((x_1,y_1), (x_2,y_2), \ldots (x_n,y_n)\)</span>, we can compute <em>sample covariance</em> as <span class="math display">\[\frac{1}{n-1}\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})\]</span> where <span class="math inline">\(\bar{x}=\frac{1}{n}\sum_{i=1}^n x_i\)</span> and <span class="math inline">\(\bar{y}=\frac{1}{n}\sum_{i=1}^n y_i\)</span> are sample means. Note that:</p>
+<ul>
+<li><p>positive covariance means a positive association,</p></li>
+<li><p>negative covariance means a negative association,</p></li>
+<li><p>a covariance of zero means no association.</p></li>
+</ul>
+<p>Covariance is difficult to interpret. A strong or weak association depends on the scale of the data. We therefore typically work with <em>correlation</em>, which is used to measure strength of the <em>linear</em> association between two variables. We will typically work with <em>Pearson correlation</em>, which can be computed as <span class="math display">\[r=\frac{\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i=1}^n(x_i-\bar{x})^2}\sqrt{\sum_{i=1}^n (y_i-\bar{y})^2}}.\]</span> To summarise, Pearson correlation <span class="math inline">\(r\)</span> is applicable to two continuous variables (assumed normally distributed). It can take values between <span class="math inline">\(-1\)</span> and <span class="math inline">\(+1\)</span> and exhibit</p>
+<ul>
+<li><p>strong correlation (<span class="math inline">\(r&gt;0.7\)</span>),</p></li>
+<li><p>moderate correlation (<span class="math inline">\(r\)</span> between <span class="math inline">\(0.3\)</span> and <span class="math inline">\(0.7\)</span>),</p></li>
+<li><p>Weak correlation (<span class="math inline">\(r&lt;0.3\)</span>)</p></li>
+</ul>
+<div class="center">
+<figure>
+<img src="../graphics2/lect1c.png" id="fig:figBA3" style="width:8cm;height:11cm" alt="Example scatterplots and corresponding Pearson correlation coefficient." /><figcaption aria-hidden="true">Example scatterplots and corresponding Pearson correlation coefficient.</figcaption>
+</figure>
+</div>
+</section>
+<section id="simple-linear-regression" class="level3 unnumbered">
+<h3 class="unnumbered">Simple linear regression</h3>
+<p>The simple linear regression model is <span class="math display">\[Y_i=\beta_0+\beta_1 x_i +\epsilon_i,\qquad i=1,\ldots,n.\]</span> Here,</p>
+<ul>
+<li><p><span class="math inline">\(Y_i\)</span> is the outcome of the <span class="math inline">\(i\)</span>th person/unit that we want to predict,</p></li>
+<li><p><span class="math inline">\(x_i\)</span> is the <span class="math inline">\(i\)</span>th person/unit value on the predictor variable (also known as explanatory or independent variable)</p></li>
+<li><p><span class="math inline">\(\beta_1\)</span> is the slope; <span class="math inline">\(\beta_0\)</span> is the intercept. In practice, these are estimated by values <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_0\)</span> respectively. They are also known as regression coefficients.</p></li>
+<li><p>The error term <span class="math inline">\(\epsilon_i\)</span> represents the discrepancy between the outcome and line for the <span class="math inline">\(i\)</span>th unit. It is also called a residual. Assumptions regarding the error term (and checking of these assumptions) is discussed later in these notes.</p></li>
+</ul>
+<p>Estimates of the slope and intercept can be found using the <em>method of least squares</em>. We minimise the sum of squared differences between the line and the outcomes; that is, we minimise the Error Sum of Squares (SSE) given by <span class="math display">\[\textrm{SSE}=\sum_{i=1}^n (y_i-\beta_0-\beta_1 x_i)^2.\]</span> This leads to <span class="math display">\[b_1=\frac{\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})}{\sum_{i=1}^n(x_i-\bar{x})^2} \qquad b_0=\bar{y}-b_1 \bar{x}.\]</span> Of course in practice we let R do the heavy lifting!</p>
+<p><strong>Hypothesis testing</strong></p>
+<p>We may wish to test to see if the slope parameter is needed in the model. That is, we test the null hypothesis <span class="math display">\[\textrm{H}_0: \beta_1=0\]</span> against a general two-sided alternative (typically). The test statistic is <span class="math display">\[t=\frac{b_1}{\textrm{SE}(b_1)}\]</span> where <span class="math inline">\(\textrm{SE}(b_1)\)</span> is the standard error of the estimator associated with <span class="math inline">\(b_1\)</span>. We then compute the p-value given by <span class="math display">\[p=\textrm{Pr}(T&gt;|t|)\]</span> where <span class="math inline">\(T\)</span> is a student-t random variable on <span class="math inline">\(n-2\)</span> degrees of freedom. A bigger t-statistic will produce a small p-value. A small p-value (say less than 5%) suggests that either we have seen something rare or in fact the null hypothesis could be false. We interpret the p-value as <em>evidence against the null</em>, rejecting it if there is ‘sufficient evidence’ to do so. Insufficient evidence (e.g. <span class="math inline">\(p&gt;0.05\)</span>) means that we are unable to reject the null.</p>
+</section>
+<section id="interpreting-output" class="level3 unnumbered">
+<h3 class="unnumbered">Interpreting output</h3>
+<p>Given a line of best fit of the form <span class="math inline">\(y=b_0+b_1 x\)</span>, the interpretation is that a unit increase in <span class="math inline">\(x\)</span> leads to a change in <span class="math inline">\(y\)</span> of <span class="math inline">\(b_1\)</span> units.</p>
+<p>Recall that from MATH42715 that <span class="math display">\[\begin{aligned}
+\textrm{SST} &amp;= \textrm{SSR} + \textrm{SSE} \\
+\implies 1 &amp;= \frac{\textrm{SSR}}{\textrm{SST}} + \frac{\textrm{SSE}}{\textrm{SST}}\end{aligned}\]</span> where the Regression Sum of Squares (SSR) is measured by squaring the differences between the predicted value <span class="math inline">\(\hat{y}_i=b_0+b_1 x_i\)</span> and the population mean <span class="math inline">\(\bar{y}\)</span> for each data point <span class="math inline">\(i\)</span>, and adding up. That is, <span class="math display">\[\textrm{SSR}=\sum_{i=1}^n (\hat{y}_i-\bar{y})^2.\]</span> Now, defining the <em>coeficient of determination</em> <span class="math inline">\(R^2=\textrm{SSR}/\textrm{SSE}\)</span>, we have that <span class="math display">\[R^2 = 1-\frac{\textrm{SSE}}{\textrm{SST}}\]</span> and <span class="math inline">\(R^2\)</span> represents the amount of variance in the outcome explained by the predictors (independent variables) in the regression model. Since <span class="math inline">\(0\leq \textrm{SSE} \leq 1\)</span>, we have that <span class="math display">\[0\leq R^2 \leq 1\]</span> with <span class="math inline">\(R^2&gt;0.7\)</span> meaning that the regression is doing a good job of explaining the variation in the response.</p>
+<p><strong>Categorical variables</strong></p>
+<p>The values of a categorical variable indicate group membership of observations rather than a quantitative measurement. For example,</p>
+<ul>
+<li><p>Binary – e.g. smoker; “Yes”, “No”</p></li>
+<li><p>Ordered – e.g. obesity; “underweight”, “normal”, “overweight”, “obese”</p></li>
+<li><p>Unordered – e.g. region; “Bristol”, “London” and “Stoke”</p></li>
+</ul>
+<p>We can also create categorical variables from continuous variables by grouping values or using cut-offs.</p>
+<p>A <em>binary</em> variable is a special type of categorical variable called an indicator variable taking the values of 0 and 1. Including indicator variables in a regression will model a difference in means between groups. For example, suppose <span class="math inline">\(x_i\in\{0,1\}, i=1,\ldots,n\)</span>. When <span class="math inline">\(x_i=0\)</span> (say group 1), the fitted value is <span class="math inline">\(\hat{y}_i=b_0\)</span> and when <span class="math inline">\(x_i=1\)</span> (say group 2), the fitted value is <span class="math inline">\(\hat{y}_i=b_0+b_1\)</span>, irrespective of the choice of <span class="math inline">\(i\)</span>. We have <span class="math inline">\(b_0\)</span> as the mean response value corresponding to group 1 and <span class="math inline">\(b_1\)</span> is the difference in mean response between the two groups.</p>
+<p>When a categorical variable has more than two categories effects are estimated by introducing a series of dummy variables. First we choose a reference group (usually the lowest coded value of the variable) to which the other groups will be compared. If a variable has <span class="math inline">\(k\)</span> levels then <span class="math inline">\(k-1\)</span> indicators are included. The regression coefficient for each indicator variable is the difference in the mean outcome for that group compared to the reference group.</p>
+<p><strong>Assumptions and checking</strong></p>
+<p>There are four basic assumptions for every linear model with a continuous outcome:</p>
+<ol>
+<li><p><strong>Linearity</strong>: the relationship between the outcome variable and the predictor is linear. (Informally assess by looking at the plot of the residuals and the suspicious continuous predictor.)</p></li>
+<li><p><strong>Normally distributed errors</strong>: it is assumed that the residuals in the model are normally distributed. (Informally assess via a quantile-quantile plot (Q-Q plot) to compare the distribution of the residuals from the model with a standard Normal distribution. Or use a Shapiro-Wilk test.)</p>
+<div class="center">
+<figure>
+<img src="../graphics2/lect1ass2.png" id="fig:figBA6" style="width:8cm;height:5.5cm" alt="Example Q-Q plot output." /><figcaption aria-hidden="true">Example Q-Q plot output.</figcaption>
+</figure>
+</div></li>
+<li><p><strong>Independent errors</strong>: for any two observations, the residual terms should be independent. (Not easy to assess; one possibility is to check trend in the residuals.)</p></li>
+<li><p><strong>Homogeneity:</strong> the variation of the residuals at any level of the predictor is the same, that is, the variance of the residuals is constant irrespective of the value of the predictor variable. (Assess by plotting the residuals against predicted values. If the assumptions of constant variance is satisfied, the scatter plots should be random without any pattern. One may also look at the plot of the residuals and the actual outcome data. A formal test using Levene’s test can also be performed to test for constancy of variance.)</p>
+<div class="center">
+<p><img src="../graphics2/lect1ass1.png" title="fig:" id="fig:figBA5" style="width:11cm;height:4cm" alt="Constant variance (left) and non constant variance (right)." /><br />
+</p>
+</div></li>
+</ol>
+<p><strong>Fixing assumption violations</strong></p>
+<p>A Possible solution for the violation of Normality assumption and constant variance: transformation.</p>
+<p>Either use of the logarithm or square root transformation of the outcome variable can help. However, it will mean loss of interpretation as the results would no longer be on the natural scale of the outcome variable. If, after transformation the assumptions were still not satisfied, the model should be reported and interpreted with clear statement on the assumptions violation.</p>
+<div class="center">
+<figure>
+<img src="../graphics2/lect1d.png" id="fig:figBA4" style="width:8cm;height:11cm" alt="Example data before (top) and after(bottom) transformation." /><figcaption aria-hidden="true">Example data before (top) and after(bottom) transformation.</figcaption>
+</figure>
+</div>
+</section>
+<section id="summary" class="level3 unnumbered">
+<h3 class="unnumbered">Summary</h3>
+<ul>
+<li><p>The simple regression model describes a linear relationship between outcome and predictor.</p></li>
+<li><p>Slope (Gradient): corresponds to the change in the Outcome (dependent) variable for a unit change in the predictor.</p></li>
+<li><p>Positive slope of the regression line means a positive association.</p></li>
+<li><p>Negative slope of the regression line means a negative association.</p></li>
+<li><p>When slope is zero, it means there is no association between the outcome and the predictor variables.</p></li>
+<li><p>A hypothesis test can be used to formally test for inclusion of the slope parameter.</p></li>
+<li><p>The fitted regression equation can predict values of the outcome (<span class="math inline">\(\hat{y}_i\)</span>) for any value of predictor (<span class="math inline">\(x\)</span>).</p></li>
+<li><p>The coefficient of determination can be used to judge the usefulness of the regression model (in explaining variation in the outcome variable).</p></li>
+<li><p>The modelling assumptions should be carefully checked; if violated, an appropriate transformation may help.</p></li>
+</ul>
+</section>
+</section>
+<script>
+function doNumbering() {
+	// The syntax to read the structured data from the yaml is horrible, template literals fix the problem but probably aren't widely supported enough. Escaping line breaks is browser dependant. I don't know if there's a better way?
+	// Note that the data from the yaml file is manipulated into an array, and then parsed back into strings later, but I didn't want to deal with the pandoc templating syntax longer than necessary.
+	var supportedEnvsArrayString = ' .definition;;; .theorem;;; .lemma;;; .example;;; .exampleqed;;; .proposition;;; .remark;;; .corollary;;; .exercise;;; .question';
+	var supportedEnvsArray = supportedEnvsArrayString.split("|||");
+	supportedEnvsArray = supportedEnvsArray.map(inner => inner.split(";;;"));
+	var numberWithin = '1';
+	var counterOffset = '';
+	var subcounterOffset = '';
+	var problemCounter = '';
+	const partLabels = 'abcdefghijklmnopqrstuvwxyz'.split('');
+	
+	// counterOffset may be negative, and by default if specified on the command line this gets string concatenated with the default given in the yaml config and this then causes a problem. Can be fixed by removing the default in the config file and converting to an int, but this causes a NaN error if no value is suplied on the command line, so if NaN set to 0.
+	counterOffset = parseInt(counterOffset);
+	if (isNaN(counterOffset)) {
+		counterOffset = 0;
+	}
+	
+	subcounterOffset = parseInt(subcounterOffset);
+	if (isNaN(subcounterOffset)) {
+		subcounterOffset = 0;
+	}
+	
+	problemCounter = parseInt(problemCounter);
+	if (isNaN(problemCounter)) {
+		problemCounter = 1;
+	}
+	
+	function sanitiseSelector(selector) {
+		// tex labels often have colons in which need escaping. There may be other escaping needed here. Unfortunately neither encodeURI nor encodeURIComponent do what I need, so use regex to do the escaping manually.
+		var sanitised = selector.replace(/\:/g,"\\\:");
+		sanitised = sanitised.replace(/(^[\d])/,"\\3$1 ");
+		sanitised = sanitised.replace(/\//g,"\\\/");
+		return sanitised
+	}
+	
+	function labelLinks() {
+		var refs = document.querySelectorAll("a[data-reference-type=ref]")
+		for (ref of refs) {
+			// Escape colons (or other) from the link title.
+			var ref_label = sanitiseSelector(ref.getAttribute("data-reference"));
+			// Hopefully ref is a reference to a div or a section, which should have the associated id. If so, we just need the data-number from the relevant DOM item.
+			var ref_to = document.querySelector("#"+ref_label);
+			if (ref_to !== null) {
+				var ref_number = ref_to.getAttribute("data-number");
+			} else {
+				// If ref is being used for an equation, then we need to try to parse the mathjax divs. This is fragile, but try to find the span which corresponds to the equation number we need.
+				try {
+					var mathjax_ref = "#mjx-eqn-"+ref_label;
+					ref_to = document.querySelector(mathjax_ref);
+					// Since this is a ref, we don't want the parens to be returned, so find the equation number and strip the parens.
+					var ref_number = ref_to.querySelector(".mjx-char").innerHTML.replace(/[()]/g,"");
+					ref.setAttribute("href",mathjax_ref);
+				}
+				// If we can't find a place to link to, just indicate a missing link.
+				catch (err){
+					var ref_number = "???"
+				}
+			}
+			ref.innerHTML = ref_number;
+		};
+	}
+	
+	function numberEnvs() {
+		for (var levelSpec = 0; levelSpec <= numberWithin; levelSpec++) {
+			var reqLevels = document.querySelectorAll(".level"+levelSpec);
+			for (var level of reqLevels) {
+				levelCount = level.getAttribute("data-number");
+				levelCount = String(parseFloat(levelCount)+(counterOffset));
+				levelCount = levelCount+(("."+subcounterOffset).repeat(numberWithin-levelSpec));
+				for (var counter of supportedEnvsArray) {
+					var envCount = 1;
+					var envs = level.querySelectorAll(counter.join(", "));
+					for (var env of envs) {
+						env.setAttribute("data-number",levelCount+"."+envCount);
+						envCount += 1;
+					}
+				}
+			}
+		}
+	}
+	
+	function numberFigs() {
+		// Figures should either be in a figure environment, or a table with image class imageTable thanks to the tableCaps filter.
+		figs = document.querySelectorAll("figure, .imageTable");
+		var fig_no = 1
+		for (var fig of figs) {
+			var cap
+			// For figures, we want to move the id to the figure, and set the data-number on both the figure and the figcaption
+			if (fig.nodeName == "FIGURE") {
+				cap = fig.querySelector("figcaption");
+				var img = fig.querySelector("img, embed")
+				if (img) {
+					var img_id = img.getAttribute("id");
+					fig.setAttribute("id",img_id);
+					img.removeAttribute("id");
+				}
+			// for tables (which must be .imageTable due to the querySelector above), we want to set the data-number on the table and the caption
+			} else if (fig.nodeName == "TABLE") {
+				cap = fig.querySelector("caption");
+			}
+			cap.setAttribute("data-number",fig_no);
+			fig.setAttribute("data-number",fig_no);
+			fig_no += 1;
+		}
+	}
+	
+	function numberGlobals() {
+		// This function numbers any environments that just use a global counter, such as a problem number on a problems sheet, where there are no sections to number with respect to.
+		probsols = document.querySelectorAll(".problem, .solution");
+		var prob_no = problemCounter;
+		var partNo = 0;
+		for (var probsol of probsols) {
+			if (probsol.className == "problem"){
+				prob_no +=1;
+				partNo = 0;
+				probsol.setAttribute("data-number",prob_no);
+			}
+			else {
+				if (probsol.parentNode.nodeName == "LI") {
+					var partLabel = partLabels[partNo];
+					probsol.setAttribute("data-number",prob_no.toString()+partLabel);
+					partNo +=1;
+				}
+				else{
+					probsol.setAttribute("data-number",prob_no);
+				}
+			}
+			
+		}
+		// sols = document.querySelectorAll(".solution");
+// 		var sol_no = problemCounter;
+// 		for (var sol of sols) {
+// 			sol.setAttribute("data-number",sol_no);
+// 			sol_no +=1
+// 		}
+	}
+	
+	// labelLinks() should occur last, so that the data-numbers have been correctly set first.
+	numberEnvs();
+	numberFigs();
+	numberGlobals();
+	labelLinks();
+}
+</script><script>
+	var imageDir = ''
+	imgs = document.querySelectorAll("img");
+	for (var img of imgs) {
+		imgsrc = img.getAttribute("src");
+		img.setAttribute("src",imageDir.concat(imgsrc));
+	}
+</script></body>
+</html>
