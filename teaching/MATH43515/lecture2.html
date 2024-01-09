@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>lecture2</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/x-mathjax-config">
+  	MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "ams"} } });
+  	// I need to wait until MathJax has finished before running the numbering script
+  	MathJax.Hub.Register.StartupHook("End",function(){doNumbering()});
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#recap-multiple-linear-regression">Recap: multiple linear regression</a></li>
+</ul>
+</nav>
+<section id="recap-multiple-linear-regression" class="level1 unnumbered">
+<h1 class="unnumbered">Recap: multiple linear regression</h1>
+<section id="motivation" class="level3 unnumbered">
+<h3 class="unnumbered">Motivation</h3>
+<p>In reality, the effect of one variable rarely takes place in isolation. In multiple regression, we explain the outcome (dependent) variable using a particular predictor after accounting for the effect of other predictors (independent variables) included in the model.</p>
+<p>Multiple linear regression provides an adjusted estimate for the effect of a specific predictor, which can be different from simply applying linear regression with one predictor multiple times.</p>
+<p>Cautionary note: each additional variable may explain more variability in the outcome variable and consequently reduces the Error Sum of Squares (SSE). We will revisit this idea later in the notes.</p>
+<p><strong>Example:</strong> In a paper by Mubanga et al (2017), it was found that dog ownership reduces risk of Cardiovascular Disease (CVD) in single-person households and lower mortality in the general population. Based on this information, we may ask:</p>
+<ul>
+<li><p>Is the effect simply due to owning a dog?</p></li>
+<li><p>Is the effect the same for everyone (e.g., age, gender, all dog breeds)?</p></li>
+<li><p>Could this relationship be confounded by something else?</p></li>
+</ul>
+<p>Multiple linear regression can help disentangle this.</p>
+</section>
+<section id="multiple-versus-simple-linear-regression" class="level3 unnumbered">
+<h3 class="unnumbered">Multiple versus simple linear regression</h3>
+<p>Recall the simple linear regression model <span class="math display">\[Y_i=\beta_0+\beta_1 x_i +\epsilon_i,\qquad i=1,\ldots,n\]</span> for independent and identically distributed (iid) errors <span class="math inline">\(\epsilon_i\sim N(0,\sigma^2)\)</span>.</p>
+<p>Now suppose that we have <span class="math inline">\(p\)</span> predictor variables; <span class="math inline">\(x_{i1}, x_{i2},\ldots, x_{ip}\)</span> for the <span class="math inline">\(i\)</span>th unit/individual. The multiple linear regression model is <span class="math display">\[Y_i=\beta_0+\beta_1 x_{i1} +\cdots +\beta_p x_{ip}+\epsilon_i,\qquad i=1,\ldots,n\]</span> for independent and identically distributed (iid) errors <span class="math inline">\(\epsilon_i\sim N(0,\sigma^2)\)</span>. Note that a concise way of writing the above for all values of <span class="math inline">\(i\)</span> is as <span class="math display">\[\begin{aligned}
+\begin{pmatrix}
+    Y_1\\Y_2\\ \vdots \\Y_n
+\end{pmatrix}&amp;=
+\begin{pmatrix}
+    1 &amp; x_{11} &amp; \cdots &amp; x_{1p} \\
+    1 &amp; x_{21} &amp; \cdots &amp; x_{2p} \\
+    \vdots &amp; \vdots &amp; \cdots &amp; \vdots \\
+    1 &amp; x_{n1} &amp; \cdots &amp; x_{np}
+\end{pmatrix}\times 
+\begin{pmatrix}
+    \beta_0 \\ \beta_1 \\ \vdots \\ \beta_p
+\end{pmatrix}+
+\begin{pmatrix}
+    \epsilon_1\\ \epsilon_2 \\ \vdots \\ \epsilon_n 
+\end{pmatrix} \\
+\implies    \underline{Y} &amp;= X\underline{\beta} +\underline{\epsilon}.\end{aligned}\]</span> Note that the <span class="math inline">\(n\times p\)</span> matrix <span class="math inline">\(X\)</span> is known as a <em>design matrix</em>.</p>
+<p>Given estimates <span class="math inline">\(b_0,b_1,\ldots,b_p\)</span> of <span class="math inline">\(\beta_0,\beta_1,\ldots,\beta_p\)</span>, we may construct fitted values of the form <span class="math inline">\(\hat{y}_i=b_0+b_1x_{i1}+\cdots+b_p x_{ip}\)</span>. Just as simple linear regression defines a line in the <span class="math inline">\((x,y)\)</span> plane, the two variable multiple linear regression model <span class="math inline">\(y = b_0 + b_1 x_1 + b_2 x_2\)</span> is the equation of a plane in the <span class="math inline">\((x_1, x_2, y)\)</span> space. In this model, <span class="math inline">\(b_1\)</span> is slope of the plane in the <span class="math inline">\((x_1, y)\)</span> plane and <span class="math inline">\(b_2\)</span> is slope of the plane in the <span class="math inline">\((x_2, y)\)</span> plane.</p>
+<div class="center">
+<p><img src="../graphics2/lect2a.png" title="fig:" id="fig:figBAL2p1" style="width:8cm;height:7cm" alt="Simple versus multiple linear regression." /><br />
+<img src="../graphics2/lect2b.png" title="fig:" id="fig:figBAL2p1" style="width:8cm;height:7cm" alt="Simple versus multiple linear regression." /></p>
+</div>
+</section>
+<section id="interpreting-output" class="level3 unnumbered">
+<h3 class="unnumbered">Interpreting output</h3>
+<p>The coefficients <span class="math inline">\(b_1,b_2,\ldots,b_p\)</span> are known as <em>partial slopes</em>. Note that <span class="math inline">\(b_j\)</span> gives the expected change in the response variable <span class="math inline">\(Y\)</span> for an increase of one unit in <span class="math inline">\(x_j\)</span>, if all other values are kept constant.</p>
+<p><strong>Example:</strong> Album sales.</p>
+<p>A record executive wants to know whether airplay and band longevity are also important predictors of album sales (in units of thousands of pounds). We have the following predictor variables:</p>
+<ul>
+<li><p>Adverts: money spent on adverts (in units of thousands of pounds),</p></li>
+<li><p>Airplay: number of times the song was played on the radio in the week before the album was released,</p></li>
+<li><p>Longevity of the band (time in years since band formed).</p></li>
+</ul>
+<p>We will fit a model of the form <span class="math display">\[Y_i =\beta_0 +\beta_1 \textrm{adverts}_i + \beta_2 \textrm{airplay}_i +\beta_3\textrm{longevity}_i +\epsilon_i.\]</span> The parameters are interpreted as:</p>
+<ul>
+<li><p><span class="math inline">\(\beta_0\)</span> - constant value when adverts, airplay, and longevity are all zero,</p></li>
+<li><p><span class="math inline">\(\beta_1\)</span> - slope between album sales and adverts after accounting for airplay and longevity,</p></li>
+<li><p><span class="math inline">\(\beta_2\)</span> - slope between album sales and airplay after accounting for adverts and longevity,</p></li>
+<li><p><span class="math inline">\(\beta_3\)</span> - slope between album sales and longevity after accounting for adverts and airplay.</p></li>
+</ul>
+<p>The fitted model is <span class="math display">\[Y_i =-26.61 +0.08 \textrm{adverts}_i + 3.37 \textrm{airplay}_i +11.09\textrm{longevity}_i .\]</span> Interpretation of the estimated slopes is now conditional as each slope is calculated after accounting for the other predictors. For example, as spending on adverts increases by one unit, album sales increase by 0.08 units when airplay and longevity are held constant.</p>
+<p>In determining the usefulness of the regression, we work with <em>adjusted</em> <span class="math inline">\(R^2\)</span> (adj <span class="math inline">\(R^2\)</span>), which compensates for the addition of variables and only increases if the new predictor enhances the model. Recall that <span class="math display">\[\textrm{adj} \ R^2 = 1- (1-R^2) \frac{n-1}{n-p-1}.\]</span> Note that as <span class="math inline">\(p\)</span> increases, the ratio on the right will increase, thus increasing the term being subtracted by 1. Eventually, this will ‘outweigh’ the effect of <span class="math inline">\(R^2\)</span> increasing as additional predictors are added, and result in a decrease in the adjusted <span class="math inline">\(R^2\)</span>.</p>
+<p><strong>Which predictors are the most important?</strong></p>
+<p>Coefficients (<span class="math inline">\(b_j\)</span>) are interpreted on the original measurement scale. This is useful for telling us by how much we can expect a change in the outcome given a unit change in the predictor. However, this means <span class="math inline">\(b_j\)</span> values cannot be directly compared with each other because they are on different measurement scales.</p>
+<p>The standardised regression coefficient, found by multiplying the regression coefficient <span class="math inline">\(b_j\)</span> by <span class="math inline">\(s_{x_j}\)</span> (the standard deviation of the <span class="math inline">\(j\)</span>th predictor variable) and dividing it by <span class="math inline">\(s_{y}\)</span> (the standard deviation of the response variable), represents the expected change in the response <span class="math inline">\(Y\)</span> due to an increase in <span class="math inline">\(x_j\)</span> of one standardised unit (ie, <span class="math inline">\(s_{x_j}\)</span>), with all other <span class="math inline">\(x\)</span> variables unchanged.</p>
+<p>Therefore, predictors with larger absolute values of standardised regression coefficients tell you (roughly) which predictors are ‘most important’ in the model (and should be in agreement with the magnitude of the <span class="math inline">\(t\)</span>-values).</p>
+<p><strong>Hypothesis tests</strong></p>
+<p>We may also wish to test the null hypothesis <span class="math display">\[\textrm{H}_0: \beta_i=0\]</span> against a general two-sided alternative (typically). As in the simple linear regression case, the test statistic is <span class="math display">\[t=\frac{b_i}{\textrm{SE}(b_i)}\]</span> where <span class="math inline">\(\textrm{SE}(b_i)\)</span> is the standard error of the estimator associated with <span class="math inline">\(b_i\)</span>. We then compute the p-value given by <span class="math display">\[p=\textrm{Pr}(T&gt;|t|)\]</span> where <span class="math inline">\(T\)</span> is a student-t random variable on <span class="math inline">\(n-(p+1)\)</span> degrees of freedom. The interpretation of the p-value is as before.</p>
+</section>
+<section id="diagnostics" class="level3 unnumbered">
+<h3 class="unnumbered">Diagnostics</h3>
+<p>Here, we revisit the notion of model checking, in a little more detail than lecture 1.</p>
+<p>Recall that for the linear regression model (simple or multiple), it is assumed that the <em>error</em> term <span class="math display">\[\epsilon_i \sim N(0,\sigma^2), \quad i=1,\ldots,n.\]</span> Additionally, <span class="math inline">\(\epsilon_i\)</span> is <em>independent of</em> <span class="math inline">\(\epsilon_j\)</span> for all possible <span class="math inline">\(i\)</span> and <span class="math inline">\(i\)</span>. Hence, we have <em>normal</em>, <em>independent</em> errors with <em>constant variance</em>.</p>
+<p><em>What does the error term actually mean?</em></p>
+<p>The (statistical) error is the amount by which an observation differs from its population mean value. The error is unknown, since the population mean response depends on unknown parameters <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_1\)</span> etc.</p>
+<p>How should we estimate the error? Recall that the <span class="math inline">\(i\)</span>th <em>residual</em> is given by <span class="math display">\[\begin{aligned}
+e_i&amp;=y_i-\hat{y}_i \\
+&amp;= y_i - b_0-b_1 x_{i1}-\cdots -b_p x_{ip}.\end{aligned}\]</span> A residual is an observable estimate of the unobservable (statistical) error. Hence, in order to check the assumptions about the error term, we look at the residuals.</p>
+<p><strong>Normality of errors</strong> Assess via:</p>
+<ul>
+<li><p>Q-Q plot,</p></li>
+<li><p>histogram,</p></li>
+<li><p>Shapiro-Wilk test.</p></li>
+</ul>
+<p>The Q-Q plot can also be used to detect outliers. Rule of thumb: standardised residuals with an absolute value greater than 3 can point to outliers. Such values are not necessarily a problem unless they are <em>influential</em>. Recall that <em>Cook’s distance</em> can be used to identify outliers that are influential.</p>
+<p><strong>Homogeneity of errors</strong></p>
+<p>Assess via:</p>
+<ul>
+<li><p>a scatterplot of fitted values (or outcomes) against (standardised) residuals.</p></li>
+</ul>
+<div class="center">
+<figure>
+<img src="../graphics2/lect2c.png" id="fig:figBAL2p2" style="width:12cm;height:10cm" alt="Examples of fitted values versus (standardised) residuals." /><figcaption aria-hidden="true">Examples of fitted values versus (standardised) residuals.</figcaption>
+</figure>
+</div>
+<p><strong>Independence of errors</strong></p>
+<p>For any two consecutive values <span class="math inline">\(y_i\)</span> and <span class="math inline">\(y_{i+1}\)</span>, the associated residual terms <span class="math inline">\(e_i\)</span> and <span class="math inline">\(e_{i+1}\)</span> should be <em>uncorrelated</em>. That is, we look for a lack of <em>autocorrelation</em>. One way to assess this to plot <span class="math inline">\(e_{i+1}\)</span> against <span class="math inline">\(e_i\)</span> for each <span class="math inline">\(i\)</span>. We then hope to see no pattern in the resulting plot.</p>
+<div class="center">
+<figure>
+<img src="../graphics2/lect2d.png" id="fig:figBAL2p3" style="width:6cm;height:6cm" alt="Example of e_{i+1} against e_i." /><figcaption aria-hidden="true">Example of <span class="math inline">\(e_{i+1}\)</span> against <span class="math inline">\(e_i\)</span>.</figcaption>
+</figure>
+</div>
+<p>A <em>Durbin-Watson test</em> can be used to test for serial correlation between errors. The null hypothesis is that there is no correlation among the residuals. The alternative hypothesis is that the residuals are autocorrelated. The DW statistic ranges from zero to four, with a value of 2 indicating zero autocorrelation. Values below 2 mean there is positive autocorrelation and above 2 indicates negative autocorrelation. In R, the <code>durbinWatsonTest()</code> function from the <code>car</code> package can be applied to a regression model (computed via <code>lm()</code>).</p>
+<p><strong>Multicollinearity</strong></p>
+<p>Although not part of residual checking, we briefly mention here the need to check that two or more predictors do not exhibit a (near) perfect linear relationship. If two or predictors are perfectly linearly correlated, the result is an infinite number of regression coefficients that would work equally well. In practice, a case of two or more predictors having high correlation (say <span class="math inline">\(&gt;0.8\)</span>), can lead to unstable coefficient estimators.</p>
+<p>To assess multicollinearity:</p>
+<ul>
+<li><p>examine correlations between each pair of predictors or</p></li>
+<li><p>compute a variance inflation factor (VIF) for each predictor.</p></li>
+</ul>
+<p>To compute VIF for a predictor variable <span class="math inline">\(x_i\)</span>, we fit a linear regression model with <span class="math inline">\(x_i\)</span> as the response and the remaining independent variables <span class="math inline">\(x_1,\ldots,x_{i-1},x_{i+1},\ldots,x_p\)</span> as predictors. We then compute the coefficient of determination <span class="math inline">\(R_i^2\)</span> and finally the VIF as <span class="math display">\[\textrm{VIF}=\frac{1}{1-R_i^2}.\]</span> Of course in practice, we can use the <code>vif()</code> function from the <code>car</code> library. Note that a VIF of 10 or more suggests that collinearity is likely.</p>
+</section>
+<section id="goodness-of-fit" class="level3 unnumbered">
+<h3 class="unnumbered">Goodness of fit</h3>
+<p>In determining the usefulness of the regression, we can work with <em>adjusted</em> <span class="math inline">\(R^2\)</span> (adj <span class="math inline">\(R^2\)</span>). How should we compare different competing models? One simple technique that shall prove useful to us is an F-test.</p>
+<p>The F-test involves three basic steps:</p>
+<ol>
+<li><p>Define the smaller reduced model (R). (The one with fewest parameters.)</p></li>
+<li><p>Define a larger full model (F). (The one with more parameters.)</p></li>
+<li><p>Use an F-statistic to decide whether or not to reject the smaller reduced model in favor of the larger full model.</p></li>
+</ol>
+<p>As alluded to from step 3, the null hypothesis always pertains to the reduced model, while the alternative hypothesis always pertains to the full model.</p>
+<p>For simple linear regression, the reduced, or <em>null model</em> is <span class="math display">\[Y_i=\beta_0 +\epsilon_i\]</span> and the full model is <span class="math display">\[Y_i=\beta_0+\beta_1 x_i + \epsilon_i.\]</span> Hence the F-test has <span class="math inline">\(H_0:\beta_1=0\)</span> versus <span class="math inline">\(H_1:\beta_1\neq 0\)</span>. The test statistic is <span class="math display">\[F^*=\left(\frac{SSE(R)-SSE(F)}{p_2-p_1} \right) /\left(\frac{SSE(F)}{n-p_2} \right).\]</span> Here, for the reduced model, <span class="math inline">\(SSE(R)=\sum_{i=1}^n (y_i-\bar{y})^2=SST\)</span> and <span class="math inline">\(SSE(F)=\sum_{i=1}^n(y_i-\hat{y}_i)^2 =SSE\)</span>. Note that <span class="math inline">\(p_2=1\)</span> (the number of predictors in the full model) and <span class="math inline">\(p_1=0\)</span> (the number of predictors in the null model. Hence, we may write <span class="math display">\[F^*=\left(\frac{SSR}{1} \right) /\left(\frac{SSE}{n-1} \right) = \frac{\textrm{MSR}}{\textrm{MSE}}.\]</span> MSR is the <em>Mean Square due to Regression</em> and MSE is the Mean Squared Error. We can compare the test statistic to an F distribution with parameters <span class="math inline">\(p_2-p_1\)</span> and <span class="math inline">\(n-p_2\)</span>. Of course in practice, R will do this for us (either as part of the regression model summary or using the <code>anova()</code> function).</p>
+<p>Of course, in the context of simple linear regression, we already have the (equivalent) t-test to test <span class="math inline">\(H_0:\beta_1=0\)</span>. The F-test therefore, is most useful in the multiple linear regression case. For example, we can use it to test <span class="math inline">\(H_0:\beta_1=0,\ldots,\beta_p=0\)</span> against a general alternative that at least one regression coefficient is non-zero.</p>
+<p><em>Intuition</em>: The F-test involves a comparison between SSE(R) and SSE(F). Note that SSE(R) is always larger than (or possibly the same as) SSE(F).</p>
+<ul>
+<li><p>If SSE(F) is close to SSE(R), then the variation around the estimated full regression line is almost as large as the variation around the estimated line for the reduced regression model. If that’s the case, it makes sense to use the simpler (reduced) model.</p></li>
+<li><p>On the other hand, if SSE(F) and SSE(R) differ substantially, then the additional parameter(s) in the full model reduce the variation around the estimated regression line. In this case, it makes sense to use the larger (full) model.</p></li>
+</ul>
+<div class="center">
+<p><img src="../graphics2/lect2e.jpeg" title="fig:" id="fig:figBAL2p4" style="width:8cm;height:6cm" alt="Two example data sets and regression lines (full versus reduced)." /><br />
+<img src="../graphics2/lect2f.jpeg" title="fig:" id="fig:figBAL2p4" style="width:8cm;height:6cm" alt="Two example data sets and regression lines (full versus reduced)." /></p>
+</div>
+<p>The above figure illustrates the intuition, by showing two example data sets and regression lines (full versus reduced).</p>
+</section>
+</section>
+<script>
+function doNumbering() {
+	// The syntax to read the structured data from the yaml is horrible, template literals fix the problem but probably aren't widely supported enough. Escaping line breaks is browser dependant. I don't know if there's a better way?
+	// Note that the data from the yaml file is manipulated into an array, and then parsed back into strings later, but I didn't want to deal with the pandoc templating syntax longer than necessary.
+	var supportedEnvsArrayString = ' .definition;;; .theorem;;; .lemma;;; .example;;; .exampleqed;;; .proposition;;; .remark;;; .corollary;;; .exercise;;; .question';
+	var supportedEnvsArray = supportedEnvsArrayString.split("|||");
+	supportedEnvsArray = supportedEnvsArray.map(inner => inner.split(";;;"));
+	var numberWithin = '1';
+	var counterOffset = '';
+	var subcounterOffset = '';
+	var problemCounter = '';
+	const partLabels = 'abcdefghijklmnopqrstuvwxyz'.split('');
+	
+	// counterOffset may be negative, and by default if specified on the command line this gets string concatenated with the default given in the yaml config and this then causes a problem. Can be fixed by removing the default in the config file and converting to an int, but this causes a NaN error if no value is suplied on the command line, so if NaN set to 0.
+	counterOffset = parseInt(counterOffset);
+	if (isNaN(counterOffset)) {
+		counterOffset = 0;
+	}
+	
+	subcounterOffset = parseInt(subcounterOffset);
+	if (isNaN(subcounterOffset)) {
+		subcounterOffset = 0;
+	}
+	
+	problemCounter = parseInt(problemCounter);
+	if (isNaN(problemCounter)) {
+		problemCounter = 1;
+	}
+	
+	function sanitiseSelector(selector) {
+		// tex labels often have colons in which need escaping. There may be other escaping needed here. Unfortunately neither encodeURI nor encodeURIComponent do what I need, so use regex to do the escaping manually.
+		var sanitised = selector.replace(/\:/g,"\\\:");
+		sanitised = sanitised.replace(/(^[\d])/,"\\3$1 ");
+		sanitised = sanitised.replace(/\//g,"\\\/");
+		return sanitised
+	}
+	
+	function labelLinks() {
+		var refs = document.querySelectorAll("a[data-reference-type=ref]")
+		for (ref of refs) {
+			// Escape colons (or other) from the link title.
+			var ref_label = sanitiseSelector(ref.getAttribute("data-reference"));
+			// Hopefully ref is a reference to a div or a section, which should have the associated id. If so, we just need the data-number from the relevant DOM item.
+			var ref_to = document.querySelector("#"+ref_label);
+			if (ref_to !== null) {
+				var ref_number = ref_to.getAttribute("data-number");
+			} else {
+				// If ref is being used for an equation, then we need to try to parse the mathjax divs. This is fragile, but try to find the span which corresponds to the equation number we need.
+				try {
+					var mathjax_ref = "#mjx-eqn-"+ref_label;
+					ref_to = document.querySelector(mathjax_ref);
+					// Since this is a ref, we don't want the parens to be returned, so find the equation number and strip the parens.
+					var ref_number = ref_to.querySelector(".mjx-char").innerHTML.replace(/[()]/g,"");
+					ref.setAttribute("href",mathjax_ref);
+				}
+				// If we can't find a place to link to, just indicate a missing link.
+				catch (err){
+					var ref_number = "???"
+				}
+			}
+			ref.innerHTML = ref_number;
+		};
+	}
+	
+	function numberEnvs() {
+		for (var levelSpec = 0; levelSpec <= numberWithin; levelSpec++) {
+			var reqLevels = document.querySelectorAll(".level"+levelSpec);
+			for (var level of reqLevels) {
+				levelCount = level.getAttribute("data-number");
+				levelCount = String(parseFloat(levelCount)+(counterOffset));
+				levelCount = levelCount+(("."+subcounterOffset).repeat(numberWithin-levelSpec));
+				for (var counter of supportedEnvsArray) {
+					var envCount = 1;
+					var envs = level.querySelectorAll(counter.join(", "));
+					for (var env of envs) {
+						env.setAttribute("data-number",levelCount+"."+envCount);
+						envCount += 1;
+					}
+				}
+			}
+		}
+	}
+	
+	function numberFigs() {
+		// Figures should either be in a figure environment, or a table with image class imageTable thanks to the tableCaps filter.
+		figs = document.querySelectorAll("figure, .imageTable");
+		var fig_no = 1
+		for (var fig of figs) {
+			var cap
+			// For figures, we want to move the id to the figure, and set the data-number on both the figure and the figcaption
+			if (fig.nodeName == "FIGURE") {
+				cap = fig.querySelector("figcaption");
+				var img = fig.querySelector("img, embed")
+				if (img) {
+					var img_id = img.getAttribute("id");
+					fig.setAttribute("id",img_id);
+					img.removeAttribute("id");
+				}
+			// for tables (which must be .imageTable due to the querySelector above), we want to set the data-number on the table and the caption
+			} else if (fig.nodeName == "TABLE") {
+				cap = fig.querySelector("caption");
+			}
+			cap.setAttribute("data-number",fig_no);
+			fig.setAttribute("data-number",fig_no);
+			fig_no += 1;
+		}
+	}
+	
+	function numberGlobals() {
+		// This function numbers any environments that just use a global counter, such as a problem number on a problems sheet, where there are no sections to number with respect to.
+		probsols = document.querySelectorAll(".problem, .solution");
+		var prob_no = problemCounter;
+		var partNo = 0;
+		for (var probsol of probsols) {
+			if (probsol.className == "problem"){
+				prob_no +=1;
+				partNo = 0;
+				probsol.setAttribute("data-number",prob_no);
+			}
+			else {
+				if (probsol.parentNode.nodeName == "LI") {
+					var partLabel = partLabels[partNo];
+					probsol.setAttribute("data-number",prob_no.toString()+partLabel);
+					partNo +=1;
+				}
+				else{
+					probsol.setAttribute("data-number",prob_no);
+				}
+			}
+			
+		}
+		// sols = document.querySelectorAll(".solution");
+// 		var sol_no = problemCounter;
+// 		for (var sol of sols) {
+// 			sol.setAttribute("data-number",sol_no);
+// 			sol_no +=1
+// 		}
+	}
+	
+	// labelLinks() should occur last, so that the data-numbers have been correctly set first.
+	numberEnvs();
+	numberFigs();
+	numberGlobals();
+	labelLinks();
+}
+</script><script>
+	var imageDir = ''
+	imgs = document.querySelectorAll("img");
+	for (var img of imgs) {
+		imgsrc = img.getAttribute("src");
+		img.setAttribute("src",imageDir.concat(imgsrc));
+	}
+</script></body>
+</html>
