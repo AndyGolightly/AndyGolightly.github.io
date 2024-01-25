@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>lecture4</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/x-mathjax-config">
+  	MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "ams"} } });
+  	// I need to wait until MathJax has finished before running the numbering script
+  	MathJax.Hub.Register.StartupHook("End",function(){doNumbering()});
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#basics-of-multilevel-models">Basics of multilevel models</a></li>
+</ul>
+</nav>
+<section id="basics-of-multilevel-models" class="level1 unnumbered">
+<h1 class="unnumbered">Basics of multilevel models</h1>
+<p>We ended the last lecture wondering how we can we capture the inter-class variability of the extraversion-popularity relationship without fitting 100 separate regression models. In this lecture we will consider the task of incorporating distributional assumptions on the intercept and slope directly into the model. We will assume now that intercepts and slopes are drawn from a normal distribution with (unknown) means <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.</p>
+<section id="two-level-model-with-random-intercept-and-slope" class="level3 unnumbered">
+<h3 class="unnumbered">Two-level model with random intercept and slope</h3>
+<p>In what follows, we will use the student popularity data set from last lecture as a running example.</p>
+<p>We denote by <span class="math inline">\(y_{ij}\)</span> the outcome (i.e. popularity) for individual <span class="math inline">\(i\)</span> in class <span class="math inline">\(j\)</span>, and <span class="math inline">\(x_{ij}\)</span> the predictor (i.e. extraversion) for individual <span class="math inline">\(i\)</span> in class <span class="math inline">\(j\)</span>. Consider the following model <span class="math display">\[\textrm{Level 1:} \quad y_{ij}=a_j +b_j x_{ij} + \epsilon_{ij}, \qquad \epsilon_{ij}\sim N(0,\sigma^2)\]</span> where for class <span class="math inline">\(j\)</span> <span class="math display">\[\begin{aligned}
+\textrm{Level 2:}&amp; \quad a_j = a+u_j, \qquad u_j\sim N(0,\sigma^2_u)\\
+&amp; \quad b_j = b+v_j, \qquad v_j\sim N(0,\sigma^2_v).\end{aligned}\]</span> <strong>Remarks:</strong></p>
+<ul>
+<li><p>The variables <span class="math inline">\(u_j\)</span> and <span class="math inline">\(v_j\)</span> are called random effects.</p></li>
+<li><p>Random effects are unobserved (unlike the fixed effects, <span class="math inline">\(x_{ij}\)</span>). They can be thought of as random draws from an infinitely large population of upper-level units (here classes).</p></li>
+<li><p>Note that the random errors, <span class="math inline">\(\epsilon_{ij}\)</span>, are assumed to be independent from the random effects.</p></li>
+<li><p>The <span class="math inline">\(u_j\)</span> and <span class="math inline">\(v_j\)</span> may be (and usually are) correlated, i.e. there exists a variance matrix <span class="math display">\[Var\begin{pmatrix} u_j \\ v_j \end{pmatrix}=
+\begin{pmatrix} \sigma^2_u &amp; r\sigma_u\sigma_v\\
+r\sigma_u\sigma_v &amp; \sigma^2_v \end{pmatrix}.\]</span></p></li>
+<li><p>Upon substitution of the level 2 equations into the level 1 equation we obtain <span class="math display">\[\begin{aligned}
+y_{ij} &amp;= (a+u_j)+(b+v_j)x_{ij} + \epsilon_{ij}\\
+&amp;= a+bx_{ij} + u_j + v_jx_{ij} + \epsilon_{ij}.\end{aligned}\]</span></p></li>
+<li><p>Finally, note that the expectation of <span class="math inline">\(y_{ij}\)</span> is <span class="math display">\[\begin{aligned}
+E(y_{ij}) &amp;= a+b x_{ij} +E(u_j) + E(v_j)x_{ij} + E(\epsilon_{ij})\\
+&amp;= a + bx_{ij}.\end{aligned}\]</span> The variance is <span class="math display">\[\begin{aligned}
+Var(y_{ij}) &amp;= 0 + Var(u_j+v_jx_{ij})+Var(\epsilon_{ij})\\
+&amp;= \sigma^2_u +x_{ij}^2\sigma^2_v+2r\sigma_u\sigma_v x_{ij} + \sigma^2.\end{aligned}\]</span></p></li>
+</ul>
+<p>So, the fixed effects specify the (marginal) mean and the random effects specify the (marginal) variance. We will revisit the usefulness of these results later in these notes.</p>
+</section>
+<section id="fitting-in-r" class="level3 unnumbered">
+<h3 class="unnumbered">Fitting in R</h3>
+<p>We fit with</p>
+<div class="sourceCode" id="cb1" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>model1 &lt;-<span class="st"> </span><span class="kw">lmer</span>(<span class="dt">formula =</span> popularity <span class="op">~</span><span class="st">  </span><span class="dv">1</span><span class="op">+</span><span class="st"> </span>extraversion <span class="op">+</span><span class="st"> </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="st">    </span>(<span class="dv">1</span><span class="op">+</span><span class="st"> </span>extraversion<span class="op">|</span>class), <span class="dt">data =</span> pop.data)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="co">#for which we obtain output:</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="kw">summary</span>(model1)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="co"># Random effects:</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="co">#   Groups   Name          Variance Std.Dev. Corr </span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a><span class="co">#   class    (Intercept)   2.99680  1.7311        </span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a><span class="co">#            extraversion  0.02595  0.1611   -0.97</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a><span class="co">#            Residual      0.89495  0.9460        </span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a><span class="co">#  Number of obs: 2000, groups:  class, 100</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a><span class="co"># </span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a><span class="co"># Fixed effects:</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a><span class="co">#                 Estimate Std. Error   df    t #value       Pr(&gt;|t|)    </span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a><span class="co">#   (Intercept)   2.46106    0.20309  96.71010   12.12     &lt;2e-16 ***</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a><span class="co">#   extraversion  0.49286    0.02545  89.75489   19.36     &lt;2e-16 ***</span></span></code></pre></div>
+<p>From this output we see that</p>
+<ul>
+<li><p>The expected popularity rises by 0.49286 per extra point of extraversion.</p></li>
+<li><p>There is considerable variation between classes: The random effect variances are <span class="math inline">\(\sigma^2_u=2.9968\)</span> and <span class="math inline">\(\sigma^2_v=0.02595\)</span>.</p></li>
+<li><p>The random effects are strongly negatively correlated (-0.97): For classes where the popularity is generally larger, increasing extraversion will have less additional effect.</p></li>
+</ul>
+<p>Recall that the random effects are unobserved. Predicted values can be extracted via <code>ranef(model1)</code>. They can further be visualised via <code>plot_model(model1, type="re")</code> which requires the <code>sjPlot</code> package. The command <code>predict(model1)</code> is also useful for extracting predicted response values <span class="math inline">\(\hat{y}_{ij}\)</span>. These can then be plotted for each group on the same plot.</p>
+<p> </p>
+<div class="center">
+<figure>
+<img src="../graphics2/lect4a.png" id="fig:figL4a" style="width:11cm;height:7.5cm" alt="Predicted regression lines by class. Note that lines with large intercepts possess small slopes." /><figcaption aria-hidden="true">Predicted regression lines by class. Note that lines with large intercepts possess small slopes.</figcaption>
+</figure>
+</div>
+<p> </p>
+</section>
+<section id="centering" class="level3 unnumbered">
+<h3 class="unnumbered">Centering</h3>
+<p>Recall our intercept estimate of <span class="math inline">\(\hat{a}= 2.46\)</span>. Is this interpretable? In our case, <span class="math inline">\(x_{ij}\)</span> is the value of extraversion of pupil <span class="math inline">\(i\)</span> in class <span class="math inline">\(j\)</span>. This was measured on a self-rating 10-point scale from 1 (min) to 10 (max). Hence, the intercept describes the expected response value at a non-defined predictor value. If <span class="math inline">\(x_{ij}\)</span> were to include the value 0 as a possibility, then we’d interpret the intercept as the average response when <span class="math inline">\(x_{ij}=0\)</span>.</p>
+<p>We can remedy this issue by centering the explanatory variables:</p>
+<div class="sourceCode" id="cb2" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>m.ex &lt;-<span class="st"> </span><span class="kw">mean</span>(pop.data<span class="op">$</span>extraversion)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>m.ex</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>pop.data<span class="op">$</span>centre.extrav &lt;-<span class="st"> </span>pop.data<span class="op">$</span>extraversion<span class="op">-</span>m.ex</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>model1a &lt;-<span class="st"> </span><span class="kw">lmer</span>(<span class="dt">formula =</span> popularity <span class="op">~</span><span class="st"> </span><span class="dv">1</span><span class="op">+</span><span class="st"> </span>centre.extrav <span class="op">+</span><span class="st"> </span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="st">    </span>(<span class="dv">1</span><span class="op">+</span><span class="st"> </span>centre.extrav<span class="op">|</span>class), <span class="dt">data =</span> pop.data)</span></code></pre></div>
+<p><strong>Remarks</strong></p>
+<ul>
+<li><p>Centering leaves slope estimates, standard errors, and random effects, unchanged.</p></li>
+<li><p>The intercept estimates, standard errors, and random effects, do change.</p></li>
+<li><p>Overall the fitted models are equivalent. This is just a reparametrization.</p></li>
+<li><p>The gain is the better interpretability. The intercept estimate is now the expected value of the outcome when the predictors take their mean value.</p></li>
+</ul>
+</section>
+<section id="intra-class-correlation-icc" class="level3 unnumbered">
+<h3 class="unnumbered">Intra-class correlation (ICC)</h3>
+<p>Consider the ‘empty’, or ‘intercept-only’ model: <span class="math display">\[y_{ij}=\gamma_0+u_j+\epsilon_{ij}.\]</span> Note that <span class="math display">\[Var(y_{ij})=\sigma^2_u+\sigma^2.\]</span> This model decomposes the variance in the response into <span class="math inline">\(\sigma^2_u\)</span> and <span class="math inline">\(\sigma^2\)</span>.</p>
+<p>We now define the proportion of total variance explained by the grouping structure as the <strong>intra-class correlation (ICC)</strong>: <span class="math display">\[\rho=\frac{\sigma^2_u}{\sigma^2_u+\sigma^2}\]</span> This can also be be interpreted as the expected correlation between two randomly drawn units that are in the same group. Note that in the social and educational sciences, ICC values as small as 0.25 can be considered “large”.</p>
+<p>For the pupil popularity data we have the following output</p>
+<div class="sourceCode" id="cb3" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>intercept.only.model &lt;-<span class="st"> </span><span class="kw">lmer</span>(<span class="dt">formula =</span> popularity <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>class), <span class="dt">data =</span> pop.data)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="kw">summary</span>(intercept.only.model)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="co">#   Random effects:</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="co">#   Groups       Name        Variance   Std.Dev.</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a><span class="co">#   class       (Intercept)    0.7021   0.8379  </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a><span class="co">#   Residual                   1.2218   1.1053  </span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a><span class="co">#   Number of obs: 2000, groups:  class, 100</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a><span class="co">#</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>rho =<span class="st"> </span><span class="fl">0.7021</span><span class="op">/</span>(<span class="fl">0.7021+1.2218</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>rho</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a><span class="co"># [1] 0.3649358</span></span></code></pre></div>
+<p>giving an ICC of 0.365.</p>
+<p>We can also calculate ICC directly using certain R packages, such as <code>performance</code>:</p>
+<div class="sourceCode" id="cb4" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">require</span>(performance)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="kw">icc</span>(intercept.only.model)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="co"># Intraclass correlation coefficient</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a><span class="co">#        Adjusted ICC: 0.365</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a><span class="co">#        Conditional ICC: 0.365</span></span></code></pre></div>
+<p>For the purposes of this course, we will (in general) ignore conditional ICC as it uses a different null model (when there are covariates).</p>
+</section>
+<section id="other-models" class="level3 unnumbered">
+<h3 class="unnumbered">Other models</h3>
+<p>So far, we have considered a <strong>random intercept and slope model</strong>: <span class="math display">\[y_{ij} = a+bx_{ij} + u_j + v_jx_{ij} + \epsilon_{ij}\]</span> and the <strong>intercept only / empty model</strong>: <span class="math display">\[y_{ij}=\gamma_0+u_j+\epsilon_{ij}\]</span></p>
+<p>If we take the empty model and add a covariate, we obtain the <strong>random intercept model</strong>: <span class="math display">\[y_{ij}=a+bx_{ij}+u_j +\epsilon_{ij}.\]</span> <strong>Remarks</strong></p>
+<ul>
+<li><p>In such a model, each class gets assigned its own intercept, but the impact (i.e. slope) of the fixed effect (e.g. extraversion) on the response is equal for all classes.</p></li>
+<li><p>We still have <span class="math inline">\(Var(y_{ij})=\sigma^2_u+\sigma^2\)</span> and so the ICC can be calculated in the exactly same way as was done for the empty model.</p></li>
+</ul>
+<p><strong>Caveat</strong>: As soon as random slopes are involved, the previous expression for ICC becomes incorrect, since now <span class="math inline">\(Var(y_{ij})\neq \sigma^2_u+\sigma^2\)</span>. Although a naive ICC can still be calculated, it is best avoided!</p>
+</section>
+</section>
+<script>
+function doNumbering() {
+	// The syntax to read the structured data from the yaml is horrible, template literals fix the problem but probably aren't widely supported enough. Escaping line breaks is browser dependant. I don't know if there's a better way?
+	// Note that the data from the yaml file is manipulated into an array, and then parsed back into strings later, but I didn't want to deal with the pandoc templating syntax longer than necessary.
+	var supportedEnvsArrayString = ' .definition;;; .theorem;;; .lemma;;; .example;;; .exampleqed;;; .proposition;;; .remark;;; .corollary;;; .exercise;;; .question';
+	var supportedEnvsArray = supportedEnvsArrayString.split("|||");
+	supportedEnvsArray = supportedEnvsArray.map(inner => inner.split(";;;"));
+	var numberWithin = '1';
+	var counterOffset = '';
+	var subcounterOffset = '';
+	var problemCounter = '';
+	const partLabels = 'abcdefghijklmnopqrstuvwxyz'.split('');
+	
+	// counterOffset may be negative, and by default if specified on the command line this gets string concatenated with the default given in the yaml config and this then causes a problem. Can be fixed by removing the default in the config file and converting to an int, but this causes a NaN error if no value is suplied on the command line, so if NaN set to 0.
+	counterOffset = parseInt(counterOffset);
+	if (isNaN(counterOffset)) {
+		counterOffset = 0;
+	}
+	
+	subcounterOffset = parseInt(subcounterOffset);
+	if (isNaN(subcounterOffset)) {
+		subcounterOffset = 0;
+	}
+	
+	problemCounter = parseInt(problemCounter);
+	if (isNaN(problemCounter)) {
+		problemCounter = 1;
+	}
+	
+	function sanitiseSelector(selector) {
+		// tex labels often have colons in which need escaping. There may be other escaping needed here. Unfortunately neither encodeURI nor encodeURIComponent do what I need, so use regex to do the escaping manually.
+		var sanitised = selector.replace(/\:/g,"\\\:");
+		sanitised = sanitised.replace(/(^[\d])/,"\\3$1 ");
+		sanitised = sanitised.replace(/\//g,"\\\/");
+		return sanitised
+	}
+	
+	function labelLinks() {
+		var refs = document.querySelectorAll("a[data-reference-type=ref]")
+		for (ref of refs) {
+			// Escape colons (or other) from the link title.
+			var ref_label = sanitiseSelector(ref.getAttribute("data-reference"));
+			// Hopefully ref is a reference to a div or a section, which should have the associated id. If so, we just need the data-number from the relevant DOM item.
+			var ref_to = document.querySelector("#"+ref_label);
+			if (ref_to !== null) {
+				var ref_number = ref_to.getAttribute("data-number");
+			} else {
+				// If ref is being used for an equation, then we need to try to parse the mathjax divs. This is fragile, but try to find the span which corresponds to the equation number we need.
+				try {
+					var mathjax_ref = "#mjx-eqn-"+ref_label;
+					ref_to = document.querySelector(mathjax_ref);
+					// Since this is a ref, we don't want the parens to be returned, so find the equation number and strip the parens.
+					var ref_number = ref_to.querySelector(".mjx-char").innerHTML.replace(/[()]/g,"");
+					ref.setAttribute("href",mathjax_ref);
+				}
+				// If we can't find a place to link to, just indicate a missing link.
+				catch (err){
+					var ref_number = "???"
+				}
+			}
+			ref.innerHTML = ref_number;
+		};
+	}
+	
+	function numberEnvs() {
+		for (var levelSpec = 0; levelSpec <= numberWithin; levelSpec++) {
+			var reqLevels = document.querySelectorAll(".level"+levelSpec);
+			for (var level of reqLevels) {
+				levelCount = level.getAttribute("data-number");
+				levelCount = String(parseFloat(levelCount)+(counterOffset));
+				levelCount = levelCount+(("."+subcounterOffset).repeat(numberWithin-levelSpec));
+				for (var counter of supportedEnvsArray) {
+					var envCount = 1;
+					var envs = level.querySelectorAll(counter.join(", "));
+					for (var env of envs) {
+						env.setAttribute("data-number",levelCount+"."+envCount);
+						envCount += 1;
+					}
+				}
+			}
+		}
+	}
+	
+	function numberFigs() {
+		// Figures should either be in a figure environment, or a table with image class imageTable thanks to the tableCaps filter.
+		figs = document.querySelectorAll("figure, .imageTable");
+		var fig_no = 1
+		for (var fig of figs) {
+			var cap
+			// For figures, we want to move the id to the figure, and set the data-number on both the figure and the figcaption
+			if (fig.nodeName == "FIGURE") {
+				cap = fig.querySelector("figcaption");
+				var img = fig.querySelector("img, embed")
+				if (img) {
+					var img_id = img.getAttribute("id");
+					fig.setAttribute("id",img_id);
+					img.removeAttribute("id");
+				}
+			// for tables (which must be .imageTable due to the querySelector above), we want to set the data-number on the table and the caption
+			} else if (fig.nodeName == "TABLE") {
+				cap = fig.querySelector("caption");
+			}
+			cap.setAttribute("data-number",fig_no);
+			fig.setAttribute("data-number",fig_no);
+			fig_no += 1;
+		}
+	}
+	
+	function numberGlobals() {
+		// This function numbers any environments that just use a global counter, such as a problem number on a problems sheet, where there are no sections to number with respect to.
+		probsols = document.querySelectorAll(".problem, .solution");
+		var prob_no = problemCounter;
+		var partNo = 0;
+		for (var probsol of probsols) {
+			if (probsol.className == "problem"){
+				prob_no +=1;
+				partNo = 0;
+				probsol.setAttribute("data-number",prob_no);
+			}
+			else {
+				if (probsol.parentNode.nodeName == "LI") {
+					var partLabel = partLabels[partNo];
+					probsol.setAttribute("data-number",prob_no.toString()+partLabel);
+					partNo +=1;
+				}
+				else{
+					probsol.setAttribute("data-number",prob_no);
+				}
+			}
+			
+		}
+		// sols = document.querySelectorAll(".solution");
+// 		var sol_no = problemCounter;
+// 		for (var sol of sols) {
+// 			sol.setAttribute("data-number",sol_no);
+// 			sol_no +=1
+// 		}
+	}
+	
+	// labelLinks() should occur last, so that the data-numbers have been correctly set first.
+	numberEnvs();
+	numberFigs();
+	numberGlobals();
+	labelLinks();
+}
+</script><script>
+	var imageDir = ''
+	imgs = document.querySelectorAll("img");
+	for (var img of imgs) {
+		imgsrc = img.getAttribute("src");
+		img.setAttribute("src",imageDir.concat(imgsrc));
+	}
+</script></body>
+</html>
