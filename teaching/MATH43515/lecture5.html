@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>lecture5</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/x-mathjax-config">
+  	MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "ams"} } });
+  	// I need to wait until MathJax has finished before running the numbering script
+  	MathJax.Hub.Register.StartupHook("End",function(){doNumbering()});
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#advanced-multilevel-models">Advanced multilevel models</a></li>
+</ul>
+</nav>
+<section id="advanced-multilevel-models" class="level1 unnumbered">
+<h1 class="unnumbered">Advanced multilevel models</h1>
+<p>In this lecture, we will consider how to assess significances of fixed and random effects via likelihood ratio tests, models with more than one predictor variable, model simplification strategies and 3-level models.</p>
+<p>We will work predominantly in the framework of the random intercept and slope model from the previous lecture 4, and in the context of the student popularity data. Recall that the model is given by <span class="math display">\[y_{ij} = a+bx_{ij} + u_j + v_jx_{ij} + \epsilon_{ij}\]</span> where <span class="math inline">\(y_{ij}\)</span> the outcome (i.e. popularity) for individual <span class="math inline">\(i\)</span> in class <span class="math inline">\(j\)</span>, <span class="math inline">\(x_{ij}\)</span> the predictor (i.e. extraversion) for individual <span class="math inline">\(i\)</span> in class <span class="math inline">\(j\)</span> and <span class="math inline">\(u_j\)</span>, <span class="math inline">\(v_j\)</span> are the random effects (intercept and slope).</p>
+<section id="assessing-significances" class="level3 unnumbered">
+<h3 class="unnumbered">Assessing significances</h3>
+<p><strong>Fixed effects</strong></p>
+<p>Here, we follow the procedure for the linear regression model scenario. We consider hypothesis tests <span class="math display">\[H_0: a=0 \quad \textrm{vs} \quad H_1: a\neq 0\]</span> and <span class="math display">\[H_0: b=0 \quad \textrm{vs} \quad H_1: b\neq 0.\]</span> The <span class="math inline">\(t\)</span>-values are given by <span class="math inline">\(|\textrm{Estimate}/\textrm{Std.Error}|\)</span>, in this case 12.12 and 19.36, respectively. Note that the corresponding p-values give the probabilities of “obtaining by chance an even more extreme value of the test statistic <span class="math inline">\(t\)</span>”. Both p-values are approximately 0, so in both cases <span class="math inline">\(H_0\)</span> is clearly rejected, and we conclude that both fixed effects are needed in the model.</p>
+<p><strong>Random effects</strong></p>
+<p>For the random effects, we consider the hypothesis tests <span class="math display">\[H_0: \sigma^2_u=0 \quad \textrm{vs} \quad H_1: \sigma^2_u\neq 0\]</span> and <span class="math display">\[H_0: \sigma^2_v=0 \quad \textrm{vs} \quad H_1: \sigma^2_v\neq 0.\]</span> We can’t simply proceed as before and compute a <span class="math inline">\(t\)</span>-value of the form <span class="math inline">\(|\textrm{Estimate}/\textrm{Std.Error}|\)</span> as the standard errors of the variance estimators are not given to us from the model output and the sampling distribution of the test statistic is not a student <span class="math inline">\(t\)</span> distribution. (In fact, the sampling distribution of the variance estimator is right skewed.)</p>
+<p>For random effects, one should carry out chi-squared tests based on deviances. This is achieved by fitting the (full) model with and (reduced) model without the random effect term, and then comparing the difference in deviances with a <span class="math inline">\(\chi^2\)</span> distribution with degrees of freedom given by the difference in numbers of parameters between the full and reduced models.</p>
+<p>The deviance is defined as <span class="math display">\[D=-2\log L +c\]</span> where <span class="math inline">\(L\)</span> is the likelihood (that is, the probability of seeing the data) and <span class="math inline">\(c\)</span> is a constant that cancels out when taking differences in deviances between nested models. To this end, consider models <span class="math inline">\(M_0\)</span> and <span class="math inline">\(M_1\)</span> with <span class="math inline">\(M_0\)</span> nested inside <span class="math inline">\(M_1\)</span>. Then, <span class="math inline">\(L_0&lt;L_1\)</span> and <span class="math inline">\(D_0&gt;D_1\)</span>. We then compare <span class="math inline">\(M_0\)</span> and <span class="math inline">\(M_1\)</span> via the test statistic <span class="math display">\[D_0-D_1=-2\log L_0 +2\log L_1 = -2\log \frac{L_0}{L_1}\]</span> and compare this to a <span class="math inline">\(\chi^2\)</span> distribution (with the appropriate degrees of freedom).</p>
+<p><strong>Example 1:</strong> consider the student popularity data. Let’s test for a random slope: <span class="math display">\[H_0: \sigma^2_v=0 \quad \textrm{vs} \quad H_1: \sigma^2_v\neq 0.\]</span> Note that the absence of a random slope will also remove the covariance between the random slope and random intercept. Hence, there will be two fewer parameters in the reduced model. We use the following R code (uncomment as necessary):</p>
+<div class="sourceCode" id="cb1" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>model0 &lt;-<span class="st"> </span><span class="kw">lmer</span>(<span class="dt">formula =</span> popularity <span class="op">~</span><span class="st">  </span><span class="dv">1</span><span class="op">+</span><span class="st"> </span>extraversion <span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>class), </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>          <span class="dt">data =</span> pop.data) </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">deviance</span>(model0)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="co">## [1] 5832.639</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>model1 &lt;-<span class="st"> </span><span class="kw">lmer</span>(<span class="dt">formula =</span> popularity <span class="op">~</span><span class="st">  </span><span class="dv">1</span><span class="op">+</span><span class="st"> </span>extraversion <span class="op">+</span><span class="st"> </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="st">          </span>(<span class="dv">1</span><span class="op">+</span><span class="st"> </span>extraversion<span class="op">|</span>class), <span class="dt">data =</span> pop.data)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a><span class="kw">deviance</span>(model1)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a><span class="co">## [1] 5779.395</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a><span class="kw">deviance</span>(model0)<span class="op">-</span><span class="kw">deviance</span>(model1)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a><span class="co">## [1] 53.24409</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a><span class="kw">qchisq</span>(<span class="fl">0.95</span>,<span class="dv">2</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a><span class="co">## [1] 5.991465</span></span></code></pre></div>
+<p>The deviance difference is given by <span class="math display">\[D_0-D_1=53.244.\]</span> At the 5% level of significance, this is compared to the 95% quantile of the <span class="math inline">\(\chi_2^2\)</span> distribution, which is 5.99. So, <span class="math inline">\(H_0\)</span> is clearly rejected, and we decide that the random slope is necessary.</p>
+<p><strong>Remarks:</strong></p>
+<ul>
+<li><p>R gives a deprecation warning, as a possible misuse of <code>deviance</code> is for testing for differences in fixed effects.</p></li>
+<li><p>An alternative and equivalent approach is to use <code>ranova(model1)</code>.</p></li>
+<li><p>We could now test for the inclusion of random intercepts although for this example we know that the variance of the random intercept variance is much larger than that of the slope (see last lecture). Moreover, a model with a random slope but no random intercept would be considered unusual without good modelling reasons (e.g. equal baseline response for all groups in the study).</p></li>
+</ul>
+<p><strong>Example 2:</strong> We include gender and teacher experience into the model for student popularity.</p>
+<div class="sourceCode" id="cb2" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>model2 &lt;-<span class="st"> </span><span class="kw">lmer</span>(<span class="dt">formula =</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>      popularity <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>extraversion <span class="op">+</span><span class="st"> </span>experience   </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>      <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>extraversion <span class="op">|</span><span class="st"> </span>class),   </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>      <span class="dt">data =</span> pop.data)</span></code></pre></div>
+<p>Note that it is not possible to include a random effect for the class level variable <code>experience</code> in a meaningful way.</p>
+<p>The usual model output can be obtained via <code>summary(model2)</code> for which we see a very small variance for the <code>gender</code> random slopes. We therefore test to see if a random effect for gender is required in the model:</p>
+<div class="sourceCode" id="cb3" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>model3 &lt;-<span class="st"> </span><span class="kw">lmer</span>(<span class="dt">formula =</span> popularity <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>gender </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>          <span class="op">+</span><span class="st"> </span>extraversion <span class="op">+</span><span class="st"> </span>experience <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>extraversion <span class="op">|</span><span class="st"> </span>class),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>          <span class="dt">data =</span> pop.data)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="kw">deviance</span>(model3)<span class="op">-</span><span class="kw">deviance</span>(model2)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a><span class="co">## [1]  1.513252</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a><span class="kw">qchisq</span>(<span class="fl">0.95</span>,<span class="dv">3</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a><span class="co">## [1] 7.814728</span></span></code></pre></div>
+<p>for which we find insufficient evidence to reject the null hypothesis (that the gender effect variance is 0) and we do remove the random effect for gender on this occasion. We prefer <code>model3</code>, whose fit is displayed graphically below.</p>
+<p> </p>
+<div class="center">
+<figure>
+<img src="../graphics2/lect5a.png" id="fig:figL5a" style="width:10cm;height:5cm" alt="Predicted regression lines by class and gender (model3)." /><figcaption aria-hidden="true">Predicted regression lines by class and gender (<code>model3</code>).</figcaption>
+</figure>
+</div>
+</section>
+<section id="diagnostics" class="level3 unnumbered">
+<h3 class="unnumbered">Diagnostics</h3>
+<p>There is significant overlap here with the checking procedure we met for linear regression models. We can plot residuals against fitted values and QQ plots of residuals via</p>
+<div class="sourceCode" id="cb4" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="kw">plot</span>(model3)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="kw">qqnorm</span>(<span class="kw">resid</span>(model3))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="kw">qqline</span>(<span class="kw">resid</span>(model3), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p>We can also check the normality assumption of the random intercepts and slopes via</p>
+<div class="sourceCode" id="cb5" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="kw">qqnorm</span>(<span class="kw">ranef</span>(model3)<span class="op">$</span>class[,<span class="dv">1</span>] )</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a><span class="kw">qqline</span>(<span class="kw">ranef</span>(model3)<span class="op">$</span>class[,<span class="dv">1</span>], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a><span class="kw">qqnorm</span>(<span class="kw">ranef</span>(model3)<span class="op">$</span>class[,<span class="dv">2</span>])</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a><span class="kw">qqline</span>(<span class="kw">ranef</span>(model3)<span class="op">$</span>class[,<span class="dv">2</span>], <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+</section>
+<section id="three-level-models" class="level3 unnumbered">
+<h3 class="unnumbered">Three level models</h3>
+<p>Adding an additional level is straightforward, at least in principle. The following figure illustrates a three level data structure with pupils nested within classes nested within schools.</p>
+<div class="center">
+<figure>
+<img src="../graphics2/lect5b.png" id="fig:figL5a" style="width:11cm;height:6.5cm" alt="Three level data structure illustration." /><figcaption aria-hidden="true">Three level data structure illustration.</figcaption>
+</figure>
+</div>
+<p>We begin with the empty model given by <span class="math display">\[y_{ijk}=\gamma_0+u_{jk}+v_k+\epsilon_{ijk}\]</span> where</p>
+<ul>
+<li><p><span class="math inline">\(y_{ijk}\)</span> is the response variable for the <span class="math inline">\(i\)</span>th person in the <span class="math inline">\(j\)</span>th class in the <span class="math inline">\(k\)</span>th school,</p></li>
+<li><p><span class="math inline">\(\gamma_0\)</span> is the overall intercept (average),</p></li>
+<li><p><span class="math inline">\(u_{jk}\)</span> is the random effect for the class and <span class="math inline">\(u_{jk}\sim N(0,\sigma^2_{u})\)</span>,</p></li>
+<li><p><span class="math inline">\(v_{jk}\)</span> is the random effect for the school and <span class="math inline">\(v_{k}\sim N(0,\sigma^2_{v})\)</span>,</p></li>
+<li><p><span class="math inline">\(\epsilon_{ijk}\)</span> is the (student level) residucal error term and <span class="math inline">\(\epsilon_{ijk}\sim N(0,\sigma^2_e)\)</span>.</p></li>
+</ul>
+<p>The school, class effects and the student level residual errors are assumed independent.</p>
+<p> </p>
+<p><strong>Variance partition components (VPCs)</strong></p>
+<p>For the empty model, it should be clear that <span class="math display">\[Var(y_{ijk})=\sigma^2_u+\sigma^2_v+\sigma^2_e\]</span> where</p>
+<ul>
+<li><p><span class="math inline">\(\sigma^2_v\)</span> is the variance component at the school level,</p></li>
+<li><p><span class="math inline">\(\sigma^2_u\)</span> is the variance component at the class level,</p></li>
+<li><p><span class="math inline">\(\sigma^2_e\)</span> is the individual (student) variance.</p></li>
+</ul>
+<p>Variance partition coefficients (VPCs) report the proportion of the observed response variation that lies at each level of the model hierarchy. The school level VPC is calculated as <span class="math display">\[\frac{\sigma^2_v}{\sigma^2_v+\sigma^2_u+\sigma^2_e}.\]</span> The class level VPC is calculated as <span class="math display">\[\frac{\sigma^2_u}{\sigma^2_v+\sigma^2_u+\sigma^2_e}.\]</span> The individual level VPC is calculated as <span class="math display">\[\frac{\sigma^2_e}{\sigma^2_v+\sigma^2_u+\sigma^2_e}.\]</span></p>
+<p> </p>
+<p><strong>Intraclass correlation coefficients (ICCs)</strong></p>
+<p>Intraclass correlation coefficients (ICCs) measure the model implied correlation (i.e. similarity or homogeneity) of the observed responses within a given cluster</p>
+<p>The school level ICC is calculated as the correlation between two individuals <span class="math inline">\(i\)</span> and <span class="math inline">\(i&#39;\)</span> within the same school <span class="math inline">\(k\)</span>, but different classrooms <span class="math inline">\(j\)</span> and <span class="math inline">\(j&#39;\)</span> as <span class="math display">\[\frac{\sigma^2_v}{\sigma^2_v+\sigma^2_u+\sigma^2_e}.\]</span> The classroom level ICC is calculated as the correlation between two students <span class="math inline">\(i\)</span> and <span class="math inline">\(i&#39;\)</span> within the same classroom <span class="math inline">\(j\)</span> and therefore the same school <span class="math inline">\(k\)</span> as <span class="math display">\[\frac{\sigma^2_v+\sigma^2_u}{\sigma^2_v+\sigma^2_u+\sigma^2_e}.\]</span> We see that the classroom level ICC does not coincide with the classroom level VPC.</p>
+</section>
+<section id="r-code-for-fitting-three-level-models" class="level3 unnumbered">
+<h3 class="unnumbered">R code for fitting three level models</h3>
+<p>Consider an application with the following variables:</p>
+<ul>
+<li><p><code>Math</code> – maths score (response variable)</p></li>
+<li><p><code>ActiveTime</code> – time spent studying (student level covariate)</p></li>
+<li><p><code>ClassSize</code> – class level covariate</p></li>
+<li><p><code>Classroom</code> – class identifier</p></li>
+<li><p><code>School</code> – school identifier</p></li>
+<li><p><code>StudentID</code> – student identifier</p></li>
+</ul>
+<p>We fit the empty model and summarise with</p>
+<div class="sourceCode" id="cb6" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>Model<span class="fl">.0</span> &lt;-<span class="st"> </span><span class="kw">lmer</span>(Math <span class="op">~</span><span class="st"> </span><span class="dv">1</span><span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>School)<span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>School<span class="op">:</span>Classroom),  </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>           <span class="dt">data=</span>Sim3level)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="kw">summary</span>(Model<span class="fl">.0</span>)</span></code></pre></div>
+<p>We can include the two covariates <code>ActiveTime</code> and <code>ClassSize</code> to give the model: <span class="math display">\[y_{ijk}=\gamma_0 +\beta_1\texttt{ActiveTime}_{ijk}+\beta_2\texttt{ClassSize}_{jk}+u_{jk}+v_k+\epsilon_{ijk}.\]</span> Fitting this model can be achieved with</p>
+<div class="sourceCode" id="cb7" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>Model<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">lmer</span>(Math <span class="op">~</span><span class="st"> </span>ActiveTime<span class="op">+</span>ClassSize</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>           <span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>School)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>           <span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>School<span class="op">:</span>Classroom),  </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>           <span class="dt">data=</span>Sim3level)</span></code></pre></div>
+<p>or equivalently (and more succinctly)</p>
+<div class="sourceCode" id="cb8" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>Model<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">lmer</span>(Math <span class="op">~</span><span class="st"> </span>ActiveTime<span class="op">+</span>ClassSize</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>           <span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>School<span class="op">/</span>Classroom),  </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>           <span class="dt">data=</span>Sim3level)</span></code></pre></div>
+<p>A discussion of the R code output and whether or not the covariates improve fit can be found in the lecture slides.</p>
+</section>
+</section>
+<script>
+function doNumbering() {
+	// The syntax to read the structured data from the yaml is horrible, template literals fix the problem but probably aren't widely supported enough. Escaping line breaks is browser dependant. I don't know if there's a better way?
+	// Note that the data from the yaml file is manipulated into an array, and then parsed back into strings later, but I didn't want to deal with the pandoc templating syntax longer than necessary.
+	var supportedEnvsArrayString = ' .definition;;; .theorem;;; .lemma;;; .example;;; .exampleqed;;; .proposition;;; .remark;;; .corollary;;; .exercise;;; .question';
+	var supportedEnvsArray = supportedEnvsArrayString.split("|||");
+	supportedEnvsArray = supportedEnvsArray.map(inner => inner.split(";;;"));
+	var numberWithin = '1';
+	var counterOffset = '';
+	var subcounterOffset = '';
+	var problemCounter = '';
+	const partLabels = 'abcdefghijklmnopqrstuvwxyz'.split('');
+	
+	// counterOffset may be negative, and by default if specified on the command line this gets string concatenated with the default given in the yaml config and this then causes a problem. Can be fixed by removing the default in the config file and converting to an int, but this causes a NaN error if no value is suplied on the command line, so if NaN set to 0.
+	counterOffset = parseInt(counterOffset);
+	if (isNaN(counterOffset)) {
+		counterOffset = 0;
+	}
+	
+	subcounterOffset = parseInt(subcounterOffset);
+	if (isNaN(subcounterOffset)) {
+		subcounterOffset = 0;
+	}
+	
+	problemCounter = parseInt(problemCounter);
+	if (isNaN(problemCounter)) {
+		problemCounter = 1;
+	}
+	
+	function sanitiseSelector(selector) {
+		// tex labels often have colons in which need escaping. There may be other escaping needed here. Unfortunately neither encodeURI nor encodeURIComponent do what I need, so use regex to do the escaping manually.
+		var sanitised = selector.replace(/\:/g,"\\\:");
+		sanitised = sanitised.replace(/(^[\d])/,"\\3$1 ");
+		sanitised = sanitised.replace(/\//g,"\\\/");
+		return sanitised
+	}
+	
+	function labelLinks() {
+		var refs = document.querySelectorAll("a[data-reference-type=ref]")
+		for (ref of refs) {
+			// Escape colons (or other) from the link title.
+			var ref_label = sanitiseSelector(ref.getAttribute("data-reference"));
+			// Hopefully ref is a reference to a div or a section, which should have the associated id. If so, we just need the data-number from the relevant DOM item.
+			var ref_to = document.querySelector("#"+ref_label);
+			if (ref_to !== null) {
+				var ref_number = ref_to.getAttribute("data-number");
+			} else {
+				// If ref is being used for an equation, then we need to try to parse the mathjax divs. This is fragile, but try to find the span which corresponds to the equation number we need.
+				try {
+					var mathjax_ref = "#mjx-eqn-"+ref_label;
+					ref_to = document.querySelector(mathjax_ref);
+					// Since this is a ref, we don't want the parens to be returned, so find the equation number and strip the parens.
+					var ref_number = ref_to.querySelector(".mjx-char").innerHTML.replace(/[()]/g,"");
+					ref.setAttribute("href",mathjax_ref);
+				}
+				// If we can't find a place to link to, just indicate a missing link.
+				catch (err){
+					var ref_number = "???"
+				}
+			}
+			ref.innerHTML = ref_number;
+		};
+	}
+	
+	function numberEnvs() {
+		for (var levelSpec = 0; levelSpec <= numberWithin; levelSpec++) {
+			var reqLevels = document.querySelectorAll(".level"+levelSpec);
+			for (var level of reqLevels) {
+				levelCount = level.getAttribute("data-number");
+				levelCount = String(parseFloat(levelCount)+(counterOffset));
+				levelCount = levelCount+(("."+subcounterOffset).repeat(numberWithin-levelSpec));
+				for (var counter of supportedEnvsArray) {
+					var envCount = 1;
+					var envs = level.querySelectorAll(counter.join(", "));
+					for (var env of envs) {
+						env.setAttribute("data-number",levelCount+"."+envCount);
+						envCount += 1;
+					}
+				}
+			}
+		}
+	}
+	
+	function numberFigs() {
+		// Figures should either be in a figure environment, or a table with image class imageTable thanks to the tableCaps filter.
+		figs = document.querySelectorAll("figure, .imageTable");
+		var fig_no = 1
+		for (var fig of figs) {
+			var cap
+			// For figures, we want to move the id to the figure, and set the data-number on both the figure and the figcaption
+			if (fig.nodeName == "FIGURE") {
+				cap = fig.querySelector("figcaption");
+				var img = fig.querySelector("img, embed")
+				if (img) {
+					var img_id = img.getAttribute("id");
+					fig.setAttribute("id",img_id);
+					img.removeAttribute("id");
+				}
+			// for tables (which must be .imageTable due to the querySelector above), we want to set the data-number on the table and the caption
+			} else if (fig.nodeName == "TABLE") {
+				cap = fig.querySelector("caption");
+			}
+			cap.setAttribute("data-number",fig_no);
+			fig.setAttribute("data-number",fig_no);
+			fig_no += 1;
+		}
+	}
+	
+	function numberGlobals() {
+		// This function numbers any environments that just use a global counter, such as a problem number on a problems sheet, where there are no sections to number with respect to.
+		probsols = document.querySelectorAll(".problem, .solution");
+		var prob_no = problemCounter;
+		var partNo = 0;
+		for (var probsol of probsols) {
+			if (probsol.className == "problem"){
+				prob_no +=1;
+				partNo = 0;
+				probsol.setAttribute("data-number",prob_no);
+			}
+			else {
+				if (probsol.parentNode.nodeName == "LI") {
+					var partLabel = partLabels[partNo];
+					probsol.setAttribute("data-number",prob_no.toString()+partLabel);
+					partNo +=1;
+				}
+				else{
+					probsol.setAttribute("data-number",prob_no);
+				}
+			}
+			
+		}
+		// sols = document.querySelectorAll(".solution");
+// 		var sol_no = problemCounter;
+// 		for (var sol of sols) {
+// 			sol.setAttribute("data-number",sol_no);
+// 			sol_no +=1
+// 		}
+	}
+	
+	// labelLinks() should occur last, so that the data-numbers have been correctly set first.
+	numberEnvs();
+	numberFigs();
+	numberGlobals();
+	labelLinks();
+}
+</script><script>
+	var imageDir = ''
+	imgs = document.querySelectorAll("img");
+	for (var img of imgs) {
+		imgsrc = img.getAttribute("src");
+		img.setAttribute("src",imageDir.concat(imgsrc));
+	}
+</script></body>
+</html>
