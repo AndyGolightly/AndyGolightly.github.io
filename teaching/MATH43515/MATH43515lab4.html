@@ -1847,6 +1847,10 @@ using <code>lmer()</code>).</p>
 Click for solution
 </summary>
 <p>Remove <code>ClassSize</code> and refit:</p>
+<pre class="r"><code>Model.2 &lt;- lmer(Math ~ ActiveTime
+                 +(1|School/Classroom),  
+                 data=Sim3level)
+summary(Model.2)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
 ## Formula: Math ~ ActiveTime + (1 | School/Classroom)
