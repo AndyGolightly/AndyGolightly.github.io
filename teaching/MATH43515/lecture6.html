@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>lecture6</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/x-mathjax-config">
+  	MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "ams"} } });
+  	// I need to wait until MathJax has finished before running the numbering script
+  	MathJax.Hub.Register.StartupHook("End",function(){doNumbering()});
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#longitudinal-data">Longitudinal data</a></li>
+</ul>
+</nav>
+<section id="longitudinal-data" class="level1 unnumbered">
+<h1 class="unnumbered">Longitudinal data</h1>
+<section id="repeated-measures" class="level3 unnumbered">
+<h3 class="unnumbered">Repeated measures</h3>
+<p>Here, we consider repeated measurements on individuals taken over time. It is intuitively clear that measurements pertaining to a certain individual will exhibit larger correlation than measurements from different individuals.</p>
+<p>This “within-individual-correlation" can again be dealt with by two-level models; but now</p>
+<ul>
+<li><p>The upper level corresponds to individuals.</p></li>
+<li><p>The lower level corresponds to repeated measurements on individuals.</p></li>
+</ul>
+<p> </p>
+<p><strong>Example 1: Oxford Boys data</strong></p>
+<p>This data set contains measurements on the height (in cm) of 26 boys from Oxford, England versus age. Age is measured on a standardized and dimensionless scale with nine possible values, yielding a total of 234 observations.</p>
+<div class="center">
+<p><img src="../graphics2/lect6a.png" title="fig:" id="fig:fig6-1" style="width:7cm;height:6.5cm" alt="Oxford boys data. Scatterplot of height versus age (left) and time-series plot (right)." /> <img src="../graphics2/lect6b.png" title="fig:" id="fig:fig6-1" style="width:7cm;height:6.5cm" alt="Oxford boys data. Scatterplot of height versus age (left) and time-series plot (right)." /></p>
+</div>
+<p> </p>
+<p><strong>Data structures</strong></p>
+<p>For traditional analysis, for software such as SPSS or Excel, repeated measures data are often presented in “wide format”, with a single row of the data frame containing multiple measurements (e.g. heights at different ages). The <em>wide format</em> is impractical for “modern” multilevel modelling, where we need a data frame with <em>one row per measurement</em>, known as the <em>long format</em>. For example:</p>
+<div class="sourceCode" id="cb1" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">head</span>(Oxboys)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="co">##   Grouped Data: height ~ age | Subject</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="co">##          Subject     age         height   Occasion    </span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="co">##      1       1       -1.0000      140.5        1          </span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="co">##      2       1       -0.7479      143.4        2 </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="co">##      3       1        -0.4630     144.8        3 </span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a><span class="co">##      4       1        -0.1643     147.1        4 </span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a><span class="co">##      5       1        -0.0027     147.7        5 </span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a><span class="co">##      6       1         0.2466     150.2        6 </span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a><span class="kw">dim</span>(Oxboys)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a><span class="co">## [1] 234   5</span></span></code></pre></div>
+<p>This format is directly usable in multilevel R functions such as <code>lmer</code>, and allows very straightforward handling of missing values.</p>
+<p> </p>
+<p>The following two plots give fitted models that ignore group structure (left) and account for it using a random intercept model (right). The required R code for fitting is:</p>
+<div class="sourceCode" id="cb2" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co">## Ignore group structure</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>fit1 &lt;-<span class="st"> </span><span class="kw">lm</span>(height <span class="op">~</span><span class="st"> </span>age, <span class="dt">data=</span>Oxboys)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="co">## Random intercept model</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>fit2 &lt;-<span class="st"> </span><span class="kw">lmer</span>(height <span class="op">~</span><span class="st"> </span>age  <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Subject), <span class="dt">data=</span>Oxboys)</span></code></pre></div>
+<div class="center">
+<p><img src="../graphics2/lect6c.png" title="fig:" id="fig:fig6-2" style="width:7cm;height:6.5cm" alt="Oxford boys data. Fit (left) without group structure. Fit (right) of a random intercept model." /> <img src="../graphics2/lect6d.png" title="fig:" id="fig:fig6-2" style="width:7cm;height:6.5cm" alt="Oxford boys data. Fit (left) without group structure. Fit (right) of a random intercept model." /></p>
+</div>
+</section>
+<section id="two-level-model-for-longitudinal-data" class="level3 unnumbered">
+<h3 class="unnumbered">Two level model for longitudinal data</h3>
+<p>Denote by <span class="math inline">\(y_{ti}\)</span> the <span class="math inline">\(t\)</span>-th measurement for individual <span class="math inline">\(i\)</span>, and <span class="math inline">\(T_{ti}\)</span> the time stamp of (which can be measured in continuous or discrete time, or in form of some type of age measurement). Consider the following model: <span class="math display">\[y_{ti}=a_i + b_i T_{ti} + \epsilon_{ti},\qquad \epsilon_{ti}\sim N(0,\sigma^2)\]</span> where, for individual <span class="math inline">\(i\)</span> <span class="math display">\[\begin{aligned}
+a_i &amp;= a + u_i, \qquad u_i\sim N(0,\sigma^2_u),\\
+b_i &amp;= b + v_i, \qquad v_i\sim N(0,\sigma^2_v).\end{aligned}\]</span> We recognise that this is just the same as the two-level model from Lecture 4!</p>
+<p> </p>
+<p><strong>Adding covariates</strong></p>
+<p>There may be other covariates, <span class="math inline">\(x_{ti}\)</span>, beyond “time", specifically, including</p>
+<ul>
+<li><p>a lower-level covariate <span class="math inline">\(x_{ti}\)</span>,</p></li>
+<li><p>an upper (subject)-level covariate <span class="math inline">\(z_i\)</span>.</p></li>
+</ul>
+<p>Hence, the model becomes <span class="math display">\[y_{ti}=a_i + b_i T_{ti} + c_i x_{ti} +\epsilon_{ti},\qquad \epsilon_{ti}\sim N(0,\sigma^2)\]</span> where, for individual <span class="math inline">\(i\)</span> <span class="math display">\[\begin{aligned}
+a_i &amp;= a + \alpha z_i + u_i, \qquad u_i\sim N(0,\sigma^2_u),\\
+b_i &amp;= b + \beta z_i + v_i, \qquad v_i\sim N(0,\sigma^2_v),\\
+c_i &amp;= c + \gamma z_i + w_i, \qquad w_i\sim N(0,\sigma^2_w).\end{aligned}\]</span></p>
+<p> </p>
+<p><strong>Remarks:</strong></p>
+<ul>
+<li><p>Substituting the level 2 expressions for <span class="math inline">\(a_i\)</span>, <span class="math inline">\(b_i\)</span> and <span class="math inline">\(c_i\)</span> into the level 1 equation gives <span class="math display">\[y_{ti} = a + \alpha z_i + u_i + bT_{ti} +\beta z_i T_{ti} +v_i T_{ti} + c x_{ti}+\gamma z_i T_{ti} +w_i x_{ti} +\epsilon_{ti}.\]</span></p></li>
+<li><p>We see the <em>cross-level interactions</em> <span class="math inline">\(\beta z_i T_{ti}\)</span> and <span class="math inline">\(\gamma z_i T_{ti}\)</span>. These will be explored with an example.</p></li>
+<li><p>There may be good reasons to justify such a model, but in practice one will often seek to simplify the model.</p></li>
+</ul>
+<p> </p>
+<p><strong>Example 2: College student GPA data</strong></p>
+<p>We consider a data set consisting of longitudinal observations from 200 college students (<span class="math inline">\(i=1,\ldots,200\)</span>) over six semesters (<span class="math inline">\(t=1,\ldots,6\)</span>).</p>
+<ul>
+<li><p>The response variable is Grade Point average <span class="math inline">\(y_{ti}=gpa_{ti}\)</span> of student <span class="math inline">\(i\)</span> in semester <span class="math inline">\(t\)</span>.</p></li>
+<li><p>The predictor variables (covariates) are Hours worked per day, <span class="math inline">\(x_{ti}=job_{ti}\)</span>, by student <span class="math inline">\(i\)</span> in semester <span class="math inline">\(t\)</span> and gender <span class="math inline">\(z_i=sex_i\)</span> of student <span class="math inline">\(i\)</span> (0=male, 1=female).</p></li>
+<li><p>The Time variable (“measurement occasion") is given by <span class="math inline">\(T_{ti}=occas_{ti}=t-1\)</span>.</p></li>
+</ul>
+<p>The data are plotted below.</p>
+<div class="center">
+<figure>
+<img src="../graphics2/lect6e.png" id="fig:fig6-3" style="width:10cm;height:7.5cm" alt="College student GPA data. GPA against semester." /><figcaption aria-hidden="true">College student GPA data. GPA against semester.</figcaption>
+</figure>
+</div>
+<p>We perform the following analysis.</p>
+<p> </p>
+<p><strong>Intra-class correlation</strong></p>
+<p>We begin by calculating the intra-class correlation to assess whether or not group structure should be accounted for. We therefore fit the empty model via:</p>
+<pre><code>lfit0 &lt;- lmer(formula = gpa ~ 1 + (1|student),data    = gpa.data)
+summary(lfit0) 
+## 
+## Random effects:
+## Groups   Name        Variance Std.Dev.
+## student  (Intercept) 0.05714  0.2390  
+## Residual                 0.09759  0.3124  
+## Number of obs: 1200, groups:  student, 200
+##
+rho0= 0.05714/(0.05714+0.09759)
+rho0
+## [1] 0.3692884</code></pre>
+<p>for which we see that <span class="math inline">\(\pho=0.37\)</span>. About one third of the variance of the GPA measures is variance between individuals, and about two thirds is variance within individuals across time.</p>
+<p> </p>
+<p><strong>Model fitting</strong></p>
+<p>Let’s begin with the full model including the cross-level interactions:</p>
+<div class="sourceCode" id="cb4" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>lfit1 &lt;-<span class="st"> </span><span class="kw">lmer</span>(gpa <span class="op">~</span><span class="st"> </span>occas  <span class="op">+</span><span class="st"> </span>job <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>job<span class="op">:</span>sex <span class="op">+</span><span class="st"> </span>occas<span class="op">:</span>sex <span class="op">+</span><span class="st"> </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="st">  </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>occas <span class="op">+</span><span class="st"> </span>job <span class="op">|</span><span class="st"> </span>student), <span class="dt">data=</span>gpa.data)</span></code></pre></div>
+<p>The notation <code>job:sex</code> represents the term of <span class="math inline">\(\gamma z_i x_{ti}\)</span>, and <code>occas:sex</code> represents <span class="math inline">\(\beta z_i T_{ti}\)</span>. DO we need these terms in the model?</p>
+<pre><code>round(summary(lfit1)$coef, digits=4)
+##      Estimate    Std. Error       df         t value     Pr(&gt;|t|)
+## (Intercept)      2.9110      0.0593  376.8731    49.0640     0.0000
+## occas            0.0852      0.0079  195.2881    10.8429     0.0000
+## job              -0.1604     0.0238  610.9215    -6.7341     0.0000
+## sex              -0.0318     0.0853  446.8028    -0.3727     0.7095
+## job:sex          0.0457      0.0351  650.8235    1.3023      0.1933
+## occas:sex        0.0309      0.0108  195.1070    2.8506      0.0048</code></pre>
+<p>The above table suggests that the <code>job:sex</code> interaction is not needed, but we should retain <span class="math inline">\(\beta z_i T_{ti}\)</span> in the model. The interpretation is that:</p>
+<ul>
+<li><p>The impact of the number of hours worked on the GPA does not depend on gender.</p></li>
+<li><p>The impact of the semester on the GPA does depend on gender.</p></li>
+</ul>
+<p>We now check to see if random slopes are needed via <code>ranova(lfit1)</code> which performs a likelihood ratio test for single term deletions of the random slopes. The (abbreviated) output we need is:</p>
+<div class="sourceCode" id="cb6" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="co">##                  Pr(&gt;Chisq)    </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="co">##  &lt;none&gt;                                             </span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="co">##  occas in (1 + occas + job | student)        &lt; 2e-16 ***</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="co">##  job in (1 + occas + job | student)          0.09782 . </span></span></code></pre></div>
+<p>We see that the random effect term for job is not needed (<span class="math inline">\(p&gt;0.05\)</span>).</p>
+<p>Hence, an appropriate model (after simplification) is: <span class="math display">\[y_{ti}=a_i + b_i T_{ti} + c_i x_{ti} + \epsilon_{ti}\]</span> where <span class="math display">\[\begin{aligned}
+a_i &amp;= a + \alpha z_i + u_i, \qquad u_i\sim N(0,\sigma^2_u),\\
+b_i &amp;= b + \beta z_i + v_i, \qquad v_i\sim N(0,\sigma^2_v),\\
+c_i &amp;= c .\end{aligned}\]</span> Equivalently, <span class="math display">\[y_{ti} = a + \alpha z_i + u_i + bT_{ti} +\beta z_i T_{ti} +v_i T_{ti} + c x_{ti} +\epsilon_{ti}.\]</span></p>
+<p> </p>
+<p><strong>Refitting the simplified model</strong></p>
+<p>After removing the two unnecessary terms, we fit the resulting model with:</p>
+<div class="sourceCode" id="cb7" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>lfit2 &lt;-<span class="st"> </span><span class="kw">lmer</span>(gpa <span class="op">~</span><span class="st"> </span>occas  <span class="op">+</span><span class="st"> </span>job<span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>occas<span class="op">:</span>sex <span class="op">+</span><span class="st"> </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="st"> </span>(occas <span class="op">|</span><span class="st"> </span>student), <span class="dt">data=</span>gpa.data)</span></code></pre></div>
+<p>which can be achieved with the equivalent code:</p>
+<div class="sourceCode" id="cb8" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>lfit2 &lt;-<span class="st"> </span><span class="kw">lmer</span>(gpa <span class="op">~</span><span class="st"> </span>occas<span class="op">*</span>sex  <span class="op">+</span><span class="st"> </span>job<span class="op">+</span><span class="st"> </span>(occas <span class="op">|</span><span class="st"> </span>student), <span class="dt">data=</span>gpa.data)</span></code></pre></div>
+<p>We summarise the output of the model fit as follows.</p>
+<div class="sourceCode" id="cb9" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">summary</span>(lfit2)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a><span class="co">## Random effects:</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a><span class="co">##      Groups   Name        Variance Std.Dev. Corr </span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a><span class="co">##      student  (Intercept) 0.041347 0.20334       </span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a><span class="co">##      occas        0.003676 0.06063   -0.19</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a><span class="co">##      Residual                 0.041597 0.20395       </span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a><span class="co">## Number of obs: 1200, groups:  student, 200</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true"></a><span class="co">##</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true"></a><span class="co">## Fixed effects:</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true"></a><span class="co">##              Estimate    Std. Error         df    t value    Pr(&gt;|t|)    </span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true"></a><span class="co">## (Intercept)  2.849e+00   4.582e-02  9.193e+02  62.177    &lt; 2e-16 ***</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true"></a><span class="co">## occas        8.783e-02   7.994e-03  1.967e+02  10.987    &lt; 2e-16 ***</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true"></a><span class="co">## job          -1.321e-01      1.727e-02  1.035e+03  -7.648        4.65e-14 ***</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true"></a><span class="co">## sex          6.790e-02   3.559e-02  1.979e+02   1.908        0.05787 .  </span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true"></a><span class="co">## occas:sex    2.956e-02   1.102e-02  1.957e+02   2.683        0.00791 **</span></span></code></pre></div>
+<p>Note: The fixed effects slope for sex is not significant at the 5% level, but usually we would not remove a main effect (<code>sex</code>) when keeping an interaction effect involving it (<code>occas:sex</code>).</p>
+<p><strong>Interpretation</strong></p>
+<ul>
+<li><p>The fitted model is <span class="math display">\[\begin{aligned}
+y_{ti} &amp;= a + \alpha z_i + u_i + bT_{ti} +\beta z_i T_{ti} +v_i T_{ti} + c x_{ti} +\epsilon_{ti}\\
+&amp;=2.849+0.068 sex_i + 0.088 occas_{ti} - 0.132 job_{ti} + 0.029 sex_i occas_{ti} +u_i 
++v_i occas_{ti} +\epsilon_{ti}\end{aligned}\]</span> where <span class="math inline">\(u_i\sim N(0, 0.041)\)</span>, <span class="math inline">\(v_i\sim N(0,0.0037)\)</span> and <span class="math inline">\(\epsilon_{ti}\sim N(0, 0.042)\)</span>.</p></li>
+<li><p>The expected GPA is 0.068 higher for female than for male students.</p></li>
+<li><p>The expected GPA decreases by 0.132 for each hour worked.</p></li>
+<li><p>For male students, the expected GPA increases by 0.088 each term.</p></li>
+<li><p>For female students, the expected GPA increases by <span class="math inline">\(0.088+0.029=0.117\)</span> each term.</p></li>
+</ul>
+</section>
+<section id="modelling-strategies" class="level3 unnumbered">
+<h3 class="unnumbered">Modelling strategies</h3>
+<p>The above analysis is an example of a top-down approach to model fitting. There are three widely used approaches that we summarise here.</p>
+<p> </p>
+<p><strong>Bottom-up</strong></p>
+<ol>
+<li><p>Fit the empty model (without covariates, only group-level random intercept). Compute ICC.</p></li>
+<li><p>Include lower-level explanatory variables.</p></li>
+<li><p>Include higher-level explanatory variables.</p></li>
+<li><p>Include random coefficients.</p></li>
+<li><p>Add cross-level interactions.</p></li>
+</ol>
+<p> </p>
+<p><strong>Top-down</strong></p>
+<ol>
+<li><p>Compute the full two-level model including all random effects and cross-level interactions.</p></li>
+<li><p>Remove irrelevant cross-level interactions.</p></li>
+<li><p>Remove irrelevant random slopes.</p></li>
+<li><p>Remove irrelevant higher level covariates.</p></li>
+<li><p>Remove irrelevant lower level covariates.</p></li>
+</ol>
+<p> </p>
+<p><strong>Halfway-in</strong></p>
+<ol>
+<li><p>Carry out an explanatory analysis of the data (may include ICC).</p></li>
+<li><p>Based on this, fit a suitable base model, for instance including the identified fixed effects and a group level intercept.</p></li>
+<li><p>Inspect fitted model, carry out some diagnostics. Simplify or expand model as appropriate.</p></li>
+</ol>
+<p>Irrespective of the approach taken, at each step we make appropriate checks for significance/relevance of terms.</p>
+</section>
+</section>
+<script>
+function doNumbering() {
+	// The syntax to read the structured data from the yaml is horrible, template literals fix the problem but probably aren't widely supported enough. Escaping line breaks is browser dependant. I don't know if there's a better way?
+	// Note that the data from the yaml file is manipulated into an array, and then parsed back into strings later, but I didn't want to deal with the pandoc templating syntax longer than necessary.
+	var supportedEnvsArrayString = ' .definition;;; .theorem;;; .lemma;;; .example;;; .exampleqed;;; .proposition;;; .remark;;; .corollary;;; .exercise;;; .question';
+	var supportedEnvsArray = supportedEnvsArrayString.split("|||");
+	supportedEnvsArray = supportedEnvsArray.map(inner => inner.split(";;;"));
+	var numberWithin = '1';
+	var counterOffset = '';
+	var subcounterOffset = '';
+	var problemCounter = '';
+	const partLabels = 'abcdefghijklmnopqrstuvwxyz'.split('');
+	
+	// counterOffset may be negative, and by default if specified on the command line this gets string concatenated with the default given in the yaml config and this then causes a problem. Can be fixed by removing the default in the config file and converting to an int, but this causes a NaN error if no value is suplied on the command line, so if NaN set to 0.
+	counterOffset = parseInt(counterOffset);
+	if (isNaN(counterOffset)) {
+		counterOffset = 0;
+	}
+	
+	subcounterOffset = parseInt(subcounterOffset);
+	if (isNaN(subcounterOffset)) {
+		subcounterOffset = 0;
+	}
+	
+	problemCounter = parseInt(problemCounter);
+	if (isNaN(problemCounter)) {
+		problemCounter = 1;
+	}
+	
+	function sanitiseSelector(selector) {
+		// tex labels often have colons in which need escaping. There may be other escaping needed here. Unfortunately neither encodeURI nor encodeURIComponent do what I need, so use regex to do the escaping manually.
+		var sanitised = selector.replace(/\:/g,"\\\:");
+		sanitised = sanitised.replace(/(^[\d])/,"\\3$1 ");
+		sanitised = sanitised.replace(/\//g,"\\\/");
+		return sanitised
+	}
+	
+	function labelLinks() {
+		var refs = document.querySelectorAll("a[data-reference-type=ref]")
+		for (ref of refs) {
+			// Escape colons (or other) from the link title.
+			var ref_label = sanitiseSelector(ref.getAttribute("data-reference"));
+			// Hopefully ref is a reference to a div or a section, which should have the associated id. If so, we just need the data-number from the relevant DOM item.
+			var ref_to = document.querySelector("#"+ref_label);
+			if (ref_to !== null) {
+				var ref_number = ref_to.getAttribute("data-number");
+			} else {
+				// If ref is being used for an equation, then we need to try to parse the mathjax divs. This is fragile, but try to find the span which corresponds to the equation number we need.
+				try {
+					var mathjax_ref = "#mjx-eqn-"+ref_label;
+					ref_to = document.querySelector(mathjax_ref);
+					// Since this is a ref, we don't want the parens to be returned, so find the equation number and strip the parens.
+					var ref_number = ref_to.querySelector(".mjx-char").innerHTML.replace(/[()]/g,"");
+					ref.setAttribute("href",mathjax_ref);
+				}
+				// If we can't find a place to link to, just indicate a missing link.
+				catch (err){
+					var ref_number = "???"
+				}
+			}
+			ref.innerHTML = ref_number;
+		};
+	}
+	
+	function numberEnvs() {
+		for (var levelSpec = 0; levelSpec <= numberWithin; levelSpec++) {
+			var reqLevels = document.querySelectorAll(".level"+levelSpec);
+			for (var level of reqLevels) {
+				levelCount = level.getAttribute("data-number");
+				levelCount = String(parseFloat(levelCount)+(counterOffset));
+				levelCount = levelCount+(("."+subcounterOffset).repeat(numberWithin-levelSpec));
+				for (var counter of supportedEnvsArray) {
+					var envCount = 1;
+					var envs = level.querySelectorAll(counter.join(", "));
+					for (var env of envs) {
+						env.setAttribute("data-number",levelCount+"."+envCount);
+						envCount += 1;
+					}
+				}
+			}
+		}
+	}
+	
+	function numberFigs() {
+		// Figures should either be in a figure environment, or a table with image class imageTable thanks to the tableCaps filter.
+		figs = document.querySelectorAll("figure, .imageTable");
+		var fig_no = 1
+		for (var fig of figs) {
+			var cap
+			// For figures, we want to move the id to the figure, and set the data-number on both the figure and the figcaption
+			if (fig.nodeName == "FIGURE") {
+				cap = fig.querySelector("figcaption");
+				var img = fig.querySelector("img, embed")
+				if (img) {
+					var img_id = img.getAttribute("id");
+					fig.setAttribute("id",img_id);
+					img.removeAttribute("id");
+				}
+			// for tables (which must be .imageTable due to the querySelector above), we want to set the data-number on the table and the caption
+			} else if (fig.nodeName == "TABLE") {
+				cap = fig.querySelector("caption");
+			}
+			cap.setAttribute("data-number",fig_no);
+			fig.setAttribute("data-number",fig_no);
+			fig_no += 1;
+		}
+	}
+	
+	function numberGlobals() {
+		// This function numbers any environments that just use a global counter, such as a problem number on a problems sheet, where there are no sections to number with respect to.
+		probsols = document.querySelectorAll(".problem, .solution");
+		var prob_no = problemCounter;
+		var partNo = 0;
+		for (var probsol of probsols) {
+			if (probsol.className == "problem"){
+				prob_no +=1;
+				partNo = 0;
+				probsol.setAttribute("data-number",prob_no);
+			}
+			else {
+				if (probsol.parentNode.nodeName == "LI") {
+					var partLabel = partLabels[partNo];
+					probsol.setAttribute("data-number",prob_no.toString()+partLabel);
+					partNo +=1;
+				}
+				else{
+					probsol.setAttribute("data-number",prob_no);
+				}
+			}
+			
+		}
+		// sols = document.querySelectorAll(".solution");
+// 		var sol_no = problemCounter;
+// 		for (var sol of sols) {
+// 			sol.setAttribute("data-number",sol_no);
+// 			sol_no +=1
+// 		}
+	}
+	
+	// labelLinks() should occur last, so that the data-numbers have been correctly set first.
+	numberEnvs();
+	numberFigs();
+	numberGlobals();
+	labelLinks();
+}
+</script><script>
+	var imageDir = ''
+	imgs = document.querySelectorAll("img");
+	for (var img of imgs) {
+		imgsrc = img.getAttribute("src");
+		img.setAttribute("src",imageDir.concat(imgsrc));
+	}
+</script></body>
+</html>
