@@ -161,7 +161,7 @@ c_i &amp;= c + \gamma z_i + w_i, \qquad w_i\sim N(0,\sigma^2_w).\end{aligned}\]<
 <p>We consider a data set consisting of longitudinal observations from 200 college students (<span class="math inline">\(i=1,\ldots,200\)</span>) over six semesters (<span class="math inline">\(t=1,\ldots,6\)</span>).</p>
 <ul>
 <li><p>The response variable is Grade Point average <span class="math inline">\(y_{ti}=gpa_{ti}\)</span> of student <span class="math inline">\(i\)</span> in semester <span class="math inline">\(t\)</span>.</p></li>
-<li><p>The predictor variables (covariates) are Hours worked per day, <span class="math inline">\(x_{ti}=job_{ti}\)</span>, by student <span class="math inline">\(i\)</span> in semester <span class="math inline">\(t\)</span> and gender <span class="math inline">\(z_i=sex_i\)</span> of student <span class="math inline">\(i\)</span> (0=male, 1=female).</p></li>
+<li><p>The predictor variables (covariates) are Hours worked per day, <span class="math inline">\(x_{ti}=job_{ti}\)</span>, by student <span class="math inline">\(i\)</span> in semester <span class="math inline">\(t\)</span> and gender <span class="math inline">\(z_i=gend_i\)</span> of student <span class="math inline">\(i\)</span> (0=male, 1=female).</p></li>
 <li><p>The Time variable (“measurement occasion") is given by <span class="math inline">\(T_{ti}=occas_{ti}=t-1\)</span>.</p></li>
 </ul>
 <p>The data are plotted below.</p>
@@ -190,18 +190,18 @@ rho0
 <p> </p>
 <p><strong>Model fitting</strong></p>
 <p>Let’s begin with the full model including the cross-level interactions:</p>
-<div class="sourceCode" id="cb4" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>lfit1 &lt;-<span class="st"> </span><span class="kw">lmer</span>(gpa <span class="op">~</span><span class="st"> </span>occas  <span class="op">+</span><span class="st"> </span>job <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>job<span class="op">:</span>sex <span class="op">+</span><span class="st"> </span>occas<span class="op">:</span>sex <span class="op">+</span><span class="st"> </span></span>
+<div class="sourceCode" id="cb4" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>lfit1 &lt;-<span class="st"> </span><span class="kw">lmer</span>(gpa <span class="op">~</span><span class="st"> </span>occas  <span class="op">+</span><span class="st"> </span>job <span class="op">+</span><span class="st"> </span>gend <span class="op">+</span><span class="st"> </span>job<span class="op">:</span>gend <span class="op">+</span><span class="st"> </span>occas<span class="op">:</span>gend <span class="op">+</span><span class="st"> </span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="st">  </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>occas <span class="op">+</span><span class="st"> </span>job <span class="op">|</span><span class="st"> </span>student), <span class="dt">data=</span>gpa.data)</span></code></pre></div>
-<p>The notation <code>job:sex</code> represents the term of <span class="math inline">\(\gamma z_i x_{ti}\)</span>, and <code>occas:sex</code> represents <span class="math inline">\(\beta z_i T_{ti}\)</span>. DO we need these terms in the model?</p>
+<p>The notation <code>job:gend</code> represents the term of <span class="math inline">\(\gamma z_i x_{ti}\)</span>, and <code>occas:gend</code> represents <span class="math inline">\(\beta z_i T_{ti}\)</span>. DO we need these terms in the model?</p>
 <pre><code>round(summary(lfit1)$coef, digits=4)
-##      Estimate    Std. Error       df         t value     Pr(&gt;|t|)
-## (Intercept)      2.9110      0.0593  376.8731    49.0640     0.0000
-## occas            0.0852      0.0079  195.2881    10.8429     0.0000
-## job              -0.1604     0.0238  610.9215    -6.7341     0.0000
-## sex              -0.0318     0.0853  446.8028    -0.3727     0.7095
-## job:sex          0.0457      0.0351  650.8235    1.3023      0.1933
-## occas:sex        0.0309      0.0108  195.1070    2.8506      0.0048</code></pre>
-<p>The above table suggests that the <code>job:sex</code> interaction is not needed, but we should retain <span class="math inline">\(\beta z_i T_{ti}\)</span> in the model. The interpretation is that:</p>
+##          Estimate    Std. Error       df         t value     Pr(&gt;|t|)
+## (Intercept)   2.9110         0.0593      376.8731    49.0640     0.0000
+## occas         0.0852         0.0079      195.2881    10.8429     0.0000
+## job          -0.1604         0.0238      610.9215    -6.7341     0.0000
+## gend         -0.0318         0.0853      446.8028    -0.3727     0.7095
+## job:gend      0.0457         0.0351      650.8235    1.3023      0.1933
+## occas:gend    0.0309         0.0108      195.1070    2.8506      0.0048</code></pre>
+<p>The above table suggests that the <code>job:gend</code> interaction is not needed, but we should retain <span class="math inline">\(\beta z_i T_{ti}\)</span> in the model. The interpretation is that:</p>
 <ul>
 <li><p>The impact of the number of hours worked on the GPA does not depend on gender.</p></li>
 <li><p>The impact of the semester on the GPA does depend on gender.</p></li>
@@ -219,10 +219,10 @@ c_i &amp;= c .\end{aligned}\]</span> Equivalently, <span class="math display">\[
 <p> </p>
 <p><strong>Refitting the simplified model</strong></p>
 <p>After removing the two unnecessary terms, we fit the resulting model with:</p>
-<div class="sourceCode" id="cb7" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>lfit2 &lt;-<span class="st"> </span><span class="kw">lmer</span>(gpa <span class="op">~</span><span class="st"> </span>occas  <span class="op">+</span><span class="st"> </span>job<span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>occas<span class="op">:</span>sex <span class="op">+</span><span class="st"> </span></span>
+<div class="sourceCode" id="cb7" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>lfit2 &lt;-<span class="st"> </span><span class="kw">lmer</span>(gpa <span class="op">~</span><span class="st"> </span>occas  <span class="op">+</span><span class="st"> </span>job<span class="op">+</span><span class="st"> </span>gend <span class="op">+</span><span class="st"> </span>occas<span class="op">:</span>gend <span class="op">+</span><span class="st"> </span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="st"> </span>(occas <span class="op">|</span><span class="st"> </span>student), <span class="dt">data=</span>gpa.data)</span></code></pre></div>
 <p>which can be achieved with the equivalent code:</p>
-<div class="sourceCode" id="cb8" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>lfit2 &lt;-<span class="st"> </span><span class="kw">lmer</span>(gpa <span class="op">~</span><span class="st"> </span>occas<span class="op">*</span>sex  <span class="op">+</span><span class="st"> </span>job<span class="op">+</span><span class="st"> </span>(occas <span class="op">|</span><span class="st"> </span>student), <span class="dt">data=</span>gpa.data)</span></code></pre></div>
+<div class="sourceCode" id="cb8" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>lfit2 &lt;-<span class="st"> </span><span class="kw">lmer</span>(gpa <span class="op">~</span><span class="st"> </span>occas<span class="op">*</span>gend  <span class="op">+</span><span class="st"> </span>job<span class="op">+</span><span class="st"> </span>(occas <span class="op">|</span><span class="st"> </span>student), <span class="dt">data=</span>gpa.data)</span></code></pre></div>
 <p>We summarise the output of the model fit as follows.</p>
 <div class="sourceCode" id="cb9" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">summary</span>(lfit2)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a><span class="co">## Random effects:</span></span>
@@ -236,15 +236,15 @@ c_i &amp;= c .\end{aligned}\]</span> Equivalently, <span class="math display">\[
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true"></a><span class="co">##              Estimate    Std. Error         df    t value    Pr(&gt;|t|)    </span></span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true"></a><span class="co">## (Intercept)  2.849e+00   4.582e-02  9.193e+02  62.177    &lt; 2e-16 ***</span></span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true"></a><span class="co">## occas        8.783e-02   7.994e-03  1.967e+02  10.987    &lt; 2e-16 ***</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true"></a><span class="co">## job          -1.321e-01      1.727e-02  1.035e+03  -7.648        4.65e-14 ***</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true"></a><span class="co">## sex          6.790e-02   3.559e-02  1.979e+02   1.908        0.05787 .  </span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true"></a><span class="co">## occas:sex    2.956e-02   1.102e-02  1.957e+02   2.683        0.00791 **</span></span></code></pre></div>
-<p>Note: The fixed effects slope for sex is not significant at the 5% level, but usually we would not remove a main effect (<code>sex</code>) when keeping an interaction effect involving it (<code>occas:sex</code>).</p>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true"></a><span class="co">## job         -1.321e-01  1.727e-02  1.035e+03  -7.648   4.65e-14 ***</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true"></a><span class="co">## gend         6.790e-02   3.559e-02  1.979e+02   1.908        0.05787 .  </span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true"></a><span class="co">## occas:gend   2.956e-02   1.102e-02  1.957e+02   2.683        0.00791 **</span></span></code></pre></div>
+<p>Note: The fixed effects slope for gend is not significant at the 5% level, but usually we would not remove a main effect (<code>gend</code>) when keeping an interaction effect involving it (<code>occas:gend</code>).</p>
 <p><strong>Interpretation</strong></p>
 <ul>
 <li><p>The fitted model is <span class="math display">\[\begin{aligned}
 y_{ti} &amp;= a + \alpha z_i + u_i + bT_{ti} +\beta z_i T_{ti} +v_i T_{ti} + c x_{ti} +\epsilon_{ti}\\
-&amp;=2.849+0.068 sex_i + 0.088 occas_{ti} - 0.132 job_{ti} + 0.029 sex_i occas_{ti} +u_i 
+&amp;=2.849+0.068 gend_i + 0.088 occas_{ti} - 0.132 job_{ti} + 0.029 gend_i occas_{ti} +u_i 
 +v_i occas_{ti} +\epsilon_{ti}\end{aligned}\]</span> where <span class="math inline">\(u_i\sim N(0, 0.041)\)</span>, <span class="math inline">\(v_i\sim N(0,0.0037)\)</span> and <span class="math inline">\(\epsilon_{ti}\sim N(0, 0.042)\)</span>.</p></li>
 <li><p>The expected GPA is 0.068 higher for female than for male students.</p></li>
 <li><p>The expected GPA decreases by 0.132 for each hour worked.</p></li>
