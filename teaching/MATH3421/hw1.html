@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>hw1</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/x-mathjax-config">
+  	MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "ams"} } });
+  	// I need to wait until MathJax has finished before running the numbering script
+  	MathJax.Hub.Register.StartupHook("End",function(){doNumbering()});
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#formative-problems-1">Formative problems 1</a></li>
+</ul>
+</nav>
+<section id="formative-problems-1" class="level2 unnumbered">
+<h2 class="unnumbered">Formative problems 1</h2>
+<p><strong>Submit solutions to Q3, Q4, Q6.</strong></p>
+<ol>
+<li><p>Beta particles are emitted independently from a nuclear source. Let <span class="math inline">\(X_i\)</span> denote the time between the emission of the <span class="math inline">\((i-1)\)</span>th and <span class="math inline">\(i\)</span>th particle (<span class="math inline">\(i=1,2,\ldots)\)</span> in minutes. The density of each <span class="math inline">\(X_i\)</span> is given by <span class="math display">\[f_{1}(x|\theta)=\left\{ \begin{array}{ll}
+\theta\exp\{-\theta x\} &amp; x&gt;0,\, \theta&gt;0,\\
+0 &amp; \textrm{otherwise}.
+\end{array}\right.\]</span> When you first obtain the data you find that you have only been given the number <span class="math inline">\(y_j\)</span> of emissions in the interval <span class="math inline">\((j-1,j]\)</span>. You know, however, that from the above, <span class="math inline">\(Y_j\)</span> (<span class="math inline">\(j=1,2,\ldots\)</span>) are independent with the following mass function, <span class="math display">\[f_{2}(y|\theta)=\left\{ \begin{array}{ll}
+\frac{\theta^y}{y!}\exp\{-\theta\} &amp; y=0,1,2,\ldots \, \theta&gt;0,\\
+0 &amp; \textrm{otherwise}.
+\end{array}\right.\]</span> The last observation arrives exactly on the <span class="math inline">\(n\)</span>th minute. Your prior distribution for <span class="math inline">\(\theta\)</span> is a <span class="math inline">\(\textrm{Gamma}(a,b)\)</span>, with density <span class="math display">\[\pi(\theta)\propto \left\{ \begin{array}{ll}
+\theta^{a-1}\exp\{-b\theta\} &amp; \theta,a,b&gt;0,\\
+0 &amp; \textrm{otherwise}.
+\end{array}\right.\]</span></p>
+<p>(a) Find the posterior distribution for <span class="math inline">\(\theta\)</span> using <span class="math inline">\(y_1,\ldots,y_n\)</span>.</p>
+<p>(b) Find the posterior distribution for <span class="math inline">\(\theta\)</span> using <span class="math inline">\(x_1,\ldots,x_m\)</span> where <span class="math inline">\(m\)</span> is the total number of particle emissions.</p>
+<p>(c) Explain why the two analyses give the same inferences on <span class="math inline">\(\theta\)</span>.</p>
+<p>(d) If <span class="math inline">\(a&gt;1\)</span>, express the posterior mode of <span class="math inline">\(\theta\)</span> as a weighted average of <span class="math inline">\(\bar{y}\)</span> and the prior mode (where the weight <span class="math inline">\(\rho\)</span> depends only on <span class="math inline">\(b/n\)</span>). You may assume (without proof) that the mode of a <span class="math inline">\(\textrm{Gamma}(a,b)\)</span> random variable is <span class="math inline">\((a-1)/b\)</span> for <span class="math inline">\(a&gt;1\)</span>.</p></li>
+<li><p>Describe a Monte Carlo algorithm to calculate the normalising constant <span class="math inline">\(f(\boldsymbol{x})\)</span> in a Bayesian analysis. You should assume that the prior distribution <span class="math inline">\(\pi(\theta)\)</span> is easy to directly simulate from.</p></li>
+<li><p>Describe a weighted resampling algorithm for generating draws from a posterior <span class="math inline">\(\pi(\theta|\boldsymbol{x})\)</span> (known up to proportionality) using a proposal with density <span class="math inline">\(\pi(\theta)\)</span>, i.e. the prior. What are the weights? How can the weights be used to estimate the unknown normalising constant <span class="math inline">\(f(\boldsymbol{x})\)</span>?</p>
+<p><strong>[8 marks]</strong></p></li>
+<li><p>Recall the detailed balance equation for a continuous state-space Markov chain: <span class="math display">\[\pi(x)p(y|x)=\pi(y)p(x|y)\quad\forall x, y\in \mathcal{X}.\]</span> By integrating both sides with respect to <span class="math inline">\(x\)</span>, show that <span class="math inline">\(\pi(\cdot)\)</span> is a stationary distribution of the chain.</p>
+<p><strong>[4 marks]</strong></p></li>
+<li><p>Consider the AR(1) process: <span class="math display">\[X_{n+1} = \alpha X_{n}+\epsilon_{n+1}, \quad\epsilon_{n+1}\overset{\textrm{indep}}{\sim} N(0,\sigma^2), \quad |\alpha|&lt;1.\]</span></p>
+<p>(a) Find the stationary mean and variance. Hint: in equilibrium, <span class="math inline">\(\mathbb{E}(X_{n+1})=\mathbb{E}(X_n)\)</span> and <span class="math inline">\(\mathrm{Var}(X_{n+1})=\mathrm{Var}(X_n)\)</span>.</p>
+<p>(b) Suppose that <span class="math inline">\(\pi(x)\)</span> is taken to be a Gaussian density with mean and variance from part (a). Show that detailed balance is satisfied for this <span class="math inline">\(\pi(x)\)</span>. Hint: note the form of the transition density derived in the lecture notes.</p></li>
+<li><p>Consider a Markov chain: <span class="math display">\[X_{n+1} = \alpha X_{n}+\epsilon_{n+1}, 
+\quad \epsilon_{n+1}\overset{\textrm{indep}}{\sim}\textrm{Exp}(\lambda), \quad\alpha\in(0,1), \quad\lambda&gt;0.\]</span></p>
+<p>(a) What is the transition kernel (density form) <span class="math inline">\(p(y|x)\)</span> of the chain?</p>
+<p>(b) Suppose that you are able to generate <span class="math inline">\(\textrm{Exp}(1)\)</span> random draws. Given <span class="math inline">\(X_0=1\)</span>, describe an algorithm for simulating the Markov chain up to step <span class="math inline">\(N\)</span>. [Do not write any code.]</p>
+<p><strong>[8 marks]</strong></p></li>
+</ol>
+<p><strong>[TOTAL: 20 marks]</strong></p>
+</section>
+<script>
+function doNumbering() {
+	// The syntax to read the structured data from the yaml is horrible, template literals fix the problem but probably aren't widely supported enough. Escaping line breaks is browser dependant. I don't know if there's a better way?
+	// Note that the data from the yaml file is manipulated into an array, and then parsed back into strings later, but I didn't want to deal with the pandoc templating syntax longer than necessary.
+	var supportedEnvsArrayString = ' .definition;;; .theorem;;; .lemma;;; .example;;; .exampleqed;;; .proposition;;; .remark;;; .corollary;;; .exercise;;; .question';
+	var supportedEnvsArray = supportedEnvsArrayString.split("|||");
+	supportedEnvsArray = supportedEnvsArray.map(inner => inner.split(";;;"));
+	var numberWithin = '1';
+	var counterOffset = '';
+	var subcounterOffset = '';
+	var problemCounter = '';
+	const partLabels = 'abcdefghijklmnopqrstuvwxyz'.split('');
+	
+	// counterOffset may be negative, and by default if specified on the command line this gets string concatenated with the default given in the yaml config and this then causes a problem. Can be fixed by removing the default in the config file and converting to an int, but this causes a NaN error if no value is suplied on the command line, so if NaN set to 0.
+	counterOffset = parseInt(counterOffset);
+	if (isNaN(counterOffset)) {
+		counterOffset = 0;
+	}
+	
+	subcounterOffset = parseInt(subcounterOffset);
+	if (isNaN(subcounterOffset)) {
+		subcounterOffset = 0;
+	}
+	
+	problemCounter = parseInt(problemCounter);
+	if (isNaN(problemCounter)) {
+		problemCounter = 1;
+	}
+	
+	function sanitiseSelector(selector) {
+		// tex labels often have colons in which need escaping. There may be other escaping needed here. Unfortunately neither encodeURI nor encodeURIComponent do what I need, so use regex to do the escaping manually.
+		var sanitised = selector.replace(/\:/g,"\\\:");
+		sanitised = sanitised.replace(/(^[\d])/,"\\3$1 ");
+		sanitised = sanitised.replace(/\//g,"\\\/");
+		return sanitised
+	}
+	
+	function labelLinks() {
+		var refs = document.querySelectorAll("a[data-reference-type=ref]")
+		for (ref of refs) {
+			// Escape colons (or other) from the link title.
+			var ref_label = sanitiseSelector(ref.getAttribute("data-reference"));
+			// Hopefully ref is a reference to a div or a section, which should have the associated id. If so, we just need the data-number from the relevant DOM item.
+			var ref_to = document.querySelector("#"+ref_label);
+			if (ref_to !== null) {
+				var ref_number = ref_to.getAttribute("data-number");
+			} else {
+				// If ref is being used for an equation, then we need to try to parse the mathjax divs. This is fragile, but try to find the span which corresponds to the equation number we need.
+				try {
+					var mathjax_ref = "#mjx-eqn-"+ref_label;
+					ref_to = document.querySelector(mathjax_ref);
+					// Since this is a ref, we don't want the parens to be returned, so find the equation number and strip the parens.
+					var ref_number = ref_to.querySelector(".mjx-char").innerHTML.replace(/[()]/g,"");
+					ref.setAttribute("href",mathjax_ref);
+				}
+				// If we can't find a place to link to, just indicate a missing link.
+				catch (err){
+					var ref_number = "???"
+				}
+			}
+			ref.innerHTML = ref_number;
+		};
+	}
+	
+	function numberEnvs() {
+		for (var levelSpec = 0; levelSpec <= numberWithin; levelSpec++) {
+			var reqLevels = document.querySelectorAll(".level"+levelSpec);
+			for (var level of reqLevels) {
+				levelCount = level.getAttribute("data-number");
+				levelCount = String(parseFloat(levelCount)+(counterOffset));
+				levelCount = levelCount+(("."+subcounterOffset).repeat(numberWithin-levelSpec));
+				for (var counter of supportedEnvsArray) {
+					var envCount = 1;
+					var envs = level.querySelectorAll(counter.join(", "));
+					for (var env of envs) {
+						env.setAttribute("data-number",levelCount+"."+envCount);
+						envCount += 1;
+					}
+				}
+			}
+		}
+	}
+	
+	function numberFigs() {
+		// Figures should either be in a figure environment, or a table with image class imageTable thanks to the tableCaps filter.
+		figs = document.querySelectorAll("figure, .imageTable");
+		var fig_no = 1
+		for (var fig of figs) {
+			var cap
+			// For figures, we want to move the id to the figure, and set the data-number on both the figure and the figcaption
+			if (fig.nodeName == "FIGURE") {
+				cap = fig.querySelector("figcaption");
+				var img = fig.querySelector("img, embed")
+				if (img) {
+					var img_id = img.getAttribute("id");
+					fig.setAttribute("id",img_id);
+					img.removeAttribute("id");
+				}
+			// for tables (which must be .imageTable due to the querySelector above), we want to set the data-number on the table and the caption
+			} else if (fig.nodeName == "TABLE") {
+				cap = fig.querySelector("caption");
+			}
+			cap.setAttribute("data-number",fig_no);
+			fig.setAttribute("data-number",fig_no);
+			fig_no += 1;
+		}
+	}
+	
+	function numberGlobals() {
+		// This function numbers any environments that just use a global counter, such as a problem number on a problems sheet, where there are no sections to number with respect to.
+		probsols = document.querySelectorAll(".problem, .solution");
+		var prob_no = problemCounter;
+		var partNo = 0;
+		for (var probsol of probsols) {
+			if (probsol.className == "problem"){
+				prob_no +=1;
+				partNo = 0;
+				probsol.setAttribute("data-number",prob_no);
+			}
+			else {
+				if (probsol.parentNode.nodeName == "LI") {
+					var partLabel = partLabels[partNo];
+					probsol.setAttribute("data-number",prob_no.toString()+partLabel);
+					partNo +=1;
+				}
+				else{
+					probsol.setAttribute("data-number",prob_no);
+				}
+			}
+			
+		}
+		// sols = document.querySelectorAll(".solution");
+// 		var sol_no = problemCounter;
+// 		for (var sol of sols) {
+// 			sol.setAttribute("data-number",sol_no);
+// 			sol_no +=1
+// 		}
+	}
+	
+	// labelLinks() should occur last, so that the data-numbers have been correctly set first.
+	numberEnvs();
+	numberFigs();
+	numberGlobals();
+	labelLinks();
+}
+</script><script>
+	var imageDir = ''
+	imgs = document.querySelectorAll("img");
+	for (var img of imgs) {
+		imgsrc = img.getAttribute("src");
+		img.setAttribute("src",imageDir.concat(imgsrc));
+	}
+</script></body>
+</html>
