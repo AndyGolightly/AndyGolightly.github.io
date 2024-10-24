@@ -40,8 +40,8 @@
 <section id="preliminaries" class="level2 unnumbered">
 <h2 class="unnumbered">Preliminaries</h2>
 <ol>
-<li><p>Suppose that <span class="math inline">\(X\sim N(\mu,\sigma^2)\)</span>. Let <span class="math inline">\(Y=\exp(X)\)</span>. Derive the probability density function (pdf) of the random variable <span class="math inline">\(Y\)</span>.<br />
-(Note that <span class="math inline">\(Y\)</span> follows a lognormal distribution and we write <span class="math inline">\(Y\sim logN(\mu,\sigma^2)\)</span>.)</p></li>
+<li><p>Suppose that <span class="math inline">\(X\sim \text{N}(\mu,\sigma^2)\)</span>. Let <span class="math inline">\(Y=\exp(X)\)</span>. Derive the probability density function (pdf) of the random variable <span class="math inline">\(Y\)</span>.<br />
+(Note that <span class="math inline">\(Y\)</span> follows a lognormal distribution and we write <span class="math inline">\(Y\sim \text{logN}(\mu,\sigma^2)\)</span>.)</p></li>
 <li><p>Consider two continuous random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> with joint pdf <span class="math inline">\(f_{X,Y}(x,y)\)</span>. Suppose that we can simulate from <span class="math inline">\(f_{X}(x)\)</span> and <span class="math inline">\(f_{Y|X}(y|x)\)</span> but we want to simulate from the marginal for <span class="math inline">\(Y\)</span>, <span class="math inline">\(f_{Y}(y)\)</span>. Consider a strategy that first draws <span class="math inline">\(x\)</span> from <span class="math inline">\(f_{X}(x)\)</span> and then <span class="math inline">\(\tilde{y}\)</span> from <span class="math inline">\(f_{Y|X}(y|x)\)</span>. Show that the corresponding random variable <span class="math inline">\(\tilde{Y}\)</span> has the same distribution as <span class="math inline">\(Y\)</span>.<br />
 Hint: show that <span class="math inline">\(f_{\tilde{Y}}(\tilde{y})=f_Y(\tilde{y})\)</span>.</p></li>
 </ol>
@@ -88,11 +88,11 @@ Hint: show that <span class="math inline">\(f_{\tilde{Y}}(\tilde{y})=f_Y(\tilde{
 </div>
 <p>Let <span class="math inline">\(X_t=\log Y_t\)</span>, <span class="math inline">\(t=0,\ldots,n\)</span> and suppose we adopt a model of the form <span class="math display">\[\begin{aligned}
 X_0 &amp;\sim p(x_0),\\
-X_t&amp;=X_{t-1}+\epsilon_t, \quad \epsilon_t \overset{\textrm{indep}}{\sim} N(0,\sigma^2), \quad t=1,\ldots,n.\end{aligned}\]</span></p>
+X_t&amp;=X_{t-1}+\epsilon_t, \quad \epsilon_t \overset{\textrm{indep}}{\sim} \text{N}(0,\sigma^2), \quad t=1,\ldots,n.\end{aligned}\]</span></p>
 <ol>
 <li><p>Derive the transition density <span class="math inline">\(p(y_t|y_{t-1},\sigma)\)</span>.</p></li>
 <li><p>Briefly explain how you would simulate a single realisation <span class="math inline">\(\{Y_t\}_{t=0}^{n}\)</span> from the model. Do not write any code.</p></li>
-<li><p>You are given that <span class="math inline">\(\sum_{t=1}^{25} [\log (y_t/y_{t-1})]^2 = 0.0305\)</span>. Let <span class="math inline">\(\tau=1/\sigma^{2}\)</span> and suppose <span class="math inline">\(\tau\sim Ga(10,0.01)\)</span> <em>a priori</em>. Derive the posterior distribution of <span class="math inline">\(\tau\)</span>. You may assume that the density of <span class="math inline">\(X_0\)</span> (and therefore <span class="math inline">\(Y_0\)</span>) does not depend on <span class="math inline">\(\tau\)</span>.</p></li>
+<li><p>You are given that <span class="math inline">\(\sum_{t=1}^{25} [\log (y_t/y_{t-1})]^2 = 0.0305\)</span>. Let <span class="math inline">\(\tau=1/\sigma^{2}\)</span> and suppose <span class="math inline">\(\tau\sim \text{Gamma}(10,0.01)\)</span> <em>a priori</em>. Derive the posterior distribution of <span class="math inline">\(\tau\)</span>. You may assume that the density of <span class="math inline">\(X_0\)</span> (and therefore <span class="math inline">\(Y_0\)</span>) does not depend on <span class="math inline">\(\tau\)</span>.</p></li>
 <li><p>Hence write down the posterior distribution of <span class="math inline">\(\sigma^2\)</span>.</p></li>
 <li><p>The posterior predictive distribution of <span class="math inline">\(Y_{26}\)</span> has pdf given by <span class="math display">\[\pi(y_{26}|\boldsymbol{y})=\int_{0}^{\infty} p(y_{26}|y_{25},\tau)\pi(\tau|\boldsymbol{y})d\tau.\]</span> By appealing to the technique given in part 2., describe an algorithm for generating iid samples <span class="math inline">\(y_{26}^{(1)},\ldots,y_{26}^{(N)}\)</span> from the predictive distribution of <span class="math inline">\(Y_{26}\)</span>.</p></li>
 <li><p>How could your approach in part 5. be extended to generate samples from the predictive distribution of <span class="math inline">\(Y_T\)</span> where <span class="math inline">\(T&gt;25\)</span>?</p></li>
