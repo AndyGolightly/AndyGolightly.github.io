@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>hw2sols</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/x-mathjax-config">
+  	MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "ams"} } });
+  	// I need to wait until MathJax has finished before running the numbering script
+  	MathJax.Hub.Register.StartupHook("End",function(){doNumbering()});
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#formative-problems-2-solutions">Formative problems 2 solutions</a></li>
+</ul>
+</nav>
+<section id="formative-problems-2-solutions" class="level1 unnumbered">
+<h1 class="unnumbered">Formative problems 2 solutions</h1>
+<ol>
+<li><p>(a) From the R code, and in particular, the (logarithm of the) acceptance probability, we identify <span class="math display">\[\pi(x)\propto \exp(-|x|), \quad x\in \mathbb{R}.\]</span> Let <span class="math inline">\(k\)</span> denote the normalising constant. Then <span class="math display">\[\begin{aligned}
+k&amp;=\int_{-\infty}^0 \exp(x) + \int_{0}^\infty \exp(-x)\\
+&amp;=[\exp(x)]_{-\infty}^0 - [\exp(-x)]_0^{\infty}\\
+&amp;=2.\end{aligned}\]</span> Hence, <span class="math display">\[\pi(x)= \frac{1}{2}\exp(-|x|), \quad x\in \mathbb{R}.\]</span></p>
+<p>(b) The proposal is a random walk with normal innovations, hence <span class="math inline">\(q(x^*|x)=N(x^*; x,\sigma^2)\)</span>. This density can be easily given explicitly.</p></li>
+<li><p>(a)</p>
+<p>(i) First note that the proposal density is <span class="math inline">\(q(\theta^*)=2/\pi\)</span> with the same support as <span class="math inline">\(f(\theta)\)</span>. Hence, the ratio of proposal densities in the acceptance probability will be 1.</p>
+<p>Now, the steps required are:</p>
+<ol>
+<li><p>Initialise the chain somewhere in the support of <span class="math inline">\(f(\theta)\)</span> e.g. <span class="math inline">\(\pi/4\)</span>. Set the iteration counter <span class="math inline">\(j=1\)</span>.</p></li>
+<li><p>Propose <span class="math inline">\(\theta^*\sim U(0,\pi/2)\)</span>.</p></li>
+<li><p>Evaluate the <em>acceptance probability</em> <span class="math inline">\(\alpha(\theta^{*}|\theta^{(j-1)})\)</span> of the proposed move, <span class="math display">\[\alpha(\theta^{*}|\theta)=\textrm{min}\left\{ 1, 
+\frac{\sin(\theta^*)}{\sin(\theta^{(j-1)})} \right\}.\]</span></p></li>
+<li><p>Put <span class="math inline">\(\theta^{(j)}=\theta^{*}\)</span> with probability <span class="math inline">\(\alpha(\theta^{*}|\theta^{(j-1)})\)</span>; otherwise put <span class="math inline">\(\theta^{(j)}=\theta^{(j-1)}\)</span>.</p></li>
+<li><p>If <span class="math inline">\(j=N\)</span> stop, otherwise put <span class="math inline">\(j\)</span> to <span class="math inline">\(j+1\)</span> and go to step 2.</p></li>
+</ol>
+<p>(ii) We have that <span class="math display">\[\begin{aligned}
+\mathbb{P}(\textrm{move}|\theta)&amp;= \int_{0}^{\pi/2} \alpha(\phi|\theta) q(\phi)d\phi\\
+&amp;=\int_{0}^{\pi/2} \min\left\{1,\frac{\sin\phi}{\sin\theta}\right\}\times \frac{2}{\pi}d\phi\\
+&amp;=\frac{2}{\pi}\int_{0}^{\theta}\frac{\sin\phi}{\sin\theta}d\phi +\frac{2}{\pi}\int_{\theta}^{\pi/2} d\phi\end{aligned}\]</span> where the first term in the last line is the case that <span class="math inline">\(\phi&lt;\theta\)</span> and the second is for <span class="math inline">\(\phi&gt;\theta\)</span>. Hence, we obtain <span class="math display">\[\begin{aligned}
+\mathbb{P}(\textrm{move}|\theta)&amp;= \frac{2}{\pi}\left[-\frac{\cos\phi}{\sin\theta}\right]_0^\theta + \frac{2}{\pi}\left[\phi\right]_\theta^{\pi/2}\\
+&amp;=\frac{2}{\pi} \left(\frac{1-\cos\theta}{\sin\theta}-\theta\right) + 1.\end{aligned}\]</span></p>
+<p>(iii) We know that <span class="math display">\[\begin{aligned}
+\mathbb{P}(\textrm{move}) &amp;= \int \mathbb{P}(\textrm{move}|\theta)f(\theta)d\theta\\
+&amp;=\frac{2}{\pi}\int_{0}^{\pi/2}(1-\cos\theta)d\theta -  \frac{2}{\pi}\int_{0}^{\pi/2}\theta\sin(\theta) d\theta +\int_{0}^{\pi/2}\sin(\theta) d\theta .\end{aligned}\]</span> Note that the second term requires integration by part, which gives <span class="math display">\[\int_{0}^{\pi/2}\theta\sin(\theta) d\theta = 1.\]</span> Hence, <span class="math display">\[\begin{aligned}
+\mathbb{P}(\textrm{move}) &amp;= \left[\frac{2}{\pi}(\theta-\sin\theta)\right]_{0}^{\pi/2} -\frac{2}{\pi} +\left[-\cos\theta  \right]_{0}^{\pi/2}\\
+&amp;=2-\frac{4}{\pi}\\
+&amp;=0.727.\end{aligned}\]</span></p>
+<p>(iv) The following R code will implement the sampler and estimate the overall acceptance rate:</p>
+<div class="sourceCode" id="cb1" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>Q2a=<span class="cf">function</span>(<span class="dt">N=</span><span class="dv">1000</span>,<span class="dt">theta0=</span>pi<span class="op">/</span><span class="dv">4</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>{</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a> theta=<span class="kw">rep</span>(<span class="dv">0</span>,N)  <span class="co"># Store theta values here</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a> theta[<span class="dv">1</span>]=theta0 <span class="co"># Initialise</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a> count=<span class="dv">0</span> <span class="co"># count acceptances</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a> {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>  can=<span class="kw">runif</span>(<span class="dv">1</span>,<span class="dv">0</span>,pi<span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>  aprob=<span class="kw">sin</span>(can)<span class="op">/</span><span class="kw">sin</span>(theta[i<span class="dv">-1</span>])</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>  <span class="cf">if</span>(<span class="kw">runif</span>(<span class="dv">1</span>)<span class="op">&lt;</span>aprob)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>  {</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>   theta[i]=can <span class="co"># Store candidate value</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>   count=count<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>  }<span class="cf">else</span>{</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>   theta[i]=theta[i<span class="dv">-1</span>] <span class="co"># Else store current value</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>  }</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a> }</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a><span class="kw">print</span>(count<span class="op">/</span>(N<span class="dv">-1</span>))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a><span class="kw">return</span>(theta)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a>} </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a>out=<span class="kw">Q2a</span>()</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true"></a><span class="co">## 0.7217217 = empirical acceptance rate</span></span></code></pre></div>
+<p>(b)</p>
+<p>(i) The steps required are:</p>
+<ol>
+<li><p>Initialise the chain somewhere in the support of <span class="math inline">\(f(\theta)\)</span> e.g. <span class="math inline">\(\pi/4\)</span>. Set the iteration counter <span class="math inline">\(j=1\)</span>.</p></li>
+<li><p>Propose <span class="math inline">\(\theta^*\sim q(\cdot)\)</span> (e.g. using inverse sampling).</p></li>
+<li><p>Evaluate the <em>acceptance probability</em> <span class="math inline">\(\alpha(\theta^{*}|\theta^{(j-1)})\)</span> of the proposed move, <span class="math display">\[\alpha(\theta^{*}|\theta)=\textrm{min}\left\{ 1, 
+\frac{\sin(\theta^*)}{\sin(\theta^{(j-1)})}\times \frac{\theta^{(j-1)}}{\theta^*} \right\}.\]</span></p></li>
+<li><p>Put <span class="math inline">\(\theta^{(j)}=\theta^{*}\)</span> with probability <span class="math inline">\(\alpha(\theta^{*}|\theta^{(j-1)})\)</span>; otherwise put <span class="math inline">\(\theta^{(j)}=\theta^{(j-1)}\)</span>.</p></li>
+<li><p>If <span class="math inline">\(j=N\)</span> stop, otherwise put <span class="math inline">\(j\)</span> to <span class="math inline">\(j+1\)</span> and go to step 2.</p></li>
+</ol>
+<p>(ii) As in Q2(a), we write <span class="math display">\[\begin{aligned}
+\mathbb{P}(\textrm{move}|\theta)&amp;= \int_{0}^{\pi/2} \alpha(\phi|\theta) q(\phi)d\phi\\
+&amp;=\int_{0}^{\pi/2} \min\left\{1,\frac{\sin\phi}{\sin\theta}\times \frac{\theta}{\phi}\right\}\frac{8\phi}{\pi^2} d\phi.\end{aligned}\]</span> Note that <span class="math inline">\(\sin(\phi)/\phi\)</span> is decreasing in <span class="math inline">\(\phi\)</span> over <span class="math inline">\([0,\pi/2]\)</span>. Hence, for <span class="math inline">\(\phi&lt;\theta\)</span>, <span class="math inline">\(\sin(\phi)/\phi&gt;\sin(\theta)/\theta\)</span>. Thus we obtain <span class="math display">\[\begin{aligned}
+\mathbb{P}(\textrm{move}|\theta)&amp;=\int_0^\theta \frac{8\phi}{\pi^2}d\phi+ \int_\theta^{\pi/2} \frac{8\theta\sin\phi}{\pi^2\sin\theta}d\phi\\
+&amp;= \left[\frac{4\phi^2}{\pi^2}\right]_0^\theta + \left[-\frac{8\theta\cos\phi}{\pi^2\sin\theta}\right]_\theta^{\pi/2}\\
+&amp;=\frac{4\theta^2}{\pi^2}+\frac{8\theta\cos\theta}{\pi^2\sin\theta}.\end{aligned}\]</span></p>
+<p>(iii) We need <span class="math display">\[\begin{aligned}
+\mathbb{P}(\textrm{move}) &amp;= \int \mathbb{P}(\textrm{move}|\theta)f(\theta)d\theta\\
+&amp;=\int_{0}^{\pi/2}\left(\frac{4\theta^2}{\pi^2}+\frac{8\theta\cos\theta}{\pi^2\sin\theta}\right)\sin(\theta) d\theta\\
+&amp;=\int_{0}^{\pi/2} \frac{4\theta^2\sin\theta}{\pi^2} d\theta + \int_{0}^{\pi/2}\frac{8\theta\cos\theta}{\pi^2} d\theta.\end{aligned}\]</span> Now, upon integrating by part, we obtain <span class="math display">\[\int_0^{\pi/2}\theta\cos(\theta)d\theta=\frac{\pi}{2}-1.\]</span> Similarly, <span class="math display">\[\int_0^{\pi/2}\theta^2\sin(\theta)d\theta=2\int_0^{\pi/2}\theta\cos(\theta)d\theta = \pi-2.\]</span> Hence <span class="math display">\[\begin{aligned}
+\mathbb{P}(\textrm{move})&amp;= \frac{4}{\pi^2}(\pi-2) + \frac{8}{\pi^2}(\frac{\pi}{2}-1)\\
+&amp;=\frac{8(\pi-2)}{\pi^2}\\
+&amp;=0.93.\end{aligned}\]</span></p>
+<p>(iv) The following R code implements the sampler and prints the empirical acceptance rate:</p>
+<div class="sourceCode" id="cb2" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>Q2b=<span class="cf">function</span>(<span class="dt">N=</span><span class="dv">1000</span>,<span class="dt">theta0=</span>pi<span class="op">/</span><span class="dv">4</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>{</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a> theta=<span class="kw">rep</span>(<span class="dv">0</span>,N)  <span class="co"># Store theta values here</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a> theta[<span class="dv">1</span>]=theta0 <span class="co"># Initialise</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a> count=<span class="dv">0</span> <span class="co"># count acceptances</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a> {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>  can=<span class="kw">sqrt</span>(<span class="kw">runif</span>(<span class="dv">1</span>))<span class="op">*</span>pi<span class="op">/</span><span class="dv">2</span> <span class="co">#inverse sampling method</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>  aprob=<span class="kw">sin</span>(can)<span class="op">*</span>theta[i<span class="dv">-1</span>]<span class="op">/</span>(<span class="kw">sin</span>(theta[i<span class="dv">-1</span>])<span class="op">*</span>can)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>  <span class="cf">if</span>(<span class="kw">runif</span>(<span class="dv">1</span>)<span class="op">&lt;</span>aprob)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>  {</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>   theta[i]=can <span class="co"># Store candidate value</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>   count=count<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>  }<span class="cf">else</span>{</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>   theta[i]=theta[i<span class="dv">-1</span>] <span class="co"># Else store current value</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>  }</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a> }</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a><span class="kw">print</span>(count<span class="op">/</span>(N<span class="dv">-1</span>))</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a><span class="kw">return</span>(theta)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a>} </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true"></a>out=<span class="kw">Q2b</span>()</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true"></a><span class="co">## 0.9249249</span></span></code></pre></div>
+<p>(v) We prefer the proposal in part (b) due to the higher acceptance rate.</p></li>
+<li><p>The Markov chain is NOT irreducible. If the chain is initialised in <span class="math inline">\([0,1]\)</span> it will stay in <span class="math inline">\([0,1]\)</span>. If it is initialised in <span class="math inline">\([2,3]\)</span> it will stay in <span class="math inline">\([2,3]\)</span>. (Note that any proposed moves outside of these regions will be rejected, as the target density will evaluate to 0 at these proposals.)</p>
+<p>Going a little further, let <span class="math inline">\(\mathcal{X}_1=[0,1]\)</span>, <span class="math inline">\(\mathcal{X}_2=[2,3]\)</span> and <span class="math inline">\(\mathcal{X}=\mathcal{X}_1\cup\mathcal{X}_2\)</span>. WLOG, suppose that <span class="math inline">\(\theta^{(0)}=\theta\in \mathcal{X}_1\)</span>. We require (for <span class="math inline">\(\mu\)</span>-irreducibility, with <span class="math inline">\(\mu\)</span> given by the target) <span class="math inline">\(\mathbb{P}(\theta^{(n)}\in A|\theta)&gt;0\)</span> for some positive integer <span class="math inline">\(n\)</span> and for all <span class="math inline">\(A\subseteq \mathcal{X}\)</span>. Now take <span class="math inline">\(A=\mathcal{X}_2\)</span>. For <span class="math inline">\(\mathbb{P}(\theta^{(n)}\in \mathcal{X}_2|\theta)&gt;0\)</span>, we require <span class="math inline">\(\theta^*\in \mathcal{X}_2\)</span>, followed by acceptance, where <span class="math inline">\(\theta^*=\theta^{(n-1)}+\omega\)</span> and <span class="math inline">\(\omega\sim U(-\delta,\delta)\)</span>. If we assume <span class="math inline">\(\theta^{(n-1)}\in \mathcal{X}_1\)</span>, then it should be clear that for <span class="math inline">\(\delta\leq 1\)</span>, <span class="math inline">\(\theta^*\)</span> is restricted to <span class="math inline">\(\mathcal{X}_1\)</span>. Alternatively, assume that <span class="math inline">\(\theta^{(n-1)}\in \mathcal{X}_2\)</span>. However, this assumption implies the existence of a previously proposed <span class="math inline">\(\theta\)</span> value in <span class="math inline">\(\mathcal{X}_2\)</span>, given a current <span class="math inline">\(\theta\)</span> value in <span class="math inline">\(\mathcal{X}_1\)</span>, which contradicts the previous scenario.</p>
+<p>Drawing the picture of the target density (being careful to recognise that the density is 0.5 over both regions) and proposal for <span class="math inline">\(\delta\leq 1\)</span> and a particular <span class="math inline">\(\theta\)</span> will also help here.</p></li>
+</ol>
+</section>
+<script>
+function doNumbering() {
+	// The syntax to read the structured data from the yaml is horrible, template literals fix the problem but probably aren't widely supported enough. Escaping line breaks is browser dependant. I don't know if there's a better way?
+	// Note that the data from the yaml file is manipulated into an array, and then parsed back into strings later, but I didn't want to deal with the pandoc templating syntax longer than necessary.
+	var supportedEnvsArrayString = ' .definition;;; .theorem;;; .lemma;;; .example;;; .exampleqed;;; .proposition;;; .remark;;; .corollary;;; .exercise;;; .question';
+	var supportedEnvsArray = supportedEnvsArrayString.split("|||");
+	supportedEnvsArray = supportedEnvsArray.map(inner => inner.split(";;;"));
+	var numberWithin = '1';
+	var counterOffset = '';
+	var subcounterOffset = '';
+	var problemCounter = '';
+	const partLabels = 'abcdefghijklmnopqrstuvwxyz'.split('');
+	
+	// counterOffset may be negative, and by default if specified on the command line this gets string concatenated with the default given in the yaml config and this then causes a problem. Can be fixed by removing the default in the config file and converting to an int, but this causes a NaN error if no value is suplied on the command line, so if NaN set to 0.
+	counterOffset = parseInt(counterOffset);
+	if (isNaN(counterOffset)) {
+		counterOffset = 0;
+	}
+	
+	subcounterOffset = parseInt(subcounterOffset);
+	if (isNaN(subcounterOffset)) {
+		subcounterOffset = 0;
+	}
+	
+	problemCounter = parseInt(problemCounter);
+	if (isNaN(problemCounter)) {
+		problemCounter = 1;
+	}
+	
+	function sanitiseSelector(selector) {
+		// tex labels often have colons in which need escaping. There may be other escaping needed here. Unfortunately neither encodeURI nor encodeURIComponent do what I need, so use regex to do the escaping manually.
+		var sanitised = selector.replace(/\:/g,"\\\:");
+		sanitised = sanitised.replace(/(^[\d])/,"\\3$1 ");
+		sanitised = sanitised.replace(/\//g,"\\\/");
+		return sanitised
+	}
+	
+	function labelLinks() {
+		var refs = document.querySelectorAll("a[data-reference-type=ref]")
+		for (ref of refs) {
+			// Escape colons (or other) from the link title.
+			var ref_label = sanitiseSelector(ref.getAttribute("data-reference"));
+			// Hopefully ref is a reference to a div or a section, which should have the associated id. If so, we just need the data-number from the relevant DOM item.
+			var ref_to = document.querySelector("#"+ref_label);
+			if (ref_to !== null) {
+				var ref_number = ref_to.getAttribute("data-number");
+			} else {
+				// If ref is being used for an equation, then we need to try to parse the mathjax divs. This is fragile, but try to find the span which corresponds to the equation number we need.
+				try {
+					var mathjax_ref = "#mjx-eqn-"+ref_label;
+					ref_to = document.querySelector(mathjax_ref);
+					// Since this is a ref, we don't want the parens to be returned, so find the equation number and strip the parens.
+					var ref_number = ref_to.querySelector(".mjx-char").innerHTML.replace(/[()]/g,"");
+					ref.setAttribute("href",mathjax_ref);
+				}
+				// If we can't find a place to link to, just indicate a missing link.
+				catch (err){
+					var ref_number = "???"
+				}
+			}
+			ref.innerHTML = ref_number;
+		};
+	}
+	
+	function numberEnvs() {
+		for (var levelSpec = 0; levelSpec <= numberWithin; levelSpec++) {
+			var reqLevels = document.querySelectorAll(".level"+levelSpec);
+			for (var level of reqLevels) {
+				levelCount = level.getAttribute("data-number");
+				levelCount = String(parseFloat(levelCount)+(counterOffset));
+				levelCount = levelCount+(("."+subcounterOffset).repeat(numberWithin-levelSpec));
+				for (var counter of supportedEnvsArray) {
+					var envCount = 1;
+					var envs = level.querySelectorAll(counter.join(", "));
+					for (var env of envs) {
+						env.setAttribute("data-number",levelCount+"."+envCount);
+						envCount += 1;
+					}
+				}
+			}
+		}
+	}
+	
+	function numberFigs() {
+		// Figures should either be in a figure environment, or a table with image class imageTable thanks to the tableCaps filter.
+		figs = document.querySelectorAll("figure, .imageTable");
+		var fig_no = 1
+		for (var fig of figs) {
+			var cap
+			// For figures, we want to move the id to the figure, and set the data-number on both the figure and the figcaption
+			if (fig.nodeName == "FIGURE") {
+				cap = fig.querySelector("figcaption");
+				var img = fig.querySelector("img, embed")
+				if (img) {
+					var img_id = img.getAttribute("id");
+					fig.setAttribute("id",img_id);
+					img.removeAttribute("id");
+				}
+			// for tables (which must be .imageTable due to the querySelector above), we want to set the data-number on the table and the caption
+			} else if (fig.nodeName == "TABLE") {
+				cap = fig.querySelector("caption");
+			}
+			cap.setAttribute("data-number",fig_no);
+			fig.setAttribute("data-number",fig_no);
+			fig_no += 1;
+		}
+	}
+	
+	function numberGlobals() {
+		// This function numbers any environments that just use a global counter, such as a problem number on a problems sheet, where there are no sections to number with respect to.
+		probsols = document.querySelectorAll(".problem, .solution");
+		var prob_no = problemCounter;
+		var partNo = 0;
+		for (var probsol of probsols) {
+			if (probsol.className == "problem"){
+				prob_no +=1;
+				partNo = 0;
+				probsol.setAttribute("data-number",prob_no);
+			}
+			else {
+				if (probsol.parentNode.nodeName == "LI") {
+					var partLabel = partLabels[partNo];
+					probsol.setAttribute("data-number",prob_no.toString()+partLabel);
+					partNo +=1;
+				}
+				else{
+					probsol.setAttribute("data-number",prob_no);
+				}
+			}
+			
+		}
+		// sols = document.querySelectorAll(".solution");
+// 		var sol_no = problemCounter;
+// 		for (var sol of sols) {
+// 			sol.setAttribute("data-number",sol_no);
+// 			sol_no +=1
+// 		}
+	}
+	
+	// labelLinks() should occur last, so that the data-numbers have been correctly set first.
+	numberEnvs();
+	numberFigs();
+	numberGlobals();
+	labelLinks();
+}
+</script><script>
+	var imageDir = ''
+	imgs = document.querySelectorAll("img");
+	for (var img of imgs) {
+		imgsrc = img.getAttribute("src");
+		img.setAttribute("src",imageDir.concat(imgsrc));
+	}
+</script></body>
+</html>
