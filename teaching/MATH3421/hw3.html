@@ -38,7 +38,8 @@
 <p>(a) Construct a (deterministic scan) Gibbs sampling algorithm for sampling from this target using random variates from standard distributions. <em>Do not write any R code, simply compute the full conditionals and give the algorithm specific to this target.</em></p>
 <p>(b) Write down the transition density <span class="math inline">\(p(\boldsymbol{\phi}|\boldsymbol{\theta})\)</span> for this sampler.</p>
 <p>(c) Suppose you decide to sample this target via Metropolis-Hastings. Suggest a (joint) proposal density that has the same support as the target. <em>Hint: there are lots of possibilities here; it may also be helpful to consider a suitable factorisation of the proposal density.</em></p>
-<p><strong>[15 marks]</strong></p></li>
+<p><strong>[15 marks]</strong></p>
+<p><strong>[TOTAL: 15 marks]</strong></p></li>
 <li><p>Consider the following bivariate Gaussian density: <span class="math display">\[\pi(\theta_{1},\theta_{2})= \text{N}(\boldsymbol{\theta};\boldsymbol{\mu}\,,\,\Sigma), \quad \boldsymbol{\mu}=(0,0)&#39;,\quad 
 \Sigma=\begin{pmatrix} 1 &amp; \rho \\ \rho &amp; 1 \end{pmatrix}.\]</span></p>
 <p>(a) Let <span class="math inline">\(\psi_1=\frac{1}{\sqrt{2}}(\theta_1+\theta_2)\)</span> and <span class="math inline">\(\psi_2=\frac{1}{\sqrt{2}}(\theta_1-\theta_2)\)</span>. The joint distribution of <span class="math inline">\(\boldsymbol{\psi}=(\psi_1,\psi_2)&#39;\)</span> is itself Gaussian.</p>
@@ -50,7 +51,6 @@
 <p>(ii) In R, and using your samples <span class="math inline">\(\boldsymbol{\psi}^{(1)},\ldots,\boldsymbol{\psi}^{(1000)}\)</span> from part (a)(ii), obtain samples <span class="math inline">\(\tilde{\boldsymbol{\theta}}^{(1)},\ldots,\tilde{\boldsymbol{\theta}}^{(1000)}\)</span>. Give the R code that you use here.</p>
 <p>(iii) Compare and contrast the mixing of <span class="math inline">\(\tilde{\boldsymbol{\theta}}^{(1)},\ldots,\tilde{\boldsymbol{\theta}}^{(1000)}\)</span> with that of a realisation <span class="math inline">\(\boldsymbol{\theta}^{(1)},\ldots,\boldsymbol{\theta}^{(1000)}\)</span> obtained by running the code from Example 3.2.1 (see also Workshop 2) for 1000 iterations and <span class="math inline">\(\rho=0.99\)</span>.</p></li>
 </ol>
-<p><strong>[TOTAL: 15 marks]</strong></p>
 </section>
 <script>
 function doNumbering() {
