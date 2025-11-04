@@ -6,15 +6,170 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>lab1AY2526</title>
   <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
     div.sourceCode { margin: 1em 0; }
     pre.sourceCode { margin: 0; }
@@ -23,7 +178,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -49,7 +204,7 @@
     code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
     code span.at { color: #7d9029; } /* Attribute */
     code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
+    code span.bu { color: #008000; } /* BuiltIn */
     code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
     code span.ch { color: #4070a0; } /* Char */
     code span.cn { color: #880000; } /* Constant */
@@ -62,7 +217,7 @@
     code span.ex { } /* Extension */
     code span.fl { color: #40a070; } /* Float */
     code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
     code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
     code span.kw { color: #007020; font-weight: bold; } /* Keyword */
     code span.op { color: #666666; } /* Operator */
@@ -76,7 +231,9 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+  <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"
+  type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -89,87 +246,219 @@
 <body>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#workshop-1-metropolis-hastings">Workshop 1: Metropolis-Hastings</a></li>
+<li><a href="#workshop-1-metropolis-hastings"
+id="toc-workshop-1-metropolis-hastings">Workshop 1:
+Metropolis-Hastings</a></li>
 </ul>
 </nav>
 <section id="workshop-1-metropolis-hastings" class="level1 unnumbered">
 <h1 class="unnumbered">Workshop 1: Metropolis-Hastings</h1>
-<p><strong>1. Random walk Metropolis.</strong> Let’s look at simulating from a <span class="math inline">\(\text{Gamma}(g,h)\)</span> target distribution (say for fixed <span class="math inline">\(g=2\)</span> and <span class="math inline">\(h=2\)</span>) using a random walk Metropolis algorithm with Gaussian <span class="math inline">\(\text{N}(0,a^2)\)</span> innovations. Copy and paste the following R code chunk into an RStudio script file. Make sure you’re happy with each line of code (especially the log acceptance probability) - if anything doesn’t make sense, ask!</p>
-<div class="sourceCode" id="cb1" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>gammaMH&lt;-<span class="cf">function</span>(N,<span class="dt">g=</span><span class="dv">2</span>,<span class="dt">h=</span><span class="dv">2</span>,a) </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>{</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a> vec &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>,N)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a> theta &lt;-<span class="st"> </span>g<span class="op">/</span>h</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a> vec[<span class="dv">1</span>] &lt;-<span class="st"> </span>theta <span class="co">#initialise</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N) </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a> {</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>  <span class="co">#propose</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>  can &lt;-<span class="st"> </span>theta <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,a)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>  <span class="co">#log acceptance prob</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>  laprob &lt;-<span class="st"> </span><span class="kw">dgamma</span>(can,g,h,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span><span class="kw">dgamma</span>(theta,g,h,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>  u &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>  <span class="cf">if</span> (<span class="kw">log</span>(u) <span class="op">&lt;</span><span class="st"> </span>laprob){ </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>   theta &lt;-<span class="st"> </span>can <span class="co">#accept</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>  }</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>   vec[i] &lt;-<span class="st"> </span>theta <span class="co">#store</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>  }</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a> <span class="kw">return</span>(vec)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a>}</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a><span class="co">#Run for 10k iters with g=2, h=2, a=1:</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a>out &lt;-<span class="st"> </span><span class="kw">gammaMH</span>(<span class="dt">N=</span><span class="dv">10000</span>,<span class="dt">a=</span><span class="dv">1</span>)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(out),<span class="dt">ylab=</span><span class="st">&quot;Value&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;Iteration&quot;</span>,<span class="dt">main=</span><span class="st">&quot;Trace plot&quot;</span>)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true"></a><span class="kw">hist</span>(out,<span class="dv">30</span>,<span class="dt">xlab=</span><span class="st">&quot;Value&quot;</span>,<span class="dt">main=</span><span class="st">&quot;Histogram&quot;</span>)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
-<p>(a) Try out the R code above for this simple Metropolis example. See how different choices of the <em>tuning parameter</em> <span class="math inline">\(a\)</span> affect the mixing of the chain. The example code uses <span class="math inline">\(a=1\)</span> which isn’t too bad. Try <span class="math inline">\(a=20\)</span> – this gives a chain which is far too "hot". Very few candidate points are accepted, but when they are, they often represent quite considerable moves within the sample space. Also try <span class="math inline">\(a=0.1\)</span> – this gives a chain which is far too "cold". Most candidates are accepted, but they represent rather conservative moves within the support of the target density.</p>
-<p>(b) As we have seen, high acceptance probabilities tend to mean that the chain is too cold, whereas very low acceptance probabilities correspond to chains which are too hot. Modify the R function so that it records and then prints the <em>overall empirical acceptance rate</em> of the chain (as in Section 2.4.2 of the noets), as well as returning the vector of simulated values. "Tune" the Metropolis sampler by finding a value of <span class="math inline">\(a\)</span> which results in an overall acceptance rate of around 0.4.</p>
-<p>(c) With your tuned value of <span class="math inline">\(a\)</span>, run the sampler for 100,000 iterations, produce a histogram using the resulting samples and overlay the <span class="math inline">\(\text{Gamma}(2,2)\)</span> density.</p>
-<p><strong>2. Random walk Metropolis on the log scale.</strong> Let’s look again at simulating from a <span class="math inline">\(\text{Gamma}(g,h)\)</span> target distribution (as above). Using a properly tuned random walk proposal with Gaussian <span class="math inline">\(\text{N}(0,a^2)\)</span> innovations for this target (or indeed any such target with non-negative support) can still be inefficient, since proposed values that are negative will be rejected. We cook up a better approach as follows.</p>
-<p>Denote the density of the <span class="math inline">\(\text{Gamma}(g,h)\)</span> target by <span class="math inline">\(f_{\theta}(\theta)\)</span>. The random variable <span class="math inline">\(\psi=\log \theta\)</span> has density <span class="math display">\[f_{\psi}(\psi)=f_{\theta}(e^{\psi})e^{\psi}, \qquad -\infty &lt; \psi &lt; \infty\]</span> using the usual transformation of random variables formula. We now implement the random walk Metropolis sampler with <span class="math inline">\(\text{N}(0,a^2)\)</span> innovations for the target density <span class="math inline">\(f_{\psi}(\psi)\)</span> via the following code. Inferences using the target <span class="math inline">\(f_{\theta}(\theta)\)</span> can then be based on the exponentiated values of <span class="math inline">\(\psi\)</span>. Copy and paste the following R code chunk into an RStudio script file. Make sure you’re happy with each line of code (especially the log acceptance probability) - if anything doesn’t make sense, ask!</p>
-<div class="sourceCode" id="cb2" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>log_gammaMH&lt;-<span class="cf">function</span>(N,<span class="dt">g=</span><span class="dv">2</span>,<span class="dt">h=</span><span class="dv">2</span>,a) </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>{</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a> vec &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>,N)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a> psi &lt;-<span class="st"> </span><span class="kw">log</span>(g<span class="op">/</span>h)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a> vec[<span class="dv">1</span>] &lt;-<span class="st"> </span>psi <span class="co">#initialise</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N) </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a> {</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>  <span class="co">#propose</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>  can &lt;-<span class="st"> </span>psi <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,a)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>  <span class="co">#log acceptance probability</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>  laprob &lt;-<span class="st"> </span><span class="kw">dgamma</span>(<span class="kw">exp</span>(can),g,h,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">+</span>can<span class="op">-</span><span class="kw">dgamma</span>(<span class="kw">exp</span>(psi),g,h,<span class="dt">log=</span><span class="ot">TRUE</span>)<span class="op">-</span>psi</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>  u &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>  <span class="cf">if</span> (<span class="kw">log</span>(u) <span class="op">&lt;</span><span class="st"> </span>laprob){ </span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>   psi &lt;-<span class="st"> </span>can <span class="co">#accept</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>  }</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>   vec[i] &lt;-<span class="st"> </span>psi <span class="co">#store</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a>  }</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a> <span class="kw">return</span>(vec)</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a>}</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true"></a><span class="co">#Run for 10k iters with g=2, h=2, a=1:</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true"></a></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true"></a>out2 &lt;-<span class="st"> </span><span class="kw">log_gammaMH</span>(<span class="dt">N=</span><span class="dv">10000</span>,<span class="dt">a=</span><span class="dv">1</span>)</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">ts</span>(out2),<span class="dt">ylab=</span><span class="st">&quot;Value&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;Iteration&quot;</span>,<span class="dt">main=</span><span class="st">&quot;Trace plot&quot;</span>)</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true"></a><span class="kw">hist</span>(out2,<span class="dv">30</span>,<span class="dt">xlab=</span><span class="st">&quot;Value&quot;</span>,<span class="dt">main=</span><span class="st">&quot;Histogram&quot;</span>)</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
-<p>(a) The code above produces a trace plot and histogram of <span class="math inline">\(\psi\)</span> samples. Transform the sampler output to produce a trace plot and histogram of <span class="math inline">\(\theta\)</span> values. Overlay the <span class="math inline">\(\text{Gamma}(2,2)\)</span> density on the histogram.</p>
-<p>(b) Run <span class="math inline">\(\texttt{log_gammaMH}\)</span> for 100,000 iterations with the value <span class="math inline">\(a=2\)</span>, which gives (roughly) a <span class="math inline">\(40\%\)</span> acceptance rate, and store the output. Compute the effective sample size of this run and compare it to that obtained for the run in 1(c). Comment. Hint: use the <span class="math inline">\(\texttt{effectiveSize}\)</span> function in the <span class="math inline">\(\texttt{coda}\)</span> package.</p>
-<p>(c) The proposal distribution used in <span class="math inline">\(\texttt{log_gammaMH}\)</span> is <span class="math inline">\(\psi^*|\psi \sim \text{N}(\psi,a^2)\)</span>. Using this proposal distribution, write down the distribution of <span class="math inline">\(\theta^*|\theta\)</span>, where <span class="math inline">\(\theta^*=\exp\{\psi^*\}\)</span>. Denote the corresponding density by <span class="math inline">\(q(\theta^*|\theta)\)</span>. Write out and simplify the log acceptance probability of an MH sampler with target density <span class="math inline">\(f_{\theta}(\theta)\)</span> and proposal density <span class="math inline">\(q(\theta^*|\theta)\)</span>. (If done correctly, the resulting expression should correspond to <span class="math inline">\(\texttt{laprob}\)</span> in the <span class="math inline">\(\texttt{log_gammaMH}\)</span> function, which should make intuitive sense! If it does not, please ask!)</p>
-<p><strong>3. Crude oil volatility analysis.</strong> In the week 3 <a href="https://andygolightly.github.io/teaching/MATH3421/probs1">problems class</a> we used a model for the log price of crude oil <span class="math inline">\(X_t=\log Y_t\)</span> on day <span class="math inline">\(t\)</span> (in USD/barrel) as follows: <span class="math display">\[\begin{aligned}
+<p><strong>1. Random walk Metropolis.</strong> Let’s look at simulating
+from a <span class="math inline">\(\text{Gamma}(g,h)\)</span> target
+distribution (say for fixed <span class="math inline">\(g=2\)</span> and
+<span class="math inline">\(h=2\)</span>) using a random walk Metropolis
+algorithm with Gaussian <span
+class="math inline">\(\text{N}(0,a^2)\)</span> innovations. (Disclaimer:
+we used <span class="math inline">\(\lambda\)</span> in the notes to
+denote the tuning parameter - for Q1 and Q2 I’m using <span
+class="math inline">\(a\)</span>, which is also sometimes used in the
+literature!)</p>
+<p>Copy and paste the following R code chunk into an RStudio script
+file. Make sure you’re happy with each line of code (especially the log
+acceptance probability) - if anything doesn’t make sense, ask!</p>
+<div class="sourceCode" id="cb1" data-language="R"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>gammaMH<span class="ot">&lt;-</span><span class="cf">function</span>(N,<span class="at">g=</span><span class="dv">2</span>,<span class="at">h=</span><span class="dv">2</span>,a) </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> vec <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,N)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a> theta <span class="ot">&lt;-</span> g<span class="sc">/</span>h</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a> vec[<span class="dv">1</span>] <span class="ot">&lt;-</span> theta <span class="co">#initialise</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>N) </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a> {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#propose</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  can <span class="ot">&lt;-</span> theta <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,a)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#log acceptance prob</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  laprob <span class="ot">&lt;-</span> <span class="fu">dgamma</span>(can,g,h,<span class="at">log=</span><span class="cn">TRUE</span>)<span class="sc">-</span><span class="fu">dgamma</span>(theta,g,h,<span class="at">log=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">log</span>(u) <span class="sc">&lt;</span> laprob){ </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>   theta <span class="ot">&lt;-</span> can <span class="co">#accept</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>   vec[i] <span class="ot">&lt;-</span> theta <span class="co">#store</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a> <span class="fu">return</span>(vec)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Run for 10k iters with g=2, h=2, a=1:</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">gammaMH</span>(<span class="at">N=</span><span class="dv">10000</span>,<span class="at">a=</span><span class="dv">1</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ts</span>(out),<span class="at">ylab=</span><span class="st">&quot;Value&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Iteration&quot;</span>,<span class="at">main=</span><span class="st">&quot;Trace plot&quot;</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(out,<span class="dv">30</span>,<span class="at">xlab=</span><span class="st">&quot;Value&quot;</span>,<span class="at">main=</span><span class="st">&quot;Histogram&quot;</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p>(a) Try out the R code above for this simple Metropolis example. See
+how different choices of the <em>tuning parameter</em> <span
+class="math inline">\(a\)</span> affect the mixing of the chain. The
+example code uses <span class="math inline">\(a=1\)</span> which isn’t
+too bad. Try <span class="math inline">\(a=20\)</span> – this gives a
+chain which is far too "hot". Very few candidate points are accepted,
+but when they are, they often represent quite considerable moves within
+the sample space. Also try <span class="math inline">\(a=0.1\)</span> –
+this gives a chain which is far too "cold". Most candidates are
+accepted, but they represent rather conservative moves within the
+support of the target density.</p>
+<p>(b) As we have seen, high acceptance probabilities tend to mean that
+the chain is too cold, whereas very low acceptance probabilities
+correspond to chains which are too hot. Modify the R function so that it
+records and then prints the <em>overall empirical acceptance rate</em>
+of the chain (as in Section 2.4.2 of the notes), as well as returning
+the vector of simulated values. "Tune" the Metropolis sampler by finding
+a value of <span class="math inline">\(a\)</span> which results in an
+overall acceptance rate of around 0.4.</p>
+<p>(c) With your tuned value of <span class="math inline">\(a\)</span>,
+run the sampler for 100,000 iterations, produce a histogram using the
+resulting samples and overlay the <span
+class="math inline">\(\text{Gamma}(2,2)\)</span> density.</p>
+<p><strong>2. Random walk Metropolis on the log scale.</strong> Let’s
+look again at simulating from a <span
+class="math inline">\(\text{Gamma}(g,h)\)</span> target distribution (as
+above). Using a properly tuned random walk proposal with Gaussian <span
+class="math inline">\(\text{N}(0,a^2)\)</span> innovations for this
+target (or indeed any such target with non-negative support) can still
+be inefficient, since proposed values that are negative will be
+rejected. We cook up a better approach as follows.</p>
+<p>Denote the density of the <span
+class="math inline">\(\text{Gamma}(g,h)\)</span> target by <span
+class="math inline">\(f_{\theta}(\theta)\)</span>. The random variable
+<span class="math inline">\(\psi=\log \theta\)</span> has density <span
+class="math display">\[f_{\psi}(\psi)=f_{\theta}(e^{\psi})e^{\psi},
+\qquad -\infty &lt; \psi &lt; \infty\]</span> using the usual
+transformation of random variables formula. We now implement the random
+walk Metropolis sampler with <span
+class="math inline">\(\text{N}(0,a^2)\)</span> innovations for the
+target density <span class="math inline">\(f_{\psi}(\psi)\)</span> via
+the following code. Inferences using the target <span
+class="math inline">\(f_{\theta}(\theta)\)</span> can then be based on
+the exponentiated values of <span class="math inline">\(\psi\)</span>.
+Copy and paste the following R code chunk into an RStudio script file.
+Make sure you’re happy with each line of code (especially the log
+acceptance probability) - if anything doesn’t make sense, ask!</p>
+<div class="sourceCode" id="cb2" data-language="R"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>log_gammaMH<span class="ot">&lt;-</span><span class="cf">function</span>(N,<span class="at">g=</span><span class="dv">2</span>,<span class="at">h=</span><span class="dv">2</span>,a) </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a> vec <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,N)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a> psi <span class="ot">&lt;-</span> <span class="fu">log</span>(g<span class="sc">/</span>h)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a> vec[<span class="dv">1</span>] <span class="ot">&lt;-</span> psi <span class="co">#initialise</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>N) </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a> {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#propose</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  can <span class="ot">&lt;-</span> psi <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,a)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#log acceptance probability</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  laprob <span class="ot">&lt;-</span> <span class="fu">dgamma</span>(<span class="fu">exp</span>(can),g,h,<span class="at">log=</span><span class="cn">TRUE</span>)<span class="sc">+</span>can<span class="sc">-</span><span class="fu">dgamma</span>(<span class="fu">exp</span>(psi),g,h,<span class="at">log=</span><span class="cn">TRUE</span>)<span class="sc">-</span>psi</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">log</span>(u) <span class="sc">&lt;</span> laprob){ </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>   psi <span class="ot">&lt;-</span> can <span class="co">#accept</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>   vec[i] <span class="ot">&lt;-</span> psi <span class="co">#store</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a> <span class="fu">return</span>(vec)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Run for 10k iters with g=2, h=2, a=1:</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>out2 <span class="ot">&lt;-</span> <span class="fu">log_gammaMH</span>(<span class="at">N=</span><span class="dv">10000</span>,<span class="at">a=</span><span class="dv">1</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ts</span>(out2),<span class="at">ylab=</span><span class="st">&quot;Value&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;Iteration&quot;</span>,<span class="at">main=</span><span class="st">&quot;Trace plot&quot;</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(out2,<span class="dv">30</span>,<span class="at">xlab=</span><span class="st">&quot;Value&quot;</span>,<span class="at">main=</span><span class="st">&quot;Histogram&quot;</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p>(a) The code above produces a trace plot and histogram of <span
+class="math inline">\(\psi\)</span> samples. Transform the sampler
+output to produce a trace plot and histogram of <span
+class="math inline">\(\theta\)</span> values. Overlay the <span
+class="math inline">\(\text{Gamma}(2,2)\)</span> density on the
+histogram.</p>
+<p>(b) Run <span class="math inline">\(\texttt{log_gammaMH}\)</span> for
+100,000 iterations with the value <span
+class="math inline">\(a=2\)</span>, which gives (roughly) a <span
+class="math inline">\(40\%\)</span> acceptance rate, and store the
+output. Compute the effective sample size of this run and compare it to
+that obtained for the run in 1(c). Comment. Hint: use the <span
+class="math inline">\(\texttt{effectiveSize}\)</span> function in the
+<span class="math inline">\(\texttt{coda}\)</span> package.</p>
+<p>(c) The proposal distribution used in <span
+class="math inline">\(\texttt{log_gammaMH}\)</span> is <span
+class="math inline">\(\psi^*|\psi \sim \text{N}(\psi,a^2)\)</span>.
+Using this proposal distribution, write down the distribution of <span
+class="math inline">\(\theta^*|\theta\)</span>, where <span
+class="math inline">\(\theta^*=\exp\{\psi^*\}\)</span>. Denote the
+corresponding density by <span
+class="math inline">\(q(\theta^*|\theta)\)</span>. Write out and
+simplify the log acceptance probability of an MH sampler with target
+density <span class="math inline">\(f_{\theta}(\theta)\)</span> and
+proposal density <span
+class="math inline">\(q(\theta^*|\theta)\)</span>. (If done correctly,
+the resulting expression should correspond to <span
+class="math inline">\(\texttt{laprob}\)</span> in the <span
+class="math inline">\(\texttt{log_gammaMH}\)</span> function, which
+should make intuitive sense! If it does not, please ask!)</p>
+<p><strong>3. Crude oil volatility analysis.</strong> In the week 3 <a
+href="https://andygolightly.github.io/teaching/MATH3421/probs1">problems
+class</a> we used a model for the log price of crude oil <span
+class="math inline">\(X_t=\log Y_t\)</span> on day <span
+class="math inline">\(t\)</span> (in USD/barrel) as follows: <span
+class="math display">\[\begin{aligned}
 X_0 &amp;\sim p(x_0),\\
-X_t&amp;=X_{t-1}+\epsilon_t, \quad \epsilon_t \overset{\textrm{indep}}{\sim} \text{N}(0,\sigma^2), \quad t=1,\ldots,n.\end{aligned}\]</span> Consider data <span class="math inline">\(\boldsymbol{y}=(y_0,\ldots,y_{25})&#39;\)</span> such that <span class="math inline">\(\sum_{t=1}^{25} [\log (y_t/y_{t-1})]^2 = 0.0305\)</span>. Suppose that <span class="math inline">\(\psi=\log\sigma\sim \text{N}(0,1)\)</span> <em>a priori</em>. You are given the following R function that takes <span class="math inline">\(\psi\)</span> as an argument and evaluates the log posterior <span class="math inline">\(\log\pi(\psi|\boldsymbol{y})\)</span> up to an additive constant:</p>
-<div class="sourceCode" id="cb3" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>lpost&lt;-<span class="cf">function</span>(psi)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>{</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a> lprior &lt;-<span class="st"> </span><span class="kw">dnorm</span>(psi,<span class="dt">log=</span><span class="ot">TRUE</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a> llike &lt;-<span class="st"> </span><span class="dv">-25</span><span class="op">*</span>psi<span class="fl">-0.5</span><span class="op">*</span><span class="fl">0.0305</span><span class="op">/</span><span class="kw">exp</span>(<span class="dv">2</span><span class="op">*</span>psi) </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a> <span class="kw">return</span>(lprior<span class="op">+</span>llike)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>}</span></code></pre></div>
-<p>(a) Write an R function to generate samples from <span class="math inline">\(\pi(\psi|\boldsymbol{y})\)</span> using a random walk Metropolis algorithm with normal innovations, that is, with proposal density <span class="math inline">\(q(\psi^*|\psi)=\text{N}(\psi^*;\,\psi\,,\,\lambda^2)\)</span>. Your function should take arguments <code>N</code> and <code>lambda</code> and return an <span class="math inline">\(N\)</span>-vector containing the sampler output. You should initialise the sampler at <span class="math inline">\(\psi^{(0)}=0\)</span>.</p>
-<p>(b) Run the sampler with <span class="math inline">\(N=5,000\)</span> for different values of <span class="math inline">\(\lambda\)</span> until adequate mixing is obtained.</p>
-<p>(c) Run the sampler with <span class="math inline">\(N=10,000\)</span> and your “best” <span class="math inline">\(\lambda\)</span>. Transform the sampler output to give <span class="math inline">\(10,000\)</span> (dependent) samples from <span class="math inline">\(\pi(\sigma|\boldsymbol{y})\)</span> and calculate estimates of <span class="math inline">\(\mathbb{E}(\sigma|\boldsymbol{y})\)</span>, <span class="math inline">\(\mathrm{Var}(\sigma|\boldsymbol{y})\)</span> and give a 95% equi-tailed credible interval for <span class="math inline">\(\sigma\)</span>.</p>
-<p>(d) For each posterior sample <span class="math inline">\(\sigma^{(i)}\)</span>, <span class="math inline">\(i=1,\ldots,N^*\)</span>, where <span class="math inline">\(N^*\)</span> is the number of samples that remain after discarding a burn-in period, generate a sample <span class="math inline">\(y_{26}^{(i)}\)</span> by drawing from <span class="math inline">\(p(y_{26}|y_{25}=88.35,\sigma^{(i)})\)</span>. Produce a histogram of the resulting samples <span class="math inline">\(y_{26}^{(1)},\ldots,y_{26}^{(N^*)}\)</span>. The actual crude oil price on day 26 (August 9th, 2022) was 90.66. Comment.</p>
+X_t&amp;=X_{t-1}+\epsilon_t, \quad \epsilon_t
+\overset{\textrm{indep}}{\sim} \text{N}(0,\sigma^2), \quad t=1,\ldots,n.
+\end{aligned}\]</span> Consider data <span
+class="math inline">\(\boldsymbol{y}=(y_0,\ldots,y_{25})&#39;\)</span>
+such that <span class="math inline">\(\sum_{t=1}^{25} [\log
+(y_t/y_{t-1})]^2 = 0.0305\)</span>. Suppose that <span
+class="math inline">\(\psi=\log\sigma\sim \text{N}(0,1)\)</span> <em>a
+priori</em>. You are given the following R function that takes <span
+class="math inline">\(\psi\)</span> as an argument and evaluates the log
+posterior <span
+class="math inline">\(\log\pi(\psi|\boldsymbol{y})\)</span> up to an
+additive constant:</p>
+<div class="sourceCode" id="cb3" data-language="R"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lpost<span class="ot">&lt;-</span><span class="cf">function</span>(psi)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a> lprior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(psi,<span class="at">log=</span><span class="cn">TRUE</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a> llike <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">25</span><span class="sc">*</span>psi<span class="fl">-0.5</span><span class="sc">*</span><span class="fl">0.0305</span><span class="sc">/</span><span class="fu">exp</span>(<span class="dv">2</span><span class="sc">*</span>psi) </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">return</span>(lprior<span class="sc">+</span>llike)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>(a) Write an R function to generate samples from <span
+class="math inline">\(\pi(\psi|\boldsymbol{y})\)</span> using a random
+walk Metropolis algorithm with normal innovations, that is, with
+proposal density <span
+class="math inline">\(q(\psi^*|\psi)=\text{N}(\psi^*;\,\psi\,,\,\lambda^2)\)</span>.
+Your function should take arguments <code>N</code> and
+<code>lambda</code> and return an <span
+class="math inline">\(N\)</span>-vector containing the sampler output.
+You should initialise the sampler at <span
+class="math inline">\(\psi^{(0)}=0\)</span>.</p>
+<p>(b) Run the sampler with <span class="math inline">\(N=5,000\)</span>
+for different values of <span class="math inline">\(\lambda\)</span>
+until adequate mixing is obtained.</p>
+<p>(c) Run the sampler with <span
+class="math inline">\(N=10,000\)</span> and your “best” <span
+class="math inline">\(\lambda\)</span>. Transform the sampler output to
+give <span class="math inline">\(10,000\)</span> (dependent) samples
+from <span class="math inline">\(\pi(\sigma|\boldsymbol{y})\)</span> and
+calculate estimates of <span
+class="math inline">\(\mathbb{E}(\sigma|\boldsymbol{y})\)</span>, <span
+class="math inline">\(\mathrm{Var}(\sigma|\boldsymbol{y})\)</span> and
+give a 95% equi-tailed credible interval for <span
+class="math inline">\(\sigma\)</span>.</p>
+<p>(d) For each posterior sample <span
+class="math inline">\(\sigma^{(i)}\)</span>, <span
+class="math inline">\(i=1,\ldots,N^*\)</span>, where <span
+class="math inline">\(N^*\)</span> is the number of samples that remain
+after discarding a burn-in period, generate a sample <span
+class="math inline">\(y_{26}^{(i)}\)</span> by drawing from <span
+class="math inline">\(p(y_{26}|y_{25}=88.35,\sigma^{(i)})\)</span>.
+Produce a histogram of the resulting samples <span
+class="math inline">\(y_{26}^{(1)},\ldots,y_{26}^{(N^*)}\)</span>. The
+actual crude oil price on day 26 (August 9th, 2022) was 90.66.
+Comment.</p>
 <p> </p>
 <p><strong>End of workshop!</strong></p>
 </section>
