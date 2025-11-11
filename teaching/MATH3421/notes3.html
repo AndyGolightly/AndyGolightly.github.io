@@ -6,15 +6,170 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>notes3</title>
   <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
     div.sourceCode { margin: 1em 0; }
     pre.sourceCode { margin: 0; }
@@ -23,7 +178,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -49,7 +204,7 @@
     code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
     code span.at { color: #7d9029; } /* Attribute */
     code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
+    code span.bu { color: #008000; } /* BuiltIn */
     code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
     code span.ch { color: #4070a0; } /* Char */
     code span.cn { color: #880000; } /* Constant */
@@ -62,7 +217,7 @@
     code span.ex { } /* Extension */
     code span.fl { color: #40a070; } /* Float */
     code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
     code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
     code span.kw { color: #007020; font-weight: bold; } /* Keyword */
     code span.op { color: #666666; } /* Operator */
@@ -76,7 +231,9 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+  <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"
+  type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -89,194 +246,441 @@
 <body>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#preliminaries"><span class="toc-section-number">1</span> Preliminaries</a></li>
-<li><a href="#the-metropolis-hastings-algorithm"><span class="toc-section-number">2</span> The Metropolis-Hastings algorithm</a></li>
-<li><a href="#the-gibbs-sampler"><span class="toc-section-number">3</span> The Gibbs sampler</a>
+<li><a href="#preliminaries" id="toc-preliminaries"><span
+class="toc-section-number">1</span> Preliminaries</a></li>
+<li><a href="#the-metropolis-hastings-algorithm"
+id="toc-the-metropolis-hastings-algorithm"><span
+class="toc-section-number">2</span> The Metropolis-Hastings
+algorithm</a></li>
+<li><a href="#the-gibbs-sampler" id="toc-the-gibbs-sampler"><span
+class="toc-section-number">3</span> The Gibbs sampler</a>
 <ul>
-<li><a href="#component-wise-and-block-wise-transitions"><span class="toc-section-number">3.1</span> Component-wise and block-wise transitions</a></li>
-<li><a href="#the-gibbs-sampler-1"><span class="toc-section-number">3.2</span> The Gibbs sampler</a></li>
+<li><a href="#component-wise-and-block-wise-transitions"
+id="toc-component-wise-and-block-wise-transitions"><span
+class="toc-section-number">3.1</span> Component-wise and block-wise
+transitions</a></li>
+<li><a href="#the-gibbs-sampler-1" id="toc-the-gibbs-sampler-1"><span
+class="toc-section-number">3.2</span> The Gibbs sampler</a></li>
 </ul></li>
 </ul>
 </nav>
 <section id="preliminaries" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Preliminaries</h1>
-<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes1">here</a>.</p>
+<h1 data-number="1"><span class="header-section-number">1</span>
+Preliminaries</h1>
+<p>See previous topic <a
+href="https://andygolightly.github.io/teaching/MATH3421/notes1">here</a>.</p>
 </section>
-<section id="the-metropolis-hastings-algorithm" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> The Metropolis-Hastings algorithm</h1>
-<p>See previous topic <a href="https://andygolightly.github.io/teaching/MATH3421/notes2">here</a>.</p>
+<section id="the-metropolis-hastings-algorithm" class="level1"
+data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> The
+Metropolis-Hastings algorithm</h1>
+<p>See previous topic <a
+href="https://andygolightly.github.io/teaching/MATH3421/notes2">here</a>.</p>
 </section>
 <section id="the-gibbs-sampler" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> The Gibbs sampler</h1>
-<p>Constructing a suitable proposal density <span class="math inline">\(q(\boldsymbol{\theta}^*|\boldsymbol{\theta})\)</span> may be difficult, especially when the target <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span> is high dimensional. Sometimes, it is more natural to update subsets of components of <span class="math inline">\(\boldsymbol{\theta}\)</span> in a single Metropolis-Hastings step, with steps for these different subsets combined to give a single algorithm. Moreover, for many problems of interest, the corresponding <em>full conditional distributions (FCDs)</em> associated with these subsets of components may be available for sampling from. This leads to an MCMC technique known as <em>the Gibbs sampler</em>.</p>
-<section id="component-wise-and-block-wise-transitions" class="level2" data-number="3.1">
-<h2 data-number="3.1"><span class="header-section-number">3.1</span> Component-wise and block-wise transitions</h2>
-<p>Suppose that <span class="math inline">\(\boldsymbol{\theta}\)</span> can be decomposed into <span class="math inline">\((\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)&#39;\)</span> and that, for the moment, <span class="math inline">\(\boldsymbol{\theta}_B\)</span> is fixed and known. We therefore wish to generate samples from a target density <span class="math inline">\(\pi(\boldsymbol{\theta}_A|\boldsymbol{\theta}_B)\)</span> using Metropolis-Hastings with a proposal <span class="math display">\[q(\boldsymbol{\theta}_A^*|\boldsymbol{\theta}_A):=q(\boldsymbol{\theta}_A^*|\boldsymbol{\theta}_A,\boldsymbol{\theta}_B).\]</span> The MH acceptance probability is <span class="math inline">\(\min\{1,R\}\)</span> where <span class="math display">\[\begin{aligned}
+<h1 data-number="3"><span class="header-section-number">3</span> The
+Gibbs sampler</h1>
+<p>Constructing a suitable proposal density <span
+class="math inline">\(q(\boldsymbol{\theta}^*|\boldsymbol{\theta})\)</span>
+may be difficult, especially when the target <span
+class="math inline">\(\pi(\boldsymbol{\theta})\)</span> is high
+dimensional. Sometimes, it is more natural to update subsets of
+components of <span class="math inline">\(\boldsymbol{\theta}\)</span>
+in a single Metropolis-Hastings step, with steps for these different
+subsets combined to give a single algorithm. Moreover, for many problems
+of interest, the corresponding <em>full conditional distributions
+(FCDs)</em> associated with these subsets of components may be available
+for sampling from. This leads to an MCMC technique known as <em>the
+Gibbs sampler</em>.</p>
+<section id="component-wise-and-block-wise-transitions" class="level2"
+data-number="3.1">
+<h2 data-number="3.1"><span class="header-section-number">3.1</span>
+Component-wise and block-wise transitions</h2>
+<p>Suppose that <span class="math inline">\(\boldsymbol{\theta}\)</span>
+can be decomposed into <span
+class="math inline">\((\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)&#39;\)</span>
+and that, for the moment, <span
+class="math inline">\(\boldsymbol{\theta}_B\)</span> is fixed and known.
+We therefore wish to generate samples from a target density <span
+class="math inline">\(\pi(\boldsymbol{\theta}_A|\boldsymbol{\theta}_B)\)</span>
+using Metropolis-Hastings with a proposal <span
+class="math display">\[q(\boldsymbol{\theta}_A^*|\boldsymbol{\theta}_A):=q(\boldsymbol{\theta}_A^*|\boldsymbol{\theta}_A,\boldsymbol{\theta}_B).\]</span>
+The MH acceptance probability is <span
+class="math inline">\(\min\{1,R\}\)</span> where <span
+class="math display">\[\begin{aligned}
 R(\boldsymbol{\theta}^{*}_A|\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)&amp;=
 \frac{\pi(\boldsymbol{\theta}^{*}_A|\boldsymbol{\theta}_B)\,q(\boldsymbol{\theta}_A|\boldsymbol{\theta}_A^{*})}{\pi(\boldsymbol{\theta}_A|\boldsymbol{\theta}_B)\,q(\boldsymbol{\theta}_A^{*}|\boldsymbol{\theta}_A)}\\
-&amp;=\frac{\pi(\boldsymbol{\theta}^{*}_A,\boldsymbol{\theta}_B)/\pi(\boldsymbol{\theta}_B)}{\pi(\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)/\pi(\boldsymbol{\theta}_B)}\times 
+&amp;=\frac{\pi(\boldsymbol{\theta}^{*}_A,\boldsymbol{\theta}_B)/\pi(\boldsymbol{\theta}_B)}{\pi(\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)/\pi(\boldsymbol{\theta}_B)}\times
 \frac{q(\boldsymbol{\theta}_A|\boldsymbol{\theta}_A^{*})}{q(\boldsymbol{\theta}_A^{*}|\boldsymbol{\theta}_A)}\\
-&amp;=\frac{\pi(\boldsymbol{\theta}^{*}_A,\boldsymbol{\theta}_B)}{\pi(\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)}\times 
-\frac{q(\boldsymbol{\theta}_A|\boldsymbol{\theta}_A^{*})}{q(\boldsymbol{\theta}_A^{*}|\boldsymbol{\theta}_A)}.\end{aligned}\]</span> Hence, we may use the full target in the acceptance probability; the only difference is that some of the parameters, <span class="math inline">\(\boldsymbol{\theta}_B\)</span>, have not changed. If the update is accepted then the current state of the chain becomes <span class="math inline">\((\boldsymbol{\theta}_A^*,\boldsymbol{\theta}_B)&#39;\)</span> otherwise it is <span class="math inline">\((\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)&#39;\)</span>.</p>
-<p>Now suppose that <span class="math inline">\(\boldsymbol{\theta}\)</span> is in its stationary distribution. Then, its density is <span class="math inline">\(\pi(\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)=\pi(\boldsymbol{\theta}_B)\pi(\boldsymbol{\theta}_A|\boldsymbol{\theta}_B)\)</span>. If we apply the above MH step to <span class="math inline">\(\boldsymbol{\theta}_A\)</span> then:</p>
+&amp;=\frac{\pi(\boldsymbol{\theta}^{*}_A,\boldsymbol{\theta}_B)}{\pi(\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)}\times
+\frac{q(\boldsymbol{\theta}_A|\boldsymbol{\theta}_A^{*})}{q(\boldsymbol{\theta}_A^{*}|\boldsymbol{\theta}_A)}.
+\end{aligned}\]</span> Hence, we may use the full target in the
+acceptance probability; the only difference is that some of the
+parameters, <span class="math inline">\(\boldsymbol{\theta}_B\)</span>,
+have not changed. If the update is accepted then the current state of
+the chain becomes <span
+class="math inline">\((\boldsymbol{\theta}_A^*,\boldsymbol{\theta}_B)&#39;\)</span>
+otherwise it is <span
+class="math inline">\((\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)&#39;\)</span>.</p>
+<p>Now suppose that <span
+class="math inline">\(\boldsymbol{\theta}\)</span> is in its stationary
+distribution. Then, its density is <span
+class="math inline">\(\pi(\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)=\pi(\boldsymbol{\theta}_B)\pi(\boldsymbol{\theta}_A|\boldsymbol{\theta}_B)\)</span>.
+If we apply the above MH step to <span
+class="math inline">\(\boldsymbol{\theta}_A\)</span> then:</p>
 <ul>
-<li><p>By design of the MH step, the conditional distribution <span class="math inline">\(\pi(\boldsymbol{\theta}_A|\boldsymbol{\theta}_B)\)</span> is preserved.</p></li>
-<li><p>We have not altered <span class="math inline">\(\boldsymbol{\theta}_B\)</span> so its distribution <span class="math inline">\(\pi(\boldsymbol{\theta}_B)\)</span> is preserved.</p></li>
+<li><p>By design of the MH step, the conditional distribution <span
+class="math inline">\(\pi(\boldsymbol{\theta}_A|\boldsymbol{\theta}_B)\)</span>
+is preserved.</p></li>
+<li><p>We have not altered <span
+class="math inline">\(\boldsymbol{\theta}_B\)</span> so its distribution
+<span class="math inline">\(\pi(\boldsymbol{\theta}_B)\)</span> is
+preserved.</p></li>
 </ul>
-<p>Hence, <span class="math inline">\((\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)&#39;\sim \pi(\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)\)</span>.</p>
-<p><strong>Problem:</strong> If <em>only</em> <span class="math inline">\(\boldsymbol{\theta}_A\)</span> is updated, then the Markov chain would be <em>reducible</em>, so it would never converge to <span class="math inline">\(\pi(\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)\)</span> in the first place.</p>
-<p><strong>Solution:</strong> We alternate updates to <span class="math inline">\(\boldsymbol{\theta}_A\)</span> and <span class="math inline">\(\boldsymbol{\theta}_B\)</span>, with the latter using some proposal density <span class="math inline">\(q(\boldsymbol{\theta}_B^*|\boldsymbol{\theta}_B):=q(\boldsymbol{\theta}_B^*|\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)\)</span>.</p>
-<p>This approach applies more generally, with <span class="math inline">\(\boldsymbol{\theta}\)</span> split into three or more vectors e.g. <span class="math inline">\(\boldsymbol{\theta}_A\)</span>, <span class="math inline">\(\boldsymbol{\theta}_B\)</span>, <span class="math inline">\(\boldsymbol{\theta}_C\)</span>,... This is called a <em>block update</em>. Now recall that <span class="math inline">\(\boldsymbol{\theta}=(\theta_1,\theta_2,\ldots,\theta_d)&#39;\)</span> and denote the FCD for the <span class="math inline">\(i\)</span>th component of <span class="math inline">\(\boldsymbol{\theta}\)</span> by <span class="math display">\[\pi(\theta_i|\boldsymbol{\theta}_{-i}):=\pi(\theta_i|\theta_{1},\ldots,\theta_{i-1},\theta_{i+1},\ldots,\theta_{d}).\]</span> An algorithm that cycles through MH steps for all components in turn is as follows:</p>
+<p>Hence, <span
+class="math inline">\((\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)&#39;\sim
+\pi(\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)\)</span>.</p>
+<p><strong>Problem:</strong> If <em>only</em> <span
+class="math inline">\(\boldsymbol{\theta}_A\)</span> is updated, then
+the Markov chain would be <em>reducible</em>, so it would never converge
+to <span
+class="math inline">\(\pi(\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)\)</span>
+in the first place.</p>
+<p><strong>Solution:</strong> We alternate updates to <span
+class="math inline">\(\boldsymbol{\theta}_A\)</span> and <span
+class="math inline">\(\boldsymbol{\theta}_B\)</span>, with the latter
+using some proposal density <span
+class="math inline">\(q(\boldsymbol{\theta}_B^*|\boldsymbol{\theta}_B):=q(\boldsymbol{\theta}_B^*|\boldsymbol{\theta}_A,\boldsymbol{\theta}_B)\)</span>.</p>
+<p>This approach applies more generally, with <span
+class="math inline">\(\boldsymbol{\theta}\)</span> split into three or
+more vectors e.g. <span
+class="math inline">\(\boldsymbol{\theta}_A\)</span>, <span
+class="math inline">\(\boldsymbol{\theta}_B\)</span>, <span
+class="math inline">\(\boldsymbol{\theta}_C\)</span>,... This is called
+a <em>block update</em>. Now recall that <span
+class="math inline">\(\boldsymbol{\theta}=(\theta_1,\theta_2,\ldots,\theta_d)&#39;\)</span>
+and denote the FCD for the <span class="math inline">\(i\)</span>th
+component of <span class="math inline">\(\boldsymbol{\theta}\)</span> by
+<span
+class="math display">\[\pi(\theta_i|\boldsymbol{\theta}_{-i}):=\pi(\theta_i|\theta_{1},\ldots,\theta_{i-1},\theta_{i+1},\ldots,\theta_{d}).\]</span>
+An algorithm that cycles through MH steps for all components in turn is
+as follows:</p>
 <ol>
-<li><p>Initialise the state of the chain to <span class="math inline">\(\boldsymbol{\theta}^{(0)}=(\theta_1^{(0)},\ldots,\theta_d^{(0)})&#39;\)</span>. Initialise the iteration counter to <span class="math inline">\(j=1\)</span>.</p></li>
-<li><p>Obtain a new value <span class="math inline">\(\boldsymbol{\theta}^{(j)}\)</span> from <span class="math inline">\(\boldsymbol{\theta}^{(j-1)}\)</span> by successive generation of values</p>
+<li><p>Initialise the state of the chain to <span
+class="math inline">\(\boldsymbol{\theta}^{(0)}=(\theta_1^{(0)},\ldots,\theta_d^{(0)})&#39;\)</span>.
+Initialise the iteration counter to <span
+class="math inline">\(j=1\)</span>.</p></li>
+<li><p>Obtain a new value <span
+class="math inline">\(\boldsymbol{\theta}^{(j)}\)</span> from <span
+class="math inline">\(\boldsymbol{\theta}^{(j-1)}\)</span> by successive
+generation of values</p>
 <ul>
-<li><p><span class="math inline">\(\theta_1^{(j)}\sim \pi(\theta_1|\theta_{2}^{(j-1)},\ldots,\theta_{d}^{(j-1)})\)</span> using a Metropolis–Hastings step with proposal distribution <span class="math inline">\(q_1(\phi_1|\theta_1^{(j-1)})\)</span></p></li>
-<li><p><span class="math inline">\(\theta_2^{(j)}\sim \pi(\theta_2|\theta_{1}^{(j)},\theta_{3}^{(j-1)},\ldots,\theta_{d}^{(j-1)})\)</span> using a Metropolis–Hastings step with proposal distribution <span class="math inline">\(q_2(\phi_2|\theta_2^{(j-1)})\)</span></p></li>
+<li><p><span class="math inline">\(\theta_1^{(j)}\sim
+\pi(\theta_1|\theta_{2}^{(j-1)},\ldots,\theta_{d}^{(j-1)})\)</span>
+using a Metropolis–Hastings step with proposal distribution <span
+class="math inline">\(q_1(\phi_1|\theta_1^{(j-1)})\)</span></p></li>
+<li><p><span class="math inline">\(\theta_2^{(j)}\sim
+\pi(\theta_2|\theta_{1}^{(j)},\theta_{3}^{(j-1)},\ldots,\theta_{d}^{(j-1)})\)</span>
+using a Metropolis–Hastings step with proposal distribution <span
+class="math inline">\(q_2(\phi_2|\theta_2^{(j-1)})\)</span></p></li>
 <li><p><span class="math inline">\(\vdots\)</span></p></li>
-<li><p><span class="math inline">\(\theta_d^{(j)}\sim \pi(\theta_d|\theta_{1}^{(j)},\ldots,\theta_{d-1}^{(j)})\)</span> using a Metropolis–Hastings step with proposal distribution <span class="math inline">\(q_d(\theta_d|\theta_d^{(j-1)})\)</span></p></li>
+<li><p><span class="math inline">\(\theta_d^{(j)}\sim
+\pi(\theta_d|\theta_{1}^{(j)},\ldots,\theta_{d-1}^{(j)})\)</span> using
+a Metropolis–Hastings step with proposal distribution <span
+class="math inline">\(q_d(\theta_d|\theta_d^{(j-1)})\)</span></p></li>
 </ul></li>
-<li><p>If <span class="math inline">\(j=N\)</span>, stop, otherwise put <span class="math inline">\(j\)</span> to <span class="math inline">\(j+1\)</span>, and return to step 2.</p></li>
+<li><p>If <span class="math inline">\(j=N\)</span>, stop, otherwise put
+<span class="math inline">\(j\)</span> to <span
+class="math inline">\(j+1\)</span>, and return to step 2.</p></li>
 </ol>
 <p><strong>Remarks:</strong></p>
 <ul>
-<li><p>This is in fact (close to) the original form of the Metropolis algorithm.</p></li>
-<li><p>If the FCD <span class="math inline">\(\pi(\theta_i|\boldsymbol{\theta}_{-i})\)</span> is available for sampling from directly for a particular component <span class="math inline">\(\theta_{i}\)</span>, it is easy to see that the resulting acceptance probability is 1. When all FCDs are available for sampling from, we obtain an algorithm known as the Gibbs sampler.</p></li>
+<li><p>This is in fact (close to) the original form of the Metropolis
+algorithm.</p></li>
+<li><p>If the FCD <span
+class="math inline">\(\pi(\theta_i|\boldsymbol{\theta}_{-i})\)</span> is
+available for sampling from directly for a particular component <span
+class="math inline">\(\theta_{i}\)</span>, it is easy to see that the
+resulting acceptance probability is 1. When all FCDs are available for
+sampling from, we obtain an algorithm known as the Gibbs
+sampler.</p></li>
 </ul>
 </section>
 <section id="the-gibbs-sampler-1" class="level2" data-number="3.2">
-<h2 data-number="3.2"><span class="header-section-number">3.2</span> The Gibbs sampler</h2>
-<p>We will consider first the algorithm and then examine its properties. The algorithm has the following form.</p>
+<h2 data-number="3.2"><span class="header-section-number">3.2</span> The
+Gibbs sampler</h2>
+<p>We will consider first the algorithm and then examine its properties.
+The algorithm has the following form.</p>
 <ol>
-<li><p>Initialise the state of the chain to <span class="math inline">\(\boldsymbol{\theta}^{(0)}=(\theta_1^{(0)},\ldots,\theta_d^{(0)})&#39;\)</span>. Initialise the iteration counter to <span class="math inline">\(j=1\)</span>.</p></li>
-<li><p>Obtain a new value <span class="math inline">\(\boldsymbol{\theta}^{(j)}\)</span> from <span class="math inline">\(\boldsymbol{\theta}^{(j-1)}\)</span> by successive generation of values</p>
+<li><p>Initialise the state of the chain to <span
+class="math inline">\(\boldsymbol{\theta}^{(0)}=(\theta_1^{(0)},\ldots,\theta_d^{(0)})&#39;\)</span>.
+Initialise the iteration counter to <span
+class="math inline">\(j=1\)</span>.</p></li>
+<li><p>Obtain a new value <span
+class="math inline">\(\boldsymbol{\theta}^{(j)}\)</span> from <span
+class="math inline">\(\boldsymbol{\theta}^{(j-1)}\)</span> by successive
+generation of values</p>
 <ul>
-<li><p><span class="math inline">\(\theta_1^{(j)}\sim \pi(\theta_1|\theta_{2}^{(j-1)},\ldots,\theta_{d}^{(j-1)})\)</span></p></li>
-<li><p><span class="math inline">\(\theta_2^{(j)}\sim \pi(\theta_2|\theta_{1}^{(j)},\theta_{3}^{(j-1)},\ldots,\theta_{d}^{(j-1)})\)</span></p></li>
+<li><p><span class="math inline">\(\theta_1^{(j)}\sim
+\pi(\theta_1|\theta_{2}^{(j-1)},\ldots,\theta_{d}^{(j-1)})\)</span></p></li>
+<li><p><span class="math inline">\(\theta_2^{(j)}\sim
+\pi(\theta_2|\theta_{1}^{(j)},\theta_{3}^{(j-1)},\ldots,\theta_{d}^{(j-1)})\)</span></p></li>
 <li><p><span class="math inline">\(\vdots\)</span></p></li>
-<li><p><span class="math inline">\(\theta_d^{(j)}\sim \pi(\theta_d|\theta_{1}^{(j)},\ldots,\theta_{d-1}^{(j)})\)</span></p></li>
+<li><p><span class="math inline">\(\theta_d^{(j)}\sim
+\pi(\theta_d|\theta_{1}^{(j)},\ldots,\theta_{d-1}^{(j)})\)</span></p></li>
 </ul></li>
-<li><p>If <span class="math inline">\(j=N\)</span>, stop, otherwise put <span class="math inline">\(j\)</span> to <span class="math inline">\(j+1\)</span>, and return to step 2.</p></li>
+<li><p>If <span class="math inline">\(j=N\)</span>, stop, otherwise put
+<span class="math inline">\(j\)</span> to <span
+class="math inline">\(j+1\)</span>, and return to step 2.</p></li>
 </ol>
 <p><strong>Remarks:</strong></p>
 <ul>
-<li><p>The algorithm above updates the components of <span class="math inline">\(\boldsymbol{\theta}\)</span> in order. This is known as the <em>deterministic scan</em> Gibbs sampler.</p></li>
-<li><p>The algorithm clearly defines a homogeneous Markov chain, as each simulated value depends only on the previous simulated value and not on any previous value or the iteration counter <span class="math inline">\(j\)</span>.</p></li>
+<li><p>The algorithm above updates the components of <span
+class="math inline">\(\boldsymbol{\theta}\)</span> in order. This is
+known as the <em>deterministic scan</em> Gibbs sampler.</p></li>
+<li><p>The algorithm clearly defines a homogeneous Markov chain, as each
+simulated value depends only on the previous simulated value and not on
+any previous value or the iteration counter <span
+class="math inline">\(j\)</span>.</p></li>
 </ul>
 <section id="validity" class="level3" data-number="3.2.1">
-<h3 data-number="3.2.1"><span class="header-section-number">3.2.1</span> Validity</h3>
+<h3 data-number="3.2.1"><span class="header-section-number">3.2.1</span>
+Validity</h3>
 <section id="a-note-on-reversible-chains" class="level4 unnumbered">
 <h4 class="unnumbered">A note on reversible chains</h4>
-<p>If <span class="math inline">\(\boldsymbol{\theta}^{(0)},\boldsymbol{\theta}^{(1)},\ldots,\boldsymbol{\theta}^{(N)}\)</span> is a Markov chain then it is straightforward to show that the reversed sequence of states <span class="math inline">\(\boldsymbol{\theta}^{(N)}, \boldsymbol{\theta}^{(N-1)},\ldots,  \boldsymbol{\theta}^{(0)}\)</span> is also a Markov chain. Let <span class="math inline">\(p(\boldsymbol{\phi}|\boldsymbol{\theta})\)</span> denote the transition density for the forward chain. The reversed chain is not homogeneous in general, however, if the chain is in equilibrium then the transition density for the reversed chain is, via Bayes Theorem <span class="math display">\[p^*(\boldsymbol{\phi}|\boldsymbol{\theta}) = \frac{p(\boldsymbol{\theta}|\boldsymbol{\phi})\pi(\boldsymbol{\phi})}{\pi^(\boldsymbol{\theta})}.\]</span></p>
-<p><strong>Definition:</strong> <em>The chain is reversible if <span class="math inline">\(p^*(\boldsymbol{\phi}|\boldsymbol{\theta})=p(\boldsymbol{\phi}|\boldsymbol{\theta})\)</span></em></p>
-<p>A consequence of reversibility is the <em>detailed balance equation</em>: <span class="math display">\[\pi(\boldsymbol{\theta})p(\boldsymbol{\phi}|\boldsymbol{\theta})=\pi(\boldsymbol{\phi})p(\boldsymbol{\theta}|\boldsymbol{\phi}).\]</span> Alternatively, if a chain satisfies detailed balance then it is also reversible. Unfortunately, the deterministic scan Gibbs sampler is <strong>not</strong> reversible, so we can’t use detailed balance to check that <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span> is stationary.</p>
+<p>If <span
+class="math inline">\(\boldsymbol{\theta}^{(0)},\boldsymbol{\theta}^{(1)},\ldots,\boldsymbol{\theta}^{(N)}\)</span>
+is a Markov chain then it is straightforward to show that the reversed
+sequence of states <span
+class="math inline">\(\boldsymbol{\theta}^{(N)},
+\boldsymbol{\theta}^{(N-1)},\ldots,  \boldsymbol{\theta}^{(0)}\)</span>
+is also a Markov chain. Let <span
+class="math inline">\(p(\boldsymbol{\phi}|\boldsymbol{\theta})\)</span>
+denote the transition density for the forward chain. The reversed chain
+is not homogeneous in general, however, if the chain is in equilibrium
+then the transition density for the reversed chain is, via Bayes Theorem
+<span class="math display">\[p^*(\boldsymbol{\phi}|\boldsymbol{\theta})
+=
+\frac{p(\boldsymbol{\theta}|\boldsymbol{\phi})\pi(\boldsymbol{\phi})}{\pi^(\boldsymbol{\theta})}.\]</span></p>
+<p><strong>Definition:</strong> <em>The chain is reversible if <span
+class="math inline">\(p^*(\boldsymbol{\phi}|\boldsymbol{\theta})=p(\boldsymbol{\phi}|\boldsymbol{\theta})\)</span></em></p>
+<p>A consequence of reversibility is the <em>detailed balance
+equation</em>: <span
+class="math display">\[\pi(\boldsymbol{\theta})p(\boldsymbol{\phi}|\boldsymbol{\theta})=\pi(\boldsymbol{\phi})p(\boldsymbol{\theta}|\boldsymbol{\phi}).\]</span>
+Alternatively, if a chain satisfies detailed balance then it is also
+reversible. Unfortunately, the deterministic scan Gibbs sampler is
+<strong>not</strong> reversible, so we can’t use detailed balance to
+check that <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>
+is stationary.</p>
 </section>
 <section id="direct-checking" class="level4 unnumbered">
 <h4 class="unnumbered">Direct checking</h4>
-<p>The Gibbs sampler admits a Markov chain with transition density <span class="math display">\[p(\boldsymbol{\phi}|\boldsymbol{\theta}) = \prod_{i=1}^d\pi(\phi_i | 
-\phi_1,\ldots,\phi_{i-1},\theta_{i+1},\ldots,\theta_d).\]</span> To check stationarity directly, we show that <span class="math display">\[\pi(\boldsymbol{\phi}) = \int p(\boldsymbol{\phi}|\boldsymbol{\theta})\pi(\boldsymbol{\theta})d\boldsymbol{\theta}.\]</span> Starting with the RHS, we have <span class="math display">\[\begin{aligned}
-\int p(\boldsymbol{\phi}|\boldsymbol{\theta})\pi(\boldsymbol{\theta})d\boldsymbol{\theta}&amp;= 
-\int\cdots\int \pi(\boldsymbol{\theta})d\theta_1\, \pi(\phi_1|\theta_2,\ldots,\theta_d)\ldots \pi(\phi_d|\phi_1,\ldots,\phi_{d-1})d\theta_2\ldots d\theta_d\\
-&amp;=\int\cdots\int \pi(\phi_1,\theta_2,\ldots,\theta_d)d\theta_2\, 
-\pi(\phi_2|\phi_1,\theta_3,\ldots,\theta_d)\ldots \pi(\phi_d|\phi_1,\ldots,\phi_{d-1})d\theta_3\ldots d\theta_d\\
+<p>The Gibbs sampler admits a Markov chain with transition density <span
+class="math display">\[p(\boldsymbol{\phi}|\boldsymbol{\theta}) =
+\prod_{i=1}^d\pi(\phi_i |
+\phi_1,\ldots,\phi_{i-1},\theta_{i+1},\ldots,\theta_d).\]</span> To
+check stationarity directly, we show that <span
+class="math display">\[\pi(\boldsymbol{\phi}) = \int
+p(\boldsymbol{\phi}|\boldsymbol{\theta})\pi(\boldsymbol{\theta})d\boldsymbol{\theta}.\]</span>
+Starting with the RHS, we have <span
+class="math display">\[\begin{aligned}
+\int
+p(\boldsymbol{\phi}|\boldsymbol{\theta})\pi(\boldsymbol{\theta})d\boldsymbol{\theta}&amp;=
+\int\cdots\int \pi(\boldsymbol{\theta})d\theta_1\,
+\pi(\phi_1|\theta_2,\ldots,\theta_d)\ldots
+\pi(\phi_d|\phi_1,\ldots,\phi_{d-1})d\theta_2\ldots d\theta_d\\
+&amp;=\int\cdots\int \pi(\phi_1,\theta_2,\ldots,\theta_d)d\theta_2\,
+\pi(\phi_2|\phi_1,\theta_3,\ldots,\theta_d)\ldots
+\pi(\phi_d|\phi_1,\ldots,\phi_{d-1})d\theta_3\ldots d\theta_d\\
 &amp;= \ldots\\
-&amp;= \int \pi(\phi_1,\ldots,\phi_{d-1},\theta_d)d\theta_d\, 
+&amp;= \int \pi(\phi_1,\ldots,\phi_{d-1},\theta_d)d\theta_d\,
 \pi(\phi_d|\phi_1,\ldots,\phi_{d-1})\\
-&amp;=\pi(\phi_1,\ldots,\phi_d)\end{aligned}\]</span> as required.</p>
+&amp;=\pi(\phi_1,\ldots,\phi_d)
+\end{aligned}\]</span> as required.</p>
 </section>
 </section>
-<section id="reversible-gibbs-samplers" class="level3" data-number="3.2.2">
-<h3 data-number="3.2.2"><span class="header-section-number">3.2.2</span> Reversible Gibbs samplers</h3>
-<p>While the standard <em>deterministic scan</em> version of the Gibbs sampler presented above is not reversible, each <em>component update</em> is in fact reversible. Hence there are several variations of the Gibbs sampler that <em>are</em> reversible, and hence do satisfy the detailed balance equation. Let’s start by considering each component update separately.</p>
-<p>Suppose we wish to update component <span class="math inline">\(i\)</span>, that is, we update <span class="math inline">\(\boldsymbol{\theta}\)</span> by replacing <span class="math inline">\(\theta_i\)</span> with <span class="math inline">\(\phi_i\)</span> drawn from <span class="math inline">\(\pi(\phi_i|\boldsymbol{\theta}_{-i})\)</span>, where <span class="math inline">\(\boldsymbol{\theta}_{-i}=(\theta_{1},\ldots,\theta_{i-1},\theta_{i+1},\ldots,\theta_{d})&#39;\)</span>. All the other components are not changed. The transition kernel for this update is <span class="math display">\[p(\boldsymbol{\phi}|\boldsymbol{\theta})=\pi(\phi_i|\boldsymbol{\theta}_{-i})I(\boldsymbol{\theta}_{-i}=\boldsymbol{\phi}_{-i})\]</span> where <span class="math display">\[I(E)=\begin{cases}1&amp; \textrm{if $E$ is true}\\0 &amp;\textrm{if $E$ is false}\end{cases}.\]</span> Note that the density is zero for a transition changing any but the <span class="math inline">\(i\)</span>-th component. Now we can check detailed balance: <span class="math display">\[\begin{aligned}
+<section id="reversible-gibbs-samplers" class="level3"
+data-number="3.2.2">
+<h3 data-number="3.2.2"><span class="header-section-number">3.2.2</span>
+Reversible Gibbs samplers</h3>
+<p>While the standard <em>deterministic scan</em> version of the Gibbs
+sampler presented above is not reversible, each <em>component
+update</em> is in fact reversible. Hence there are several variations of
+the Gibbs sampler that <em>are</em> reversible, and hence do satisfy the
+detailed balance equation. Let’s start by considering each component
+update separately.</p>
+<p>Suppose we wish to update component <span
+class="math inline">\(i\)</span>, that is, we update <span
+class="math inline">\(\boldsymbol{\theta}\)</span> by replacing <span
+class="math inline">\(\theta_i\)</span> with <span
+class="math inline">\(\phi_i\)</span> drawn from <span
+class="math inline">\(\pi(\phi_i|\boldsymbol{\theta}_{-i})\)</span>,
+where <span
+class="math inline">\(\boldsymbol{\theta}_{-i}=(\theta_{1},\ldots,\theta_{i-1},\theta_{i+1},\ldots,\theta_{d})&#39;\)</span>.
+All the other components are not changed. The transition kernel for this
+update is <span
+class="math display">\[p(\boldsymbol{\phi}|\boldsymbol{\theta})=\pi(\phi_i|\boldsymbol{\theta}_{-i})\delta(\boldsymbol{\theta}_{-i}-\boldsymbol{\phi}_{-i})\]</span>
+where <span class="math inline">\(\delta(\cdot)\)</span> denotes the
+usual Dirac mass. Note that the density is zero for a transition
+changing any but the <span class="math inline">\(i\)</span>-th
+component. Now we can check detailed balance: <span
+class="math display">\[\begin{aligned}
 \pi(\boldsymbol{\theta})p(\boldsymbol{\phi}|\boldsymbol{\theta})&amp;=
-\pi(\boldsymbol{\theta})\pi(\phi_i|\boldsymbol{\theta}_{-i})I(\boldsymbol{\theta}_{-i}=\boldsymbol{\phi}_{-i})\\
-&amp;= \pi(\boldsymbol{\theta}_{-i})\pi(\theta_i|\boldsymbol{\theta}_{-i}) \pi(\phi_i|\boldsymbol{\theta}_{-i})I(\boldsymbol{\theta}_{-i}=\boldsymbol{\phi}_{-i})\\
-&amp;= \pi(\boldsymbol{\phi}_{-i})\pi(\theta_i|\boldsymbol{\phi}_{-i}) \pi(\phi_i|\boldsymbol{\phi}_{-i})I(\boldsymbol{\theta}_{-i}=\boldsymbol{\phi}_{-i})\quad\textrm{since\ }\boldsymbol{\phi}_{-i}=\boldsymbol{\theta}_{-i}\\
-&amp;= \pi(\boldsymbol{\phi})\pi(\theta_i|\boldsymbol{\phi}_{-i}) I(\boldsymbol{\theta}_{-i}=\boldsymbol{\phi}_{-i})\\
-&amp;=\pi(\boldsymbol{\phi})p(\boldsymbol{\theta}|\boldsymbol{\phi}).\end{aligned}\]</span> Detailed balance therefore holds, and hence the update is reversible with stationary distribution <span class="math inline">\(\pi(\boldsymbol{\theta})\)</span>.</p>
+\pi(\boldsymbol{\theta})\pi(\phi_i|\boldsymbol{\theta}_{-i})\delta(\boldsymbol{\theta}_{-i}-\boldsymbol{\phi}_{-i})\\
+&amp;=
+\pi(\boldsymbol{\theta}_{-i})\pi(\theta_i|\boldsymbol{\theta}_{-i})
+\pi(\phi_i|\boldsymbol{\theta}_{-i})\delta(\boldsymbol{\theta}_{-i}-\boldsymbol{\phi}_{-i})\\
+&amp;= \pi(\boldsymbol{\phi}_{-i})\pi(\theta_i|\boldsymbol{\phi}_{-i})
+\pi(\phi_i|\boldsymbol{\phi}_{-i})\delta(\boldsymbol{\theta}_{-i}-\boldsymbol{\phi}_{-i})\quad\textrm{since\
+}\boldsymbol{\phi}_{-i}=\boldsymbol{\theta}_{-i}\\
+&amp;= \pi(\boldsymbol{\phi})\pi(\theta_i|\boldsymbol{\phi}_{-i})
+\delta(\boldsymbol{\theta}_{-i}-\boldsymbol{\phi}_{-i})\\
+&amp;=\pi(\boldsymbol{\phi})p(\boldsymbol{\theta}|\boldsymbol{\phi}).
+\end{aligned}\]</span> Detailed balance therefore holds, and hence the
+update is reversible with stationary distribution <span
+class="math inline">\(\pi(\boldsymbol{\theta})\)</span>.</p>
 <p><strong>Remarks:</strong></p>
 <ul>
-<li><p>Recall that the chain defined by a single update is <em>reducible</em> and hence will not converge to the stationary distribution from an arbitrary starting point.</p></li>
-<li><p>In order to ensure <em>irreducibility</em> we need to make sure that we update each component of the chain sufficiently often. As we have seen, one way to do this is to update each component in a fixed order. The drawback with this is that we lose reversibility when we do this.</p></li>
-<li><p>An alternative is to pick a component at random at each stage, and update that. This gives a reversible chain with the required stationary distribution, and is known as the <em>random scan</em> Gibbs sampler.</p></li>
+<li><p>Recall that the chain defined by a single update is
+<em>reducible</em> and hence will not converge to the stationary
+distribution from an arbitrary starting point.</p></li>
+<li><p>In order to ensure <em>irreducibility</em> we need to make sure
+that we update each component of the chain sufficiently often. As we
+have seen, one way to do this is to update each component in a fixed
+order. The drawback with this is that we lose reversibility when we do
+this.</p></li>
+<li><p>An alternative is to pick a component at random at each stage,
+and update that. This gives a reversible chain with the required
+stationary distribution, and is known as the <em>random scan</em> Gibbs
+sampler.</p></li>
 </ul>
 </section>
-<section id="gibbs-sampling-in-practice" class="level3" data-number="3.2.3">
-<h3 data-number="3.2.3"><span class="header-section-number">3.2.3</span> Gibbs sampling in practice</h3>
-<p><strong>Example 3.2.1:</strong> <strong>(Bivariate Gaussian target.)</strong> <em>Consider a bivariate normal target with zero mean and unit variance for the marginals, but a correlation of <span class="math inline">\(\rho\)</span> between the two components. We have that <span class="math display">\[\begin{pmatrix} \theta_1\\ \theta_2 \end{pmatrix}\sim 
-N\left\{\begin{pmatrix}0\\0\end{pmatrix}\,,\, \begin{pmatrix} 1 &amp; \rho \\ \rho &amp; 1 \end{pmatrix}\right\}\]</span> with associated density <span class="math display">\[\pi(\theta_{1},\theta_{2})\propto \exp\left\{-\frac{1}{2(1-\rho^2)}\left(\theta_{1}^{2}+\theta_{2}^{2}-2\rho \theta_{1}\theta_{2}\right)\right\},\quad -\infty &lt;\theta_1,\theta_2&lt;\infty.\]</span> Let us construct a Gibbs sampler for this target.</em></p>
-<p><em>The full conditional density for <span class="math inline">\(\theta_1\)</span> is <span class="math display">\[\begin{aligned}
+<section id="gibbs-sampling-in-practice" class="level3"
+data-number="3.2.3">
+<h3 data-number="3.2.3"><span class="header-section-number">3.2.3</span>
+Gibbs sampling in practice</h3>
+<p><strong>Example 3.2.1:</strong> <strong>(Bivariate Gaussian
+target.)</strong> <em>Consider a bivariate normal target with zero mean
+and unit variance for the marginals, but a correlation of <span
+class="math inline">\(\rho\)</span> between the two components. We have
+that <span class="math display">\[\begin{pmatrix} \theta_1\\ \theta_2
+\end{pmatrix}\sim
+N\left\{\begin{pmatrix}0\\0\end{pmatrix}\,,\, \begin{pmatrix} 1 &amp;
+\rho \\ \rho &amp; 1 \end{pmatrix}\right\}\]</span> with associated
+density <span class="math display">\[\pi(\theta_{1},\theta_{2})\propto
+\exp\left\{-\frac{1}{2(1-\rho^2)}\left(\theta_{1}^{2}+\theta_{2}^{2}-2\rho
+\theta_{1}\theta_{2}\right)\right\},\quad -\infty
+&lt;\theta_1,\theta_2&lt;\infty.\]</span> Let us construct a Gibbs
+sampler for this target.</em></p>
+<p><em>The full conditional density for <span
+class="math inline">\(\theta_1\)</span> is <span
+class="math display">\[\begin{aligned}
 \pi(\theta_{1}|\theta_{2})&amp;=\frac{\pi(\theta_{1},\theta_{2})}{\pi(\theta_2)}\\
 &amp;\propto \pi(\theta_{1},\theta_{2})\\
-&amp;\propto \exp\left\{-\frac{1}{2(1-\rho^2)}\left(\theta_{1}^{2}-2\rho \theta_{1}\theta_{2}\right)\right\}\\
-&amp;\propto \exp\left\{-\frac{1}{2(1-\rho^2)}\left(\theta_{1}-\rho \theta_{2}\right)^2\right\}\end{aligned}\]</span> for which we find the full conditional distribution for <span class="math inline">\(\theta_1\)</span> as <span class="math display">\[\theta_{1}|\theta_{2}\sim N\left(\rho \theta_{2},1-\rho^2\right).\]</span> By symmetry, the full conditional distribution for <span class="math inline">\(\theta_2\)</span> is <span class="math display">\[\theta_{2}|\theta_{1}\sim N\left(\rho \theta_{1},1-\rho^2\right)\,.\]</span> The Gibbs sampler for the target above then has the following form.</em></p>
+&amp;\propto \exp\left\{-\frac{1}{2(1-\rho^2)}\left(\theta_{1}^{2}-2\rho
+\theta_{1}\theta_{2}\right)\right\}\\
+&amp;\propto \exp\left\{-\frac{1}{2(1-\rho^2)}\left(\theta_{1}-\rho
+\theta_{2}\right)^2\right\}
+\end{aligned}\]</span> for which we find the full conditional
+distribution for <span class="math inline">\(\theta_1\)</span> as <span
+class="math display">\[\theta_{1}|\theta_{2}\sim N\left(\rho
+\theta_{2},1-\rho^2\right).\]</span> By symmetry, the full conditional
+distribution for <span class="math inline">\(\theta_2\)</span> is <span
+class="math display">\[\theta_{2}|\theta_{1}\sim N\left(\rho
+\theta_{1},1-\rho^2\right)\,.\]</span> The Gibbs sampler for the target
+above then has the following form.</em></p>
 <ol>
-<li><p><em>Initialise the state of the chain to <span class="math inline">\(\boldsymbol{\theta}^{(0)}=(\theta_1^{(0)},\theta_2^{(0)})&#39;\)</span>. Initialise the iteration counter to <span class="math inline">\(j=1\)</span>.</em></p></li>
-<li><p><em>Obtain a new value <span class="math inline">\(\boldsymbol{\theta}^{(j)}\)</span> from <span class="math inline">\(\boldsymbol{\theta}^{(j-1)}\)</span> by successive generation of values</em></p>
+<li><p><em>Initialise the state of the chain to <span
+class="math inline">\(\boldsymbol{\theta}^{(0)}=(\theta_1^{(0)},\theta_2^{(0)})&#39;\)</span>.
+Initialise the iteration counter to <span
+class="math inline">\(j=1\)</span>.</em></p></li>
+<li><p><em>Obtain a new value <span
+class="math inline">\(\boldsymbol{\theta}^{(j)}\)</span> from <span
+class="math inline">\(\boldsymbol{\theta}^{(j-1)}\)</span> by successive
+generation of values</em></p>
 <ul>
-<li><p><span class="math inline">\(\theta_1^{(j)}\sim N\left(\rho \theta_{2}^{(j-1)},1-\rho^2\right)\)</span></p></li>
-<li><p><span class="math inline">\(\theta_2^{(j)}\sim N\left(\rho \theta_{1}^{(j)},1-\rho^2\right)\)</span></p></li>
+<li><p><span class="math inline">\(\theta_1^{(j)}\sim N\left(\rho
+\theta_{2}^{(j-1)},1-\rho^2\right)\)</span></p></li>
+<li><p><span class="math inline">\(\theta_2^{(j)}\sim N\left(\rho
+\theta_{1}^{(j)},1-\rho^2\right)\)</span></p></li>
 </ul></li>
-<li><p><em>If <span class="math inline">\(j=N\)</span>, stop, otherwise put <span class="math inline">\(j\)</span> to <span class="math inline">\(j+1\)</span>, and return to step 2.</em></p></li>
+<li><p><em>If <span class="math inline">\(j=N\)</span>, stop, otherwise
+put <span class="math inline">\(j\)</span> to <span
+class="math inline">\(j+1\)</span>, and return to step 2.</em></p></li>
 </ol>
 <p><em>The following R code implements this sampler.</em></p>
-<div class="sourceCode" id="cb1" data-language="R"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">## Example: Gibbs sampler for a bivariate normal</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a> </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a> gibbs=<span class="cf">function</span>(N,rho) </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a> {</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>  mat=<span class="kw">matrix</span>(<span class="dt">ncol=</span><span class="dv">2</span>,<span class="dt">nrow=</span>N)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>  th1=<span class="dv">0</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  th2=<span class="dv">0</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>  mat[<span class="dv">1</span>, ]=<span class="kw">c</span>(th1,th2)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>N) </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>  {</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>   th1=<span class="kw">rnorm</span>(<span class="dv">1</span>,rho<span class="op">*</span>th2,<span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">-</span>rho<span class="op">^</span><span class="dv">2</span>))</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>   th2=<span class="kw">rnorm</span>(<span class="dv">1</span>,rho<span class="op">*</span>th1,<span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">-</span>rho<span class="op">^</span><span class="dv">2</span>))</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>   mat[i, ]=<span class="kw">c</span>(th1,th2)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>  }</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>  <span class="kw">return</span>(mat)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a> }</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a> </span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a> out=<span class="kw">gibbs</span>(<span class="dv">1000</span>,<span class="fl">0.5</span>)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a> <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">2</span>))</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a> <span class="kw">plot</span>(out,<span class="dt">col=</span><span class="dv">1</span><span class="op">:</span><span class="dv">1000</span>,<span class="dt">xlab=</span><span class="st">&quot;theta1&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;theta2&quot;</span>)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a> <span class="kw">plot</span>(out,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;theta1&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;theta2&quot;</span>)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="kw">ts</span>(out[,<span class="dv">1</span>]),<span class="dt">xlab=</span><span class="st">&quot;Iteration&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;theta1&quot;</span>)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="kw">ts</span>(out[,<span class="dv">2</span>]),<span class="dt">xlab=</span><span class="st">&quot;Iteration&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;theta2&quot;</span>)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true"></a> <span class="kw">hist</span>(out[,<span class="dv">1</span>],<span class="dv">40</span>,<span class="dt">freq=</span><span class="ot">FALSE</span>,<span class="dt">main=</span><span class="st">&quot;&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;theta1&quot;</span>)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true"></a> <span class="kw">hist</span>(out[,<span class="dv">2</span>],<span class="dv">40</span>,<span class="dt">freq=</span><span class="ot">FALSE</span>,<span class="dt">main=</span><span class="st">&quot;&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;theta2&quot;</span>)</span></code></pre></div>
-<p><em>The following plots summarise the sampler output using <span class="math inline">\(N=1000\)</span> and <span class="math inline">\(\rho\in\{0.5,0.99\}\)</span>. Note the poor mixing when correlation between the two components is high.</em></p>
+<div class="sourceCode" id="cb1" data-language="R"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Example: Gibbs sampler for a bivariate normal</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> gibbs<span class="ot">=</span><span class="cf">function</span>(N,rho) </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a> {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  mat<span class="ot">=</span><span class="fu">matrix</span>(<span class="at">ncol=</span><span class="dv">2</span>,<span class="at">nrow=</span>N)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  th1<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  th2<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  mat[<span class="dv">1</span>, ]<span class="ot">=</span><span class="fu">c</span>(th1,th2)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>N) </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>   th1<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">1</span>,rho<span class="sc">*</span>th2,<span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">-</span>rho<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>   th2<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">1</span>,rho<span class="sc">*</span>th1,<span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">-</span>rho<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>   mat[i, ]<span class="ot">=</span><span class="fu">c</span>(th1,th2)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(mat)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a> out<span class="ot">=</span><span class="fu">gibbs</span>(<span class="dv">1000</span>,<span class="fl">0.5</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>))</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(out,<span class="at">col=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>,<span class="at">xlab=</span><span class="st">&quot;theta1&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;theta2&quot;</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(out,<span class="at">type=</span><span class="st">&quot;l&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;theta1&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;theta2&quot;</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(<span class="fu">ts</span>(out[,<span class="dv">1</span>]),<span class="at">xlab=</span><span class="st">&quot;Iteration&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;theta1&quot;</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(<span class="fu">ts</span>(out[,<span class="dv">2</span>]),<span class="at">xlab=</span><span class="st">&quot;Iteration&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;theta2&quot;</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a> <span class="fu">hist</span>(out[,<span class="dv">1</span>],<span class="dv">40</span>,<span class="at">freq=</span><span class="cn">FALSE</span>,<span class="at">main=</span><span class="st">&quot;&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;theta1&quot;</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a> <span class="fu">hist</span>(out[,<span class="dv">2</span>],<span class="dv">40</span>,<span class="at">freq=</span><span class="cn">FALSE</span>,<span class="at">main=</span><span class="st">&quot;&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;theta2&quot;</span>)</span></code></pre></div>
+<p><em>The following plots summarise the sampler output using <span
+class="math inline">\(N=1000\)</span> and <span
+class="math inline">\(\rho\in\{0.5,0.99\}\)</span>. Note the poor mixing
+when correlation between the two components is high.</em></p>
 <p> </p>
-<table id="fig:figGibbs" class="imageTable">
-<caption>Bivariate normal target. Gibbs sampler output when <span class="math inline">\(\rho=0.5\)</span>.</caption>
+<figure id="fig:figGibbs">
+<table>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><embed src="../graphics/gibbsR1a.pdf" title="fig:" id="fig:figGibbs" style="width:15cm;height:8cm" /></td>
+<td style="text-align: center;"><embed src="../graphics/gibbsR1a.pdf"
+style="width:15cm;height:8cm" /></td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><embed src="../graphics/gibbsR1b.pdf" title="fig:" id="fig:figGibbs" style="width:15cm;height:8cm" /></td>
+<td style="text-align: center;"><embed src="../graphics/gibbsR1b.pdf"
+style="width:15cm;height:8cm" /></td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><embed src="../graphics/gibbsR1c.pdf" title="fig:" id="fig:figGibbs" style="width:15cm;height:8cm" /></td>
+<td style="text-align: center;"><embed src="../graphics/gibbsR1c.pdf"
+style="width:15cm;height:8cm" /></td>
 </tr>
 </tbody>
 </table>
+<figcaption>Bivariate normal target. Gibbs sampler output when <span
+class="math inline">\(\rho=0.5\)</span>.</figcaption>
+</figure>
 <p> </p>
-<table id="fig:figGibbs" class="imageTable">
-<caption>Bivariate normal target. Gibbs sampler output when <span class="math inline">\(\rho=0.99\)</span>.</caption>
+<figure id="fig:figGibbs">
+<table>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><embed src="../graphics/gibbsR2a.pdf" title="fig:" id="fig:figGibbs" style="width:15cm;height:8cm" /></td>
+<td style="text-align: center;"><embed src="../graphics/gibbsR2a.pdf"
+style="width:15cm;height:8cm" /></td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><embed src="../graphics/gibbsR2b.pdf" title="fig:" id="fig:figGibbs" style="width:15cm;height:8cm" /></td>
+<td style="text-align: center;"><embed src="../graphics/gibbsR2b.pdf"
+style="width:15cm;height:8cm" /></td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><embed src="../graphics/gibbsR2c.pdf" title="fig:" id="fig:figGibbs" style="width:15cm;height:8cm" /></td>
+<td style="text-align: center;"><embed src="../graphics/gibbsR2c.pdf"
+style="width:15cm;height:8cm" /></td>
 </tr>
 </tbody>
 </table>
+<figcaption>Bivariate normal target. Gibbs sampler output when <span
+class="math inline">\(\rho=0.99\)</span>.</figcaption>
+</figure>
 <p> </p>
 </section>
 </section>
