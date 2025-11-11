@@ -338,12 +338,12 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>N)</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a> {</span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>   <span class="co">#Draw theta | Z</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>   <span class="co">#theta &lt;- ?????</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>   theta <span class="ot">&lt;-</span> ?????</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>   <span class="co">#Construct a vector, prob, containing </span></span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>   <span class="co">#un-normalised P(Z=z|theta), for each z</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>   <span class="co">#prob &lt;- ?????</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>   prob <span class="ot">&lt;-</span> ?????</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>   <span class="co">#Draw Z | theta</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>   <span class="co">#z &lt;- ????? </span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>   z <span class="ot">&lt;-</span> ????? </span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>   <span class="co">#Store</span></span>
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>   theta_vec[i] <span class="ot">&lt;-</span> theta</span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>   z_vec[i] <span class="ot">&lt;-</span> z</span>
@@ -362,7 +362,8 @@ broadly consistent with the target). Modify the <code>target</code>
 function and <code>gibbs_sampler</code> function so that the mixture
 component standard devation <span class="math inline">\(\sigma\)</span>
 is an argument (say <code>sig</code>). Re-run (a) with <span
-class="math inline">\(\sigma=1/5\)</span>. What do you notice?</p>
+class="math inline">\(\sigma=1/5\)</span> (hence <span
+class="math inline">\(\sigma^2=1/25\)</span>). What do you notice?</p>
 <p>(c) Explain the behaviour of the Gibbs sampler for decreasing <span
 class="math inline">\(\sigma\)</span>.</p>
 <p><strong>Random walk Metropolis.</strong> Let’s make the target more
@@ -413,15 +414,15 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>N)</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a> {</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>   <span class="co">#Propose a candidate value</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>   <span class="co">#can &lt;- ?????</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>   can <span class="ot">&lt;-</span> ?????</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>   <span class="co">#Construct acc. prob </span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>   <span class="co">#aprob &lt;- ?????</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>   aprob <span class="ot">&lt;-</span> ?????</span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">runif</span>(<span class="dv">1</span>)<span class="sc">&lt;</span>aprob)</span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>   {</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>     theta <span class="ot">&lt;-</span> can</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>     theta <span class="ot">&lt;-</span> ????</span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>   }</span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>   <span class="co">#Store</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>   theta_mat[i,] <span class="ot">&lt;-</span> theta</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>   theta_mat[i,] <span class="ot">&lt;-</span> ????</span>
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a> }</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a> <span class="fu">return</span>(theta_mat) <span class="co">#Return draws of theta</span></span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>}</span>
