@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>labBonus</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
+  <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"
+  type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/x-mathjax-config">
+  	MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "ams"} } });
+  	// I need to wait until MathJax has finished before running the numbering script
+  	MathJax.Hub.Register.StartupHook("End",function(){doNumbering()});
+  </script>
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#bonus-workshop-bayesian-inference-via-mcmc"
+id="toc-bonus-workshop-bayesian-inference-via-mcmc">Bonus Workshop:
+Bayesian inference via MCMC</a></li>
+</ul>
+</nav>
+<section id="bonus-workshop-bayesian-inference-via-mcmc"
+class="level1 unnumbered">
+<h1 class="unnumbered">Bonus Workshop: Bayesian inference via MCMC</h1>
+<p>This material will take you through the nuts and bolts of a Bayesian
+analysis of an epidemic time series using a simple epidemic model.</p>
+<p><strong>Deterministic epidemic model.</strong> The following data set
+consists of the daily number of pupils confined to bed (out of a total
+of 763) during an influenza outbreak in a boys’ boarding school in Great
+Britain, instigated by a single pupil (see e.g. BMJ News and Notes,
+1978):</p>
+<p> </p>
+<div class="center">
+<div id="tab:tabEpi">
+<table>
+<caption>Number of infectives on day <span
+class="math inline">\(t\)</span>.</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Day <span
+class="math inline">\(t\)</span></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No. of infectives <span
+class="math inline">\(Y_t\)</span></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">73</td>
+<td style="text-align: right;">221</td>
+<td style="text-align: right;">294</td>
+<td style="text-align: right;">257</td>
+<td style="text-align: right;">236</td>
+<td style="text-align: right;">189</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Day <span
+class="math inline">\(t\)</span></td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No. of infectives <span
+class="math inline">\(Y_t\)</span></td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>(a) Create a length-15 vector <code>y</code> containing the number of
+infectives and plot the data as a time-series.</p>
+<p>A <em>deterministic</em> susceptible-infected-removed (SIR) epidemic
+model is proposed to describe the dynamics of infectives <span
+class="math inline">\(I_t\)</span> (and the unobserved susceptibles,
+<span class="math inline">\(S_t\)</span>). This model is given by a
+coupled system of ordinary differential equations: <span
+class="math display">\[\begin{aligned}
+\frac{dS_t}{dt}&amp;=-\beta S_t I_t\\
+\frac{dI_t}{dt}&amp;= \beta S_t I_t -\gamma I_t
+\end{aligned}\]</span> where <span class="math inline">\(\beta\)</span>
+and <span class="math inline">\(\gamma\)</span> are <em>infection</em>
+and <em>removal rates</em> respectively.</p>
+<p>The above ODE system can be numerically solved via a simple Euler
+approximation with time-step <span class="math inline">\(\Delta
+t\)</span>: <span class="math display">\[\begin{aligned}
+S_{t+\Delta t}&amp;\approx S_t-\beta S_t I_t\Delta t\\
+I_{t+\Delta t}&amp;\approx I_t+(\beta S_t I_t -\gamma I_t)\Delta t
+\end{aligned}\]</span> That is, starting with a value <span
+class="math inline">\((S_0,I_0)&#39;\)</span>, we apply the above
+recursively to give <span class="math inline">\((S_{\Delta t},I_{\Delta
+t})&#39;\)</span>, <span class="math inline">\((S_{2\Delta t},I_{2\Delta
+t})&#39;\)</span> etc.</p>
+<p>The Euler approximation also provides us with some intuition for the
+ODE model. For example, the term <span class="math inline">\(\beta S_t
+I_t\Delta t\)</span> is (approximately) the expected number of new
+infections in a time interval of length <span
+class="math inline">\(\Delta t\)</span>. Similarly, the term <span
+class="math inline">\(\gamma I_t\)</span> is (approximately) the
+expected number of removals in a time interval of length <span
+class="math inline">\(\Delta t\)</span>. Hence, to obtain
+(approximately) the number of susceptibles at time <span
+class="math inline">\(t+\Delta t\)</span>, we take <span
+class="math inline">\(S_t\)</span> and subtract the expected number of
+new infections over <span class="math inline">\((t,t+\Delta
+t]\)</span>.</p>
+<p>The following R function takes arguments a parameter vector <span
+class="math inline">\((\beta,\gamma)&#39;\)</span> (coded as
+<code>param</code>), the time-step <span class="math inline">\(\Delta
+t\)</span> (coded as <code>dt</code>), an initial value <span
+class="math inline">\(x_0=(S_0,I_0)&#39;\)</span> (coded as
+<code>x0</code>) and an end time <span class="math inline">\(T\)</span>
+(coded as <code>endT</code>). It then returns a single numerical
+simulation of the ODE system.</p>
+<div class="sourceCode" id="cb1" data-language="R"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>odesim<span class="ot">&lt;-</span><span class="cf">function</span>(param,dt,x0,endT)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> n <span class="ot">&lt;-</span> endT<span class="sc">/</span>dt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a> x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="at">nrow=</span>n<span class="sc">+</span><span class="dv">1</span>,<span class="at">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a> x[<span class="dv">1</span>,] <span class="ot">&lt;-</span> x0 </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>(n<span class="sc">+</span><span class="dv">1</span>)) </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a> {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#right hand side of ODE system</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  RHS1 <span class="ot">&lt;-</span> <span class="sc">-</span>param[<span class="dv">1</span>]<span class="sc">*</span>x[i<span class="dv">-1</span>,<span class="dv">1</span>]<span class="sc">*</span>x[i<span class="dv">-1</span>,<span class="dv">2</span>]</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  RHS2 <span class="ot">&lt;-</span> param[<span class="dv">1</span>]<span class="sc">*</span>x[i<span class="dv">-1</span>,<span class="dv">1</span>]<span class="sc">*</span>x[i<span class="dv">-1</span>,<span class="dv">2</span>]<span class="sc">-</span>param[<span class="dv">2</span>]<span class="sc">*</span>x[i<span class="dv">-1</span>,<span class="dv">2</span>]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#time step ODE system</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  x[i,] <span class="ot">&lt;-</span> x[i<span class="dv">-1</span>,] <span class="sc">+</span> <span class="fu">c</span>(RHS1,RHS2)<span class="sc">*</span>dt</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a> <span class="fu">return</span>(x)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Example numerical solution (St and It against time t)</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">odesim</span>(<span class="fu">c</span>(<span class="fu">exp</span>(<span class="sc">-</span><span class="dv">6</span>),<span class="fl">0.5</span>),<span class="fl">0.01</span>,<span class="fu">c</span>(<span class="dv">762</span>,<span class="dv">1</span>),<span class="dv">14</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ts</span>(out,<span class="at">start=</span><span class="dv">0</span>,<span class="at">deltat=</span><span class="fl">0.01</span>))</span></code></pre></div>
+<p><strong>Bayesian inference.</strong> Suppose that each observed data
+point <span class="math inline">\(Y_t\)</span> is linked to the ODE
+system via the following statistical model: <span
+class="math display">\[Y_t|I_t,\sigma\overset{\textrm{indep}}{\sim}
+\text{N}(I_t,\sigma^2), \qquad t=0,1\ldots,14.\]</span> Using the data
+above, we would like to learn about the infection and removal rates, the
+parameter <span class="math inline">\(\sigma\)</span> that allows for
+the discrepancy between the ODE model and data, and the unobserved
+susceptible process.</p>
+<p>As the parameters must be strictly positive, let <span
+class="math inline">\(\boldsymbol{\theta}=(\theta_1,\theta_2,\theta_3)&#39;=(\log\beta,\log\gamma,\log\sigma)&#39;\)</span>
+and consider the posterior density <span
+class="math display">\[\pi(\boldsymbol{\theta}|\boldsymbol{y})\propto
+\pi(\theta_1)\pi(\theta_2)\pi(\theta_3)f(\boldsymbol{y}|\boldsymbol{\theta})\]</span>
+which assumes an independent prior specification. In particular, we will
+take <span class="math inline">\(\theta_i\overset{\textrm{indep}}{\sim}
+N(0,1)\)</span>, <span class="math inline">\(i=1,2,3\)</span>. The
+following function returns the evaluation of the log-likelihood <span
+class="math inline">\(\log
+f(\boldsymbol{y}|\boldsymbol{\theta})\)</span> at the value
+<code>theta</code>.</p>
+<div class="sourceCode" id="cb2" data-language="R"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>loglike<span class="ot">&lt;-</span><span class="cf">function</span>(theta,data,dt,x0)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(data)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  incr <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>dt</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">odesim</span>(<span class="fu">exp</span>(theta),dt,x0,n<span class="dv">-1</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> out[<span class="dv">1</span><span class="sc">+</span>(<span class="dv">0</span><span class="sc">:</span>(n<span class="dv">-1</span>))<span class="sc">*</span>incr,<span class="dv">2</span>] <span class="co">#assume obs are infecteds </span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Make sure you understand the line above!</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">sum</span>(<span class="fu">dnorm</span>(data,out,<span class="fu">exp</span>(theta[<span class="dv">3</span>]),<span class="at">log=</span><span class="cn">TRUE</span>)))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>(b) Write an R function <code>logprior</code> that takes a single
+argument <code>theta</code> and returns the evaluation of the log-prior
+<span class="math inline">\(\log \pi(\boldsymbol{\theta})\)</span>.</p>
+<p>(c) The following <strong>incomplete</strong> R function implements a
+Metropolis-Hastings sampler with target <span
+class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{y})\)</span>
+and a random walk proposal <span
+class="math display">\[\boldsymbol{\theta}^*|\boldsymbol{\theta}\sim
+\text{N}(\boldsymbol{\theta},\Sigma)\]</span> where <span
+class="math inline">\(\Sigma\)</span> is a tuning matrix chosen by the
+practitioner – you!</p>
+<div class="sourceCode" id="cb3" data-language="R"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#You will need the MASS package</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Uncomment the second line below if already installed!</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Uncomment both lines if not installed!</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;MASS&quot;)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#library(MASS)</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>MH<span class="ot">&lt;-</span><span class="cf">function</span>(N,data,dt,Sigma,init,x0)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  theta.mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="at">nrow=</span>N,<span class="at">ncol=</span><span class="dv">3</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  theta.mat[<span class="dv">1</span>,] <span class="ot">&lt;-</span> init</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  curr <span class="ot">&lt;-</span> init</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  count <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>N) </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    can <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(<span class="dv">1</span>,curr,Sigma) <span class="co">#proposal </span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Evaluate log acceptance probability</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    laprob <span class="ot">&lt;-</span>  <span class="co">#Complete this line</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> laprob) <span class="co">#Accept with the correct prob.</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>      curr <span class="ot">&lt;-</span> can; <span class="co">#chain moves</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      count <span class="ot">&lt;-</span> count <span class="sc">+</span> <span class="dv">1</span> <span class="co">#add one to acceptance counter</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    theta.mat[j,] <span class="ot">&lt;-</span> curr</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(count<span class="sc">/</span>(N<span class="dv">-1</span>)) <span class="co"># empirical acceptance prob</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(theta.mat)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Add the (logarithm of the) acceptance probability and run the sampler
+for <span class="math inline">\(N=1000\)</span> iterations for the data
+set <span class="math inline">\(y\)</span>, with a time step of 0.1, a
+tuning matrix of <span
+class="math inline">\(\Sigma=\textrm{diag}\{0.001,0.001,0.001\}\)</span>,
+and initial value of <span
+class="math inline">\(\boldsymbol{\theta}^{(0)}=(-6,\log 0.5,
+2.5)&#39;\)</span> and <span
+class="math inline">\(x_0=(762,1)&#39;\)</span>. Examine trace plots of
+the sampler output.</p>
+<p>(d) Tune the sampler by re-running with <span
+class="math display">\[\Sigma=\frac{2.38^3}{3}\widehat{Var}(\boldsymbol{\theta}|\boldsymbol{y})\]</span>
+for <span class="math inline">\(N=5000\)</span> iterations, storing the
+output in <code>out2</code>. Transform the output to obtain posterior
+draws of <span class="math inline">\(\beta\)</span>, <span
+class="math inline">\(\gamma\)</span> and <span
+class="math inline">\(\sigma\)</span>. Hence, give appropriate summaries
+of the marginal posterior for each parameter.</p>
+<p>(e) The basic reproduction number is given by <span
+class="math display">\[R_0 = \frac{\beta}{\gamma}\times N_{pop}\]</span>
+where <span class="math inline">\(N_{pop}=763\)</span> is the the
+population size. It is, loosely speaking, the expected number of
+secondary infections resulting from a single infective in a population
+of susceptibles. Using the sampler output from (d), produce a histogram
+of sampled <span class="math inline">\(R_0\)</span> values and a
+equi-tailed 95% posterior credible interval for <span
+class="math inline">\(R_0\)</span>.</p>
+<p>(f) Let <span class="math inline">\(S_{(0,14]}\)</span> denote the
+susceptible process over <span class="math inline">\((0,14]\)</span>.
+This is a deterministic function of the parameters <span
+class="math inline">\(\boldsymbol{\theta}\)</span> and the initial
+condition <span class="math inline">\(X_0\)</span>. That is, given <span
+class="math inline">\(\boldsymbol{\theta}\)</span> and <span
+class="math inline">\(X_0\)</span>, a numerical solution of the SIR ODE
+system can be obtained, giving <span
+class="math inline">\(S_{(0,14]}\)</span>. We can generate samples of
+the susceptible process from its (marginal) posterior distribution by
+simulating a value of <span class="math inline">\(S_{(0,14]}\)</span>
+conditional on each draw of <span
+class="math inline">\(\boldsymbol{\theta}\)</span> from <span
+class="math inline">\(\pi(\boldsymbol{\theta}|\boldsymbol{y})\)</span>.
+We use the following code:</p>
+<div class="sourceCode" id="cb4" data-language="R"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>endT <span class="ot">&lt;-</span> <span class="dv">14</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>S.mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>,<span class="at">nrow=</span>endT<span class="sc">/</span>dt<span class="sc">+</span><span class="dv">1</span>,<span class="at">ncol=</span>N)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a> S.mat[,i] <span class="ot">&lt;-</span> <span class="fu">odesim</span>(<span class="fu">exp</span>(out2[i,]),dt,<span class="fu">c</span>(<span class="dv">762</span>,<span class="dv">1</span>),endT)[,<span class="dv">1</span>]</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>This gives <code>S.mat</code> as a matrix with <span
+class="math inline">\(N\)</span> columns with the <span
+class="math inline">\(j\)</span>th column containing a numerical
+realisation of <span
+class="math inline">\(S_{[0,14]}|\boldsymbol{\theta}^{(j)},\boldsymbol{y}\)</span>.</p>
+<p>The following code computes the mean, upper and lower 2.5 percentiles
+of the (posterior) <span class="math inline">\(S_t\)</span> realisations
+at times <span
+class="math inline">\(0,0.1,0.2,0.3,\ldots,14\)</span>:</p>
+<div class="sourceCode" id="cb5" data-language="R"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>S.mean <span class="ot">&lt;-</span> <span class="fu">apply</span>(S.mat,<span class="dv">1</span>,mean)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>S.lq <span class="ot">&lt;-</span> <span class="fu">apply</span>(S.mat,<span class="dv">1</span>,quantile,<span class="fl">0.025</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>S.uq <span class="ot">&lt;-</span> <span class="fu">apply</span>(S.mat,<span class="dv">1</span>,quantile,<span class="fl">0.975</span>)</span></code></pre></div>
+<p>Hence, give a time series plot of the mean of the (posterior)
+susceptible process and overlay a 95% credible interval. The resulting
+plot is a summary of the (marginal) posterior distribution of the
+susceptible process.</p>
+<p><strong>Bonus 1</strong>: repeat the above steps for the (posterior)
+infective process, and additionally overlay the data. Comment.</p>
+<p><strong>Bonus 2</strong>: the statistical model <span
+class="math display">\[Y_t|I_t,\sigma \overset{\textrm{indep}}{\sim}
+\text{N}(I_t,\sigma^2), \qquad t=0,1\ldots,14.\]</span> assumes that the
+observation error / discrepancy between the observations and latent
+infective process has the same variance irrespective of the latent
+infected state.</p>
+<p>Can you think of a model (or models) that would overcome this
+issue?</p>
+<p><strong>End of workshop!</strong></p>
+</section>
+<script>
+function doNumbering() {
+	// The syntax to read the structured data from the yaml is horrible, template literals fix the problem but probably aren't widely supported enough. Escaping line breaks is browser dependant. I don't know if there's a better way?
+	// Note that the data from the yaml file is manipulated into an array, and then parsed back into strings later, but I didn't want to deal with the pandoc templating syntax longer than necessary.
+	var supportedEnvsArrayString = ' .definition;;; .theorem;;; .lemma;;; .example;;; .exampleqed;;; .proposition;;; .remark;;; .corollary;;; .exercise;;; .question';
+	var supportedEnvsArray = supportedEnvsArrayString.split("|||");
+	supportedEnvsArray = supportedEnvsArray.map(inner => inner.split(";;;"));
+	var numberWithin = '1';
+	var counterOffset = '';
+	var subcounterOffset = '';
+	var problemCounter = '';
+	const partLabels = 'abcdefghijklmnopqrstuvwxyz'.split('');
+	
+	// counterOffset may be negative, and by default if specified on the command line this gets string concatenated with the default given in the yaml config and this then causes a problem. Can be fixed by removing the default in the config file and converting to an int, but this causes a NaN error if no value is suplied on the command line, so if NaN set to 0.
+	counterOffset = parseInt(counterOffset);
+	if (isNaN(counterOffset)) {
+		counterOffset = 0;
+	}
+	
+	subcounterOffset = parseInt(subcounterOffset);
+	if (isNaN(subcounterOffset)) {
+		subcounterOffset = 0;
+	}
+	
+	problemCounter = parseInt(problemCounter);
+	if (isNaN(problemCounter)) {
+		problemCounter = 1;
+	}
+	
+	function sanitiseSelector(selector) {
+		// tex labels often have colons in which need escaping. There may be other escaping needed here. Unfortunately neither encodeURI nor encodeURIComponent do what I need, so use regex to do the escaping manually.
+		var sanitised = selector.replace(/\:/g,"\\\:");
+		sanitised = sanitised.replace(/(^[\d])/,"\\3$1 ");
+		sanitised = sanitised.replace(/\//g,"\\\/");
+		return sanitised
+	}
+	
+	function labelLinks() {
+		var refs = document.querySelectorAll("a[data-reference-type=ref]")
+		for (ref of refs) {
+			// Escape colons (or other) from the link title.
+			var ref_label = sanitiseSelector(ref.getAttribute("data-reference"));
+			// Hopefully ref is a reference to a div or a section, which should have the associated id. If so, we just need the data-number from the relevant DOM item.
+			var ref_to = document.querySelector("#"+ref_label);
+			if (ref_to !== null) {
+				var ref_number = ref_to.getAttribute("data-number");
+			} else {
+				// If ref is being used for an equation, then we need to try to parse the mathjax divs. This is fragile, but try to find the span which corresponds to the equation number we need.
+				try {
+					var mathjax_ref = "#mjx-eqn-"+ref_label;
+					ref_to = document.querySelector(mathjax_ref);
+					// Since this is a ref, we don't want the parens to be returned, so find the equation number and strip the parens.
+					var ref_number = ref_to.querySelector(".mjx-char").innerHTML.replace(/[()]/g,"");
+					ref.setAttribute("href",mathjax_ref);
+				}
+				// If we can't find a place to link to, just indicate a missing link.
+				catch (err){
+					var ref_number = "???"
+				}
+			}
+			ref.innerHTML = ref_number;
+		};
+	}
+	
+	function numberEnvs() {
+		for (var levelSpec = 0; levelSpec <= numberWithin; levelSpec++) {
+			var reqLevels = document.querySelectorAll(".level"+levelSpec);
+			for (var level of reqLevels) {
+				levelCount = level.getAttribute("data-number");
+				levelCount = String(parseFloat(levelCount)+(counterOffset));
+				levelCount = levelCount+(("."+subcounterOffset).repeat(numberWithin-levelSpec));
+				for (var counter of supportedEnvsArray) {
+					var envCount = 1;
+					var envs = level.querySelectorAll(counter.join(", "));
+					for (var env of envs) {
+						env.setAttribute("data-number",levelCount+"."+envCount);
+						envCount += 1;
+					}
+				}
+			}
+		}
+	}
+	
+	function numberFigs() {
+		// Figures should either be in a figure environment, or a table with image class imageTable thanks to the tableCaps filter.
+		figs = document.querySelectorAll("figure, .imageTable");
+		var fig_no = 1
+		for (var fig of figs) {
+			var cap
+			// For figures, we want to move the id to the figure, and set the data-number on both the figure and the figcaption
+			if (fig.nodeName == "FIGURE") {
+				cap = fig.querySelector("figcaption");
+				var img = fig.querySelector("img, embed")
+				if (img) {
+					var img_id = img.getAttribute("id");
+					fig.setAttribute("id",img_id);
+					img.removeAttribute("id");
+				}
+			// for tables (which must be .imageTable due to the querySelector above), we want to set the data-number on the table and the caption
+			} else if (fig.nodeName == "TABLE") {
+				cap = fig.querySelector("caption");
+			}
+			cap.setAttribute("data-number",fig_no);
+			fig.setAttribute("data-number",fig_no);
+			fig_no += 1;
+		}
+	}
+	
+	function numberGlobals() {
+		// This function numbers any environments that just use a global counter, such as a problem number on a problems sheet, where there are no sections to number with respect to.
+		probsols = document.querySelectorAll(".problem, .solution");
+		var prob_no = problemCounter;
+		var partNo = 0;
+		for (var probsol of probsols) {
+			if (probsol.className == "problem"){
+				prob_no +=1;
+				partNo = 0;
+				probsol.setAttribute("data-number",prob_no);
+			}
+			else {
+				if (probsol.parentNode.nodeName == "LI") {
+					var partLabel = partLabels[partNo];
+					probsol.setAttribute("data-number",prob_no.toString()+partLabel);
+					partNo +=1;
+				}
+				else{
+					probsol.setAttribute("data-number",prob_no);
+				}
+			}
+			
+		}
+		// sols = document.querySelectorAll(".solution");
+// 		var sol_no = problemCounter;
+// 		for (var sol of sols) {
+// 			sol.setAttribute("data-number",sol_no);
+// 			sol_no +=1
+// 		}
+	}
+	
+	// labelLinks() should occur last, so that the data-numbers have been correctly set first.
+	numberEnvs();
+	numberFigs();
+	numberGlobals();
+	labelLinks();
+}
+</script><script>
+	var imageDir = ''
+	imgs = document.querySelectorAll("img");
+	for (var img of imgs) {
+		imgsrc = img.getAttribute("src");
+		img.setAttribute("src",imageDir.concat(imgsrc));
+	}
+</script></body>
+</html>
