@@ -2056,7 +2056,7 @@ with log wages makes interpretation difficult. A better interpretation
 here is to look at the percentage increase or decrease resulting from a
 unit change in one variable (while keeping the others constant). For
 example, the percentage increase in average wage resulting from an
-additional year of schooling is <span class="math inline">\((\exp(0.098)-1)\times 100=10\%\)</span> (with the
+additional year of schooling is <span class="math inline">\((\exp(0.098)-1)\times 100\%=10\%\)</span> (with the
 other variables held constant).
 </details>
 <p><br></p>
@@ -2095,7 +2095,10 @@ We see that the test statistic is large (much bigger than 1) and the
 p-value is very small (certainly much smaller than 5%) suggesting strong
 evidence against the null hypothesis that the larger model offers no
 improvement in fit compared to the simpler model. The conclusion is that
-the additional <code>workexp</code> variable is needed.
+the additional <code>workexp</code> variable is needed. Note that the 
+p-value is the same as that for testing the significance of the 
+slope coefficient for the <code>workexp</code> variable. We'd expect 
+this, as the two models only differ by one covariate. 
 </details>
 <p><br></p>
 <ol start="9" style="list-style-type: decimal">
@@ -2167,5 +2170,6 @@ $(document).ready(function () {
 
 </body>
 </html>
+
 
 
