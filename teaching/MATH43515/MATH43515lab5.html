@@ -1681,9 +1681,9 @@ data &lt;- childweight
 #Or uncomment the following if there are issues loading the workspace
 #data &lt;- read.csv(&quot;https://andygolightly.github.io/teaching/MATH43515/childweight.csv&quot;)[,-1]
 
-weight &lt;- data$weight      #weight
-age &lt;- data$age            #age
-birthw &lt;- data$brthwt      #weight at birth 
+weight &lt;- data$weight      #weight in kg
+age &lt;- data$age            #age in years
+birthw &lt;- data$brthwt      #weight at birth in grams 
 girl &lt;- data$girl          #indicator (0 for boy and 1 for girl)
 id.f &lt;- as.factor(data$id) #individual indicator</code></pre>
 <div id="brief-exploratory-analysis" class="section level4">
@@ -1739,8 +1739,9 @@ Click for solution
 </summary>
 We have two levels (<strong>time nested inside individuals</strong>).
 The <code>age</code> variable is playing the role of time here. Hence,
-<code>weight</code>, <code>birthw</code> and <code>girl</code> are all
-at the individual level (top level of the hierarchy).
+<code>birthw</code> and <code>girl</code> are all at the individual
+level (top level of the hierarchy). The response variable is
+<code>weight</code>.
 </details>
 <p><span class="math inline">\(~\)</span></p>
 </div>
@@ -1953,8 +1954,12 @@ intercept), the higher the weight will be as time passes (i.e. a steeper
 child time slope).</p>
 <p><span class="math inline">\(~\)</span></p>
 <p>Let’s look at a visual comparison between the random intercept vs
-random intercept and slope model. Make sure you understand the following
-code:</p>
+random intercept and slope model.</p>
+<p>First set up a data frame <code>data_comp</code> with columns
+<code>id</code>, <code>age</code>, <code>weight</code> and further
+columns for predicted values <code>pred</code> and variable indicating
+which model the predicted value is from (random intercept or random
+intercept and slope).</p>
 <pre class="r"><code>vars &lt;- c(&quot;id&quot;,&quot;age&quot;,&quot;weight&quot;)
 
 data_pred1 &lt;- cbind(data[,vars],data[,&quot;pred1&quot;],group=1)
@@ -1962,8 +1967,14 @@ names(data_pred1)[4] &lt;- &quot;pred&quot;
 data_pred2 &lt;- cbind(data[,vars],data[,&quot;pred2&quot;],group=2)
 names(data_pred2)[4] &lt;- &quot;pred&quot;
 data_comp &lt;- rbind(data_pred1,data_pred2)
-
-model_names &lt;- c(&quot;1&quot;=&quot;Random Intercept-only&quot;,&quot;2&quot;=&quot;Random Intercept and Slope&quot;)
+head(data_comp)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["id"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["age"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["weight"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["pred"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["group"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"45","2":"0.1368925","3":"5.171","4":"7.384641","5":"1","_rn_":"1"},{"1":"45","2":"0.6570842","3":"10.860","4":"9.147474","5":"1","_rn_":"2"},{"1":"45","2":"1.2183436","3":"13.150","4":"11.049478","5":"1","_rn_":"3"},{"1":"45","2":"1.4291581","3":"13.200","4":"11.763889","5":"1","_rn_":"4"},{"1":"45","2":"2.2724161","3":"15.880","4":"14.621533","5":"1","_rn_":"5"},{"1":"258","2":"0.1916496","3":"5.300","4":"5.810090","5":"1","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Now produce side-by-side plots of fitted values by model.</p>
+<pre class="r"><code>model_names &lt;- c(&quot;1&quot;=&quot;Random Intercept-only&quot;,&quot;2&quot;=&quot;Random Intercept and Slope&quot;)
 
 ggplot(data_comp, aes(age,weight)) +
   geom_line(aes(y=pred,group=as.factor(id),
