@@ -1658,9 +1658,9 @@ family form. The mean of <span class="math inline">\(Y\)</span> is <span class="
 simulation:</p>
 <pre class="r"><code>ypois &lt;- rpois(10000,lambda=2) #simulate Po(2) realisations
 mean(ypois)</code></pre>
-<pre><code>## [1] 1.9935</code></pre>
+<pre><code>## [1] 2.0098</code></pre>
 <pre class="r"><code>var(ypois)</code></pre>
-<pre><code>## [1] 2.01826</code></pre>
+<pre><code>## [1] 2.039308</code></pre>
 <p>(It turns out that the variance is also <span class="math inline">\(\lambda\)</span>. Try changing <span class="math inline">\(\lambda\)</span> and the number of
 simulations.)</p>
 <p>Now, we can identify the natural link function as <span class="math inline">\(\log(\cdot)\)</span>. Hence, we will fit a GLM
@@ -1907,9 +1907,8 @@ positively for toxoplasmosis in each of 34 cities in El Salvador. The
 covariate <code>Rain</code> is the the annual rainfall in mm. Please
 load the data and carry out the following operation to create a variable
 <code>x</code> giving the annual rainfall per 1000mm:</p>
-<pre class="r"><code>require(npmlreg)</code></pre>
-<pre><code>## Warning: package &#39;npmlreg&#39; was built under R version 4.4.3</code></pre>
-<pre class="r"><code>data(rainfall)
+<pre class="r"><code>require(npmlreg)
+data(rainfall)
 rainfall$x &lt;- rainfall$Rain/1000</code></pre>
 <p>This is, again, an example for logistic regression. We want to model
 a probability of “success” (occurence of a binary event; here
