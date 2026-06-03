@@ -6,7 +6,6 @@
 
 ### Useful links
 - [Durham University staff profile](https://www.durham.ac.uk/staff/andrew-golightly/)
-- [Turing Fellow profile](https://www.turing.ac.uk/people/researchers/andrew-golightly)
 - Publications: [Google scholar](https://scholar.google.co.uk/citations?user=Pdt6-qMAAAAJ&hl=en)
 
 ### Research interests
@@ -16,11 +15,12 @@
 - Application to complex stohastic processes such as stochastic differential equations and Markov jump processes
 
 ### Currently funded research projects
-- _Modelling and inference of tree pandemics in Great Britain_ - funded by EPSRC New Horizons (2021-23), with Dr Laura Wadkin, Dr Andrew Baggaley and Dr Nick parker
-- _Accelerating inference for stochastic kinetic models_ - Tom Lowe, EPSRC funded PhD student (2017-)
-- _Scalable sequential inference schemes for complex epidemic models_ - Sam Whitaker, EPSRC funded PhD student (2019-), jointly supervised with Dr Colin Gillespie
+- _Deep Learning and likelihood-free Bayesian inference for intractable stochastic models_ - Swedish Research Council (Vetenskapsrådet 2019-03924), with Prof. Umberto Picchini (Chalmers), Petar Jovanowski (PGR) and Dr. Massi Tamborrino (Warwick)  
 
 ### Previous research projects
+- _Modelling and inference of tree pandemics in Great Britain_ - funded by EPSRC New Horizons (2021-23), with Dr Laura Wadkin, Prof. Andrew Baggaley and Prof. Nick parker
+- _Accelerating inference for stochastic kinetic models_ - Tom Lowe, EPSRC funded PhD student (2017-)
+- _Scalable sequential inference schemes for complex epidemic models_ - Sam Whitaker, EPSRC funded PhD student (2019-), jointly supervised with Dr Colin Gillespie
 - _Streaming data modelling for realtime monitoring and forecasting_, funded by The Alan Turing Institute (2019-21), with Prof. Darren Wilkinson and Dr Sarah Heaps
 - _Efficient parameter estimation for quantitative systems pharmacology_, EPSRC IAA and AstraZenica Ltd. funded (02/19-04/19), with Dr Colin Gillespie
 - _Variational inference for SDEs_ - Tom Ryder, CDT funded PhD student (2017-20), jointly supervised with Dr Dennis Prangle
