@@ -16,7 +16,7 @@
 - Application to complex stohastic processes such as stochastic differential equations and Markov jump processes
 
 ### Currently funded research projects
-- _Deep Learning and likelihood-free Bayesian inference for intractable stochastic models_ - Swedish Research Council (2020-24), with Prof. Umberto Picchini (Chalmers), Petar Jovanowski (PGR) and Dr. Massi Tamborrino (Warwick)  
+- _Deep Learning and likelihood-free Bayesian inference for intractable stochastic models_ - Swedish Research Council (2020-24), with Prof. Umberto Picchini (Chalmers), Petar Jovanovski (PGR) and Dr. Massi Tamborrino (Warwick)  
 
 ### Previous research projects
 - _Modelling and inference of tree pandemics in Great Britain_ - funded by EPSRC New Horizons (2021-23), with Dr Laura Wadkin, Prof. Andrew Baggaley and Prof. Nick parker
