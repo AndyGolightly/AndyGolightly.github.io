@@ -7,6 +7,7 @@
 ### Useful links
 - [Durham University staff profile](https://www.durham.ac.uk/staff/andrew-golightly/)
 - Publications: [Google scholar](https://scholar.google.co.uk/citations?user=Pdt6-qMAAAAJ&hl=en)
+- [Github](https://github.com/AndyGolightly)
 
 ### Research interests
 - Bayesian Statistics
