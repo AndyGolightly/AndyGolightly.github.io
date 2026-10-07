@@ -107,8 +107,8 @@
      overflow: visible;
     }
     hr {
-      background-color: #1a1a1a;
       border: none;
+      border-top: 1px solid #1a1a1a;
       height: 1px;
       margin: 1em 0;
     }
@@ -166,8 +166,9 @@
       vertical-align: middle;
     }
     /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -178,7 +179,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -376,13 +377,13 @@ class="math inline">\(\theta\)</span> after we get the data?</p></li>
 <div class="center">
 <table>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">Prior dist.</td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">Posterior dist.</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: center;"><span
 class="math inline">\(\theta\)</span></td>
 <td style="text-align: center;"><span
@@ -392,13 +393,13 @@ class="math inline">\(\mathbb{P}(x=1|\theta\)</span>)</td>
 <td style="text-align: center;"><span
 class="math inline">\(\mathbb{P}(\theta |x=1)\)</span></td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: center;">1</td>
 <td style="text-align: center;">0.1</td>
 <td style="text-align: center;">0.5</td>
 <td style="text-align: center;">0.85</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0.9</td>
 <td style="text-align: center;">0.01</td>
@@ -714,17 +715,19 @@ Importance sampling</h3>
 as above but suppose that <span class="math inline">\(f(x)\)</span> is
 difficult to sample from. Suppose we can find a <em>proposal
 density</em> <span class="math inline">\(g(x)\)</span> such that <span
-class="math inline">\(g(x)&gt;0\)</span> for all <span
-class="math inline">\(x\)</span> with <span
-class="math inline">\(f(x)\geq 0\)</span>, and that is easy to sample
-from. Then consider <span class="math display">\[\begin{aligned}
+class="math inline">\(f(x)&gt;0\)</span> implies <span
+class="math inline">\(g(x)&gt; 0\)</span>, and <span
+class="math inline">\(g(x)\)</span> is easy to sample from. Then
+consider <span class="math display">\[\begin{aligned}
 \mu_h=\int_\mathcal{X} h(x)f(x)dx &amp;= \int_\mathcal{X}
 \frac{h(x)f(x)}{g(x)}g(x) dx
-\end{aligned}\]</span> which we recognise as <span
+\end{aligned}\]</span> which we recognise (with a little work) as <span
 class="math inline">\(\mathbb{E}_g[h(X)f(X)/g(X)]\)</span> where the
 subscript makes clear that the expectation is with respect to <span
-class="math inline">\(g(x)\)</span>. It is convenient to write this
-expectation as <span
+class="math inline">\(g(x)\)</span>. (Note that the procedure will still
+be valid if <span class="math inline">\(g(x)&gt;0\)</span> whenever
+<span class="math inline">\(h(x)f(x)\)</span> is non-zero.) It is
+convenient to write this expectation as <span
 class="math inline">\(\mathbb{E}_g[h(X)w(X)]\)</span> where <span
 class="math inline">\(w(X)=f(X)/g(X)\)</span> is known as the <em>weight
 function</em>. Hence, given iid draws <span
@@ -876,15 +879,15 @@ proposal density (dotted).</figcaption>
 <figure id="fig:figwr2d">
 <table>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: center;"><embed src="../graphics/wr1.pdf"
 style="width:16cm;height:7cm" /></td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: center;"><embed src="../graphics/wr2.pdf"
 style="width:16cm;height:7cm" /></td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: center;"><embed src="../graphics/wr3.pdf"
 style="width:16cm;height:7cm" /></td>
 </tr>
