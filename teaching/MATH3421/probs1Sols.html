@@ -6,15 +6,170 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>probs1Sols</title>
   <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
   </style>
   <link rel="stylesheet" href="https://samfearn.github.io/latex.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+  <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"
+  type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -27,10 +182,15 @@
 <body>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#week-3-problems-class-solutions">Week 3 Problems Class Solutions</a>
+<li><a href="#week-3-problems-class-solutions"
+id="toc-week-3-problems-class-solutions">Week 3 Problems Class
+Solutions</a>
 <ul>
-<li><a href="#preliminaries">Preliminaries</a></li>
-<li><a href="#crude-oil-volatility-analysis">Crude oil volatility analysis</a></li>
+<li><a href="#preliminaries"
+id="toc-preliminaries">Preliminaries</a></li>
+<li><a href="#crude-oil-volatility-analysis"
+id="toc-crude-oil-volatility-analysis">Crude oil volatility
+analysis</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -39,41 +199,147 @@
 <section id="preliminaries" class="level2 unnumbered">
 <h2 class="unnumbered">Preliminaries</h2>
 <ol>
-<li><p>We have that for <span class="math inline">\(y&gt;0\)</span>: <span class="math display">\[\begin{aligned}
+<li><p>We have that for <span class="math inline">\(y&gt;0\)</span>:
+<span class="math display">\[\begin{aligned}
 F_y(y)&amp;=\mathbb{P}(Y\leq y)\\
 &amp;=\mathbb{P}(X\leq \log y)\\
-&amp;=F_{X}(\log y).\end{aligned}\]</span> Hence <span class="math display">\[\begin{aligned}
+&amp;=F_{X}(\log y).
+\end{aligned}\]</span> Hence <span
+class="math display">\[\begin{aligned}
 f_Y(y)&amp;=\frac{d}{dy} F_Y(y)\\
 &amp;=\frac{d}{dy} F_X(\log y)\\
 &amp;=f_X(\log y)\times\frac{1}{y}\\
-&amp;= \frac{1}{\sqrt{2\pi}\sigma}\frac{1}{y}\exp\left\{-\frac{1}{2}\frac{(\log y-\mu)^2}{\sigma^2}\right\},\quad y&gt;0.\end{aligned}\]</span> Alternatively, recall the “usual” formula: <span class="math display">\[f_Y(y)=f_X(g^{-1}(y))\left|\frac{d}{dy} g^{-1}(y)\right|\]</span> applied with <span class="math inline">\(g^{-1}(y)=\log y\)</span>.</p></li>
-<li><p>The joint distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(\tilde{Y}\)</span> is <span class="math display">\[\begin{aligned}
+&amp;=
+\frac{1}{\sqrt{2\pi}\sigma}\frac{1}{y}\exp\left\{-\frac{1}{2}\frac{(\log
+y-\mu)^2}{\sigma^2}\right\},\quad y&gt;0.
+\end{aligned}\]</span> Alternatively, recall the “usual” formula: <span
+class="math display">\[f_Y(y)=f_X(g^{-1}(y))\left|\frac{d}{dy}
+g^{-1}(y)\right|\]</span> applied with <span
+class="math inline">\(g^{-1}(y)=\log y\)</span>.</p></li>
+<li><p>The joint distribution of <span class="math inline">\(X\)</span>
+and <span class="math inline">\(\tilde{Y}\)</span> is <span
+class="math display">\[\begin{aligned}
 f_{X,\tilde{Y}}(x,\tilde{y})&amp;=f_{X}(x)f_{Y|X}(\tilde{y}|x)\\
-&amp;=f_{X,Y}(x,\tilde{y}).\end{aligned}\]</span> Hence, the marginal density of <span class="math inline">\(\tilde{Y}\)</span> is <span class="math display">\[\begin{aligned}
+&amp;=f_{X,Y}(x,\tilde{y}).
+\end{aligned}\]</span> Hence, the marginal density of <span
+class="math inline">\(\tilde{Y}\)</span> is <span
+class="math display">\[\begin{aligned}
 f_{\tilde{Y}}(\tilde{y})&amp;=\int f_{X,Y}(x,\tilde{y})dx\\
-&amp;=f_{Y}(\tilde{y})\end{aligned}\]</span> as required.</p></li>
+&amp;=f_{Y}(\tilde{y})
+\end{aligned}\]</span> as required.</p></li>
 </ol>
 </section>
 <section id="crude-oil-volatility-analysis" class="level2 unnumbered">
 <h2 class="unnumbered">Crude oil volatility analysis</h2>
 <ol>
-<li><p>We have that <span class="math display">\[(X_t|X_{t-1}=x_{t-1},\sigma)\sim \text{N}(x_{t-1}\,,\,\sigma^2)\]</span> and therefore, using <span class="math inline">\(X_t=\log Y_t\)</span>, <span class="math display">\[(\log Y_t |Y_{t-1},\sigma)\sim \text{N}(\log y_{t-1}\,,\,\sigma^2).\]</span> Finally, by appealing to part 1., we have <span class="math display">\[(Y_t|Y_{t-1}=y_{t-1},\sigma)\sim \text{logN}(\log y_{t-1}\,,\,\sigma^2).\]</span></p></li>
-<li><p>There are a couple of (equivalent) possibilities here. Possibility 1. simulates <span class="math inline">\(x_0\sim p(\cdot)\)</span>, sets <span class="math inline">\(y_0=\exp(x_0)\)</span>, then draws <span class="math inline">\((y_1|y_0,\sigma)\sim \text{logN}(\log y_0\,,\,\sigma^2)\)</span>, <span class="math inline">\((y_2|y_1,\sigma)\sim \text{logN}(\log y_1\,,\,\sigma^2)\)</span> etc. This requires direct simulation from a lognormal distribution.</p>
-<p>Possibility 2. simulates <span class="math inline">\(\{X_t\}_{t=0}^n\)</span> by drawing <span class="math inline">\(x_0\sim p(\cdot)\)</span> and then recursive sampling of <span class="math inline">\((x_t|x_{t-1},\sigma)\sim \text{N}(x_{t-1}\,,\,\sigma^2)\)</span>. Exponentiating the resulting realisation <span class="math inline">\(\{x_t\}_{t=0}^n\)</span> completes the task.</p></li>
-<li><p>Let <span class="math inline">\(a=10\)</span>, <span class="math inline">\(b=0.01\)</span> and <span class="math inline">\(n=25\)</span>. The prior is <span class="math display">\[\pi(\tau)\propto \tau^{a-1}\exp\{-b\tau\}.\]</span> The likelihood is <span class="math display">\[\begin{aligned}
+<li><p>We have that <span
+class="math display">\[(X_t|X_{t-1}=x_{t-1},\sigma)\sim
+\text{N}(x_{t-1}\,,\,\sigma^2)\]</span> and therefore, using <span
+class="math inline">\(X_t=\log Y_t\)</span>, <span
+class="math display">\[(\log Y_t |Y_{t-1}=y_{t-1},\sigma)\sim
+\text{N}(\log y_{t-1}\,,\,\sigma^2).\]</span> Finally, by appealing to
+part 1., we have <span
+class="math display">\[(Y_t|Y_{t-1}=y_{t-1},\sigma)\sim \text{logN}(\log
+y_{t-1}\,,\,\sigma^2).\]</span></p></li>
+<li><p>There are a couple of (equivalent) possibilities here.
+Possibility 1. simulates <span class="math inline">\(x_0\sim
+p(\cdot)\)</span>, sets <span
+class="math inline">\(y_0=\exp(x_0)\)</span>, then draws <span
+class="math inline">\((y_1|y_0,\sigma)\sim \text{logN}(\log
+y_0\,,\,\sigma^2)\)</span>, <span
+class="math inline">\((y_2|y_1,\sigma)\sim \text{logN}(\log
+y_1\,,\,\sigma^2)\)</span> etc. This requires direct simulation from a
+lognormal distribution.</p>
+<p>Possibility 2. simulates <span
+class="math inline">\(\{X_t\}_{t=0}^n\)</span> by drawing <span
+class="math inline">\(x_0\sim p(\cdot)\)</span> and then recursive
+sampling of <span class="math inline">\((x_t|x_{t-1},\sigma)\sim
+\text{N}(x_{t-1}\,,\,\sigma^2)\)</span>. Exponentiating the resulting
+realisation <span class="math inline">\(\{x_t\}_{t=0}^n\)</span>
+completes the task.</p></li>
+<li><p>Let <span class="math inline">\(a=10\)</span>, <span
+class="math inline">\(b=0.01\)</span> and <span
+class="math inline">\(n=25\)</span>. The prior is <span
+class="math display">\[\pi(\tau)\propto
+\tau^{a-1}\exp\{-b\tau\}.\]</span> The likelihood is <span
+class="math display">\[\begin{aligned}
 \ell(\tau|\boldsymbol{y}) &amp;= \prod_{t=1}^n p(y_t|y_{t-1},\tau)\\
 &amp;=\prod_{t=1}^n \text{logN}(y_t; \log y_{t-1}\,,\,1/\tau)\\
-&amp;\propto \prod_{t=1}^n\tau^{1/2}\exp\left\{-\frac{\tau}{2}(\log y_t -\log y_{t-1})^2  \right\}\\
-&amp;=\tau^{n/2} \exp\left\{-\frac{\tau}{2}\sum_{t=1}^n (\log y_t -\log y_{t-1})^2  \right\} \\
-&amp;=\tau^{n/2} \exp\left\{-\frac{\tau}{2}\sum_{t=1}^n (\log [y_t/y_{t-1}])^2  \right\}.\end{aligned}\]</span> (Aside: the likelihood is NOT a density over <span class="math inline">\(\tau\)</span>. It is OK to simply replace <span class="math inline">\(\sigma^2\)</span> with <span class="math inline">\(\tau^{-1}\)</span>.)</p>
-<p>Hence, the posterior density is <span class="math display">\[\pi(\tau|\boldsymbol{y})\propto \tau^{a+n/2-1}\exp\left\{-\tau\left(b+\frac{1}{2}\sum_{t=1}^n (\log [y_t/y_{t-1}])^2 \right)\right\}\]</span> for which we recognise <span class="math display">\[\tau|\boldsymbol{y}\sim \text{Gamma}\left(a+\frac{n}{2}\,,\, b+\frac{1}{2}\sum_{t=1}^n (\log [y_t/y_{t-1}])^2  \right).\]</span> Substituting for <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> and <span class="math inline">\(n\)</span> gives <span class="math display">\[\tau|\boldsymbol{y}\sim \text{Gamma}\left(22.5\,,\, 0.02525\right).\]</span></p></li>
-<li><p>We have that <span class="math inline">\(\sigma=1/\tau \sim \text{Inv}\textrm{-}\text{Gamma}(22.5\,,\,0.02525)\)</span>.</p></li>
-<li><p>We can first simulate iid draws <span class="math inline">\(\tau_1,\ldots\tau_N\)</span> from <span class="math inline">\(\pi(\tau|\boldsymbol{y})\)</span>. Then, for each <span class="math inline">\(\tau_i\)</span>, draw <span class="math inline">\(y_{26}^{(i)}\)</span> from a <span class="math inline">\(\text{logN}(\log y_{25}\,,\,1/\tau_i)\)</span> distribution, that is, <em>conditional</em> on <span class="math inline">\(\tau_i\)</span>. Intuitively, we’re conditioning the random variable <span class="math inline">\(Y_{26}\)</span> on <span class="math inline">\(\tau\)</span>, and the previous values of the chain which are equal to the data. We then integrate over the (posterior) uncertainty in <span class="math inline">\(\tau\)</span> and note that the Markov property allows us to condition on the most recent value of the chain, which is <span class="math inline">\(y_{25}\)</span>.</p></li>
-<li><p>For <span class="math inline">\(T&gt;25\)</span> we have that <span class="math display">\[\pi(y_{T}|\boldsymbol{y})=\int_{0}^{\infty}\int_{0}^{\infty}\cdots\int_{0}^{\infty} p(y_{26},\ldots,y_T|y_{25},\tau)\pi(\tau|\boldsymbol{y})
-dy_{26}\cdots dy_{T-1}d\tau\]</span> where <span class="math display">\[p(y_{26},\ldots,y_T|y_{25},\tau)=\prod_{t=26}^T p(y_t|y_{t-1},\tau)\]</span> and is easy to sample from (using part 2). Hence for each <span class="math inline">\(\tau_i\)</span>, we can draw <span class="math inline">\(y_{26}^{(i)}|\tau_i \sim p(\cdot|y_{25},\tau_i)\)</span> and then <span class="math inline">\((y_{27}^{(i)}|y_{26}^{(i)},\tau_i)\sim p(\cdot|y_{26}^{(i)},\tau_i)\)</span> until finally <span class="math inline">\((y_{T}^{(i)}|y_{T-1}^{(i)},\tau_i)\sim p(\cdot|y_{T-1}^{(i)},\tau_i)\)</span>. We then retain <span class="math inline">\(y_T^{(i)}\)</span>. Repeating this process for <span class="math inline">\(i=1,\ldots,N\)</span> completes the task.</p></li>
-<li><p>(a) Given iid samples <span class="math inline">\(Y_T^{(1)},\ldots,Y_T^{(N)}\)</span>, a Monte Carlo estimator of <span class="math inline">\(p_T:=\mathbb{P}(Y_T &gt; 88.35)\)</span> is <span class="math display">\[\hat{p}_T=\frac{1}{N}\sum_{i=1}^N I(Y_T&gt;88.35)\]</span> where the <em>indicator function</em> <span class="math inline">\(I(Y_T&gt;88.35)\)</span> takes the value 1 if <span class="math inline">\(Y_T&gt;88.35\)</span> and 0 otherwise.</p>
-<p>(The intuition here is that the probability we wish to estimate can be written as the expectation of an indicator function.)</p>
-<p>(b) Note that <span class="math inline">\(\sum_{i=1}^N  I(Y_T&gt;88.35) \sim \text{Bin}(N,p_T)\)</span>. Hence <span class="math display">\[\mathrm{Var}(\hat{p}_T)=\frac{1}{N^2}N p_T (1-p_T) = \frac{p_T(1-p_T)}{N}.\]</span></p></li>
+&amp;\propto \prod_{t=1}^n\tau^{1/2}\exp\left\{-\frac{\tau}{2}(\log y_t
+-\log y_{t-1})^2  \right\}\\
+&amp;=\tau^{n/2} \exp\left\{-\frac{\tau}{2}\sum_{t=1}^n (\log y_t -\log
+y_{t-1})^2  \right\} \\
+&amp;=\tau^{n/2} \exp\left\{-\frac{\tau}{2}\sum_{t=1}^n (\log
+[y_t/y_{t-1}])^2  \right\}.
+\end{aligned}\]</span> (Aside: the likelihood is NOT a density over
+<span class="math inline">\(\tau\)</span>. It is OK to simply replace
+<span class="math inline">\(\sigma^2\)</span> with <span
+class="math inline">\(\tau^{-1}\)</span>.)</p>
+<p>(Another aside: <span
+class="math inline">\(logN(\cdot,\cdot)\)</span> denotes a lognormal
+distribution. We can use <span
+class="math inline">\(logN(\cdot;\cdot,\cdot)\)</span> as shorthand for
+a lognormal <strong>density</strong>.)</p>
+<p>Hence, the posterior density is <span
+class="math display">\[\pi(\tau|\boldsymbol{y})\propto
+\tau^{a+n/2-1}\exp\left\{-\tau\left(b+\frac{1}{2}\sum_{t=1}^n (\log
+[y_t/y_{t-1}])^2 \right)\right\}\]</span> for which we recognise <span
+class="math display">\[\tau|\boldsymbol{y}\sim
+\text{Gamma}\left(a+\frac{n}{2}\,,\, b+\frac{1}{2}\sum_{t=1}^n (\log
+[y_t/y_{t-1}])^2  \right).\]</span> Substituting for <span
+class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>
+and <span class="math inline">\(n\)</span> gives <span
+class="math display">\[\tau|\boldsymbol{y}\sim
+\text{Gamma}\left(22.5\,,\, 0.02525\right).\]</span></p></li>
+<li><p>We have that <span class="math inline">\(\sigma=1/\tau \sim
+\text{Inv}\textrm{-}\text{Gamma}(22.5\,,\,0.02525)\)</span>.</p></li>
+<li><p>We can first simulate iid draws <span
+class="math inline">\(\tau_1,\ldots\tau_N\)</span> from <span
+class="math inline">\(\pi(\tau|\boldsymbol{y})\)</span>. Then, for each
+<span class="math inline">\(\tau_i\)</span>, draw <span
+class="math inline">\(y_{26}^{(i)}\)</span> from a <span
+class="math inline">\(\text{logN}(\log y_{25}\,,\,1/\tau_i)\)</span>
+distribution, that is, <em>conditional</em> on <span
+class="math inline">\(\tau_i\)</span>. Intuitively, we’re conditioning
+the random variable <span class="math inline">\(Y_{26}\)</span> on <span
+class="math inline">\(\tau\)</span>, and the previous values of the
+chain which are equal to the data. We then integrate over the
+(posterior) uncertainty in <span class="math inline">\(\tau\)</span> and
+note that the Markov property allows us to condition on the most recent
+value of the chain, which is <span
+class="math inline">\(y_{25}\)</span>.</p></li>
+<li><p>For <span class="math inline">\(T&gt;25\)</span> we have that
+<span
+class="math display">\[\pi(y_{T}|\boldsymbol{y})=\int_{0}^{\infty}\int_{0}^{\infty}\cdots\int_{0}^{\infty}
+p(y_{26},\ldots,y_T|y_{25},\tau)\pi(\tau|\boldsymbol{y})
+dy_{26}\cdots dy_{T-1}d\tau\]</span> where <span
+class="math display">\[p(y_{26},\ldots,y_T|y_{25},\tau)=\prod_{t=26}^T
+p(y_t|y_{t-1},\tau)\]</span> and is easy to sample from (using part 2).
+Hence for each <span class="math inline">\(\tau_i\)</span>, we can draw
+<span class="math inline">\(y_{26}^{(i)}|\tau_i \sim
+p(\cdot|y_{25},\tau_i)\)</span> and then <span
+class="math inline">\((y_{27}^{(i)}|y_{26}^{(i)},\tau_i)\sim
+p(\cdot|y_{26}^{(i)},\tau_i)\)</span> until finally <span
+class="math inline">\((y_{T}^{(i)}|y_{T-1}^{(i)},\tau_i)\sim
+p(\cdot|y_{T-1}^{(i)},\tau_i)\)</span>. We then retain <span
+class="math inline">\(y_T^{(i)}\)</span>. Repeating this process for
+<span class="math inline">\(i=1,\ldots,N\)</span> completes the
+task.</p></li>
+<li><p>(a) Given iid samples <span
+class="math inline">\(Y_T^{(1)},\ldots,Y_T^{(N)}\)</span>, a Monte Carlo
+estimator of <span class="math inline">\(p_T:=\mathbb{P}(Y_T &gt;
+88.35)\)</span> is <span
+class="math display">\[\hat{p}_T=\frac{1}{N}\sum_{i=1}^N
+I(Y_T&gt;88.35)\]</span> where the <em>indicator function</em> <span
+class="math inline">\(I(Y_T&gt;88.35)\)</span> takes the value 1 if
+<span class="math inline">\(Y_T&gt;88.35\)</span> and 0 otherwise.</p>
+<p>(The intuition here is that the probability we wish to estimate can
+be written as the expectation of an indicator function.)</p>
+<p>(b) Note that <span
+class="math inline">\(\sum_{i=1}^N  I(Y_T&gt;88.35) \sim
+\text{Bin}(N,p_T)\)</span>. Hence <span
+class="math display">\[\mathrm{Var}(\hat{p}_T)=\frac{1}{N^2}N p_T
+(1-p_T) = \frac{p_T(1-p_T)}{N}.\]</span></p></li>
 </ol>
 </section>
 </section>
