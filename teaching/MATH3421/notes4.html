@@ -241,7 +241,7 @@ h+\frac{n}{2}\left[ s^2+(\bar{x}-\mu^{(j)})^2 \right] \right)\)</span></p></li>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a> {</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>  mu=theta[<span class="dv">1</span>]</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>  tau=theta[<span class="dv">2</span>]</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>  logprior=<span class="kw">dnorm</span>(mu,b,<span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">/</span>c),<span class="dt">log=</span>T)<span class="op">+</span><span class="kw">dgamma</span>(tau,g,h,<span class="dt">log=</span>T)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>  logprior=<span class="kw">dnorm</span>(mu,b,<span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">/</span>c),<span class="dt">log=</span>TRUE)<span class="op">+</span><span class="kw">dgamma</span>(tau,g,h,<span class="dt">log=</span>TRUE)</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a>  loglike=(n<span class="op">/</span><span class="dv">2</span>)<span class="op">*</span><span class="kw">log</span>(tau)<span class="op">-</span>n<span class="op">*</span>tau<span class="op">/</span><span class="dv">2</span><span class="op">*</span>(s<span class="op">^</span><span class="dv">2</span><span class="op">+</span>(xbar<span class="op">-</span>mu)<span class="op">^</span><span class="dv">2</span>)</span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a>  logpost=logprior<span class="op">+</span>loglike</span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a>  <span class="kw">return</span>(logpost)</span>
